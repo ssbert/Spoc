@@ -1,0 +1,122 @@
+<div class="bytearrayoutputstream-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">ByteArrayOutputStream类</span>
+		</h1>
+		<p>
+			<a href="#filesIo" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java 流(Stream)
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>字节数组输出流在内存中创建一个字节数组缓冲区，所有发送到输出流的数据保存在该字节数组缓冲区中。创建字节数组输出流对象有以下几种方式。 </p>
+		<p>下面的构造方法创建一个32字节（默认大小）的缓冲区。</p>
+		<pre>OutputStream bOut = new ByteArrayOutputStream();</pre>
+		<p>另一个构造方法创建一个大小为n字节的缓冲区。</p>
+		<pre>OutputStream bOut = new ByteArrayOutputStream(int a)</pre>
+		<p>成功创建字节数组输出流对象后，可以参见以下列表中的方法，对流进行写操作或其他操作。 </p>
+		<table class="reference">
+			<tbody>
+				<tr>
+					<th>
+						序号</th>
+					<th>
+						方法描述</th>
+				</tr>
+				<tr>
+					<td>
+						1</td>
+					<td>
+						<strong>public void reset()</strong><br>
+						将此字节数组输出流的 <code>count</code> 字段重置为零，从而丢弃输出流中目前已累积的所有数据输出。</td>
+				</tr>
+				<tr>
+					<td>
+						2</td>
+					<td>
+						<strong>public byte[] toByteArray()</strong><br>
+						创建一个新分配的字节数组。数组的大小和当前输出流的大小，内容是当前输出流的拷贝。</td>
+				</tr>
+				<tr>
+					<td>
+						3</td>
+					<td>
+						<strong>public String toString()</strong><br>
+						将缓冲区的内容转换为字符串，根据平台的默认字符编码将字节转换成字符。</td>
+				</tr>
+				<tr>
+					<td>
+						4</td>
+					<td>
+						<strong>public void write(int w)</strong><br>
+						&nbsp;将指定的字节写入此字节数组输出流。</td>
+				</tr>
+				<tr>
+					<td>
+						5</td>
+					<td>
+						<strong>public void write(byte []b, int off, int len)</strong><br>
+						&nbsp;将指定字节数组中从偏移量 <code>off</code> 开始的 <code>len</code> 个字节写入此字节数组输出流。</td>
+				</tr>
+				<tr>
+					<td>
+						6</td>
+					<td>
+						<strong>public void writeTo(OutputStream outSt)</strong><br>
+						将此字节数组输出流的全部内容写入到指定的输出流参数中。</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">实例</h3>
+		<p>下面的例子演示了ByteArrayInputStream 和 ByteArrayOutputStream的使用：</p>
+		<div class="n-example">
+			<pre><code>import java.io.*;
+public class ByteStreamTest {
+   public static void main(String args[])throws IOException {
+      ByteArrayOutputStream bOutput = new ByteArrayOutputStream(12);
+      while( bOutput.size()!= 10 ) {
+         // 获取用户输入
+         bOutput.write(System.in.read()); 
+      }
+      byte b [] = bOutput.toByteArray();
+      System.out.println("Print the content");
+      for(int x= 0 ; x < b.length; x++) {
+         // 打印字符
+         System.out.print((char)b[x]  + "   "); 
+      }
+      System.out.println("   ");
+      int c;
+      ByteArrayInputStream bInput = new ByteArrayInputStream(b);
+      System.out.println("Converting characters to Upper case " );
+      for(int y = 0 ; y < 1; y++ ) {
+         while(( c= bInput.read())!= -1) {
+            System.out.println(Character.toUpperCase((char)c));
+         }
+         bInput.reset(); 
+      }
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下：</p>
+		<pre>asdfghjkly
+Print the content
+a   s   d   f   g   h   j   k   l   y
+Converting characters to Upper case
+A
+S
+D
+F
+G
+H
+J
+K
+L
+Y</pre>
+	</div>
+	<p>
+		<a href="#filesIo" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java 流(Stream)
+		</a>
+	</p>
+</div>

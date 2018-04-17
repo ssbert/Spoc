@@ -1,0 +1,65 @@
+<div class="functionModf-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">modf()</span>
+		</h1>
+		<p>
+			<a href="#standardLibMathH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;math.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>double modf(double x, double *integer)</b> 返回值为小数部分（小数点后的部分），并设置 integer 为整数部分。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 modf() 函数的声明。</p>
+		<pre>double modf(double x, double *integer)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>x</b> -- 浮点值。
+			</li>
+			<li>
+				<b>integer</b> -- 指向一个对象的指针，该对象存储了整数部分。
+			</li>	
+		</ul>	
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>该函数返回 x 的小数部分，符号与 x 相同。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 modf() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+int main ()
+{
+   double x, fractpart, intpart;
+
+   x = 8.123456;
+   fractpart = modf(x, &intpart);
+
+   printf("整数部分 = %lf\n", intpart);
+   printf("小数部分 = %lf \n", fractpart);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>整数部分 = 8.000000
+小数部分 = 0.123456 </pre>
+		<p>
+			<a href="#standardLibMathH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;math.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

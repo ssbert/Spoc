@@ -1,0 +1,48 @@
+<div class="osChown-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">os.chown() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>	
+		<p>os.chown() 方法用于更改文件所有者，如果不修改可以设置为 -1, 你需要超级用户权限来执行权限修改操作。</p>
+		<p>Unix 系统可用。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>chown()方法语法格式如下：</p>
+		<pre>os.chown(path, uid, gid);</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>path</b> --  设置权限的文件路径</p></li>
+			<li><p><b>uid</b> -- 所属用户 ID </p></li>
+			<li><p><b>gid</b> -- 所属用户组 ID </p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法没有返回值。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 chown() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+import os, sys
+
+# 假定 /tmp/foo.txt 文件存在.
+# 设置所有者 ID 为 100 
+os.chown("/tmp/foo.txt", 100, -1)
+
+print ("修改权限成功!!")</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>修改权限成功!!</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

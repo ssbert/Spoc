@@ -1,0 +1,113 @@
+﻿@using System.Text.RegularExpressions
+@model SPOC.Statement.Dto.Exercise.ExerciseAnswerOutputDto
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ExerciseResult</title>
+    <link rel="stylesheet" type="text/css" href="~/css/default.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
+    <script src="~/Scripts/jquery-easyui-1.5.4.4/jquery.min.js"></script>
+    <script src="~/Scripts/highlight/highlight.pack.js"></script>
+    <script>
+        $(function () {
+            hljs.initHighlightingOnLoad();
+        });
+    </script>
+</head>
+<body class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h4>题目：</h4>
+            @Html.Raw(ChangeImgUrl(Model.Question.questionText, Model.Question.Id))
+
+            @if (!string.IsNullOrEmpty(Model.Question.param))
+            {
+                var paramList = Model.Question.param.Split('|');
+                var param = string.Join(" ", paramList);
+                <h4>参数：</h4>
+                <pre>
+                    @param
+                </pre>
+            }
+            @if (!string.IsNullOrEmpty(Model.Question.InputParam))
+            {
+                var inputParams = Model.Question.InputParam.Split('|');
+                <h4>输入流参数：</h4>
+                for (var i = 1; i <= inputParams.Length; i++)
+                {
+                    <pre>第 @i 组：@inputParams[i - 1]</pre>
+                }
+            }
+            <h4>期望输出：</h4>
+            @if (Model.Question.MultiTest)
+            {
+                var answers = Model.Question.standardAnswer.Split('|');
+                for (var i = 1; i <= answers.Length; i++)
+                {
+                    <pre>第 @i 次输出：@answers[i - 1]</pre>
+                }
+            }
+            else
+            {
+                <pre>@Model.Question.standardAnswer</pre>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h4>学员代码：</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <pre><code>@Model.UserAnswer</code></pre>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <pre>@Model.CompiledResults</pre>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p>是否通过：@(Model.IsPass ? "是" : "否")</p>
+        </div>
+    </div>
+</body>
+</html>
+@functions
+{
+
+    string ChangeImgUrl(string html, Guid questionId)
+    {
+        var reg = new Regex(@"<img*.+?>", RegexOptions.IgnoreCase);
+        var srcReg = new Regex("src=\"\\./[0-9a-zA-Z\\-]{1,36}\\.[a-zA-z].+?\"");
+        if (!reg.IsMatch(html))
+        {
+            return html;
+        }
+        var matchs = reg.Matches(html);
+        foreach (Match match in matchs)
+        {
+            if (!srcReg.IsMatch(match.Value))
+            {
+                continue;
+            }
+            var srcMatch = srcReg.Match(match.Value);
+            var srcStr = srcMatch.Value;
+            srcStr = srcStr.Remove(0, 7);
+            srcStr = srcStr.Remove(srcStr.Length - 1);
+            srcStr = @"/fileroot/question/" + questionId + @"/" + srcStr;
+            var imgStr = match.Value.Replace(srcMatch.Value, "src=\"" + srcStr + "\"");
+            html = html.Replace(match.Value, imgStr);
+        }
+        return html;
+    }
+
+}

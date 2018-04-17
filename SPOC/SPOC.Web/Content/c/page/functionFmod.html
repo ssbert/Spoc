@@ -1,0 +1,65 @@
+<div class="functionFmod-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">fmod()</span>
+		</h1>
+		<p>
+			<a href="#standardLibMathH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;math.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>double fmod(double x, double y)</b> 返回 <b>x</b> 除以 <b>y</b> 的余数。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 fmod() 函数的声明。</p>
+		<pre>double fmod(double x, double y)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>x</b> -- 代表分子的浮点值。
+			</li>
+			<li>
+				<b>y</b> -- 代表分母的浮点值。
+			</li>	
+		</ul>	
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>该函数返回 x/y 的余数。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 fmod() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+int main ()
+{
+   float a, b;
+   int c;
+   a = 9.2;
+   b = 3.7;
+   c = 2;
+   printf("%f / %d 的余数是 %lf\n", a, c, fmod(a,c));
+   printf("%f / %f 的余数是 %lf\n", a, b, fmod(a,b));
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>9.200000 / 2 的余数是 1.200000
+9.200000 / 3.700000 的余数是 1.800000</pre>
+		<p>
+			<a href="#standardLibMathH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;math.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

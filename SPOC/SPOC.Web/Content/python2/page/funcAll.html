@@ -1,0 +1,60 @@
+<div class="funcAll-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">all() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>all() 函数用于判断给定的可迭代参数 iterable 中的所有元素是否不为 0、''、False 或者 iterable 为空，如果是返回 True，否则返回 False。</p>
+		<p>函数等价于：</p>
+		<pre>def all(iterable):
+    for element in iterable:
+        if not element:
+            return False
+    return True</pre>
+        <p>Python 2.5 以上版本可用。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>以下是 all() 方法的语法:</p>
+		<pre>all(iterable)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>iterable -- 元组或列表。</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>如果iterable的所有元素不为0、''、False或者iterable为空，all(iterable)返回True，否则返回False；</p>
+		<p><b>注意：</b>空元组、空列表返回值为True，这里要特别注意。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下展示了使用 all() 方法的实例： </p>
+		<div class="n-example">
+			<pre><code>>>>all(['a', 'b', 'c', 'd'])  # 列表list，元素都不为空或0
+True
+>>> all(['a', 'b', '', 'd'])   # 列表list，存在一个为空的元素
+False
+>>> all([0, 1，2, 3])          # 列表list，存在一个为0的元素
+False
+   
+>>> all(('a', 'b', 'c', 'd'))  # 元组tuple，元素都不为空或0
+True
+>>> all(('a', 'b', '', 'd'))   # 元组tuple，存在一个为空的元素
+False
+>>> all((0, 1，2, 3))          # 元组tuple，存在一个为0的元素
+False
+   
+>>> all([])             # 空列表
+True
+>>> all(())             # 空元组
+True</code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 内置函数
+			</a>
+		</p>
+	</div>
+</div>

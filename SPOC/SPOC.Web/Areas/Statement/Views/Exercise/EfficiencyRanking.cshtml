@@ -1,0 +1,306 @@
+﻿
+@{
+    ViewBag.Title = "EfficiencyRanking";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-6">
+            <div class="form-group">
+                <label class="form-label">教学班级：</label>
+                <input id="classIds" class="easyui-combotree" style="width: 400px;" data-options="
+                        valueField:'id',
+                        textField:'text',
+                        multiple:true,
+                        panelHeight:'auto'" />
+            </div>
+            <div style="clear: right;"></div>
+            <div class="form-group">
+                <label class="form-label" for="userFullName">姓名：</label>
+                <input id="userFullName" name="userFullName" class="easyui-textbox" style="width: 200px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="userLoginName">用户名：</label>
+                <input id="userLoginName" name="userLoginName" class="easyui-textbox" style="width: 200px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="passState">通过情况：</label>
+                <select id="passState" name="passState" class="easyui-combobox" style="width: 200px;">
+                    <option value="0">全部</option>
+                    <option value="1">已通过</option>
+                    <option value="2">未通过</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="rankingStatement.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="$('#query-form').form('reset')">重置</a>
+            </div>
+        </form>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-page_white_excel" onclick="rankingStatement.export()">导出</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="true" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+                <th field="userFullName" sortable="true">姓名</th>
+                <th field="userLoginName" sortable="true">用户名</th>
+                <th field="className" sortable="true">教学班级</th>
+                <th field="exerciseCount" formatter="exerciseCountFormatter" sortable="true">练习次数</th>
+                <th field="useTime" formatter="useTimeFormatter" sortable="true">耗时</th>
+                <th field="isPass" formatter="isPassFormatter" sortable="true">是否通过</th>
+                <th field="beginTime" formatter="beginTimeFormatter" sortable="true">开始时间</th>
+                <th field="endTime" formatter="endTimeFormatter" sortable="true">结束时间</th>
+                <th field="classRanking" sortable="true">班级排名</th>
+                <th field="ranking" sortable="true">总排名</th>
+                <th field="opt" formatter="optFormatter">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script>
+        var request = GetRequest();
+
+        function exerciseCountFormatter(val, row, index) {
+            if (val === 0) {
+                return "-";
+            }
+            return val;
+        }
+
+        function useTimeFormatter(val, row, index) {
+            if (val === 0) {
+                return "-";
+            }
+            var str = "";
+            var timespan = val;
+            if (timespan >= 86400) {
+                var d = Math.floor(timespan / 86400);
+                str += d + "天";
+                timespan -= d * 86400;
+            }
+
+            if (timespan >= 3600) {
+                var h = Math.floor(timespan / 3600);
+                str += h + "时";
+                timespan -= h * 3600;
+            }
+
+            if (timespan >= 60) {
+                var m = Math.floor(timespan / 60);
+                str += m + "分";
+                timespan -= m * 60;
+            }
+
+            str += timespan + "秒";
+            return str;
+        }
+
+        function isPassFormatter(val, row, index) {
+            return val ? "是" : "否";
+        }
+
+        function beginTimeFormatter(val, row, index) {
+            if (stringIsEmpty(val)) {
+                return "-";
+            }
+            return val;
+        }
+
+        function endTimeFormatter(val, row, index) {
+            if (stringIsEmpty(val)) {
+                return "-";
+            }
+            return val;
+        }
+
+        function optFormatter(val, row, index) {
+            if (row.exerciseCount === 0) {
+                return "";
+            }
+
+            return linkbtn(index,
+                {
+                    option: [
+                        {
+                            title: "详情",
+                            text: "详情",
+                            icon: "icon-application_view_list",
+                            onclick: "rankingStatement.showInfo('{0}')".format(row.userId),
+                            hasParams: "true"
+                        }
+                    ]
+                });
+        }
+
+        function getTimeByTimeStr(timeStr) {
+            var d = timeStr.replace(/\-/g, "/");
+            return new Date(d);
+        }
+
+        var RankingStatement = (function () {
+            function init(exerciseId) {
+                var self = this;
+                var classIdList;
+                var exerciseClassData;
+                var queryParam = { exerciseId: exerciseId, skip: 0, pageSize: 30 };
+                var tabHelper = new TabHelper("tabs");
+
+                this.query = function () {
+                    queryParam.skip = 0;
+                    setParam();
+                    loadData(queryParam);
+                };
+
+                this.showInfo = function (userId) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var url = "/Statement/Exercise/ExerciseRecord?id=" + exerciseId + "&userId=" + userId;
+                    tabHelper.openTab("作答记录", url, "icon-application_view_list");
+                };
+
+                this.export = function () {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var newWindow = window.open("");
+                    setParam();
+                    $("#dg").datagrid("loading");
+                    var url = "/Statement/Exercise/ExportExerciseEfficiencyRanking";
+                    nv.post(url,
+                        queryParam,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            newWindow.location.href = "/Statement/Exercise/Download/" + data.result.id + "?fileName=练习效率排行榜报表";
+                        });
+                };
+
+                this.setClassIds = function (idList) {
+                    classIdList = idList;
+                    if (idList.length > 0) {
+                        filterClassIdList();
+                    }
+                    self.query();
+                };
+
+                this.initCombotree = function () {
+                    var url = "/api/services/app/ExerciseStatement/GetExerciseClassTree?id=" + queryParam.exerciseId;
+                    nv.get(url,
+                        function (data) {
+                            if (data.success) {
+                                exerciseClassData = data.result;
+                                $("#classIds").combotree("loadData", data.result);
+                                evtBus.dispatchEvt("exercise_statement_pageinit", { statement: rankingStatement });
+                            }
+                        });
+                };
+
+                this.initPagination = function () {
+                    $("#dg").datagrid({
+                        onSortColumn: function (sort, order) {
+                            queryParam.sort = sort;
+                            queryParam.order = order;
+                            loadData(queryParam);
+                        }
+                    })
+                        .datagrid("getPager")
+                        .pagination({
+                            onSelectPage: function (pageNumber, pageSize) {
+                                queryParam.pageNumber = pageNumber;
+                                queryParam.skip = (pageNumber - 1) * pageSize;
+                                if (queryParam.skip < 0) {
+                                    queryParam.skip = 0;
+                                }
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            },
+                            onChangePageSize: function (pageSize) {
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            }
+                        });
+                };
+
+                function setParam() {
+                    var nodes = $('#classIds').combotree("tree").tree('getChecked');
+                    var classIds = [];
+                    $.each(nodes,
+                        function (k, v) {
+                            if (!v.children || v.children.length === 0) {
+                                classIds.push(v.id);
+                            }
+                        });
+                    queryParam.classIdList = classIds;
+                    queryParam.userLoginName = $("#userLoginName").textbox("getValue");
+                    queryParam.userFullName = $("#userFullName").textbox("getValue");
+                    queryParam.passState = $("#passState").combobox("getValue");
+                }
+
+                function loadData(param) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "ExerciseStatement/GetEfficiencyRankingPagination";
+                    nv.post(url,
+                        param,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            if (data.success) {
+                                $("#dg")
+                                    .datagrid("loadData", data.result.rows)
+                                    .datagrid("getPager")
+                                    .pagination({
+                                        pageNumber: param.pageNumber,
+                                        total: data.result.total
+                                    });
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }
+
+                function filterClassIdList() {
+                    var ids = [];
+
+                    function getId(node) {
+                        ids.push(node.id);
+                        if (node.children && node.children.length > 0) {
+                            $.each(node.children, function (k, v) { getId(v); });
+                        }
+                    }
+
+                    $.each(exerciseClassData, function (k, v) { getId(v); });
+                    var classIds = [];
+                    $.each(ids,
+                        function (k, v) {
+                            if (classIdList.indexOf(v) !== -1) {
+                                classIds.push(v);
+                            }
+                        });
+                    classIdList = classIds;
+                    $("#classIds").combotree("setValues", classIdList);
+                }
+            }
+
+            return init;
+        })();
+
+        var rankingStatement = new RankingStatement(request.id);
+
+        $(function () {
+            rankingStatement.initCombotree();
+            rankingStatement.initPagination();
+        });
+    </script>
+}
+

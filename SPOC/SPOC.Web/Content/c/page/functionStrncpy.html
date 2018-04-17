@@ -1,0 +1,62 @@
+<div class="functionStrncpy-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">strncpy()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>char *strncpy(char *dest, const char *src, size_t n)</b> 把 <b>src</b> 所指向的字符串复制到 <b>dest</b>，最多复制 <b>n</b> 个字符。当 src 的长度小于 n 时，dest 的剩余部分将用空字节填充。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 strncpy() 函数的声明。</p>
+		<pre>char *strncpy(char *dest, const char *src, size_t n)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>dest</b> -- 指向用于存储复制内容的目标数组。</li>
+			<li><b>src</b> -- 要复制的字符串。</li>
+			<li><b>n</b> -- 要从源中复制的字符数。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回最终复制的字符串。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 strncpy() 函数的用法。在这里，我们使用函数 memset() 来清除内存位置。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main()
+{
+   char src[40];
+   char dest[12];
+  
+   memset(dest, '\0', sizeof(dest));
+   strcpy(src, "This is baidu.com");
+   strncpy(dest, src, 10);
+
+   printf("最终的目标字符串： %s\n", dest);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>最终的目标字符串： This is ba</pre>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

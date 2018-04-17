@@ -1,0 +1,63 @@
+
+.icon-busy {
+    background: url('icons/busy.gif') no-repeat center center;
+}
+
+.icon-clear {
+    background: url('icons/Clear.png') no-repeat center center;
+}
+
+/*****************menu***************/
+.icon-SysSet {
+    background: url('icons/SysSet.png') no-repeat center center;
+}
+.icon-Basic {
+    background: url('icons/Basic.png') no-repeat center center;
+}
+.icon-lock {
+    background: url('icons/lock.png') no-repeat center center;
+}
+
+.icon-unlock {
+    background: url('icons/lock_open.png') no-repeat center center;
+}
+
+.icon-active_true {
+    background: url('icons/ActiveTrue.png') no-repeat center center;
+}
+
+.icon-resetpwd {
+    background: url('icons/ResetPwd.png') no-repeat center center;
+}
+
+.icon-approved {
+    background: url('icons/Approved.png') no-repeat center center;
+}
+
+.icon-sync {
+    background: url('icons/Sync.png') no-repeat center center;
+}
+
+.icon-cancel {
+    background: url('icons/cancel.png') no-repeat center center;
+}
+
+.icon-confirm {
+    background: url('icons/Confirm.png') no-repeat center center;
+}
+
+.icon-reject {
+    background: url('icons/Reject.png') no-repeat center center;
+}
+.icon-User {
+    background: url('icons/User.png') no-repeat center center;
+}
+.icon-AppGroup {
+    background: url('icons/AppGroup.png') no-repeat center center;
+}
+.icon-App {
+    background: url('icons/App.png') no-repeat center center;
+}
+.icon-Authorization {
+    background: url('icons/Authorization.png') no-repeat center center;
+}

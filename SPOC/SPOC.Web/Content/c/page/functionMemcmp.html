@@ -1,0 +1,79 @@
+<div class="functionMemcmp-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">memcmp()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int memcmp(const void *str1, const void *str2, size_t n))</b> 把存储区 <b>str1</b> 和存储区 <b>str2</b> 的前 <b>n</b> 个字节进行比较。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 memcmp() 函数的声明。</p>
+		<pre>int memcmp(const void *str1, const void *str2, size_t n)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>str1</b> -- 指向内存块的指针。</li>
+			<li><b>str2</b> -- 指向内存块的指针。</li>
+			<li><b>n</b> -- 要被比较的字节数。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<ul>
+			<li>如果返回值 &lt; 0，则表示 str1 小于 str2。</li>
+			<li>如果返回值 &gt; 0，则表示 str2 小于 str1。</li>
+			<li>如果返回值 = 0，则表示 str1 等于 str2。</li>
+		</ul>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 memcmp() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main ()
+{
+   char str1[15];
+   char str2[15];
+   int ret;
+
+   memcpy(str1, "abcdef", 6);
+   memcpy(str2, "ABCDEF", 6);
+
+   ret = memcmp(str1, str2, 5);
+
+   if(ret > 0)
+   {
+      printf("str2 小于 str1");
+   }
+   else if(ret < 0) 
+   {
+      printf("str1 小于 str2");
+   }
+   else 
+   {
+      printf("str1 等于 str2");
+   }
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>str2 小于 str1</pre>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

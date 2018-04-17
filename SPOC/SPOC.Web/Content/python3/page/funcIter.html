@@ -1,0 +1,45 @@
+<div class="funcIter-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">iter() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>iter() 函数用来生成迭代器。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>以下是 iter() 方法的语法:</p>
+		<pre>iter(object[, sentinel])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>
+				object --  支持迭代的集合对象。
+			</li>
+			<li>
+				sentinel -- 如果传递了第二个参数，则参数 object 必须是一个可调用的对象（如，函数），此时，iter 创建了一个迭代器对象，每次调用这个迭代器对象的__next__()方法时，都会调用 object。
+			</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>迭代器对象。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>>>>lst = [1, 2, 3]
+>>> for i in iter(lst):
+...     print(i)
+... 
+1
+2
+3</code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,44 @@
+<div class="funcLocals-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">locals() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>locals() 函数会以字典类型返回当前位置的全部局部变量。</p>
+		<p>对于函数, 方法, lambda 函式, 类, 以及实现了 __call__ 方法的类实例, 它都返回 True。 </p>
+		<h3 class="n-h3">语法</h3>
+		<p>locals() 函数语法：</p>
+		<pre>locals()</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>
+				无
+			</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回字典类型的局部变量。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 locals() 的使用方法：</p>
+		<div class="n-example">
+			<pre><code>>>>def runoob(arg):    # 两个局部变量：arg、z
+...     z = 1
+...     print (locals())
+... 
+>>> runoob(4)
+{'z': 1, 'arg': 4}      # 返回一个名字/值对的字典
+>>></code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+</div>

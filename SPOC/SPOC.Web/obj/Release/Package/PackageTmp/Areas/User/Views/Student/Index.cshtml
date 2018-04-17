@@ -1,0 +1,181 @@
+﻿@{
+
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+@model SPOC.User.Dto.StudentInfo.StudentInfoInputDto
+<script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+<script src="~/Scripts/jquery-easyui-extension/combo-ext.js"></script>
+
+<script src="~/Scripts/plupload-2.1.2/plupload.full.min.js"></script>
+<script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+
+<script src="~/Areas/Assets/js/userInfo/userInfoImport.js?v=@L("version")"></script>
+
+<script src="~/Areas/Assets/js/userInfo/studentInfo.js?v=@L("version")"></script>
+<script src="~/Areas/Assets/js/userInfo/UserInfo.js?v=@L("version")"></script>
+<style type="text/less">
+</style>
+<script type="text/javascript">
+        var usernameContainEN = "@ViewBag.usernameContainEN";
+</script>
+<div region="center">
+    <div id="toolbar">
+
+        @using (Html.BeginForm("Get", "Student", FormMethod.Post, new { @id = "UserFilterForm", @class = "form-inline label label-length-4" }))
+        {
+            <div class="form-group">
+                <label class="form-label">班级：</label>
+                <select class="easyui-combotree" id="department" name="department" data-options="valueField:'id',textField:'text',width:150,multiple:true,lines:true"></select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">用户名：</label>
+
+                <input id="user_login_name" name="user_login_name" type="text" class="easyui-textbox" style="width: 150px">
+            </div>
+            <div class="form-group">
+                <label class="form-label">手机号：</label>
+
+                <input id="user_mobile" name="user_mobile" type="text" class="easyui-textbox" style="width: 150px">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">学号：</label>
+
+                <input id="user_code" name="user_code" type="text" class="easyui-textbox" style="width: 150px">
+            </div>
+            <div class="form-group">
+                <label class="form-label">邮箱：</label>
+
+                <input id="user_email" name="user_email" type="text" class="easyui-textbox" style="width: 150px">
+            </div>
+            <div class="form-group">
+                <label class="form-label">姓名：</label>
+
+                <input id="user_name" name="user_name" type="text" class="easyui-textbox" style="width: 150px">
+            </div>
+            <div class="form-group">
+                <label class="form-label">性别：</label>
+                <select class="easyui-combobox" name="user_gender" id="user_gender" data-options="editable:false,width:150,panelHeight:'auto'">
+                    <option value="">&nbsp;</option>
+                    <option value="1">男</option>
+                    <option value="2">女</option>
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a class="easyui-linkbutton" onclick="obj.Filter()"><span class="l-btn-text icon-search l-btn-icon-left">查询</span></a>
+                <a class="easyui-linkbutton" onclick="obj.Reset()"><span class="l-btn-text icon-clear l-btn-icon-left">重置</span></a>
+            </div>
+        }
+
+    </div>
+
+
+    <div id="div_test">
+        <table id="dg" ></table>
+    </div>
+
+</div>
+
+
+<div id="pwdModifiry" class="easyui-dialog" data-options="width:'580px',height:'300px',closed:true"
+     style="padding: 10px 20px;">
+</div>
+
+
+
+<div id="userInfoImportDiv" footer="#wd-buttons" class="easyui-dialog" data-options="width:'450px',modal:true,height:'250px',closed:true"
+     style="padding: 10px 20px;">
+    <div class="ftitle">
+        Excel批量导入
+    </div>
+
+    <div id="perList_div" style="display:none">
+        <input type="checkbox" checked="checked" name="userPropertys" disabled="disabled" id="userLoginName" value="登录名" />登录名  &nbsp;&nbsp;
+        <input type="checkbox" checked="checked" name="userPropertys" disabled="disabled" id="userFullName" value="学生姓名" />学生姓名 &nbsp;&nbsp;
+        <input type="checkbox" checked="checked" name="userPropertys" disabled="disabled" id="userPwd" value="密码" />密码 &nbsp;&nbsp;
+        <input type="checkbox"  name="userPropertys" id="stuCode" value="学生学号" />学生学号 &nbsp;&nbsp;
+        <input type="checkbox" name="userPropertys" checked="checked" disabled="disabled" id="email" value="邮箱地址" />邮箱地址 &nbsp;&nbsp;
+        @*<input type="checkbox" name="userPropertys" checked="checked" disabled="disabled" id="faculty" value="院系" />院系 &nbsp;&nbsp;
+        <input type="checkbox" name="userPropertys" checked="checked" disabled="disabled" id="major" value="专业" />专业 &nbsp;&nbsp;
+        <input type="checkbox" name="userPropertys" checked="checked" disabled="disabled" id="class" value="班级" />班级 &nbsp;&nbsp;*@
+        <input type="checkbox" name="userPropertys" id="phoneNumber" value="手机号码" />手机号码 &nbsp;&nbsp;
+        <input type="checkbox" name="userPropertys" id="gander" value="性别" />性别 &nbsp;&nbsp;
+        <input type="checkbox" name="userPropertys" id="birthday" value="生日" />生日 &nbsp;&nbsp;
+        <input type="checkbox" name="userPropertys" id="idCard" value="身份证号" />身份证号 &nbsp;&nbsp;
+        <input type="checkbox" name="userPropertys" id="national" value="民族" />民族 &nbsp;&nbsp;
+        <input type="checkbox" name="userPropertys" id="political" value="政治面貌" />政治面貌 &nbsp;&nbsp;
+        <input type="checkbox" name="userPropertys" id="userProvince" value="籍贯" />籍贯 &nbsp;&nbsp;
+        <input type="checkbox" name="userPropertys" id="user_city" value="所在城市" />所在城市 &nbsp;&nbsp;
+        @*<input type="checkbox" name="userPropertys" id="nickname" value="昵称" />昵称 &nbsp;&nbsp;*@
+        <input type="checkbox" name="userPropertys" id="zipcode" value="邮编" />邮编 &nbsp;&nbsp;
+        @*<input type="checkbox" name="userPropertys" id="user_dormitory" value="宿舍" />*@宿舍 &nbsp;&nbsp;
+        <input type="checkbox" name="userPropertys" id="level" value="层次" />层次 &nbsp;&nbsp;
+        <input type="checkbox" name="userPropertys" id="user_eductional" value="学制" />学制 &nbsp;&nbsp;
+        <input type="checkbox" name="userPropertys" id="userAdmission" value="入学时间" />入学时间 &nbsp;&nbsp;
+       
+        <a id="exportTempt" href="javascript:void(0)" class="easyui-linkbutton">确定</a>
+        <br /><br />
+    </div>
+    <form id="userInfoImport_fm" class="form-horizontal label label-length-4" method="post">
+        <div class="fitem">
+            <label>班级：</label>
+            <select id="wd-departmentUid" name="wd-departmentUid" class="easyui-combotree" data-options="required:true" style="width: 250px;"></select>
+            <a id="dwnExcelMould_a" href="javascript:void(0)" class="easyui-linkbutton">下载模板</a>
+            <a href="UserInfoExportTemplate" id="hidden_a" class="btn btn-info btn-sm pull-right"
+               style="display: none;"><span id="triggerSpan"></span></a>
+        </div>
+
+
+    </form>
+</div>
+<div id="wd-buttons" style="padding: 4px;">
+    <div style="float: right;">
+        <a id="import-from-excel" href="javascript:void(0)" class="easyui-linkbutton">上传Excel</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript: $('#userInfoImportDiv').dialog('close');">取消</a>
+    </div>
+</div>
+
+    <!-- 恢复 -->
+<div id="recovery_dialog" class="easyui-dialog" data-options="width:'480px',height:'300px',modal:true,closed:true,buttons:'#recovery_buttons'" style="padding: 10px 20px;">
+    <div class="ftitle">
+        恢复操作
+    </div>
+    <form id="recovery_fm" method="post">
+
+        <div class="fitem">
+            <label>
+                用户名:
+            </label>
+            <input id="user_login_name" name="user_login_name" class="easyui-textbox" validate=true data-options="validType:['length[4,20]','userNameFormatCheck','nameCheckExit'],prompt:'请输入要恢复的用户名',required:true " />
+        </div>
+
+        <div class="fitem">
+            <label>
+                手机号:
+            </label>
+            <input id="user_mobile" name="user_mobile" class="easyui-textbox" data-options="validType:['newMobile','mobileCheckExist'],required:true, prompt:'请输入要恢复的手机号'" />
+        </div>
+
+        <div class="fitem">
+            <label>
+                邮箱:
+            </label>
+            <input id="user_email" name="user_email" class="easyui-textbox" data-options="validType:['email','emailCheckExist'],required:true,prompt:'请输入要恢复的邮箱'" />
+        </div>
+
+    </form>
+</div>
+<div id="recovery_buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="width:90,iconCls:'icon-save'" onclick="obj.recoverySave()">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="width:90,iconCls:'icon-cancel'" onclick="obj.recoveryCancel()">取消</a>
+</div>
+
+<!-- 个人详情-->
+<div id="detailTable_dialog" class="easyui-dialog" data-options="width:'650px',height:'450px',modal:true,closed:true" style="padding: 10px 10px;">
+    <iframe id="detailTable_iframe" src="" width="100%"  height="95%" frameborder="0" scrolling="no"></iframe>
+</div>
+

@@ -1,0 +1,56 @@
+<div class="osLink-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">os.link() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>
+		<p>os.link() 方法用于创建硬链接，名为参数 dst，指向参数 src。</p>
+		<p>该方法对于创建一个已存在文件的拷贝是非常有用的。</p>
+		<p>只支持在 Unix, Windows 下使用。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>link()方法语法格式如下：</p>
+		<pre>os.link(src, dst)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>src</b> --  用于创建硬连接的源地址</p></li>
+			<li><p><b>dst</b> -- 用于创建硬连接的目标地址 </p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法没有返回值。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 link() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os, sys
+
+# 打开文件
+path = "/var/www/html/foo.txt"
+fd = os.open( path, os.O_RDWR|os.O_CREAT )
+
+# 关闭文件
+os.close( fd )
+
+# 创建以上文件的拷贝
+dst = "/tmp/foo.txt"
+os.link( path, dst)
+
+print "创建硬链接成功!!"</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>创建硬链接成功!!</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

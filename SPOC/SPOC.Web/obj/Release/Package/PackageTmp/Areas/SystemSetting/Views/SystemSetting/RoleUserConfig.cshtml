@@ -1,0 +1,147 @@
+﻿@{
+    Layout = "../Shared/_Layout.cshtml";
+   
+}
+
+
+<div id="container" region="center">
+    <div class="easyui-layout" fit="true">
+        <div region="center" border="false" style="width: 50%; padding: 10px 5px 10px 10px;">
+            <div id="toolbar1">
+                <form id="query-form" class="form-inline label label-length-3">
+                    <div class="form-group">
+                        <label class="form-label">用户名：</label>
+                        <input id="userLoginName" name="userLoginName" type="text" class="easyui-textbox" style="width: 150px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">姓名：</label>
+                        <input id="userFullName" name="userFullName" type="text" class="easyui-textbox" style="width: 150px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">手机号：</label>
+                        <input id="userMobile" name="userMobile" type="text" class="easyui-textbox" style="width: 150px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email：</label>
+                        <input id="userEmail" name="userEmail" type="text" class="easyui-textbox" style="width: 150px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">性别：</label>
+                        <select id="userGender" name="userGender" class="easyui-combobox" style="width: 150px;">
+                            <option value="" checked>不限</option>
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                        </select>
+                    </div>
+                 
+                    <div class="form-group">
+                        <label class="form-label"></label>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" onclick="view.query()">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-clear" onclick="$('#query-form').form('reset');">重置</a>
+                    </div>
+                </form>
+                <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconcls="icon-add" onclick="view.addToSelected()">选择</a>
+            </div>
+            <table id="user-dg" class="easyui-datagrid" pagination="true" rownumbers="true" title="候选栏" toolbar="#toolbar1" pagenumber="1" pagesize="30" fit="true">
+                <thead>
+                    <tr>
+                        <th field="ck" checkbox="true"></th>
+                        <th field="userLoginName">用户名</th>
+                        <th field="userFullName">姓名</th>
+                        <th field="userMobile">手机号</th>
+                        <th field="userEmail">Email</th>
+                        <th field="userGender" formatter="userGenderFormatter">性别</th>
+                        <th field="identity" formatter="identityFormatter">角色</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div region="east" border="false" split="false" style="width: 50%; padding: 10px 10px 10px 5px;">
+            <div id="toolbar2">
+                <form id="save-form" class="form-inline label label-length-4">
+                    <div class="form-group">
+                        <label class="form-label">用户名：</label>
+                        <input id="userLoginName1" name="userLoginName1" type="text" class="easyui-textbox" style="width: 150px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">姓名：</label>
+                        <input id="userFullName1" name="userFullName1" type="text" class="easyui-textbox" style="width: 150px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">手机号：</label>
+                        <input id="userMobile1" name="userMobile1" type="text" class="easyui-textbox" style="width: 150px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email：</label>
+                        <input id="userEmail1" name="userEmail1" type="text" class="easyui-textbox" style="width: 150px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">性别：</label>
+                        <select id="userGender1" name="userGender1" class="easyui-combobox" style="width: 150px;">
+                            <option value="" checked>不限</option>
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"></label>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" onclick="view.queryRole()">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-clear" onclick="$('#save-form').form('reset');">重置</a>
+                    </div>
+                </form>
+                <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconcls="icon-busy" onclick="view.remove()">删除</a>
+            </div>
+            <table id="selected-dg" class="easyui-datagrid" pagination="true" rownumbers="true" title="已选择" toolbar="#toolbar2" pagenumber="1" pagesize="30" fit="true">
+                <thead>
+                    <tr>
+                        <th field="ck" checkbox="true"></th>
+                        <th field="userLoginName">用户名</th>
+                        <th field="userFullName">姓名</th>
+                        <th field="userMobile">手机号</th>
+                        <th field="userEmail">Email</th>
+                        <th field="userGender" formatter="userGenderFormatter">性别</th>
+                        <th field="identity" formatter="identityFormatter">角色</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/jquery-easyui-1.5.2/extension/datagrid-client-pagination.js"></script>
+    <script src="~/Areas/Assets/js/tabHelper.js?@L("version")"></script>
+    <script src="~/Areas/Assets/js/role/roleUser.js?@L("version")"></script>
+    <script>
+        var identity = '@ViewBag.identity';
+        var roleId = '@ViewBag.roleId';
+        function userGenderFormatter(value) {
+            if (value == "2") {
+                return "女";
+            } else if (value == "1") {
+                return "男";
+            }
+            return "";
+        }
+        function identityFormatter(value) {
+            if (value == 1) {
+                return "学生";
+            } else if (value == 2) {
+                return "老师";
+            } else if (value == 3) {
+                return "管理员";
+            }
+            else if (value == 4) {
+                return "代理商";
+            }
+            return "未知";
+        }
+        var view = new AddUserView();
+        $(function () {
+            view.initDataGrid();
+            view.GetRoleData();
+        });
+    </script>
+}

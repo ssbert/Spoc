@@ -1,0 +1,82 @@
+<div class="functionIsupper-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">isupper()</span>
+		</h1>
+		<p>
+			<a href="#standardLibCtypeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;ctype.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int isupper(int c)</b> 检查所传的字符是否是大写字母。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 isupper() 函数的声明。</p>
+		<pre>int isupper(int c);</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>c --</b> 这是要检查的字符。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>如果 c 是一个大写字母，则该函数返回非零值（true），否则返回 0（false）。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 isupper() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;ctype.h&gt;
+
+int main()
+{
+   int var1 = 'M';
+   int var2 = 'm';
+   int var3 = '3';
+    
+   if( isupper(var1) )
+   {
+      printf("var1 = |%c| 是大写字母\n", var1 );
+   }
+   else
+   {
+      printf("var1 = |%c| 不是大写字母\n", var1 );
+   }
+   if( isupper(var2) )
+   {
+      printf("var2 = |%c| 是大写字母\n", var2 );
+   }
+   else
+   {
+      printf("var2 = |%c| 不是大写字母\n", var2 );
+   }   
+   if( isupper(var3) )
+   {
+      printf("var3 = |%c| 是大写字母\n", var3 );
+   }
+   else
+   {
+      printf("var3 = |%c| 不是大写字母\n", var3 );
+   }
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>var1 = |M| 是大写字母
+var2 = |m| 不是大写字母
+var3 = |3| 不是大写字母</pre>
+		<p>
+			<a href="#standardLibCtypeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;ctype.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

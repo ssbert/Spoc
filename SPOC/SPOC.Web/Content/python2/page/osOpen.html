@@ -1,0 +1,70 @@
+<div class="osOpen-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">os.open() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>
+		<p>os.open() 方法用于打开一个文件，并且设置需要的打开选项，模式参数mode参数是可选的，默认为 0777。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>open()方法语法格式如下：</p>
+		<pre>os.open(file, flags[, mode]);</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>file</b> --  要打开的文件</p></li>
+			<li><p><b>flags</b> --  该参数可以是以下选项，多个使用 "|" 隔开：</p>
+				<ul>
+					<li><b>os.O_RDONLY:</b> 以只读的方式打开 </li>
+					<li><b>os.O_WRONLY:</b> 以只写的方式打开 </li>
+					<li><b>os.O_RDWR :</b> 以读写的方式打开</li>
+					<li><b>os.O_NONBLOCK:</b> 打开时不阻塞</li>
+					<li><b>os.O_APPEND:</b> 以追加的方式打开</li>
+					<li><b>os.O_CREAT:</b> 创建并打开一个新文件</li>
+					<li><b>os.O_TRUNC:</b> 打开一个文件并截断它的长度为零（必须有写权限）</li>
+					<li><b>os.O_EXCL:</b> 如果指定的文件存在，返回错误</li>
+					<li><b>os.O_SHLOCK:</b> 自动获取共享锁</li>
+					<li><b>os.O_EXLOCK:</b> 自动获取独立锁</li>
+					<li><b>os.O_DIRECT:</b> 消除或减少缓存效果</li>
+					<li><b>os.O_FSYNC :</b> 同步写入</li>
+					<li><b>os.O_NOFOLLOW:</b> 不追踪软链接</li>
+				</ul>
+
+			</li>
+			<li><p><b>mode</b> --  类似 <a href="/python/os-chmod.html">chmod()</a>。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回新打开文件的描述符。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 open() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os, sys
+
+# 打开文件
+fd = os.open( "foo.txt", os.O_RDWR|os.O_CREAT )
+
+# 写入字符串
+os.write(fd, "This is test")
+
+# 关闭文件
+os.close( fd )
+
+print "关闭文件成功!!"</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>关闭文件成功!!</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

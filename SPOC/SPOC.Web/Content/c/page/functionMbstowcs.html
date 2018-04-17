@@ -1,0 +1,75 @@
+<div class="functionMbstowcs-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">mbstowcs()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>size_t mbstowcs(schar_t *pwcs, const char *str, size_t n)</b> 把参数 <b>str</b> 所指向的多字节字符的字符串转换为参数 <b>pwcs</b> 所指向的数组。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 mbstowcs() 函数的声明。</p>
+		<pre>size_t mbstowcs(schar_t *pwcs, const char *str, size_t n)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>pwcs</b>  -- 指向一个 wchar_t 元素的数组，数组长度足以存储一个最大字符长度的宽字符串。</li>
+			<li><b>str</b> -- 要被转换的多字节字符字符串。</li>
+			<li><b>n</b>  -- 要被转换的最大字符数。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回转换的字符数，不包括结尾的空字符。如果遇到一个无效的多字节字符，则返回 -1 值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 mbstowcs() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+int main()
+{
+   int len;
+   char *pmbnull  = NULL;
+   char *pmb = (char *)malloc( MB_CUR_MAX );
+   wchar_t *pwc = L"Hi";
+   wchar_t *pwcs = (wchar_t *)malloc( sizeof( wchar_t ));
+
+   printf("转换为多字节字符串\n");
+   len = wcstombs( pmb, pwc, MB_CUR_MAX);
+   printf("被转换的字符 %d\n", len);
+   printf("第一个多字节字符的十六进制值：%#.4x\n", pmb);
+   
+   printf("转换回宽字符字符串\n");
+   len = mbstowcs( pwcs, pmb, MB_CUR_MAX);
+   printf("被转换的字符 %d\n", len);
+   printf("第一个宽字符的十六进制值：%#.4x\n\n", pwcs);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>转换为多字节字符串
+被转换的字符 1
+第一个多字节字符的十六进制值：0x19a60010
+转换回宽字符字符串
+被转换的字符 1
+第一个宽字符的十六进制值：0x19a60030</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,47 @@
+<div class="stringIntern-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">intern() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>intern() 方法返回字符串对象的规范化表示形式。</p>
+		<p>它遵循以下规则：对于任意两个字符串 s 和 t，当且仅当 s.equals(t) 为 true 时，s.intern() == t.intern() 才为 true。</p>
+		<h3 class="n-h3">语法</h3>
+		<pre>public String intern()</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p>无</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>一个字符串，内容与此字符串相同，但一定取自具有唯一字符串的池。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test {
+    public static void main(String args[]) {
+        String Str1 = new String("www.baidu.com");
+        String Str2 = new String("WWW.BAIDU.COM");
+
+        System.out.print("规范表示:" );
+        System.out.println(Str1.intern());
+
+        System.out.print("规范表示:" );
+        System.out.println(Str2.intern());
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>规范表示:www.baidu.com
+规范表示:WWW.BAIDU.COM</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

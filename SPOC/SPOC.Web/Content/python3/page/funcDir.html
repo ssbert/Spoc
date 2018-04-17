@@ -1,0 +1,39 @@
+<div class="funcDir-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">dir() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>dir() 函数不带参数时，返回当前范围内的变量、方法和定义的类型列表；带参数时，返回参数的属性、方法列表。如果参数包含方法__dir__()，该方法将被调用。如果参数不包含__dir__()，该方法将最大限度地收集参数信息。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>dir 语法：</p>
+		<pre>dir([object])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>object -- 对象、变量、类型。</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回模块的属性列表。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 dir 的使用方法：</p>
+		<div class="n-example">
+			<pre><code>>>>dir()   #  获得当前模块的属性列表
+['__builtins__', '__doc__', '__name__', '__package__', 'arr', 'myslice']
+>>> dir([ ])    # 查看列表的方法
+['__add__', '__class__', '__contains__', '__delattr__', '__delitem__', '__delslice__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getslice__', '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__rmul__', '__setattr__', '__setitem__', '__setslice__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
+>>></code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+</div>

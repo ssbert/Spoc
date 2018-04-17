@@ -1,0 +1,56 @@
+<div class="stringCopyvalueof-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">copyValueOf() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>copyValueOf() 方法有两种形式：</p>
+		<ul>
+			<li><p><b>public static String copyValueOf(char[] data):</b>  返回指定数组中表示该字符序列的字符串。</p></li>
+			<li><p><b>public static String copyValueOf(char[] data, int offset, int count):</b> 返回指定数组中表示该字符序列的 字符串。</p></li>
+		</ul>
+		<h3 class="n-h3">语法</h3>
+		<pre>public static String copyValueOf(char[] data)
+
+或
+
+public static String copyValueOf(char[] data, int offset, int count)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>data</b> -- 字符数组。</p></li>
+			<li><p><b>offset</b> -- 子数组的初始偏移量。。</p></li>
+			<li><p><b>count</b> -- 子数组的长度。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回指定数组中表示该字符序列的字符串。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test {
+    public static void main(String args[]) {
+        char[] Str1 = {'h', 'e', 'l', 'l', 'o', ' ', 'b', 'a', 'i', 'd', 'u'};
+        String Str2 = "";
+
+        Str2 = Str2.copyValueOf( Str1 );
+        System.out.println("返回结果：" + Str2);
+
+        Str2 = Str2.copyValueOf( Str1, 2, 6 );
+        System.out.println("返回结果：" + Str2);
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>返回结果：hello baidu
+返回结果：llo ba</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

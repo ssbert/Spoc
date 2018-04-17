@@ -1,0 +1,48 @@
+<div class="funcIssubclass-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">issubclass() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>issubclass() 方法用于判断参数 class 是否是类型参数 classinfo 的子类。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>以下是 issubclass() 方法的语法:</p>
+		<pre>issubclass(class, classinfo)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>
+				class -- 类。
+			</li>
+			<li>
+				classinfo -- 类。
+			</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>如果 class 是 classinfo 的子类返回 True，否则返回 False。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下展示了使用 basestring 函数的实例： </p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+class A:
+    pass
+class B(A):
+    pass
+    
+print(issubclass(B,A))    # 返回 True</code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 内置函数
+			</a>
+		</p>
+	</div>
+</div>

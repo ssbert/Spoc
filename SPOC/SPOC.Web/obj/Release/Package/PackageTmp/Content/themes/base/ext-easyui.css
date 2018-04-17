@@ -1,0 +1,97 @@
+﻿.ext-easyui-linkbutton
+{
+    padding: 1px 25px;
+}
+body
+{
+    margin: 2px;
+}
+.headerNav .logo
+{
+    float: left;
+    width: 188px;
+    height: 32px;
+    text-indent: -1000px;
+    background: url(../img/logo.jpg) no-repeat;
+    margin: 8px 0 0 8px;
+}
+.headerNav .nav
+{
+    display: block;
+    height: 21px;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 31;
+}
+.headerNav .nav li
+{
+    list-style-type: none;
+    float: left;
+    margin-left: -1px;
+    padding: 0 10px;
+    line-height: 11px;
+    position: relative;
+    background: url(../img/listLine.png) no-repeat;
+}
+a
+{
+    color: #000;
+    text-decoration: none;
+}
+a:hover
+{
+    text-decoration: underline;
+}
+#fm
+{
+    margin: 0;
+    padding: 10px 30px;
+}
+.ftitle
+{
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.fitem
+{
+    margin-bottom: 5px;
+}
+.fitem label
+{
+    display: inline-block;
+    width: 80px;
+}
+.fitem input
+{
+    width: 300px;
+}
+.td-search
+{
+    padding: 2px 0 0 15px;
+}
+.fitem1
+{
+    margin-bottom: 5px;
+}
+.fitem1 label
+{
+    display: inline-block;
+    width: 60px;
+}
+.fitem1 input
+{
+    width: 210px;
+}
+
+.hide
+{
+    display: none;
+}
+.ext-select a
+{
+    font-weight: bold;
+}

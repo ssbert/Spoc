@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html style="height: 100%;">
+<head id="Head1" runat="server">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>参加考试</title>
+
+
+    <link type="text/css" href="./css/examattend.css" rel="Stylesheet" />
+    <script>window.allowPasteCode = false;</script>
+    <script language="javascript" type="text/javascript" src="../jquery-3.2.1.min.js"></script>
+    <!--<script language="javascript" type="text/javascript" src="../monaco-editor/min/vs/loader.js"></script>-->
+    <script language="javascript" type="text/javascript" src="./js/res.js"></script>
+    <script language="javascript" type="text/javascript" src="./js/saveAnswerBySmart.js"></script>
+    <script language="javascript" type="text/javascript" src="./js/newv.examsmartget.js"></script>
+    <script language="javascript" type="text/javascript" src="./js/newv.smartexam.js"></script>
+    <script language="javascript" type="text/javascript" src="./js/newv.examUrl.js"></script>
+    <script language="javascript" type="text/javascript" src="./js/json2.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./js/exam.js"></script>
+</head>
+<body style="height: 100%;">
+    <div style="display: none">
+        <input type="hidden" id="hidFileWebRoot" />
+    </div>
+    <div class="Nsb_exam_maintop" id="maintop">
+        <div id="completedMessage">
+        </div>
+        <div id="ongoingMessage">
+        </div>
+    </div>
+    <table id="main" style="display: none; width: 100%; height: 100%;" class="Nsb_exam_main"
+           border="0" cellpadding="0" cellspacing="0">
+        <tr style="height: 52px;">
+            <td height="52" colspan="4">
+                <div id="Nsb_exam_top">
+                    <div class="Nsb_exam_name" id="divExamName">
+                    </div>
+                    <div class="Nsb_exam_menuicon2">
+                        <div class="Nsb_exam_time" id="spanExamTime">
+                        </div>
+                        <ul id="Nsb_exam_menu">
+                            <li>
+                                <a id="lnkSaveAsnwer" onclick="javascript:doSaveUserAnswer(false);" class="Nsb_exam_save"></a>
+                            </li>
+                            <li>
+                                <a id="lnkCheckQuestion" onclick="javascript:ExamScriptManage.paperViewUtil.CheckPaper();" class="Nsb_exam_check"></a>
+                            </li>
+                            <li id="liSaveAndClose">
+                                <a id="lnkSaveAndClose" onclick="javascript:doSaveUserAnswerAndClose();" class="Nsb_exam_leave"></a>
+                            </li>
+                            <li>
+                                <a id="lnkSubmitPaper" onclick="javascript:doSubmitUserAnswer();" class="Nsb_exam_up"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr style="height: 90%;">
+            <td valign="top" style="height: 100%; width: 310px;">
+                <div class="Nsb_exam_admin">
+                    <div class="Nsb_exam_photo" id="divUserPhoto">
+                        <img style="width: 100px; height: calc(100% - 60px); height: -webkit-calc(100% - 60px);height: -moz-calc(100% - 60px);" id="imgUserPhoto" />
+                    </div>
+                    <div class="Nsb_exam_message">
+                        <span>
+                            姓&nbsp;&nbsp;&nbsp;名：
+                            <label id="labUserName">
+                            </label>
+                        </span><span>
+                            证件号：
+                            <label id="labUserCode">
+                            </label>
+                        </span>
+                    </div>
+                </div>
+                <div class="Nsb_exam_competition" id="divGateNumPanel" style="display: none;">
+                    <dl>
+                        第
+                    </dl>
+                    <div class="Nsb_exam_number" id="spanGateNum">
+                    </div>
+                    <dl>
+                        关
+                    </dl>
+                </div>
+                <div class="Nsb_exam_nav" id="divNavigatorPanel">
+                </div>
+            </td>
+            <td width="100%" valign="top" style="height: 100%;">
+                <div class="Nsb_exam_font">
+                    <h3 id="paperQuestion"></h3>
+                    <span class="Nsb_exam_notice">
+                        (答题不能确定其答案时，可用
+                        <img src="./css/image/examattend/flag.gif" />
+                        标记)
+                    </span>
+                    <span class="Nsb_exam_notice" style="margin-top: 10px;"
+                          id="spAutoSaveMessage"></span><span class="Nsb_exam_td_span">
+                        <input type="radio" name="radExamPaperFont" id="radBigFont"
+                               onclick="javascript:doFontSizeChanged();"
+                               value="rad_radioVote_1" /><label for="radBigFont">
+                            大字体
+                        </label>
+                    </span><span class="Nsb_exam_td_span">
+                        <input type="radio" name="radExamPaperFont" id="radMiddleFont"
+                               onclick="javascript:doFontSizeChanged();"
+                               value="rad_radioVote_2" /><label for="radMiddleFont">
+                            中字体
+                        </label>
+                    </span><span class="Nsb_exam_td_span">
+                        <input type="radio" name="radExamPaperFont" id="radSmallFont"
+                               value="rad_radioVote_1" onclick="javascript:doFontSizeChanged();"
+                               checked="checked" /><label for="radSmallFont">
+                            小字体
+                        </label>
+                    </span>
+                </div>
+                <div class="Nsb_exam_content" id="divPaperContent" style="overflow: auto;">
+                    fsdfsdfsdfds
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div style="display: none">
+        <iframe id="iframeName" name="iframeName" style="display: none"></iframe>
+        <form method="post" id="formpost" target="iframeName" style="display: none">
+            <input name="MethodName" id="MethodName" type="text" value="CacheExam2" />
+            <input name="RequstArgs" id="RequstArgs" type="text" value="" />
+        </form>
+    </div>
+    <div id="divOperatePanelBg" style="display: none;" class="Nsb_exam_divFloat_bg">
+    </div>
+    <div id="divOperatePanel" valign="top" style="display: none;" class="Nsb_exam_divFloat">
+        <iframe id="ifrOperate"></iframe>
+    </div>
+    <script type="text/javascript">
+        var timeout;
+        var height = document.body.clientHeight;
+        var table = document.getElementById('main');
+        var right = document.getElementById('divPaperContent');
+        var leftBottom = document.getElementById('divNavigatorPanel');
+        setHeight();
+        window.onresize = function () {
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                height = document.body.clientHeight;
+                setHeight();
+            },
+                200);
+        };
+        function setHeight() {
+            table.style.height = height + "px";
+            right.style.height = parseInt(height) - 102 + "px";
+            leftBottom.style.height = parseInt(height) - 259 + 'px';
+        }
+    </script>
+</body>
+</html>

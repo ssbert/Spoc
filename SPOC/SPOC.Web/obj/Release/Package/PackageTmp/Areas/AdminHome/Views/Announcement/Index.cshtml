@@ -1,0 +1,250 @@
+﻿
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+<div data-options="region:'center',border:false" style="padding:1px;">
+    <div id="toolbar">
+  
+            <form id="fmserachData" class="form-inline label label-length-4" method="post">
+                <div class="form-group">
+                    <label class="form-label">班级：</label>
+                    <select class="easyui-combotree" id="department" name="department" data-options="valueField:'id',textField:'text',width:150,multiple:true,lines:true"></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">公告标题：</label>
+                    <input class="easyui-textbox" id="title" name="title" style="width: 200px;" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                    </label>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="Filter()">搜索</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="Reset()">重置</a>
+                </div>
+
+            </form>
+  
+    </div>
+    <table id="dg"></table>
+</div>
+    <script type="text/javascript">
+    var getSingle = function (fn) {
+        var rst;
+        return function () {
+            return rst || (rst = fn());
+        };
+    };
+
+    function CourseAnnouncement() {
+            $.post('/api/services/app/Department/GetDepartmentTree').done(function (data) { //获取下拉框
+
+                $("#department").combotree('loadData', data);
+
+            });
+        return new CourseAnnouncement.prototype.init();
+    }
+
+    var globalVariable = {
+        openIndexList: new Array(),
+        rowArr: new Array(),
+        editRow: { rowIndex: 0, rowDta: null, isOpen: false },
+
+        isPostBack: true
+    };
+
+
+    CourseAnnouncement.prototype = {
+        constructor: CourseAnnouncement,
+        isEdit: false,
+        contentEditor: null,
+        init: function () {
+
+            this.loadAnnounce();
+        },
+        loadAnnounce: function () {
+            var toorBarH = $("#toolbar").height();
+       
+            var fullHeight = $(window).height() - toorBarH-3 ;
+           $("#dg").datagrid({
+                url: '/api/services/app/Announcement/GetAnnouncementList',
+                rownumbers: true,
+                pagination: true,
+                singleSelect: false,
+                fit: true,
+                height: fullHeight,
+                iconCls: VE.DatagridIconCls,
+                pageSize: VE.PageSize,
+                pageList: VE.PageList,
+                fitColumns: true,
+                nowrap: false,
+                border: true,
+                multiSort: false,
+                idField: 'id',
+                sortName: 'updateTime',
+                sortOrder: 'desc',
+                columns: [
+                [
+                { field: 'ck', checkbox: true },
+                { field: 'id', title: 'id',  sortable: true, hidden: true, halign: 'center', align: 'center' },
+                { field: 'title', title: '公告标题', sortable: true,halign: 'center', align: 'center' },
+                {
+                    field: 'content', title: '公告内容',  sortable: true, formatter: function (value, rowData, rowIndex) {
+                        rowData.content = rowData.content.replace('<p>', '').replace('</p>', '');
+                        if (globalVariable.isPostBack) {
+                            globalVariable.rowArr.push({ rowIndex: rowIndex, rowDta: rowData, isOpen: false });
+                        }
+                        if (rowData.content.length > 20) {
+                            if (globalVariable.rowArr[rowIndex].isOpen == false) {
+                                //去掉所有的html标签
+                                var dd = rowData.content.replace(/<\/?.+?>/g, "");
+                                var data = dd.replace(/&nbsp;/g, "");
+                                var subContent = (data.substring(0, 20));
+                                return subContent + "....<a href='javascript:void(0)' onclick='OperatedgRow(" + rowIndex + ")' style=' color:blue' title='点击查看'>展开</a>";
+                            } else {
+                                return rowData.content + "<a href='javascript:void(0)' onclick='OperatedgRow(" + rowIndex + ")' style=' color:blue' title='点击收起'>收起</a>";
+                            }
+                        }
+                        return rowData.content;
+                    }
+                },
+                { field: 'classNames', title: '发布班级列表',  sortable: true, halign: 'center', align: 'center' },
+                { field: 'updateTime', title: '更新时间',  sortable: true, halign: 'center', align: 'center' },
+                { field: '_opt', title: '操作',  formatter: formatOper }
+                ]
+                ], toolbar: [
+                    {
+                        iconCls: 'icon-reload',
+                        text: '刷新',
+                        handler: function () {
+
+                            announcementObj.refresh();
+                        }
+                    },
+                    {
+                        iconCls: 'icon-add',
+                        text: '新增',
+                        handler: function () {
+
+                            announcementObj.add('-1');
+                        }
+                    }, '-', {
+                        iconCls: 'icon-busy',
+                        text: '删除',
+                        handler: function () {
+                            announcementObj.Delete();
+                        }
+                    }
+                ]
+
+            });
+            $('#toolbar').appendTo('.datagrid-toolbar');
+
+        },
+       
+
+        add: function (id, index) {
+            if (typeof (index) == "undefined") {
+                this.isEdit = false;
+                this.showEditTab("", '@ViewBag.id');
+                return;
+            }
+            $('#dg').datagrid('selectRow', index); // 关键在这里
+
+            if (parseInt(index) >= 0) {
+
+                this.isEdit = true;
+                var row = $("#dg").datagrid("getRows")[index];
+                this.showEditTab(row.id, '@ViewBag.id');
+                //编辑
+            } 
+
+        },
+        SingleDelete: function (id, index) {
+            $('#dg').datagrid('selectRow', index); // 关键在这里
+            var row = $("#dg").datagrid("getRows")[index];
+            VE.SingleDelete("/api/services/app/Announcement/DeleteAnnouncement", "dg", row.id, false, VE.GridType_DataGrid);
+        },
+        refresh: function () {
+            $('#dg').datagrid('reload');
+        },
+        Delete: function () {
+
+            VE.Delete("/api/services/app/Announcement/DeleteAnnouncement", "dg", false, VE.GridType_DataGrid,"Filter");
+        },
+
+        openTab: function (title, url, icon) {
+            parent.$('#tabs').tabs('close', title);
+            parent.$("#tabs").tabs("add", {
+                title: title,
+                content: '<iframe id="' + title + '" scrolling="auto" src="' + url + '" frameborder="0" style="width:100%;height:100%;line-height:0;display: block;margin:0;padding:0"></iframe>',
+                closable: true,
+                fit: true,
+                icon: icon
+            });
+        },
+        showEditTab: function (id, courseId) {
+            if (id.length > 1) {
+                this.openTab('公告编辑', '/AdminHome/Announcement/AddAnnouncement?id=' + id , 'icon-edit');
+            } else {
+
+                this.openTab('公告添加', '/AdminHome/Announcement/AddAnnouncement', 'icon-edit');
+            }
+        }
+    }
+
+    CourseAnnouncement.prototype.init.prototype = CourseAnnouncement.prototype;
+    var announceObj = getSingle(CourseAnnouncement);
+    var announcementObj = announceObj();
+    function formatOper(val, row, index) {
+        var option = {
+            option: [
+             {
+                 text: '编辑',
+                 icon: 'icon-edit',
+                 title: '编辑',
+                 onclick: 'announcementObj.add("' + row.id + '",' + index + ')',
+                 hasParams: 'true'
+             },
+             {
+                 text: '删除',
+                 icon: 'icon-busy',
+                 title: '删除',
+                 onclick: 'announcementObj.SingleDelete("' + row.id + '",' + index + ')',
+                 hasParams: 'true'
+             }
+            ]
+        };
+        return linkbtn(index, option);
+    }
+
+        function Filter() {
+            var nodes = $('#department').combotree("tree").tree('getChecked');
+            var arrays =[];
+            var id; 
+            $(nodes).each(function(index,value){
+                if (!(value.children && value.children != 0))
+              {
+                    id = value.id;
+                    arrays.push(id);
+                }
+            });
+        $("#dg").datagrid({
+            url: '/api/services/app/Announcement/GetAnnouncementList',
+            queryParams: { title: $("#title").textbox('getValue'), classId: arrays.toString() }
+        });
+    }
+
+    function Reset() {
+        $("#fmserachData").form('clear');
+    }
+
+        function OperatedgRow(rowIndex) {
+            $('#dg').datagrid('selectRow', rowIndex); // 关键在这里
+        globalVariable.isPostBack = false;
+        globalVariable.rowArr[rowIndex].isOpen = !globalVariable.rowArr[rowIndex].isOpen;
+        var row = $('#dg').datagrid('getRows')[rowIndex];
+        //$('#dg').datagrid('refreshRow', rowIndex);
+        $("#dg").datagrid("reload");
+    }
+
+    </script>

@@ -1,0 +1,140 @@
+﻿@model SPOC.Core.Dto.MyAnnouncementViewDto
+@using System.Web.Optimization
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{<link rel="stylesheet" type="text/css" href="~/css/index.css">}
+    
+    <div class="home-page container-box">
+        <div class="home-container center">
+            <div class="notice-block">
+                <div class="block-title">
+                    <h2>知识图谱</h2>
+                    <a href="javascript:;" class="pull-right .usage" data-toggle="modal" data-target=".usage-win">
+                        <span class="pull-right">查看操作示例</span>
+                    </a>
+                </div>
+
+                <div class="libChart center" id="libchart" >
+
+                </div>
+
+                @*<div class="notice-box  row clearfix">
+                @{
+                    foreach (var item in Model.MyAnnouncementList)
+                    {
+                        <div class="col-lg-12">
+                            <div class="notice">
+                                <a href="/home/announcementDetail/@item.id" class="fillet_5 border_all">
+                                    <div class="notice-header clearfix">
+                                        <div class="notice-hd-l pull-left">
+                                            <h3>@item.title</h3>
+                                            <small>发布时间： @item.createTime</small>
+                                        </div>
+                                        <div class="notice-hd-r pull-right">
+                                            <img src="@item.userHeadImg">
+                                            <p>@item.createUser</p>
+                                        </div>
+                                    </div>
+                                    <div class="notice-content">
+                                        <p>
+                                               @item.content
+                                           </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
+           
+                </div>*@
+            </div>
+            @*<div class="quick-entry">
+                <div class="block-title">
+                    <h2>快捷入口</h2>
+                </div>
+                <div class="row">
+                    <div class="quick-entry-lists clearfix">
+                        <a class="col-lg-4 col-md-4" href="/ExerciseTask/" >
+                            <div class="exercise-ent entry border_all fillet_5 clearfix">
+                                <div class="exercise-box">
+                                    <span class="glyphicon glyphicon-edit fillet" aria-hidden="true"></span>
+                                    <div class="entry-mes">
+                                        <p>练习</p>
+                                        <span>练习简介</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="col-lg-4 col-md-4" href="/ExamTask/">
+                            <div class="exam-ent entry border_all fillet_5 clearfix">
+                                <div class="exam-box">
+                                    <span class="glyphicon glyphicon-education fillet" aria-hidden="true"></span>
+                                    <div class="entry-mes">
+                                        <p>考试</p>
+                                        <span>考试简介</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="col-lg-4 col-md-4" href="/challenges/">
+                            <div class="challenge-ent entry border_all fillet_5 clearfix" >
+                                <div class="challenge-box">
+                                    <span class="glyphicon glyphicon-time fillet" aria-hidden="true"></span>
+                                    <div class="entry-mes">
+                                        <p>挑战</p>
+                                        <span>挑战简介</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>*@
+        </div>
+        <!-- 知识图谱使用示例 -->
+        <div class="modal fade usage-win" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">操作示例</h4>
+                    </div>
+                    <p></p>
+                    <div class="usage-img">
+                        <img src="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/echarts/echarts.min.js"></script>
+    <script src="~/js/libchart.js"></script>
+    <script>
+        var labelDeductPoint = @ViewBag.labelDeductPoint;
+        var loginName = "@ViewBag.loginName";
+        var userName = "@ViewBag.userName";
+        libChart.initChart(
+            {
+                saveName: userName + "的知识图谱",
+                nodesUrl: "/api/services/app/structureMap/GetMainMapData",
+                linesUrl: "/api/services/app/LibLabelView/GetSelfLabelScore",
+                labelLink: "/LibLabelView/Index/",
+                ruleCallBack: function (setStatic, score) {
+                    if (score > 0) {
+                        setStatic("已掌握");
+                    } else if (score <= 0 && score > labelDeductPoint) {
+                        setStatic("不稳定");
+                    } else if (score <= labelDeductPoint) {
+                        setStatic("未掌握");
+                    } else if (score === "none") {
+                        setStatic("无反馈");
+                    }
+                }
+            },
+            function() {
+                $(".usage-win img").attr("src", "/images/libchart.gif");
+            }
+        );
+    </script>

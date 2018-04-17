@@ -1,0 +1,272 @@
+<div class="bitsetClass-block n-border-b">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">Bitset类</span>
+		</h1>
+		<p>
+			<a href="#dataStructures" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java 数据结构
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>一个Bitset类创建一种特殊类型的数组来保存位值。BitSet中数组大小会随需要增加。这和位向量（vector of bits）比较类似。 </p>
+		<p>这是一个传统的类，但它在Java 2中被完全重新设计。</p>
+		<p>BitSet定义了两个构造方法。</p>
+		<p>第一个构造方法创建一个默认的对象：</p>
+		<pre>BitSet()</pre>
+		<p>第二个方法允许用户指定初始大小。所有位初始化为0。 </p>
+		<pre>BitSet(int size)</pre>
+		<p>BitSet中实现了Cloneable接口中定义的方法如下表所列：</p>
+		<table>
+			<tbody>
+				<tr>
+					<th>
+						序号</th>
+					<th>
+						方法描述</th>
+				</tr>
+				<tr>
+					<td>
+						1</td>
+					<td>
+						void and(BitSet set)<br>
+						对此目标位 set 和参数位 set 执行逻辑与操作。</td>
+				</tr>
+				<tr>
+					<td>
+						2</td>
+					<td>
+						void andNot(BitSet set)<br>
+						清除此&nbsp;BitSet&nbsp;中所有的位，其相应的位在指定的&nbsp;BitSet&nbsp;中已设置。</td>
+				</tr>
+				<tr>
+					<td>
+						3</td>
+					<td>
+						int cardinality( )<br>
+						返回此&nbsp;BitSet&nbsp;中设置为&nbsp;true&nbsp;的位数。</td>
+				</tr>
+				<tr>
+					<td>
+						4</td>
+					<td>
+						void clear( )<br>
+						将此 BitSet 中的所有位设置为&nbsp;false。</td>
+				</tr>
+				<tr>
+					<td>
+						5</td>
+					<td>
+						void clear(int index)<br>
+						将索引指定处的位设置为&nbsp;false。</td>
+				</tr>
+				<tr>
+					<td>
+						6</td>
+					<td>
+						void clear(int startIndex, int endIndex)<br>
+						将指定的&nbsp;fromIndex（包括）到指定的&nbsp;toIndex（不包括）范围内的位设置为&nbsp;false。</td>
+				</tr>
+				<tr>
+					<td>
+						7</td>
+					<td>
+						Object clone( )<br>
+						复制此&nbsp;BitSet，生成一个与之相等的新&nbsp;BitSet。</td>
+				</tr>
+				<tr>
+					<td>
+						8</td>
+					<td>
+						boolean equals(Object bitSet)<br>
+						将此对象与指定的对象进行比较。</td>
+				</tr>
+				<tr>
+					<td>
+						9</td>
+					<td>
+						void flip(int index)<br>
+						将指定索引处的位设置为其当前值的补码。</td>
+				</tr>
+				<tr>
+					<td>
+						10</td>
+					<td>
+						void flip(int startIndex, int endIndex)<br>
+						将指定的&nbsp;fromIndex（包括）到指定的&nbsp;toIndex（不包括）范围内的每个位设置为其当前值的补码。</td>
+				</tr>
+				<tr>
+					<td>
+						11</td>
+					<td>
+						boolean get(int index)<br>
+						返回指定索引处的位值。</td>
+				</tr>
+				<tr>
+					<td>
+						12</td>
+					<td>
+						BitSet get(int startIndex, int endIndex)<br>
+						返回一个新的&nbsp;BitSet，它由此&nbsp;BitSet&nbsp;中从&nbsp;fromIndex（包括）到&nbsp;toIndex（不包括）范围内的位组成。</td>
+				</tr>
+				<tr>
+					<td>
+						13</td>
+					<td>
+						int hashCode( )<br>
+						返回此位 set 的哈希码值。</td>
+				</tr>
+				<tr>
+					<td>
+						14</td>
+					<td>
+						boolean intersects(BitSet bitSet)<br>
+						如果指定的&nbsp;BitSet&nbsp;中有设置为&nbsp;true&nbsp;的位，并且在此&nbsp;BitSet&nbsp;中也将其设置为&nbsp;true，则返回 ture。</td>
+				</tr>
+				<tr>
+					<td>
+						15</td>
+					<td>
+						boolean isEmpty( )<br>
+						如果此&nbsp;BitSet&nbsp;中没有包含任何设置为&nbsp;true&nbsp;的位，则返回 ture。</td>
+				</tr>
+				<tr>
+					<td>
+						16</td>
+					<td>
+						int length( )<br>
+						返回此&nbsp;BitSet&nbsp;的"逻辑大小"：BitSet&nbsp;中最高设置位的索引加 1。</td>
+				</tr>
+				<tr>
+					<td>
+						17</td>
+					<td>
+						int nextClearBit(int startIndex)<br>
+						返回第一个设置为&nbsp;false&nbsp;的位的索引，这发生在指定的起始索引或之后的索引上。</td>
+				</tr>
+				<tr>
+					<td>
+						18</td>
+					<td>
+						int nextSetBit(int startIndex)<br>
+						返回第一个设置为&nbsp;true&nbsp;的位的索引，这发生在指定的起始索引或之后的索引上。</td>
+				</tr>
+				<tr>
+					<td>
+						19</td>
+					<td>
+						void or(BitSet bitSet)<br>
+						对此位 set 和位 set 参数执行逻辑或操作。</td>
+				</tr>
+				<tr>
+					<td>
+						20</td>
+					<td>
+						void set(int index)<br>
+						将指定索引处的位设置为&nbsp;true。</td>
+				</tr>
+				<tr>
+					<td>
+						21</td>
+					<td>
+						void set(int index, boolean v)<br>
+						&nbsp;将指定索引处的位设置为指定的值。</td>
+				</tr>
+				<tr>
+					<td>
+						22</td>
+					<td>
+						void set(int startIndex, int endIndex)<br>
+						将指定的&nbsp;fromIndex（包括）到指定的&nbsp;toIndex（不包括）范围内的位设置为&nbsp;true。</td>
+				</tr>
+				<tr>
+					<td>
+						23</td>
+					<td>
+						void set(int startIndex, int endIndex, boolean v)<br>
+						将指定的&nbsp;fromIndex（包括）到指定的&nbsp;toIndex（不包括）范围内的位设置为指定的值。</td>
+				</tr>
+				<tr>
+					<td>
+						24</td>
+					<td>
+						int size( )<br>
+						返回此&nbsp;BitSet&nbsp;表示位值时实际使用空间的位数。</td>
+				</tr>
+				<tr>
+					<td>
+						25</td>
+					<td>
+						String toString( )<br>
+						返回此位 set 的字符串表示形式。</td>
+				</tr>
+				<tr>
+					<td>
+						26</td>
+					<td>
+						void xor(BitSet bitSet)<br>
+						对此位 set 和位 set 参数执行逻辑异或操作。</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">实例</h3>
+		<p>下面的程序说明这个数据结构支持的几个方法： </p>
+		<div class="n-example">
+			<pre><code>import java.util.BitSet;
+ 
+public class BitSetDemo {
+ 
+  public static void main(String args[]) {
+     BitSet bits1 = new BitSet(16);
+     BitSet bits2 = new BitSet(16);
+      
+     // set some bits
+     for(int i=0; i < 16; i++) {
+        if((i%2) == 0) bits1.set(i);
+        if((i%5) != 0) bits2.set(i);
+     }
+     System.out.println("Initial pattern in bits1: ");
+     System.out.println(bits1);
+     System.out.println("\nInitial pattern in bits2: ");
+     System.out.println(bits2);
+ 
+     // AND bits
+     bits2.and(bits1);
+     System.out.println("\nbits2 AND bits1: ");
+     System.out.println(bits2);
+ 
+     // OR bits
+     bits2.or(bits1);
+     System.out.println("\nbits2 OR bits1: ");
+     System.out.println(bits2);
+ 
+     // XOR bits
+     bits2.xor(bits1);
+     System.out.println("\nbits2 XOR bits1: ");
+     System.out.println(bits2);
+  }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下：</p>
+		<pre>Initial pattern in bits1:
+{0, 2, 4, 6, 8, 10, 12, 14}
+
+Initial pattern in bits2:
+{1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14}
+
+bits2 AND bits1:
+{2, 4, 6, 8, 12, 14}
+
+bits2 OR bits1:
+{0, 2, 4, 6, 8, 10, 12, 14}
+
+bits2 XOR bits1:
+{}</pre>
+	</div>
+	<p>
+		<a href="#dataStructures" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java 数据结构
+		</a>
+	</p>
+</div>

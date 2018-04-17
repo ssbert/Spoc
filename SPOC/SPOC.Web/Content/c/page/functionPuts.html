@@ -1,0 +1,61 @@
+<div class="functionPuts-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">puts()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int puts(const char *str)</b> 把一个字符串写入到标准输出 stdout，直到空字符，但不包括空字符。换行符会被追加到输出中。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 puts() 函数的声明。</p>
+		<pre>int puts(const char *str)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b> -- 这是要被写入的 C 字符串。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果成功，该函数返回一个非负值，如果发生错误则返回 EOF。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 puts() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main()
+{
+   char str1[15];
+   char str2[15];
+
+   strcpy(str1, "RUNOOB1");
+   strcpy(str2, "RUNOOB2");
+
+   puts(str1);
+   puts(str2);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>RUNOOB1
+RUNOOB2</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

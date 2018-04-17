@@ -1,0 +1,233 @@
+﻿
+@{
+    ViewBag.Title = "Retest";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-3">
+            <div class="form-group">
+                <label class="form-label">教学班级：</label>
+                <input id="classIds" class="easyui-combotree" style="width: 400px;" data-options="
+                        valueField:'id',
+                        textField:'text',
+                        multiple:true,
+                        panelHeight:'auto'" />
+            </div>
+            <div style="clear: right;"></div>
+            <div class="form-group">
+                <label class="form-label">补考：</label>
+                <input id="examId" class="easyui-combobox" style="width: 400px;" data-options="
+                        valueField:'examId',
+                        textField:'title',
+                        panelHeight:'auto'" />
+            </div>
+            <div style="clear: right;"></div>
+            <div class="form-group">
+                <label class="form-label">姓名：</label>
+                <input id="userFullName" name="userFullName" class="easyui-textbox" style="width: 200px;" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">用户名：</label>
+                <input id="userLoginName" name="userLoginName" class="easyui-textbox" style="width: 200px;" />
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="retestStatement.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="retestStatement.reset()">重置</a>
+            </div>
+        </form>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-page_white_excel" onclick="retestStatement.export()">导出</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="true" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+                <th field="userFullName" sortable="true">姓名</th>
+                <th field="userLoginName" sortable="true">用户名</th>
+                <th field="score" formatter="scoreFormatter" sortable="true">分数</th>
+                <th field="classFullName" sortable="true">教学班级</th>
+                <th field="rankingInClass" sortable="true">班级排名</th>
+                <th field="ranking" sortable="true">总排名</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section scripts
+{
+    <script>
+        var request = GetRequest();
+        function scoreFormatter(val) {
+            if (stringIsEmpty(val)) {
+                return "-";
+            }
+            return val.toFixed(2);
+        }
+
+        var RetestStatement = (function () {
+
+            function init(id) {
+                var self = this;
+                var classIdList;
+                var queryParam = { skip: 0, pageSize: 30 };
+                var examTaskClassData;
+
+                this.query = function () {
+                    setParam();
+                    loadData(queryParam);
+                };
+
+                this.reset = function () {
+                    $("#query-form").form("reset");
+                    if (classIdList.length > 0) {
+                        filterClassIdList();
+                    }
+                };
+
+                this.initPagination = function () {
+                    $("#dg").datagrid({
+                        onSortColumn: function (sort, order) {
+                            queryParam.sort = sort;
+                            queryParam.order = order;
+                            loadData(queryParam);
+                        }
+                    })
+                        .datagrid("getPager")
+                        .pagination({
+                            onSelectPage: function (pageNumber, pageSize) {
+                                queryParam.pageNumber = pageNumber;
+                                queryParam.skip = (pageNumber - 1) * pageSize;
+                                if (queryParam.skip < 0) {
+                                    queryParam.skip = 0;
+                                }
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            },
+                            onChangePageSize: function (pageSize) {
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            }
+                        });
+                };
+
+                this.setClassIds = function (idList) {
+                    classIdList = idList;
+                    if (idList.length > 0) {
+                        filterClassIdList();
+                    }
+                    self.query();
+                };
+
+                this.initCombotree = function () {
+                    var url = "/api/services/app/ExamTaskStatement/GetExamTaskClassTree?id=" + id;
+                    nv.get(url, function (data) {
+                        if (data.success) {
+                            examTaskClassData = data.result;
+                            $("#classIds").combotree("loadData", data.result);
+                            evtBus.dispatchEvt("statement_pageinit", { statement: retestStatement });
+                        }
+                    });
+                };
+
+                this.initCombobox = function() {
+                    var url = "/api/services/app/ExamTask/GetRetestList?id=" + id;
+                    nv.get(url, function (data) {
+                        if (data.success) {
+                            data.result[0].selected = true;
+                            $("#examId").combobox("loadData", data.result);
+                            self.initCombotree();
+                        }
+                    });
+                };
+
+                this.export = function () {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var newWindow = window.open("");
+                    setParam();
+                    $("#dg").datagrid("loading");
+                    var url = "/Statement/Exam/ExportRetest";
+                    nv.post(url,
+                        queryParam,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            newWindow.location.href = "/Statement/Exam/Download/" + data.result.id + "?fileName=补考成绩排名";
+                        });
+                }
+
+                function setParam() {
+                    var nodes = $("#classIds").combotree("tree").tree("getChecked");
+                    var classIds = [];
+                    $.each(nodes,
+                        function (k, v) {
+                            if (!v.children || v.children.length === 0) {
+                                classIds.push(v.id);
+                            }
+                        });
+                    queryParam.classIdList = classIds;
+                    queryParam.skip = 0;
+                    queryParam.userLoginName = $("#userLoginName").textbox("getValue");
+                    queryParam.userFullName = $("#userFullName").textbox("getValue");
+                    queryParam.examId = $("#examId").combobox("getValue");
+                }
+
+                function loadData(param) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "ExamTaskStatement/GetRetestPagination";
+                    nv.post(url,
+                        param,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            if (data.success) {
+                                $("#dg")
+                                    .datagrid("loadData", data.result.rows)
+                                    .datagrid("getPager")
+                                    .pagination({
+                                        pageNumber: param.pageNumber,
+                                        total: data.result.total
+                                    });
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }
+
+                function filterClassIdList() {
+                    var ids = [];
+                    function getId(node) {
+                        ids.push(node.id);
+                        if (node.children && node.children.length > 0) {
+                            $.each(node.children, function (k, v) { getId(v); });
+                        }
+                    }
+
+                    $.each(examTaskClassData, function (k, v) { getId(v); });
+                    var classIds = [];
+                    $.each(ids, function (k, v) {
+                        if (classIdList.indexOf(v) !== -1) {
+                            classIds.push(v);
+                        }
+                    });
+                    classIdList = classIds;
+                    $("#classIds").combotree("setValues", classIdList);
+                }
+            }
+
+            return init;
+        })();
+
+        var retestStatement = new RetestStatement(request.id);
+
+        $(function () {
+            retestStatement.initCombobox();
+            retestStatement.initPagination();
+
+        });
+    </script>
+}

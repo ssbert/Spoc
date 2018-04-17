@@ -1,0 +1,64 @@
+<div class="functionAbort-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">abort()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>void abort(void)</b> 中止程序执行，直接从调用的地方跳出。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 abort() 函数的声明。</p>
+		<pre>void abort(void)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>NA</b></li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数不返回任何值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 abort() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main ()
+{
+   FILE *fp;
+   
+   printf("准备打开 nofile.txt\n");
+   fp = fopen( "nofile.txt","r" );
+   if(fp == NULL)
+   {
+      printf("准备终止程序\n");
+      abort();
+   }
+   printf("准备关闭 nofile.txt\n");
+   fclose(fp);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果，因为我们尝试打开的文件 <b>nofile.txt</b> 是不存在的：</p>
+		<pre>准备打开 nofile.txt
+准备终止程序</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

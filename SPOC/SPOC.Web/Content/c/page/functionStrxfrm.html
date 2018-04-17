@@ -1,0 +1,62 @@
+<div class="functionStrxfrm-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">strxfrm()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>size_t strxfrm(char *dest, const char *src, size_t n)</b> 根据程序当前的区域选项中的 LC_COLLATE 来转换字符串 <b>src</b> 的前 <b>n</b> 个字符，并把它们放置在字符串 <b>dest</b> 中。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 strxfrm() 函数的声明。</p>
+		<pre>size_t strxfrm(char *dest, const char *src, size_t n)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>dest</b> -- 指向存储内容的目标数组的指针，如果参数 n 为 0，则它是一个空指针。</li>
+			<li><b>src</b> -- 要被转换为当前区域设置的 C 字符串。</li>
+			<li><b>n</b> -- 被复制到 str1 的最大字符数。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回被转换字符串的长度，不包括空结束字符。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 strxfrm() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main()
+{
+   char dest[20];
+   char src[20];
+   int len;
+
+   strcpy(src, "W3C School");
+   len = strxfrm(dest, src, 20);
+
+   printf("字符串 |%s| 的长度是： |%d|", dest, len);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>字符串 |W3C School| 的长度是： |10|</pre>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

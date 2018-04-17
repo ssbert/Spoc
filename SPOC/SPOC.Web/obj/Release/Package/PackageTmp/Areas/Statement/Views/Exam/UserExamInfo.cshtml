@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "UserExamInfo";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-page_white_excel" onclick="info.export()">导出</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" toolbar="#toolbar" rownumbers="true" singleSelect="true" fit="true">
+        <thead>
+        <tr>
+            <th field="beginTime" sortable="true">开始时间</th>
+            <th field="endTime" formatter="timeFormatter" sortable="true">结束时间</th>
+            <th field="gradeScore" formatter="scoreFormatter" sortable="true">分数</th>
+            <th field="isPass" formatter="isPassFormatter" sortable="true">是否通过</th>
+            <th field="opt" formatter="optFormatter">操作</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script>
+        var request = GetRequest();
+
+        function timeFormatter(val) {
+            if (stringIsEmpty(val)) {
+                return "-";
+            }
+            return val;
+        }
+
+        function scoreFormatter(val) {
+            if (stringIsEmpty(val)) {
+                return "-";
+            }
+            return val.toFixed(2);
+        }
+
+        function isPassFormatter(val) {
+            return val ? "是" : "否";
+        }
+
+        function optFormatter(val, row, index) {
+            if (stringIsEmpty(row.endTime)) {
+                return "";
+            }
+            return linkbtn(index,
+                {
+                    option: [
+                        {
+                            title: "查看结果",
+                            text: "查看结果",
+                            icon: "icon-application_view_list",
+                            onclick: "info.showUserExamPreview('{0}')".format(row.id),
+                            hasParams: "true"
+                        }
+                    ]
+                });
+        }
+
+        var UserExamInfo = (function() {
+            function init(taskId, userId) {
+                var queryParam = { taskId: taskId, userId: userId };
+                var tabHelper = new TabHelper("tabs");
+
+                this.query = function() {
+                    loadData(queryParam);
+                };
+
+                this.initDataGrid = function() {
+                    $("#dg").datagrid({
+                        onSortColumn: function(sort, order) {
+                            queryParam.sort = sort;
+                            queryParam.order = order;
+                            loadData(queryParam);
+                        }
+                    });
+                };
+
+                this.showUserExamPreview = function(gradeId) {
+                    var url = "/Exam/Manage/UserExamPreview?examGradeUid=" + gradeId;
+                    tabHelper.openTab("考试结果", url, "icon-application_view_list");
+                };
+
+                this.export = function() {
+                    var newWindow = window.open("");
+                    $("#dg").datagrid("loading");
+                    var url = "/Statement/Exam/ExportUserExamRecord";
+                    nv.post(url,
+                        queryParam,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            newWindow.location.href = "/Statement/Exam/Download/" + data.id + "?fileName=考试记录";
+                        });
+                };
+
+                function loadData(param) {
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "ExamGrade/GetUserExamRecordList";
+                    nv.post(url,
+                        param,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            if (data.success) {
+                                $("#dg").datagrid("loadData", data.result);
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }
+            }
+
+            return init;
+        })();
+
+        var info = new UserExamInfo(request.id, request.userId);
+
+        $(function() {
+            info.initDataGrid();
+            info.query();
+        });
+    </script>
+}

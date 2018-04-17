@@ -1,0 +1,313 @@
+<div class="number-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#ifElseSwitch" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Java 分支结构
+		</a>
+		<a href="#character" class="pull-right green">
+			Java Character 类
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">Number & Math 类</span>
+		</h1>
+		<p>一般地，当需要使用数字的时候，我们通常使用内置数据类型，如：<b>byte、int、long、double</b> 等。 </p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>int a = 5000;
+float b = 13.65f;
+byte c = 0x4a;</code></pre>
+		</div>
+		<p>然而，在实际开发过程中，我们经常会遇到需要使用对象，而不是内置数据类型的情形。为了解决这个问题，Java 语言为每一个内置数据类型提供了对应的包装类。 </p>
+		<p>所有的包装类<b>（Integer、Long、Byte、Double、Float、Short）</b>都是抽象类 Number 的子类。 </p>
+		<p>
+			<img src="..//Content/java/images/number1.png">
+		</p>
+		<p>这种由编译器特别支持的包装称为装箱，所以当内置数据类型被当作对象使用的时候，编译器会把内置类型装箱为包装类。相似的，编译器也可以把一个对象拆箱为内置类型。Number 类属于 java.lang 包。 </p>
+		<p>下面是一个使用 Integer 对象的实例：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">Test.java 文件代码：</h2>
+			<pre><code>public class Test{
+ 
+   public static void main(String args[]){
+      Integer x = 5;
+      x =  x + 10;
+      System.out.println(x); 
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下：</p>
+		<pre>15</pre>
+		<p>当 x 被赋为整型值时，由于x是一个对象，所以编译器要对x进行装箱。然后，为了使x能进行加运算，所以要对x进行拆箱。 </p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Java Math 类</h2>
+		<p>Java 的 Math 包含了用于执行基本数学运算的属性和方法，如初等指数、对数、平方根和三角函数。</p>
+		<p>Math 的方法都被定义为 static 形式，通过 Math 类可以在主函数中直接调用。</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">Test.java 文件代码：</h2>
+			<pre><code>public class Test {  
+    public static void main (String []args)  
+    {  
+        System.out.println("90 度的正弦值：" + Math.sin(Math.PI/2));  
+        System.out.println("0度的余弦值：" + Math.cos(0));  
+        System.out.println("60度的正切值：" + Math.tan(Math.PI/3));  
+        System.out.println("1的反正切值： " + Math.atan(1));  
+        System.out.println("π/2的角度值：" + Math.toDegrees(Math.PI/2));  
+        System.out.println(Math.PI);  
+    }  
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下：</p>
+		<pre>90 度的正弦值：1.0
+0度的余弦值：1.0
+60度的正切值：1.7320508075688767
+1的反正切值： 0.7853981633974483
+π/2的角度值：90.0
+3.141592653589793</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Number & Math 类方法</h2>
+		<p>下面的表中列出的是 Number & Math 类常用的一些方法：</p>
+		<table>
+			<tbody>
+				<tr>
+					<th>序号</th>
+					<th>方法与描述</th>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td><a href="#numberXxxvalue" target="_blank" class="n-text-line green">xxxValue()</a><br>
+					将 Number 对象转换为xxx数据类型的值并返回。</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td><a href="#numberCompareto" target="_blank" class="n-text-line green">compareTo()</a><br>
+					将number对象与参数比较。</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td><a href="#numberEquals" target="_blank" class="n-text-line green">equals()</a><br>
+					判断number对象是否与参数相等。</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td><a href="#numberValueof" target="_blank" class="n-text-line green">valueOf()</a><br>
+					返回一个 Number 对象指定的内置数据类型</td>
+				</tr>
+				<tr>
+					<td>5</td>
+					<td><a href="#numberTostring" target="_blank" class="n-text-line green">toString()</a><br>
+					以字符串形式返回值。</td>
+				</tr>
+				<tr>
+					<td>6</td>
+					<td><a href="#numberParseInt" target="_blank" class="n-text-line green">parseInt()</a><br>
+					将字符串解析为int类型。</td>
+				</tr>
+				<tr>
+					<td>7</td>
+					<td><a href="#numberAbs" target="_blank" class="n-text-line green">abs()</a><br>
+					返回参数的绝对值。</td>
+				</tr>
+				<tr>
+					<td>8</td>
+					<td><a href="#numberCeil" target="_blank" class="n-text-line green">ceil()</a><br>
+					返回大于等于( &gt;= )给定参数的的最小整数。</td>
+				</tr>
+				<tr>
+					<td>9</td>
+					<td><a href="#numberFloor" target="_blank" class="n-text-line green">floor()</a><br>
+					返回小于等于（&lt;=）给定参数的最大整数 。</td>
+				</tr>
+				<tr>
+					<td>10</td>
+					<td><a href="#numberRint" target="_blank" class="n-text-line green">rint()</a><br>
+					返回与参数最接近的整数。返回类型为double。</td>
+				</tr>
+				<tr>
+					<td>11</td>
+					<td><a href="#numberRound" target="_blank" class="n-text-line green">round()</a><br>
+						它表示<strong>四舍五入</strong>，算法为 <span class="marked">Math.floor(x+0.5)</span>，即将原来的数字加上 0.5 后再向下取整，所以，Math.round(11.5) 的结果为12，Math.round(-11.5) 的结果为-11。</td>
+				</tr>
+				<tr>
+					<td>12</td>
+					<td><a href="#numberMin" target="_blank" class="n-text-line green">min()</a><br>
+					返回两个参数中的最小值。</td>
+				</tr>
+				<tr>
+					<td>13</td>
+					<td><a href="#numberMax" target="_blank" class="n-text-line green">max()</a><br>
+					返回两个参数中的最大值。</td>
+				</tr>
+				<tr>
+					<td>14</td>
+					<td><a href="#numberExp" target="_blank" class="n-text-line green">exp()</a><br>
+					返回自然数底数e的参数次方。</td>
+				</tr>
+				<tr>
+					<td>15</td>
+					<td><a href="#numberLog" target="_blank" class="n-text-line green">log()</a><br>
+					返回参数的自然数底数的对数值。</td>
+				</tr>
+				<tr>
+					<td>16</td>
+					<td><a href="#numberPow" target="_blank" class="n-text-line green">pow()</a><br>
+					返回第一个参数的第二个参数次方。</td>
+				</tr>
+				<tr>
+					<td>17</td>
+					<td><a href="#numberSqrt" target="_blank" class="n-text-line green">sqrt()</a><br>
+					求参数的算术平方根。</td>
+				</tr>
+				<tr>
+					<td>18</td>
+					<td><a href="#numberSin" target="_blank" class="n-text-line green">sin()</a><br>
+					求指定double类型参数的正弦值。</td>
+				</tr>
+				<tr>
+					<td>19</td>
+					<td><a href="#numberCos" target="_blank" class="n-text-line green">cos()</a><br>
+					求指定double类型参数的余弦值。</td>
+				</tr>
+				<tr>
+					<td>20</td>
+					<td><a href="#numberTan" target="_blank" class="n-text-line green">tan()</a><br>
+					求指定double类型参数的正切值。</td>
+				</tr>
+				<tr>
+					<td>21</td>
+					<td><a href="#numberAsin" target="_blank" class="n-text-line green">asin()</a><br>
+					求指定double类型参数的反正弦值。</td>
+				</tr>
+				<tr>
+					<td>22</td>
+					<td><a href="#numberAcos" target="_blank" class="n-text-line green">acos()</a><br>
+					求指定double类型参数的反余弦值。</td>
+				</tr>
+				<tr>
+					<td>23</td>
+					<td><a href="#numberAtan" target="_blank" class="n-text-line green">atan()</a><br>
+					求指定double类型参数的反正切值。</td>
+				</tr>
+				<tr>
+					<td>24</td>
+					<td><a href="#numberAtan2" target="_blank" class="n-text-line green">atan2()</a><br>
+					将笛卡尔坐标转换为极坐标，并返回极坐标的角度值。</td>
+				</tr>
+				<tr>
+					<td>25</td>
+					<td><a href="#numberTodegrees" target="_blank" class="n-text-line green">toDegrees()</a><br>
+					将参数转化为角度。</td>
+				</tr>
+				<tr>
+					<td>26</td>
+					<td><a href="#numberToradians" target="_blank" class="n-text-line green">toRadians()</a><br>
+					将角度转换为弧度。</td>
+				</tr>
+				<tr>
+					<td>27</td>
+					<td><a href="#numberRandom" target="_blank" class="n-text-line green">random()</a><br>
+					返回一个随机数。</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Math 的 floor,round 和 ceil 方法实例比较</h2>
+		<table>
+			<tbody>
+				<tr>
+					<th>参数</th>
+					<th>Math.floor</th>
+					<th>Math.round</th>
+					<th>Math.ceil</th>
+				</tr>
+				<tr>
+					<td>1.4</td>
+					<td>1</td>
+					<td>1</td>
+					<td>2</td>
+				</tr>
+				<tr>
+					<td>1.5</td>
+					<td>1</td>
+					<td>2</td>
+					<td>2</td>
+				</tr>
+				<tr>
+					<td>1.6</td>
+					<td>1</td>
+					<td>2</td>
+					<td>2</td>
+				</tr>
+				<tr>
+					<td>-1.4</td>
+					<td>-2</td>
+					<td>-1</td>
+					<td>-1</td>
+				</tr>
+				<tr>
+					<td>-1.5</td>
+					<td>-2</td>
+					<td>-1</td>
+					<td>-1</td>
+				</tr>
+				<tr>
+					<td>-1.6</td>
+					<td>-2</td>
+					<td>-2</td>
+					<td>-1</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">floor,round 和 ceil 实例：</h2>
+			<pre><code>public class Main {   
+  public static void main(String[] args) {   
+    double[] nums = { 1.4, 1.5, 1.6, -1.4, -1.5, -1.6 };   
+    for (double num : nums) {   
+      test(num);   
+    }   
+  }   
+  
+  private static void test(double num) {   
+    System.out.println("Math.floor(" + num + ")=" + Math.floor(num));   
+    System.out.println("Math.round(" + num + ")=" + Math.round(num));   
+    System.out.println("Math.ceil(" + num + ")=" + Math.ceil(num));   
+  }   
+}</code></pre>
+		</div>
+		<p>以上实例执行输出结果为：</p>
+		<pre>Math.floor(1.4)=1.0
+Math.round(1.4)=1
+Math.ceil(1.4)=2.0
+Math.floor(1.5)=1.0
+Math.round(1.5)=2
+Math.ceil(1.5)=2.0
+Math.floor(1.6)=1.0
+Math.round(1.6)=2
+Math.ceil(1.6)=2.0
+Math.floor(-1.4)=-2.0
+Math.round(-1.4)=-1
+Math.ceil(-1.4)=-1.0
+Math.floor(-1.5)=-2.0
+Math.round(-1.5)=-1
+Math.ceil(-1.5)=-1.0
+Math.floor(-1.6)=-2.0
+Math.round(-1.6)=-2
+Math.ceil(-1.6)=-1.0</pre>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#ifElseSwitch" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Java 分支结构
+		</a>
+		<a href="#character" class="pull-right green">
+			Java Character 类
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+</div>

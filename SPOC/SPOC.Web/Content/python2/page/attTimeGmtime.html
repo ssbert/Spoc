@@ -1,0 +1,40 @@
+<div class="attTimeGmtime-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">time gmtime()方法</span>
+		</h1>
+		<p>
+			<a href="#dateTime" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 时间和日期
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>Python time gmtime() 函数将一个时间戳转换为UTC时区（0时区）的struct_time，可选的参数sec表示从1970-1-1以来的秒数。其默认值为time.time()，函数返回time.struct_time类型的对象。（struct_time是在time模块中定义的表示时间的对象）。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>gmtime()方法语法：</p>
+		<pre>time.gmtime([ sec ])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>sec -- 转换为time.struct_time类型的对象的秒数。</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该函数没有任何返回值。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 gmtime() 函数的使用方法：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+import time
+
+print "time.gmtime() : %s" % time.gmtime()</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>time.gmtime() : time.struct_time(tm_year=2016, tm_mon=4, tm_mday=7, tm_hour=2, tm_min=55, tm_sec=45, tm_wday=3, tm_yday=98, tm_isdst=0)</pre>
+		<p>
+			<a href="#dateTime" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 时间和日期
+			</a>
+		</p>
+	</div>
+</div>

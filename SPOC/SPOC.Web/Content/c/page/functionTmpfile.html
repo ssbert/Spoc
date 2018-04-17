@@ -1,0 +1,59 @@
+<div class="functionTmpfile-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">tmpfile()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>FILE *tmpfile(void)</b> 以二进制更新模式(wb+)创建临时文件。被创建的临时文件会在流关闭的时候或者在程序终止的时候自动删除。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 tmpfile() 函数的声明。</p>
+		<pre>FILE *tmpfile(void)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>NA</b>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果成功，该函数返回一个指向被创建的临时文件的流指针。如果文件未被创建，则返回 NULL。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 tmpfile() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main ()
+{
+   FILE *fp;
+
+   fp = tmpfile();
+   printf("临时文件被创建\n");
+
+   /* 您可以在这里使用临时文件 */
+
+   fclose(fp);
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，它将在 /tmp 文件夹中创建一个临时文件，但是一旦程序退出，临时文件会被自动删除，且程序会产生以下结果：</p>
+		<pre>临时文件被创建</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

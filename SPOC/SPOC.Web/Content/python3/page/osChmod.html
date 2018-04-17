@@ -1,0 +1,74 @@
+<div class="osChmod-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">os.chmod() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>	
+		<p>os.chmod() 方法用于更改文件或目录的权限。</p>
+		<p>Unix 系统可用。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>chmod()方法语法格式如下：</p>
+		<pre>os.chmod(path, mode)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>path</b> -- 文件名路径或目录路径。 </p></li>
+			<li><p><b>flags</b> -- 可用以下选项按位或操作生成，
+				目录的读权限表示可以获取目录里文件名列表，
+				，执行权限表示可以把工作目录切换到此目录
+				，删除添加目录里的文件必须同时有写和执行权限
+			，文件权限以用户id-&gt;组id-&gt;其它顺序检验,最先匹配的允许或禁止权限被应用。 </p>
+			<ul>
+
+				<li><b>stat.S_IXOTH:</b>     其他用户有执行权0o001</li>
+				<li><b>stat.S_IWOTH:</b>     其他用户有写权限0o002</li>
+				<li><b>stat.S_IROTH:</b>     其他用户有读权限0o004</li> 
+				<li><b>stat.S_IRWXO:</b>     其他用户有全部权限(权限掩码)0o007</li>
+				<li><b>stat.S_IXGRP:</b>    组用户有执行权限0o010</li>
+				<li><b>stat.S_IWGRP:</b>     组用户有写权限0o020</li>
+				<li><b>stat.S_IRGRP:</b>     组用户有读权限0o040</li> 
+				<li><b>stat.S_IRWXG:</b>     组用户有全部权限(权限掩码)0o070</li>
+				<li><b>stat.S_IXUSR:</b>     拥有者具有执行权限0o100</li>
+				<li><b>stat.S_IWUSR:</b>     拥有者具有写权限0o200</li> 
+				<li><b>stat.S_IRUSR:</b>     拥有者具有读权限0o400</li>
+				<li><b>stat.S_IRWXU:</b>     拥有者有全部权限(权限掩码)0o700</li>
+				<li><b>stat.S_ISVTX:</b>     目录里文件目录只有拥有者才可删除更改0o1000</li>
+				<li><b>stat.S_ISGID:</b>     执行此文件其进程有效组为文件所在组0o2000</li>
+				<li><b>stat.S_ISUID:</b>     执行此文件其进程有效用户为文件所有者0o4000</li>
+				<li><b>stat.S_IREAD:</b>     windows下设为只读</li>
+				<li><b>stat.S_IWRITE:</b>    windows下取消只读</li>
+			</ul></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法没有返回值。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 chmod() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+import os, sys, stat
+
+# 假定 /tmp/foo.txt 文件存在，设置文件可以通过用户组执行
+
+os.chmod("/tmp/foo.txt", stat.S_IXGRP)
+
+# 设置文件可以被其他用户写入
+os.chmod("/tmp/foo.txt", stat.S_IWOTH)
+
+print ("修改成功!!")</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>修改成功!!</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

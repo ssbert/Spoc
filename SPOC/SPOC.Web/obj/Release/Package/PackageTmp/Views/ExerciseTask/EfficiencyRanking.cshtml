@@ -1,0 +1,215 @@
+﻿@model SPOC.Web.Models.Exercises.RankingViewModel<SPOC.Exercises.Dto.EfficiencyRankingViewItem>
+@{
+    ViewBag.Title = "效率排行榜";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="detail-page exercise-detail-page container-box center">
+    <div class="detail-header">
+        <h2 class="header-title">@Model.Base.Title</h2>
+        <div class="author">
+            <img src="@Model.Base.UserImg" class="fillet_5">
+            <span>
+                by
+                <a href="javascript:;" class="name">@Model.Base.UserName</a>
+            </span>
+        </div>
+    </div>
+    <div class="detail-content">
+        <div class="nav-tab">
+            <ul class="clearfix">
+                <li class="item"><a href="/ExerciseTask/EnthusiasmRanking/@Model.Base.Id">积极性排行榜</a></li>
+                <li class="item active"><a href="javascript:;" data-toggle="tab">效率排行榜</a></li>
+                <li class="item "><a href="/ExerciseTask/Record/@Model.Base.Id">提交记录</a></li>
+                @if (Model.Base.ShowAnswer && (Model.Base.ShowAnswerType == 1 || Model.Base.EndTime.HasValue && Model.Base.EndTime < DateTime.Now))
+                {
+                    <li class="item"><a href="/ExerciseTask/Answer/@Model.Base.Id">参考代码</a></li>
+                }
+            </ul>
+        </div>
+        <div class="tab-content">
+
+            <div class="leaderboard-content content-box active" id="eta-leaderboard">
+                <div class="eta-leaderboard">
+                    @if (Model.Pagination.rows != null && Model.Pagination.rows.Count != 0)
+                    {
+                        <div class="leaderboard-table">
+                            <div class="table-header clearfix">
+                                <div class="table-header-colum rank">
+                                    排名
+                                </div>
+                                <div class="table-header-colum hacker">
+                                    学生
+                                </div>
+                                <div class="table-header-colum counts">
+                                    练习次数
+                                </div>
+                                <div class="table-header-colum time">
+                                    耗时
+                                </div>
+                                <div class="table-header-colum results">
+                                    是否通过
+                                </div>
+                            </div>
+                            <div class="table-body">
+                                @foreach (var item in Model.Pagination.rows)
+                                {
+                                    <div class="table-row clearfix">
+                                        <div class="table-row-colum rank">
+                                            @item.Ranking
+                                        </div>
+                                        <div class="table-row-colum hacker">
+                                            @item.UserName
+                                        </div>
+                                        <div class="table-row-colum counts">
+                                            @item.ExerciseCount
+                                        </div>
+                                        @if (item.UseTime.HasValue)
+                                        {
+                                            <div class="table-row-colum time">
+                                                @TimeSpanFormat(item.UseTime.Value)
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="table-row-colum time">
+                                                -
+                                            </div>
+                                        }
+                                        <div class="table-row-colum results">
+                                            @if (item.IsPass)
+                                            {
+                                                <span class="glyphicon glyphicon-ok green"></span>
+                                            }
+                                            else
+                                            {
+                                                <span class="glyphicon glyphicon-remove red"></span>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="leaderboard-table self">
+                            <div class="table-body">
+                                <div class="table-row clearfix">
+                                    <div class="table-row-colum rank">
+                                        @Model.SelfRanking.Ranking
+                                    </div>
+                                    <div class="table-row-colum hacker">
+                                        @Model.SelfRanking.UserName
+                                    </div>
+                                    <div class="table-row-colum counts">
+                                        @Model.SelfRanking.ExerciseCount
+                                    </div>
+                                    @if (Model.SelfRanking.UseTime.HasValue)
+                                    {
+                                        <div class="table-row-colum time">
+                                            @TimeSpanFormat(Model.SelfRanking.UseTime.Value)
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="table-row-colum time">
+                                            -
+                                        </div>
+                                    }
+
+                                    <div class="table-row-colum results">
+                                        @if (Model.SelfRanking.IsPass)
+                                        {
+                                            <span class="glyphicon glyphicon-ok green"></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="glyphicon glyphicon-remove red"></span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="iconfont icon-nodata"></div>
+                    }
+                    
+                </div>
+                <!-- 分页导航-S -->
+                <div class="page-nav">
+                    <div class="pagination"></div>
+                </div>
+                <!-- 分页导航-E -->
+
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+@functions
+{
+    //时间格式化
+    string TimeSpanFormat(TimeSpan ts)
+    {
+        var s = ts.Seconds + "秒";
+
+        if (ts.Minutes > 0)
+        {
+            s = ts.Minutes + "分" + s;
+        }
+
+        if (ts.Hours > 0)
+        {
+            s = ts.Hours + "时" + s;
+        }
+
+        if (ts.Days > 0)
+        {
+            s = ts.Days + "天" + s;
+        }
+
+        return s;
+    }
+
+}
+
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/css/detail.css">
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jqpaginator.min.js"></script>
+    <script src="~/js/common/common.js"></script>
+    
+    @if (Model.Pagination.rows.Count > 0)
+    {
+        <script>
+            (function() {
+                var currentPage = @ViewBag.currentPage;
+                var total = @Model.Pagination.total;
+                var lastPage = Math.ceil(total / 10);
+                if (total > 10) {
+                    $('.pagination').jqPaginator({
+                        totalPages: lastPage,
+                        visiblePages: 5,
+                        currentPage: currentPage,
+                        first: '<li class="first"><a href="javascript:void(0);" class="glyphicon glyphicon-backward"></a></li>',
+                        prev: '<li class="prev"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-left"></a></li>',
+                        next: '<li class="next"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-right"></a></li>',
+                        last: '<li class="last"><a href="javascript:void(0);" class="glyphicon glyphicon-forward"></a></li>',
+                        page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+                        onPageChange: function (num, type) {
+                            if (type === "change") {
+                                window.location.href = "/ExerciseTask/EfficiencyRanking/@Model.Base.Id?page=" + num;
+                            }
+                        }
+                    });
+                }
+
+            })()
+        </script>
+    }
+}

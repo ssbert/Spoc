@@ -1,0 +1,71 @@
+<div class="nestedSwitch-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C <span class="green">嵌套 switch 语句</span>
+		</h1>
+		<p>
+			<a href="#decision" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 判断
+			</a>
+		</p>
+		<p>您可以把一个 <b>switch</b> 作为一个外部 <b>switch</b> 的语句序列的一部分，即可以在一个 <b>switch</b> 语句内使用另一个 <b>switch</b> 语句。即使内部和外部 switch 的 case 常量包含共同的值，也没有矛盾。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			语法
+		</h2>
+		<p>C 语言中 <b>嵌套 switch</b> 语句的语法：</p>
+		<div class="n-example">
+			<pre><code>switch(ch1) {
+   case 'A': 
+      printf("这个 A 是外部 switch 的一部分" );
+      switch(ch2) {
+         case 'A':
+            printf("这个 A 是内部 switch 的一部分" );
+            break;
+         case 'B': /* 内部 B case 代码 */
+      }
+      break;
+   case 'B': /* 外部 B case 代码 */
+}</code></pre>
+		</div>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+ 
+int main ()
+{
+   /* 局部变量定义 */
+   int a = 100;
+   int b = 200;
+ 
+   switch(a) {
+      case 100: 
+         printf("这是外部 switch 的一部分\n");
+         switch(b) {
+            case 200:
+               printf("这是内部 switch 的一部分\n");
+         }
+   }
+   printf("a 的准确值是 %d\n", a );
+   printf("b 的准确值是 %d\n", b );
+ 
+   return 0;
+}</code></pre>
+		</div>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre>这是外部 switch 的一部分
+这是内部 switch 的一部分
+a 的准确值是 100
+b 的准确值是 200</pre>
+		<p>
+			<a href="#decision" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 判断
+			</a>
+		</p>
+	</div>
+</div>

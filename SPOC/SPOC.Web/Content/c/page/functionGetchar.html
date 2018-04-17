@@ -1,0 +1,59 @@
+<div class="functionGetchar-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">getchar()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int getchar(void)</b> 从标准输入 stdin 获取一个字符（一个无符号字符）。这等同于 <b>getc</b> 带有 stdin 作为参数。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 getchar() 函数的声明。</p>
+		<pre>int getc(FILE *stream)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>NA</b></li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数以无符号 char 强制转换为 int 的形式返回读取的字符，如果到达文件末尾或发生读错误，则返回 EOF。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 getchar() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main ()
+{
+   char c;
+ 
+   printf("请输入字符：");
+   c = getchar();
+ 
+   printf("输入的字符：");
+   putchar(c);
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>请输入字符：a
+输入的字符：a</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

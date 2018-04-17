@@ -1,0 +1,63 @@
+<div class="stringGetbytes-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">getBytes() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>getBytes() 方法有两种形式：</p>
+		<ul>
+			<li><p><b>getBytes(String charsetName):</b> 使用指定的字符集将字符串编码为 byte 序列，并将结果存储到一个新的 byte 数组中。</p></li>
+			<li><p><b>getBytes(): </b> 使用平台的默认字符集将字符串编码为 byte 序列，并将结果存储到一个新的 byte 数组中。</p></li>
+		</ul>
+		<h3 class="n-h3">语法</h3>
+		<pre>public byte[] getBytes(String charsetName) throws UnsupportedEncodingException
+
+或
+
+public byte[] getBytes()</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>charsetName</b> -- 支持的字符集名称。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回 byte 数组。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>import java.io.*;
+
+public class Test {
+    public static void main(String args[]) {
+        String Str1 = new String("runoob");
+
+        try{
+            byte[] Str2 = Str1.getBytes();
+            System.out.println("返回值：" + Str2 );
+            
+            Str2 = Str1.getBytes( "UTF-8" );
+            System.out.println("返回值：" + Str2 );
+            
+            Str2 = Str1.getBytes( "ISO-8859-1" );
+            System.out.println("返回值：" + Str2 );
+        } catch ( UnsupportedEncodingException e){
+            System.out.println("不支持的字符集");
+        }
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>返回值：[B@7852e922
+返回值：[B@4e25154f
+返回值：[B@70dea4e</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

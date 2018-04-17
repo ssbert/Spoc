@@ -1,0 +1,511 @@
+/*layui弹窗字体颜色*/
+.layui-layer-msg * {
+    color: #fff !important;
+}
+
+.detail-page {
+    padding-top: 20px;
+}
+
+.detail-page .detail-header,
+.detail-page .nav-tab {
+    padding: 20px 0;
+}
+
+.detail-page .header-title {
+    font-size: 30px;
+    letter-spacing: 3px;
+}
+
+.detail-page .author {
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.detail-page .author img {
+    width: 25px;
+    height: 25px;
+}
+
+.detail-page .author a.name {
+    color: #4691f6;
+}
+
+.detail-page .nav-tab ul {
+    padding: 10px 10px 0;
+    background-color: #f8f9fa;
+    border: 1px solid #C2C7D0;
+}
+
+.detail-page .nav-tab .item {
+    float: left;
+    margin-right: 30px;
+    margin-bottom: -2px;
+}
+
+.detail-page .nav-tab .item.active a {
+    color: #39424e;
+    background-color: #fff;
+    border-color: #C2C7D0;
+    border-bottom: #fff;
+}
+
+.detail-page .nav-tab .item a {
+    display: block;
+    padding: 10px 20px 20px;
+    color: #979faf;
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+.detail-page .content-box {
+    display: none;
+}
+
+.detail-page .content-box.active {
+    display: block;
+}
+
+
+/*程序模块*/
+.detail-page .problem-content {
+    padding-top: 15px;
+}
+
+.detail-page .problem-content .content-right {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.detail-page .problem-content .slider-problem-info > div,
+.detail-page .problem-content .slider-problem-rate > div {
+    color: #979faf;
+    padding: 3px 0;
+}
+
+.detail-page .problem-content .slider-problem-info .thin {
+    font-weight: 400;
+}
+
+.detail-page .problem-content .slider-problem-info .submissions {
+    padding: 10px 0;
+}
+
+.detail-page .problem-content .slider-problem-info .submissions a {
+    color: #979faf;
+    text-decoration: underline;
+}
+
+.detail-page .problem-content .slider-problem-info .submissions a:hover {
+    color: #4691f6;
+}
+
+.detail-page .problem-content .slider-problem-rate {
+    padding: 10px 0;
+    border-top: 1px solid #C2C7D0;
+    border-bottom: 1px solid #C2C7D0;
+    margin-right: 62px;	
+}
+
+.detail-page .problem-content .slider-problem-rate .star {
+    color: #ffbd00;
+    font-size: 20px;
+    margin-top: 3px;
+    padding-left: 3px;
+    cursor: pointer;
+}
+
+.detail-page .problem-content .slider-problem-rate .glyphicon-star-empty {
+    color: #c5c5c5;
+}
+
+.detail-page .problem-content .code-editor {
+    padding-top: 20px;
+}
+
+.detail-page .problem-content .editor-panel {
+    border: 1px solid #C2C7D0;
+    height: 300px;
+}
+
+.detail-page .problem-content .editor-header {
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #C2C7D0;
+    margin-bottom: -1px;
+}
+
+.detail-page .problem-content .editor-footer {
+    padding: 20px 0;
+}
+
+.detail-page .problem-content .editor-footer .input-group {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.detail-page .problem-content .editor-footer .form-control {
+    display: inline-block;
+    float: none;
+    width: 100%;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.detail-page .problem-content .editor-footer .input-btn {
+
+}
+
+.detail-page .problem-content .editor-btn .btn {
+    margin: 0 5px;
+    padding: 8px 30px;
+}
+
+.detail-page .problem-content .editor-btn .run-code {
+    background-image: linear-gradient(to bottom, #fff, #f0f0f0);
+    background-color: #f8f8f8;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1), inset 0 -1px 4px rgba(151,159,175,0.2);
+    color: #39424e;
+    border: 1px solid #c2c7d0;
+}
+
+.detail-page .problem-content .editor-btn .submit-code,
+.detail-page .problem-content .editor-footer .input-btn  {
+    border-color: #088837;
+    border-bottom-color: #007827;
+    background-color: #29b35b;
+    background-image: linear-gradient(to bottom, #2ec866, #29b35b);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.1), inset 0 -1px 4px rgba(32,138,70,0.3);
+    color: #fff;
+}
+
+.detail-page .problem-content .run-results {
+    padding: 15px 0;
+    margin-top: 30px;
+}
+
+.detail-page .problem-content .run-results > div,
+.detail-page .problem-content .submit-results > div {
+    margin-bottom: 20px;
+}
+
+.detail-page .problem-content .run-results .no-response {
+    color: #979faf;
+    margin-bottom: 10px;
+}
+
+.detail-page .problem-content .results {
+    padding: 20px;
+    border: 1px solid #ddd;
+    min-height: 160px;
+    position: relative;
+}
+
+.detail-page .problem-content .result-item > p {
+    font-weight: 600;	
+}
+
+.detail-page .problem-content .result-item pre {
+    border-radius: 0;
+    min-height: 39px;
+}
+
+.detail-page .problem-content .submit-results .progress {
+    width: 70%;
+    margin: 0 auto;
+    height: 6px;
+}
+
+.detail-page .problem-content .submit-results .progress .progress-bar {
+    background-color: #2ec866;
+}
+
+.detail-page .problem-content .submit-results .btn-box {
+    padding-top: 30px;
+}
+
+.detail-page .problem-content .submit-results .try-agin-btn {
+    padding: 12px 20px;
+    background-image: linear-gradient(to bottom, #fff, #f0f0f0);
+    background-color: #f8f8f8;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1), inset 0 -1px 4px rgba(151,159,175,0.2);
+    color: #39424e;
+    border: 1px solid #c2c7d0;
+}
+
+.detail-page .problem-content .submit-results .next-btn {
+    padding: 12px 20px;
+    border-color: #088837;
+    border-bottom-color: #007827;
+    background-color: #29b35b;
+    background-image: linear-gradient(to bottom, #2ec866, #29b35b);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.1), inset 0 -1px 4px rgba(32,138,70,0.3);
+    color: #fff;
+}
+
+/*排名模块*/
+.detail-page .leaderboard-content,
+.detail-page .submissions-content {
+    padding: 20px 0;
+}
+
+.detail-page .leaderboard-content .self {
+    background-color: #f5f5f5;
+}
+
+.detail-page .leaderboard-content .self * {
+    color: #2ec866;
+    font-weight: 600;
+}
+
+.detail-page .leaderboard-content .leaderboard-table,
+.detail-page .submissions-content .record-table {
+    border: 1px solid #c2c7d0;
+}
+
+.detail-page .leaderboard-content .leaderboard-table.self {
+    margin-top: 10px;
+}
+
+.detail-page .leaderboard-content .table-header,
+.detail-page .leaderboard-content .table-row,
+.detail-page .submissions-content .table-header,
+.detail-page .submissions-content .table-row {
+    border-bottom: 1px solid #c2c7d0;
+    margin-bottom: -1px;
+}
+
+.detail-page .leaderboard-content .table-header-colum,
+.detail-page .leaderboard-content .table-row-colum,
+.detail-page .submissions-content .table-header-colum,
+.detail-page .submissions-content .table-row-colum{
+    float: left;
+    text-align: center;
+}
+
+.detail-page .leaderboard-content .table-header-colum,
+.detail-page .submissions-content .table-header-colum {
+    height: 50px;
+    line-height: 50px;
+    font-weight: 600;
+}
+
+.detail-page .leaderboard-content .table-row-colum,
+.detail-page .submissions-content .table-row-colum {
+    height: 60px;
+    line-height: 60px;
+}
+
+.detail-page .leaderboard-content .exam-leaderboard {
+    min-height: 399px;
+}
+
+.detail-page .submissions-content .table-row-colum .btn:hover {
+	border-color: #088837!important;
+    border-bottom-color: #007827!important;
+    background-color: #29b35b!important;
+    background-image: linear-gradient(to bottom, #2ec866, #29b35b)!important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.1), inset 0 -1px 4px rgba(32,138,70,0.3)!important;
+    color: #fff!important;
+}
+
+.detail-page .reference-content .reference-problem {
+	border: 1px solid #c2c7d0;
+}
+
+.detail-page .reference-content .header p {
+	height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #c2c7d0;
+    padding-left: 10px;
+    background-color: #f8f9fa;
+}
+
+.detail-page .reference-content .problem-box pre {
+	border: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 20px;
+    font-size: 16px;
+}
+
+.detail-page .compile-status .info {
+	padding: 20px 0px;
+    font-weight: 600;
+}
+
+.detail-page .compile-status .status-con {
+	border: 1px solid #c2c7d0;
+    padding: 20px 10px;
+}
+
+.detail-page .compile-status .status-con .item {
+	padding-top: 10px;
+}
+
+.detail-page .compile-status .status-con pre {
+	background-color: transparent;
+	margin: 0;
+}
+
+.detail-page .problem-con {
+	padding-top: 30px;
+}
+
+.detail-page .problem-con h3 {
+	font-size: 20px;
+}
+
+.detail-page .problem-con .code {
+	border: 1px solid #c2c7d0;
+}
+
+.detail-page .problem-con pre,
+.detail-page .problem-con code {
+	background-color: transparent;
+	border: none;
+	font-size: 16px;
+}
+
+.detail-page .reference-content .problem-box pre,
+.detail-page .reference-content .problem-box code {
+	background-color: #f4faff!important;
+}
+
+/*.detail-page .leaderboard-content .single-leaderboard,
+.detail-page .leaderboard-content .positive-leaderboard,
+.detail-page .leaderboard-content .eta-leaderboard {
+    min-height: 459px;
+}*/
+
+.challenge-detail-page .single-leaderboard .rank {
+    /*width: 20%;*/
+    width: 15%;
+}
+
+.challenge-detail-page .single-leaderboard .hacker {
+    width: 20%;
+    text-align: left;
+}
+
+.challenge-detail-page .single-leaderboard .counts {
+    /*width: 20%;*/
+    width: 15%;
+}
+
+.challenge-detail-page .single-leaderboard .time {
+    width: 25%;
+    text-align: right;
+}
+
+.challenge-detail-page .single-leaderboard .results {
+    /*width: 20%;*/
+    width: 25%;
+}
+
+.exercise-detail-page .positive-leaderboard .rank {
+    /*width: 25%;*/
+    width: 15%;
+}
+
+.exercise-detail-page .positive-leaderboard .hacker {
+    /*width: 25%;*/
+    width: 20%;
+    text-align: left;
+    padding-left: 3%;
+}
+
+.exercise-detail-page .positive-leaderboard .start-time {
+    /*width: 25%;*/
+    width: 35%;
+}
+
+.exercise-detail-page .positive-leaderboard .results {
+    /*width: 25%;*/
+    width: 30%;
+}
+
+.exercise-detail-page .eta-leaderboard .rank {
+    /*width: 20%;*/
+    width: 15%;
+}
+
+.exercise-detail-page .eta-leaderboard .hacker {
+    width: 20%;
+    text-align: left;
+}
+
+.exercise-detail-page .eta-leaderboard .counts {
+    /*width: 20%;*/
+    width: 15%;
+}
+
+.exercise-detail-page .eta-leaderboard .time {
+    width: 25%;
+    text-align: right;
+}
+
+.exercise-detail-page .eta-leaderboard .results {
+    /*width: 20%;*/
+    width: 25%;
+}
+
+.exam-rank-page .exam-leaderboard .rank {
+    /*width: 25%;*/
+    width: 22%;
+}
+
+.exam-rank-page .exam-leaderboard .hacker {
+    width: 25%;
+    text-align: left;
+}
+
+.exam-rank-page .exam-leaderboard .counts {
+    width: 25%;
+    text-align: left;
+}
+
+.exam-rank-page .exam-leaderboard .results {
+    /*width: 25%;*/
+    width: 28%;
+}
+
+.exercise-detail-page .record-lists .start-time {
+    width: 28%;
+}
+
+.exercise-detail-page .record-lists .end-time {
+    width: 28%;
+}
+
+.exercise-detail-page .record-lists .time {
+    width: 17%;
+}
+
+.exercise-detail-page .record-lists .results {
+    width: 10%;
+}
+
+.exercise-detail-page .record-lists .handle {
+    width: 17%;
+}
+
+.challenge-detail-page .record-lists .submit-time {
+    width: 20%;
+}
+
+.challenge-detail-page .record-lists .time {
+    width: 20%;
+}
+
+.challenge-detail-page .record-lists .results {
+    width: 20%;
+}
+
+.challenge-detail-page .record-lists .score {
+    width: 20%;
+}
+
+.challenge-detail-page .record-lists .handle {
+    width: 20%;
+}

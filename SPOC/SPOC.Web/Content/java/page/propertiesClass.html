@@ -1,0 +1,137 @@
+<div class="propertiesClass-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">Properties 类</span>
+		</h1>
+		<p>
+			<a href="#dataStructures" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java 数据结构
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>Properties 继承于 Hashtable.表示一个持久的属性集.属性列表中每个键及其对应值都是一个字符串。</p>
+		<p>Properties 类被许多Java类使用。例如，在获取环境变量时它就作为System.getProperties()方法的返回值。</p>
+		<p>Properties 定义如下实例变量.这个变量持有一个Properties对象相关的默认属性列表。</p>
+		<pre>Properties defaults;</pre>
+		<p>Properties类定义了两个构造方法. 第一个构造方法没有默认值。 </p>
+		<pre>Properties()</pre>
+		<p>第二个构造方法使用propDefault 作为默认值。两种情况下，属性列表都为空： </p>
+		<pre>Properties(Properties propDefault)</pre>
+		<p>除了从Hashtable中所定义的方法，Properties定义了以下方法： </p>
+		<table>
+			<tbody>
+				<tr>
+					<th>
+						<strong>序号</strong></th>
+					<th>
+						<strong>方法描述</strong></th>
+				</tr>
+				<tr>
+					<td>
+						1</td>
+					<td>
+						<strong>String getProperty(String key)</strong><br>
+						&nbsp;用指定的键在此属性列表中搜索属性。</td>
+				</tr>
+				<tr>
+					<td>
+						2</td>
+					<td>
+						<strong>String getProperty(String key, String defaultProperty)</strong><br>
+						用指定的键在属性列表中搜索属性。</td>
+				</tr>
+				<tr>
+					<td>
+						3</td>
+					<td>
+						<strong>void list(PrintStream streamOut)</strong><br>
+						&nbsp;将属性列表输出到指定的输出流。</td>
+				</tr>
+				<tr>
+					<td>
+						4</td>
+					<td>
+						<strong>void list(PrintWriter streamOut)</strong><br>
+						将属性列表输出到指定的输出流。</td>
+				</tr>
+				<tr>
+					<td>
+						5</td>
+					<td>
+						<strong>void load(InputStream streamIn) throws IOException</strong><br>
+						&nbsp;从输入流中读取属性列表（键和元素对）。</td>
+				</tr>
+				<tr>
+					<td>
+						6</td>
+					<td>
+						<strong>Enumeration propertyNames( )</strong><br>
+						按简单的面向行的格式从输入字符流中读取属性列表（键和元素对）。</td>
+				</tr>
+				<tr>
+					<td>
+						7</td>
+					<td>
+						<strong>Object setProperty(String key, String value)</strong><br>
+						&nbsp;调用&nbsp;Hashtable&nbsp;的方法&nbsp;put。</td>
+				</tr>
+				<tr>
+					<td>
+						8</td>
+					<td>
+						<strong>void store(OutputStream streamOut, String description)</strong><br>
+						&nbsp;以适合使用&nbsp;&nbsp;load(InputStream)方法加载到&nbsp;Properties&nbsp;表中的格式，将此&nbsp;Properties&nbsp;表中的属性列表（键和元素对）写入输出流。</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">实例</h3>
+		<p>下面的程序说明这个数据结构支持的几个方法： </p>
+		<div class="n-example">
+			<pre><code>import java.util.*;
+
+public class PropDemo {
+
+   public static void main(String args[]) {
+      Properties capitals = new Properties();
+      Set states;
+      String str;
+      
+      capitals.put("Illinois", "Springfield");
+      capitals.put("Missouri", "Jefferson City");
+      capitals.put("Washington", "Olympia");
+      capitals.put("California", "Sacramento");
+      capitals.put("Indiana", "Indianapolis");
+
+      // Show all states and capitals in hashtable.
+      states = capitals.keySet(); // get set-view of keys
+      Iterator itr = states.iterator();
+      while(itr.hasNext()) {
+         str = (String) itr.next();
+         System.out.println("The capital of " +
+            str + " is " + capitals.getProperty(str) + ".");
+      }
+      System.out.println();
+
+      // look for state not in list -- specify default
+      str = capitals.getProperty("Florida", "Not Found");
+      System.out.println("The capital of Florida is "
+          + str + ".");
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下：</p>
+		<pre>The capital of Missouri is Jefferson City.
+The capital of Illinois is Springfield.
+The capital of Indiana is Indianapolis.
+The capital of California is Sacramento.
+The capital of Washington is Olympia.
+
+The capital of Florida is Not Found.</pre>
+	</div>
+	<p>
+		<a href="#dataStructures" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java 数据结构
+		</a>
+	</p>
+</div>

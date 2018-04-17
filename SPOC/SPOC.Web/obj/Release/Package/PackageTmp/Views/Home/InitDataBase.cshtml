@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "~/areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(function () {
+        $.messager.progress({
+            title: '请等待',
+            msg: '正在检查数据库...'
+        });
+        $.ajax({
+            url: '/Home/CheckDatabase',
+            success: function (data) {
+                if (data.success) {
+                    $.messager.alert('提示', '操作成功！请重启站点！');
+                } else {
+                    $.messager.alert('提示', '操作失败！请查看日志！');
+                }
+            },
+            error: function () {
+                $.messager.alert('提示', '初始化数据失败！');
+            },
+            complete: function () {
+                $.messager.progress('close');
+            }
+        });
+    });
+</script>

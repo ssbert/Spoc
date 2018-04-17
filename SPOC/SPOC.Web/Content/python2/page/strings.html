@@ -1,0 +1,669 @@
+<div class="strings-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#numbers" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python Number(数字)
+		</a>
+		<a href="#lists" class="pull-right green">
+			Python 列表(List)
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">字符串</span>
+		</h1>
+		<p>字符串是 Python 中最常用的数据类型。我们可以使用引号('或")来创建字符串。</p>
+		<p>创建字符串很简单，只要为变量分配一个值即可。例如：</p>
+		<pre>var1 = 'Hello World!'
+var2 = "Python Runoob"</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Python访问字符串中的值</h2>
+		<p>Python不支持单字符类型，单字符也在Python也是作为一个字符串使用。</p>
+		<p>Python访问子字符串，可以使用方括号来截取字符串，如下实例：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+
+var1 = 'Hello World!'
+var2 = "Python Runoob"
+
+print "var1[0]: ", var1[0]
+print "var2[1:5]: ", var2[1:5]</code></pre>
+		</div>
+		<p>以上实例执行结果：</p>
+		<pre>var1[0]:  H
+var2[1:5]:  ytho</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Python字符串更新</h2>
+		<p>你可以对已存在的字符串进行修改，并赋值给另一个变量，如下实例：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+var1 = 'Hello World!'
+
+print "更新字符串 :- ", var1[:6] + 'Runoob!'</code></pre>
+		</div>
+		<p>以上实例执行结果</p>
+		<pre>更新字符串 :-  Hello Runoob!</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Python转义字符</h2>
+		<p>在需要在字符中使用特殊字符时，python用反斜杠(\)转义字符。如下表：</p>
+		<table>
+			<thead>
+				<tr>
+					<th>转义字符</th><th>描述</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>\(在行尾时)</td>
+					<td>续行符</td>
+				</tr>
+				<tr>
+					<td>\\</td>
+					<td>反斜杠符号</td>
+				</tr>
+				<tr>
+					<td>\'</td>
+					<td>单引号</td>
+				</tr>
+				<tr>
+					<td>\"</td>
+					<td>双引号</td>
+				</tr>
+				<tr>
+					<td>\a</td>
+					<td>响铃</td>
+				</tr>
+				<tr>
+					<td>\b</td>
+					<td>退格(Backspace)</td>
+				</tr>
+				<tr>
+					<td>\e</td>
+					<td>转义</td>
+				</tr>
+				<tr>
+					<td>\000</td>
+					<td>空</td>
+				</tr>
+				<tr>
+					<td>\n</td>
+					<td>换行</td>
+				</tr>
+				<tr>
+					<td>\v</td>
+					<td>纵向制表符</td>
+				</tr>
+				<tr>
+					<td>\t</td>
+					<td>横向制表符</td>
+				</tr>
+				<tr>
+					<td>\r</td>
+					<td>回车</td>
+				</tr>
+				<tr>
+					<td>\f</td>
+					<td>换页</td>
+				</tr>
+				<tr>
+					<td>\oyy</td>
+					<td>八进制数，yy代表的字符，例如：\o12代表换行</td>
+				</tr>
+				<tr>
+					<td>\xyy</td>
+					<td>十六进制数，yy代表的字符，例如：\x0a代表换行</td>
+				</tr>
+				<tr>
+					<td>\other</td>
+					<td>其它的字符以普通格式输出</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Python字符串运算符</h2>
+		<p>下表实例变量 a 值为字符串 "Hello"，b 变量值为 "Python"：</p>
+		<table class="reference">
+			<tbody>
+				<tr>
+					<th width="10%">操作符</th><th width="60%">描述</th><th>实例</th>
+				</tr>
+				<tr>
+					<td>+</td><td>字符串连接</td><td><pre>>>>a + b
+'HelloPython'</pre></td>
+				</tr>
+				<tr>
+					<td>*</td><td>重复输出字符串</td><td><pre>>>>a * 2
+'HelloHello'</pre></td>
+				</tr>
+				<tr>
+					<td>[]</td><td>通过索引获取字符串中字符</td><td><pre>>>>a[1]
+'e'</pre></td>
+				</tr>
+				<tr>
+					<td>[ : ]</td><td>截取字符串中的一部分</td><td><pre>>>>a[1:4]
+'ell'</pre></td>
+				</tr>
+				<tr>
+					<td>in</td><td>成员运算符 - 如果字符串中包含给定的字符返回 True </td><td><pre>>>>"H" in a
+True</pre></td>
+				</tr>
+				<tr>
+					<td>not in </td><td>成员运算符 - 如果字符串中不包含给定的字符返回 True </td><td><pre>>>>"M" not in a
+True</pre></td>
+				</tr>
+				<tr>
+					<td>r/R</td><td>原始字符串 - 原始字符串：所有的字符串都是直接按照字面的意思来使用，没有转义特殊或不能打印的字符。
+
+					原始字符串除在字符串的第一个引号前加上字母"r"（可以大小写）以外，与普通字符串有着几乎完全相同的语法。</td><td><pre>>>>print r'\n'
+\n
+>>> print R'\n'
+\n</pre></td>
+				</tr>
+				<tr>
+					<td>%</td><td>格式字符串</td><td>请看下一章节</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>实例如下：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+a = "Hello"
+b = "Python"
+
+print "a + b 输出结果：", a + b 
+print "a * 2 输出结果：", a * 2 
+print "a[1] 输出结果：", a[1] 
+print "a[1:4] 输出结果：", a[1:4] 
+
+if( "H" in a) :
+    print "H 在变量 a 中" 
+else :
+    print "H 不在变量 a 中" 
+
+if( "M" not in a) :
+    print "M 不在变量 a 中" 
+else :
+    print "M 在变量 a 中"
+
+print r'\n'
+print R'\n'</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>a + b 输出结果： HelloPython
+a * 2 输出结果： HelloHello
+a[1] 输出结果： e
+a[1:4] 输出结果： ell
+H 在变量 a 中
+M 不在变量 a 中
+\n
+\n</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Python 字符串格式化</h2>
+		<p>Python 支持格式化字符串的输出 。尽管这样可能会用到非常复杂的表达式，但最基本的用法是将一个值插入到一个有字符串格式符 %s 的字符串中。</p>
+		<p>在 Python 中，字符串格式化使用与 C 中 sprintf 函数一样的语法。</p>
+		<p>如下实例：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+
+print "My name is %s and weight is %d kg!" % ('Zara', 21) </code></pre>
+		</div>
+		<p>以上实例输出结果：</p>
+		<pre>My name is Zara and weight is 21 kg!</pre>
+		<p>python字符串格式化符号:</p>
+		<table class="reference">
+<tbody>
+	<tr><th>&nbsp;&nbsp;&nbsp; 符&nbsp;&nbsp; 号</th>
+<th>描述</th></tr><tr><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %c</font></td><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;格式化字符及其ASCII码</font></td></tr><tr><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %s</font></td><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;格式化字符串</font></td></tr><tr><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %d</font></td><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;格式化整数</font></td></tr><tr><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %u</font></td><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;格式化无符号整型</font></td></tr><tr><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %o</font></td><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;格式化无符号八进制数</font></td></tr><tr><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %x</font></td><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;格式化无符号十六进制数</font></td></tr><tr><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %X</font></td><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;格式化无符号十六进制数（大写）</font></td></tr><tr><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %f</font></td><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;格式化浮点数字，可指定小数点后的精度</font></td></tr><tr><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %e</font></td><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;用科学计数法格式化浮点数</font></td></tr><tr><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %E</font></td><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;作用同%e，用科学计数法格式化浮点数</font></td></tr><tr><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %g</font></td><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;%f和%e的简写</font></td></tr><tr><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %G</font></td><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;%f 和 %E 的简写</font></td></tr><tr><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %p</font></td><td><font style="line-height: 23px; " size="2" face="宋体">&nbsp;用十六进制数格式化变量的地址</font></td></tr>
+</tbody>
+</table>
+		<p>格式化操作符辅助指令:</p>
+		<table>
+			<tbody>
+				<tr><th>符号</th><th>功能</th></tr>
+				<tr><td>*</td><td>定义宽度或者小数点精度 </td></tr>
+				<tr><td>-</td><td>用做左对齐 </td></tr>
+				<tr><td>+</td><td>在正数前面显示加号( + ) </td></tr>
+				<tr><td>&lt;sp&gt;</td><td>在正数前面显示空格 </td></tr>
+				<tr><td>#</td><td> 在八进制数前面显示零('0')，在十六进制前面显示'0x'或者'0X'(取决于用的是'x'还是'X')</td></tr>
+				<tr><td>0</td><td> 显示的数字前面填充'0'而不是默认的空格 </td></tr>
+				<tr><td>%</td><td> '%%'输出一个单一的'%' </td></tr>
+				<tr><td>(var)</td><td>映射变量(字典参数) </td></tr>
+				<tr><td>m.n.</td><td>  m 是显示的最小总宽度,n 是小数点后的位数(如果可用的话)</td></tr>
+			</tbody>
+		</table>
+		<p>Python2.6 开始，新增了一种格式化字符串的函数 str.format()，它增强了字符串格式化的功能。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Python三引号（triple quotes） </h2>
+		<p>python中三引号可以将复杂的字符串进行复制:</p>
+		<p>python三引号允许一个字符串跨多行，字符串中可以包含换行符、制表符以及其他特殊字符。</p>
+		<p>三引号的语法是一对连续的单引号或者双引号（通常都是成对的用）。</p>
+		<div class="n-example">
+			<pre><code> >>> hi = '''hi 
+there'''
+>>> hi   # repr()
+'hi\nthere'
+>>> print hi  # str()
+hi 
+there  </code></pre>
+		</div>
+		<p>三引号让程序员从引号和特殊字符串的泥潭里面解脱出来，自始至终保持一小块字符串的格式是所谓的WYSIWYG（所见即所得）格式的。</p>
+		<p>一个典型的用例是，当你需要一块HTML或者SQL时，这时用字符串组合，特殊字符串转义将会非常的繁琐。</p>
+		<div class="n-example">
+			<pre><code> errHTML = '''
+&lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;
+Friends CGI Demo&lt;/TITLE&gt;&lt;/HEAD&gt;
+&lt;BODY&gt;&lt;H3&gt;ERROR&lt;/H3&gt;
+&lt;B&gt;%s&lt;/B&gt;&lt;P&gt;
+&lt;FORM&gt;&lt;INPUT TYPE=button VALUE=Back
+ONCLICK="window.history.back()"&gt;&lt;/FORM&gt;
+&lt;/BODY&gt;&lt;/HTML&gt;
+'''
+cursor.execute('''
+CREATE TABLE users (  
+login VARCHAR(8), 
+uid INTEGER,
+prid INTEGER)
+''')</code></pre>
+		</div>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Unicode 字符串</h2>
+		<p>Python 中定义一个 Unicode 字符串和定义一个普通字符串一样简单：</p>
+		<pre>>>> u'Hello World !'
+u'Hello World !'</pre>
+		<p>引号前小写的"u"表示这里创建的是一个 Unicode 字符串。如果你想加入一个特殊字符，可以使用 Python 的 Unicode-Escape 编码。如下例所示： </p>
+		<pre>>>> u'Hello\u0020World !'
+u'Hello World !'</pre>
+		<p>被替换的 \u0020 标识表示在给定位置插入编码值为 0x0020 的 Unicode 字符（空格符）。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">python的字符串内建函数</h2>
+		<p>字符串方法是从python1.6到2.0慢慢加进来的——它们也被加到了Jython中。 </p>
+		<p>这些方法实现了string模块的大部分方法，如下表所示列出了目前字符串内建支持的方法，所有的方法都包含了对Unicode的支持，有一些甚至是专门用于Unicode的。 </p>
+		<table>
+			<tbody>
+				<tr>
+					<th>
+						<strong>方法</strong>
+					</th>
+					<th>
+						<strong>描述</strong>
+					</th>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringCapitalize">string.capitalize()</a></p>
+					</td>
+					<td>
+						<p>把字符串的第一个字符大写</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringCenter">string.center(width)</a></p>
+					</td>
+					<td>
+						<p>返回一个原字符串居中,并使用空格填充至长度 width 的新字符串</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><strong><a class="n-text-line green" href="#attStringCount">string.count(str, beg=0, end=len(string))</a></strong></p>
+					</td>
+					<td>
+						<p>返回 str 在 string 里面出现的次数，如果 beg 或者 end 指定则返回指定范围内 str 出现的次数</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringDecode">string.decode(encoding='UTF-8', errors='strict')</a></p>
+					</td>
+					<td>
+						<p>以 encoding 指定的编码格式解码 string，如果出错默认报一个 ValueError 的 异 常 ， 除非 errors 指 定 的 是 'ignore' 或 者'replace'</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringEncode">string.encode(encoding='UTF-8', errors='strict')</a></p>
+					</td>
+					<td>
+						<p>以 encoding 指定的编码格式编码 string，如果出错默认报一个ValueError 的异常，除非 errors 指定的是'ignore'或者'replace'</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><strong><a class="n-text-line green" href="#attStringEndswith">string.endswith(obj, beg=0, end=len(string))</a></strong></p>
+					</td>
+					<td>
+						<p>检查字符串是否以 obj 结束，如果beg 或者 end 指定则检查指定的范围内是否以 obj 结束，如果是，返回 True,否则返回 False.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringExpandtabs">string.expandtabs(tabsize=8)</a></p>
+					</td>
+					<td>
+						<p>把字符串 string 中的 tab 符号转为空格，tab 符号默认的空格数是 8。</p>
+					</td>
+				</tr>
+
+
+
+				<tr>
+					<td>
+						<p><strong><a class="n-text-line green" href="#attStringFind">string.find(str, beg=0, end=len(string))</a></strong></p>
+					</td>
+					<td>
+						<p>检测 str 是否包含在 string 中，如果 beg 和 end 指定范围，则检查是否包含在指定范围内，如果是返回开始的索引值，否则返回-1</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><strong><a class="n-text-line green" href="#attStringFormat">string.format()</a></strong></p>
+					</td>
+					<td>
+						<p>格式化字符串</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><strong><a class="n-text-line green" href="#attStringIndex">string.index(str, beg=0, end=len(string))</a></strong></p>
+					</td>
+					<td>
+						<p>跟find()方法一样，只不过如果str不在 string中会报一个异常.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringIsalnum">string.isalnum()</a></p>
+					</td>
+					<td>
+						<p>如果 string 至少有一个字符并且所有字符都是字母或数字则返</p>
+						<p>回 True,否则返回 False</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringIsalpha">string.isalpha()</a></p>
+					</td>
+					<td>
+						<p>如果 string 至少有一个字符并且所有字符都是字母则返回 True,</p>
+						<p>否则返回 False</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringIsdecimal">string.isdecimal()</a></p>
+					</td>
+					<td>
+						<p>如果 string 只包含十进制数字则返回 True 否则返回 False.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringIsdigit">string.isdigit()</a></p>
+					</td>
+					<td>
+						<p>如果 string 只包含数字则返回 True 否则返回 False.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringIslower">string.islower()</a></p>
+					</td>
+					<td>
+						<p>如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是小写，则返回 True，否则返回 False</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringIsnumeric">string.isnumeric()</a></p>
+					</td>
+					<td>
+						<p>如果 string 中只包含数字字符，则返回 True，否则返回 False</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringIsspace">string.isspace()</a></p>
+					</td>
+					<td>
+						<p>如果 string 中只包含空格，则返回 True，否则返回 False.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringIstitle">string.istitle()</a></p>
+					</td>
+					<td>
+						<p>如果 string 是标题化的(见 title())则返回 True，否则返回 False</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringIsupper">string.isupper()</a></p>
+					</td>
+					<td>
+						<p>如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是大写，则返回 True，否则返回 False</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><strong><a class="n-text-line green" href="#attStringJoin">string.join(seq)</a></strong></p>
+					</td>
+					<td>
+						<p>以 string 作为分隔符，将 seq 中所有的元素(的字符串表示)合并为一个新的字符串</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringLjust">string.ljust(width)</a></p>
+					</td>
+					<td>
+						<p>返回一个原字符串左对齐,并使用空格填充至长度 width 的新字符串</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringLower">string.lower()</a></p>
+					</td>
+					<td>
+						<p>转换 string 中所有大写字符为小写.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringLstrip">string.lstrip()</a></p>
+					</td>
+					<td>
+						<p>截掉 string 左边的空格</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringMaketrans">string.maketrans(intab, outtab])</a></p>
+					</td>
+					<td>
+						<p> maketrans() 方法用于创建字符映射的转换表，对于接受两个参数的最简单的调用方式，第一个参数是字符串，表示需要转换的字符，第二个参数也是字符串表示转换的目标。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringMax">max(str)</a></p>
+					</td>
+					<td>
+						<p> 返回字符串 <em>str</em> 中最大的字母。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringMin">min(str)</a></p>
+					</td>
+					<td>
+						<p> 返回字符串 <em>str</em> 中最小的字母。</p>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<p><strong><a class="n-text-line green" href="#attStringPartition">string.partition(str)</a></strong></p>
+					</td>
+					<td>
+						<p>有点像 find()和 split()的结合体,从 str 出现的第一个位置起,把 字 符 串 string 分 成 一 个 3 元 素 的 元 组 (string_pre_str,str,string_post_str),如果 string 中不包含str 则 string_pre_str == string.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><strong><a class="n-text-line green" href="#attStringReplace">string.replace(str1, str2,&nbsp; num=string.count(str1))</a></strong></p>
+					</td>
+					<td>
+						<p>把 string 中的 str1 替换成 str2,如果 num 指定，则替换不超过 num 次.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringRfind">string.rfind(str, beg=0,end=len(string) )</a></p>
+					</td>
+					<td>
+						<p>类似于 find()函数，不过是从右边开始查找.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringRindex">string.rindex( str, beg=0,end=len(string))</a></p>
+					</td>
+					<td>
+						<p>类似于 index()，不过是从右边开始.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringRjust">string.rjust(width)</a></p>
+					</td>
+					<td>
+						<p>返回一个原字符串右对齐,并使用空格填充至长度 width 的新字符串</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>string.rpartition(str)</p>
+					</td>
+					<td>
+						<p>类似于 partition()函数,不过是从右边开始查找.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringRstrip">string.rstrip()</a></p>
+					</td>
+					<td>
+						<p>删除 string 字符串末尾的空格.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><strong><a class="n-text-line green" href="#attStringSplit">string.split(str="", num=string.count(str))</a></strong></p>
+					</td>
+					<td>
+						<p>以 str 为分隔符切片 string，如果 num有指定值，则仅分隔 num 个子字符串</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringSplitlines">string.splitlines([keepends])</a></p>
+					</td>
+					<td>
+						<p>按照行('\r', '\r\n', \n')分隔，返回一个包含各行作为元素的列表，如果参数 keepends 为 False，不包含换行符，如果为 True，则保留换行符。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringStartswith">string.startswith(obj, beg=0,end=len(string))</a></p>
+					</td>
+					<td>
+						<p>检查字符串是否是以 obj 开头，是则返回 True，否则返回 False。如果beg 和 end 指定值，则在指定范围内检查.</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><strong><a class="n-text-line green" href="#attStringStrip">string.strip([obj])</a></strong></p>
+					</td>
+					<td>
+						<p>在 string 上执行 lstrip()和 rstrip()</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringSwapcase">string.swapcase()</a></p>
+					</td>
+					<td>
+						<p>翻转 string 中的大小写</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringTitle">string.title()</a></p>
+					</td>
+					<td>
+						<p>返回"标题化"的 string,就是说所有单词都是以大写开始，其余字母均为小写(见 istitle())</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><strong><a class="n-text-line green" href="#attStringTranslate">string.translate(str, del="")</a></strong></p>
+					</td>
+					<td>
+						<p>根据 str 给出的表(包含 256 个字符)转换 string 的字符,</p>
+						<p>要过滤掉的字符放到 del 参数中</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringUpper">string.upper()</a></p>
+					</td>
+					<td>
+						<p>转换 string 中的小写字母为大写</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringZfill">string.zfill(width)</a></p>
+					</td>
+					<td>
+						<p>返回长度为 width 的字符串，原字符串 string 右对齐，前面填充0</p>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<p><a class="n-text-line green" href="#attStringIsdecimal">string.isdecimal()</a></p>
+					</td>
+					<td>
+						<p>isdecimal()方法检查字符串是否只包含十进制字符。这种方法只存在于unicode对象。</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#numbers" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python Number(数字)
+		</a>
+		<a href="#lists" class="pull-right green">
+			Python 列表(List)
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+</div>

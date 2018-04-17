@@ -1,0 +1,85 @@
+<div class="functionMktime-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">mktime()</span>
+		</h1>
+		<p>
+			<a href="#standardLibTimeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;time.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>time_t mktime(struct tm *timeptr)</b> 把 <b>timeptr</b> 所指向的结构转换为一个依据本地时区的 time_t 值。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 mktime() 函数的声明。</p>
+		<pre>time_t mktime(struct tm *timeptr)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>timeptr</b> -- 这是指向表示日历时间的 time_t 值的指针，该日历时间被分解为以下各部分。下面是 timeptr 结构的细节：</li>
+		</ul>
+		<pre>struct tm {
+   int tm_sec;         /* 秒，范围从 0 到 59                */
+   int tm_min;         /* 分，范围从 0 到 59                */
+   int tm_hour;        /* 小时，范围从 0 到 23                */
+   int tm_mday;        /* 一月中的第几天，范围从 1 到 31                    */
+   int tm_mon;         /* 月份，范围从 0 到 11                */
+   int tm_year;        /* 自 1900 起的年数                */
+   int tm_wday;        /* 一周中的第几天，范围从 0 到 6                */
+   int tm_yday;        /* 一年中的第几天，范围从 0 到 365                    */
+   int tm_isdst;       /* 夏令时                        */    
+};</pre>
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>该函数返回一个 time_t 值，该值对应于以参数传递的日历时间。如果发生错误，则返回 -1 值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 mktime() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;time.h&gt;
+
+int main ()
+{
+   int ret;
+   struct tm info;
+   char buffer[80];
+
+   info.tm_year = 2001 - 1900;
+   info.tm_mon = 7 - 1;
+   info.tm_mday = 4;
+   info.tm_hour = 0;
+   info.tm_min = 0;
+   info.tm_sec = 1;
+   info.tm_isdst = -1;
+
+   ret = mktime(&info);
+   if( ret == -1 )
+   {
+       printf("错误：不能使用 mktime 转换时间。\n");
+   }
+   else
+   {
+      strftime(buffer, sizeof(buffer), "%c", &info );
+      print(buffer);
+   }
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>Wed Jul 4 00:00:01 2001</pre>
+		<p>
+			<a href="#standardLibTimeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;time.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

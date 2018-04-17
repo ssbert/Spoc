@@ -1,0 +1,240 @@
+﻿
+@{
+    ViewBag.Title = "Class";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-5">
+            <div class="form-group">
+                <label class="form-label">教学班级：</label>
+                <input id="classIds" class="easyui-combotree" style="width: 400px" data-options="
+                        valueField:'id',
+                        textField:'text',
+                        multiple:true,lines:true,
+                        panelHeight:'400'" />
+            </div>
+           
+            <div class="form-group">
+                <label class="form-label">知识点分类：</label>
+                <input id="folderId" name="folderId" class="easyui-combotree" multiple="true" style="width:200px;" data-options="lines:true">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="title">知识点：</label>
+                <input id="title" name="title" class="easyui-textbox" style="width: 200px;">
+            </div>
+            <div class="form-group">
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="classStatement.query()">查询</a>
+            </div>
+        </form>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-page_white_excel" onclick="classStatement.export()">导出</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="true"  toolbar="#toolbar"  fit="true" pageNum="1" pageSize="30">
+        <thead>
+        <tr>
+            
+            <th field="title" sortable="true">知识点</th>
+            <th field="passNumber"  sortable="true" formatter="passFormatter">掌握学生数</th>
+            <th field="failNumber" sortable="true" formatter="failFormatter">未掌握学生数</th>
+            <th field="notJoinNumber" sortable="true" formatter="notJoinFormatter">无反馈学生数</th>
+            <th field="unstableNumber" sortable="true" formatter="unstableFormatter">不稳定学生数</th>
+            <th field="studentNumber" sortable="true" formatter="formatter">学生总数</th>
+            <th field="passRate" formatter="rateFormatter" sortable="true">掌握比率</th>
+            
+        </tr>
+        </thead>
+    </table>
+   
+</div>
+
+
+@section scripts
+{
+<script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script>
+        var linkTemp = '<a href="javascript:void(0)" onclick="classStatement.showDetail(\'{0}\', {1},\'{2}\',\'{4}\')">{3}</a>';
+        function passFormatter(val, row) {
+            return linkTemp.format(row.classId, 3, row.labelId, val, row.title);
+        }
+
+        function failFormatter(val, row) {
+            return linkTemp.format(row.classId, 1, row.labelId, val, row.title);
+        }
+
+        function unstableFormatter(val, row) {
+            return linkTemp.format(row.classId, 2, row.labelId, val, row.title);
+        }
+
+        function notJoinFormatter(val, row) {
+            return linkTemp.format(row.classId, -1, row.labelId, val, row.title);
+        }
+
+        function formatter(val, row) {
+            return linkTemp.format(row.classId, 0, row.labelId, val, row.title);
+        }
+
+        function rateFormatter(val) {
+            return val.toFixed(2) + "%";
+        }
+        var category = new nv.category.CombotreeDataClass("folderId", "lib_label");
+        var evtHandle = evtBus.addEvt("statement_pageinit",
+            function(evt) {
+                if (evt.statement && evt.statement.setClassIds) {
+                    var nodes = $("#classIds").combotree("tree").tree("getChecked");
+                    var classIds = [];
+                    $.each(nodes,
+                        function(k, v) {
+                            if (!v.children || v.children.length === 0) {
+                                classIds.push(v.id);
+                            }
+                        });
+                    evt.statement.setClassIds(classIds);
+                }
+            });
+
+        $(window).unload(function() {
+            evtBus.removeEvt(evtHandle);
+        });
+        var ClassStatement = (function() {
+
+            function init() {
+
+                var queryParam = { skip: 0, pageSize: 30 };
+                var tabHelper = new TabHelper("tabs");
+                this.query = function() {
+                    setParam();
+                    loadData(queryParam);
+                };
+
+                this.reset = function() {
+                    $("#query-form").form("reset");
+
+                };
+
+                this.initPagination = function() {
+                    $("#dg").datagrid({
+                            striped: true,
+                            loadMsg: "数据正在加载...",     
+                            onSortColumn: function(sort, order) {
+                                queryParam.sort = sort;
+                                queryParam.order = order;
+                                loadData(queryParam);
+                            },
+                            onSelect: function(index) {
+                                //$(this).datagrid('unselectRow', index);
+                            }
+
+                        })
+                        .datagrid("getPager")
+                        .pagination({
+                            onSelectPage: function(pageNumber, pageSize) {
+                                queryParam.pageNumber = pageNumber;
+                                queryParam.skip = (pageNumber - 1) * pageSize;
+                                if (queryParam.skip < 0) {
+                                    queryParam.skip = 0;
+                                }
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            },
+                            onChangePageSize: function(pageSize) {
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            }
+                        });
+
+                };
+
+                this.export = function() {
+                    setParam();
+                    $.ajax({
+                        url: "/Statement/lib/SetClassExportParms",
+                        type: "post",
+                        data: queryParam,
+                        async: false,
+                        success: function(data) {
+                            window.location.href = "/Statement/lib/ExportClassData";
+                        }
+                    });
+
+                }
+
+                this.initCombotree = function() {
+                    var url = "/api/services/app/Department/GetAllDepartmentTree";
+                    nv.post(url,
+                        null,
+                        function(data) {
+                            if (data.success) {
+                                $("#classIds").combotree("loadData", data.result);
+                            }
+                        });
+
+                };
+                this.showDetail = function(classId, type, labelId,title) {
+                    var url =
+                        "/Statement/Lib/ClassLabelGettingDetail?labelId={0}&type={1}".format(labelId,type);
+                    tabHelper.openTab("[" + title+"]学员掌握情况", url, "");
+                }
+
+    
+
+                function setParam() {
+                    var nodes = $("#classIds").combotree("tree").tree("getChecked");
+                    var classIds = [];
+                    $.each(nodes,
+                        function(k, v) {
+                            if (!v.children || v.children.length === 0) {
+                                classIds.push(v.id);
+                            }
+                        });
+                    queryParam.folderId = $("#folderId").combotree("getValues");
+                    queryParam.classIdList = classIds;
+                    queryParam.skip = 0;
+                    queryParam.title = $("#title").textbox("getValue");
+
+                }
+
+                function loadData(param) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                 
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "LibLabelStatement/ClassLabelGettingList";
+                    nv.post(url,
+                        param,
+                        function(data) {
+                            $("#dg").datagrid("loaded");
+                            if (data.success) {
+                                $("#dg")
+                                    .datagrid("loadData", data.result.rows)
+                                    .datagrid("getPager")
+                                    .pagination({
+                                        pageNumber: param.pageNumber,
+                                        total: data.result.total
+                                    });
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }
+
+
+            }
+
+
+            return init;
+        })();
+
+        var classStatement = new ClassStatement();
+
+        $(function () {
+            category.getCategory();
+            classStatement.initCombotree();
+            classStatement.initPagination();
+            classStatement.query();
+        });
+    </script>
+}

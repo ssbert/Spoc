@@ -1,0 +1,62 @@
+<div class="osLseek-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">os.lseek() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>
+		<p>os.lseek() 方法用于设置文件描述符 fd 当前位置为 pos, how 方式修改。</p>
+		<p>在Unix，Windows中有效。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>lseek()方法语法格式如下：</p>
+		<pre>os.lseek(fd, pos, how)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>fd</b> --  文件描述符。</p></li>
+			<li><p><b>pos</b> --  这是相对于给定的参数 how 在文件中的位置。。</p></li>
+			<li><p><b>how</b> --  文件内参考位置。SEEK_SET 或者 0 设置从文件开始的计算的pos; SEEK_CUR或者 1 则从当前位置计算; os.SEEK_END或者2则从文件尾部开始。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法没有返回值。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 lseek() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os, sys
+
+# 打开文件
+fd = os.open( "foo.txt", os.O_RDWR|os.O_CREAT )
+
+# 写入字符串
+os.write(fd, "This is test")
+
+# 所有 fsync() 方法
+os.fsync(fd)
+
+# 从开始位置读取字符串
+os.lseek(fd, 0, 0)
+str = os.read(fd, 100)
+print "Read String is : ", str
+
+# 关闭文件
+os.close( fd )
+
+print "关闭文件成功!!"</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>关闭文件成功!!</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

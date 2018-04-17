@@ -1,0 +1,62 @@
+<div class="functionMemset-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">memset()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>void *memset(void *str, int c, size_t n)</b> 复制字符 <b>c</b>（一个无符号字符）到参数 <b>str</b> 所指向的字符串的前 <b>n</b> 个字符。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 memset() 函数的声明。</p>
+		<pre>void *memset(void *str, int c, size_t n)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b> -- 指向要填充的内存块。</li>
+			<li><b>c</b> -- 要被设置的值。该值以 int 形式传递，但是函数在填充内存块时是使用该值的无符号字符形式。</li>
+			<li><b>n</b> -- 要被设置为该值的字节数。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该值返回一个指向存储区 str 的指针。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 memset() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main ()
+{
+   char str[50];
+
+   strcpy(str,"This is string.h library function");
+   puts(str);
+
+   memset(str,'$',7);
+   puts(str);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>This is string.h library function
+$$$$$$$ string.h library function</pre>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

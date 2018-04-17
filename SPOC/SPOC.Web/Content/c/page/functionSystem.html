@@ -1,0 +1,83 @@
+<div class="functionSystem-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">system()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int system(const char *command)</b> 把 <b>command</b> 指定的命令名称或程序名称传给要被命令处理器执行的主机环境，并在命令完成后返回。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 system() 函数的声明。</p>
+		<pre>int system(const char *command)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>command</b> -- 包含被请求变量名称的 C 字符串。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果发生错误，则返回值为 -1，否则返回命令的状态。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 system() 函数的用法，列出了 unix 机上当前目录下所有的文件和目录。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main ()
+{
+   char command[50];
+
+   strcpy( command, "ls -l" );
+   system(command);
+
+   return(0);
+} </code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，在 unix 机上将产生以下结果：</p>
+		<pre>drwxr-xr-x 2 apache apache 4096 Aug 22 07:25 hsperfdata_apache
+drwxr-xr-x 2 railo railo 4096 Aug 21 18:48 hsperfdata_railo
+rw------ 1 apache apache 8 Aug 21 18:48 mod_mono_dashboard_XXGLOBAL_1
+rw------ 1 apache apache 8 Aug 21 18:48 mod_mono_dashboard_asp_2
+srwx---- 1 apache apache 0 Aug 22 05:28 mod_mono_server_asp
+rw------ 1 apache apache 0 Aug 22 05:28 mod_mono_server_asp_1280495620
+srwx---- 1 apache apache 0 Aug 21 18:48 mod_mono_server_global</pre>
+		<p>下面的实例演示了 system() 函数的用法，列出了 windows 机上当前目录下所有的文件和目录。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main ()
+{
+   char command[50];
+
+   strcpy( command, "dir" );
+   system(command);
+
+   return(0);
+} </code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，在 windows 机上将产生以下结果：</p>
+		<pre>a.txt
+amit.doc
+sachin
+saurav
+file.c</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

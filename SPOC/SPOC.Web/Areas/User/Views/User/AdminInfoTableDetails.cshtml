@@ -1,0 +1,110 @@
+﻿@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+<style type="text/css">
+   #fm .datagrid-header {
+        position: absolute;
+        visibility: hidden;
+    }
+
+   #fm .datagrid-row {
+        height: 32px;
+    }
+
+   #fm .datagrid-body td {
+        border-style: double;
+    }
+
+   #fm .easyui-datagrid .panel-header, .panel-body {
+        border-bottom-style: none;
+        border-right-style: none;
+    }
+
+   #fm .datagrid-btable {
+        width: 100%;
+    }
+</style>
+<script type="text/javascript">
+
+    function UserData() {
+
+    }
+    UserData.prototype = {
+        init: function () {
+            dataInfo.getData();
+        },
+        getData: function () {
+            $.ajax({
+                url: "/User/User/GetUserInfoById/",
+                data: { id: "@ViewBag.data.id", userId: "@ViewBag.data.userId", userName: "@ViewBag.data.userName", identity: "@ViewBag.data.identity" },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (dataObj) {
+                    dataInfo.formBind(dataObj);
+                }
+            });
+        },
+        ArrDateFormateByGet: function (obj, perArr) {
+
+            if (obj != null && obj != "undefined") {
+                for (var p = 0; p < perArr.length; p++) { // 方法
+                    obj[perArr[p]] = VE.FormatterDateTime(obj[perArr[p]])
+                }
+            }
+        },
+        formBind: function (row) {
+            $("#fm").form("clear");
+            row.userPassWord = "";
+            row.userGender = row.userGender == "0" ? "" : row.userGender == "1" ? "男" : "女";
+            $($("#fm").find("label")).each(function () {
+                if ($(this).attr("name") != undefined) {
+                    var name = $(this).attr("name");
+                    row[name] = row[name] == null ? "" : row[name];
+                    $(this).text(row[name]);
+                }
+            });
+
+        }
+    }
+    var dataInfo = new UserData();
+
+    $(function () {
+        dataInfo.init();
+    });
+
+</script>
+<form id="fm">
+    <table class="easyui-datagrid" style=" height:auto;" data-options="fitColumns: true, nowrap: false,singleSelect:true">
+        <thead>
+            <tr>
+                <th data-options="field:'id',width:60,sortable:true"></th>
+                <th data-options="field:'id1',width:220,sortable:true"></th>
+                <th data-options="field:'id2',width:60,sortable:true"></th>
+                <th data-options="field:'id3',width:220,sortable:true"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td><h3>用户名</h3></td>
+                <td><label name="userLoginName"></label></td>
+                <td><h3>密码</h3></td>
+                <td><label name="userPassWord" id="userPassWord"></label></td>
+            </tr>
+            <tr>
+                <td><h3>姓名</h3></td>
+                <td><label name="userFullName" id="userFullName"></label></td>
+                <td><h3>手机号码</h3></td>
+                <td><label name="userMobile" id="userMobile"></label></td>
+            </tr>
+            <tr>
+                <td><h3>邮箱</h3></td>
+                <td><label name="userEmail" id="userEmail"></label></td>
+                <td><h3>性别</h3></td>
+                <td><label name="userGender" id="userGender"></label></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+

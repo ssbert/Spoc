@@ -1,0 +1,66 @@
+<div class="step1-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#dictionary" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python3 字典
+		</a>
+		<a href="#conditionalStatements" class="pull-right green">
+			Python3 条件控制
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">编程第一步</span>
+		</h1>
+		<p>在前面的教程中我们已经学习了一些 Python3 的基本语法知识，下面我们尝试来写一个斐波纳契数列。</p>
+		<p>实例如下：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+# Fibonacci series: 斐波纳契数列
+# 两个元素的总和确定了下一个数
+a, b = 0, 1
+while b < 10:
+    print(b)
+    a, b = b, a+b</code></pre>
+		</div>
+		<p>执行以上程序，输出结果为：</p>
+		<pre>1
+1
+2
+3
+5
+8</pre>
+		<p>这个例子介绍了几个新特征。 </p>
+		<p>第一行包含了一个复合赋值：变量 a 和 b 同时得到新值 0 和 1。最后一行再次使用了同样的方法，可以看到，右边的表达式会在赋值变动之前执行。右边表达式的执行顺序是从左往右的。</p>
+		<p><b>输出变量值:</b></p>
+		<pre>>>> i = 256*256
+>>> print('i 的值为：', i)
+i 的值为： 65536</pre>
+		<h3 class="n-h3">end 关键字</h3>
+		<p>关键字end可以用于将结果输出到同一行，或者在输出的末尾添加不同的字符，实例如下： </p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+# Fibonacci series: 斐波纳契数列
+# 两个元素的总和确定了下一个数
+a, b = 0, 1
+while b < 1000:
+    print(b, end=',')
+    a, b = b, a+b</code></pre>
+		</div>
+		<p>执行以上程序，输出结果为：</p>
+		<pre>1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,</pre>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#dictionary" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python3 字典
+		</a>
+		<a href="#conditionalStatements" class="pull-right green">
+			Python3 条件控制
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+</div>

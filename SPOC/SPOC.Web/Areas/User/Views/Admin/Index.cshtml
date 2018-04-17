@@ -1,0 +1,645 @@
+﻿@{
+
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+@model SPOC.User.Dto.Admin.AdminInfoInputDto
+<script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+
+
+<script src="~/Scripts/kindeditor/4.1.10/kindeditor-min.js"></script>
+<link href="~/Scripts/kindeditor/4.1.10/plugins/code/prettify.css" rel="stylesheet" />
+<script src="~/Areas/Assets/js/userInfo/UserInfo.js?v=@L("version")"></script>
+<script type="text/javascript">
+    var datagrid;
+    var dialog;
+    var isSave = false; // 当保存时isSave为True，不需要判断当前Form值是否更新，否则都会进行对比
+    var isTrue = true; //新增时为True,grid重新加载，修改时为False，grid为reload
+    var isEdit = 0;
+    var oldUsername = "";
+    var isRecovry;//是否恢复
+
+    var getSingle = function (fn) {
+        var rst;
+        return function () {
+            return rst || (rst = fn());
+        };
+    };
+    function Index() {
+        return new Index.prototype.init();
+    }
+
+    Index.prototype = {
+        constructor: Index,
+        oldMobile: "",
+        oldEmail: "",
+        type: "",
+        oldpwd: "",
+        GetType: function () { return isEdit == 0 ? "true" : "update"; },
+        init: function () {
+            var toorBarH = $("#toolbar").height();
+            var fullHeight = $(window).height() - toorBarH - 3;
+
+            datagrid = $("#dg")
+                .datagrid({
+                    url: VE.AppPath + '/User/Admin/Get',
+                    // title: '用户信息',
+                    rownumbers: true,
+                    pagination: true,
+                    iconCls: VE.DatagridIconCls,
+                    //  height: VE.GridHeight,
+                    height: fullHeight,
+                    pageSize: VE.PageSize,
+                    pageList: VE.PageList,
+                    ctrlSelect: true,
+                    fitColumns: false,
+                    nowrap: false,
+                    border: true,
+                    idField: 'id',
+                    sortName: 'createTime',
+                    sortOrder: 'desc',
+                    onClickCell: function(rowIndex, field, value) {
+
+                        if (field == "userLoginName") {
+                            var row = $('#dg').datagrid('getRows')[rowIndex];
+                            var userQueryData = { userId: row.userId };
+                            var openDialogData = "userId=" + row.userId;
+                            // User.OpenUserInfoDialog(userQueryData, openDialogData, value);
+                            User.OpenUserInfoTalbeDialog(openDialogData, value);
+                        }
+                    },
+                    columns: [
+                        [
+                            { field: 'ck', checkbox: true },
+                            { field: 'id', title: 'id', width: 80, sortable: true, hidden: true },
+                            { field: 'userId', title: 'userId', width: 80, sortable: true, hidden: true },
+                            {
+                                field: 'userLoginName',
+                                title: '用户名',
+                                width: 150,
+                                sortable: true,
+                                formatter: function(value, rowData, rowIndex) {
+                                    if (rowData.isAdmin)
+                                        return '<img class="item-img" title="超级管理员" src="../../Scripts/jquery-easyui-icon-extension/IconsExtension/user_key.png"/>' + "<a href='javascript:void(0);' title='点击查看明细'  >" + value + "</a>";
+                                    else
+                                        return "<a href='javascript:void(0);' title='点击查看明细'  >" + value + "</a>";
+                                }
+                            },
+                            { field: 'userFullName', title: '姓名', width: 80, sortable: true },
+                            { field: 'userEmail', title: '邮箱', width: 150, sortable: true },
+                            { field: 'recentLoginTime', title: '最近登录', width: 110, sortable: true },
+                            {
+                                field: ' adminEnbleFlag',
+                                title: '状态',
+                                width: 60,
+                                sortable: true,
+                                formatter: this.formatGraduation
+
+                            },
+                            {
+                                field: ' isAdmin',
+                                title: '超级管理员',
+                                width: 60,
+                                sortable: true,
+                                formatter: function(val) {
+                                    if (val)
+                                        return "<span style=\"display:inline-block;height:16px;width:16px;\"  class=\"icon-active_true\"></span>";
+                                    else
+                                        return "<span style=\"display:inline-block;height:16px;width:16px;\" class=\"icon-busy\"></span>";
+                                }
+
+                            },
+                            { field: 'createTime', title: '创建时间', width: 110, sortable: true },
+                            { field: '_operate', title: '操作', width: 180, formatter: this.formatOper }
+                        ]
+                    ],
+                    toolbar: [
+                        {
+                            iconCls: 'icon-reload',
+                            text: '刷新',
+                            handler: function () {
+                                if (!checkLogin()) 
+                                {
+                                    evtBus.dispatchEvt("show_login");
+                                    return;
+                                }
+                                isEdit = 0;
+                                //Save();
+                                location.reload();
+                                $('#fm').form('reset');
+                            }
+                        }, '-',
+                        {
+                            iconCls: 'icon-add',
+                            text: '新增',
+                            handler: function () {
+                                if (!checkLogin()) 
+                                {
+                                    evtBus.dispatchEvt("show_login");
+                                    return;
+                                }
+                                isEdit = 0;
+                                isRecovry = false;
+                                //Save();
+
+                                // add();
+                                dialog = $('#dlg').dialog('open').dialog('setTitle', '新增');
+                                $('#fm').form('reset');
+                                $('#userPassWord').textbox({ required: true });
+                            }
+                        }, '-',
+                        {
+                            iconCls: 'icon-busy',
+                            text: '删除',
+                            handler: function () {
+                                if (!checkLogin()) 
+                                {
+                                    evtBus.dispatchEvt("show_login");
+                                    return;
+                                }
+                                obj.Delete(null);
+                            }
+                        }, {
+                            iconCls: 'icon-sync',
+                            text: '恢复',
+                            handler: function() {
+                                if (!checkLogin()) {
+                                    evtBus.dispatchEvt("show_login");
+                                    return;
+                                }
+                                obj.RecoverOpen();
+                            }
+                        }
+                    ]
+                });
+        },
+        Travel: function (treeID, obj) {
+            var i;
+            for (i = 0; i < obj.length ; i++) {
+                node = $('#' + treeID).combotree('tree').tree('find', obj[i].roleManageId);
+                $('#' + treeID).combotree('tree').tree('check', node.target);
+            }
+        },
+        Edit: function (index) {
+            if (!checkLogin()) 
+            {
+                evtBus.dispatchEvt("show_login");
+                return;
+            }
+            isEdit = $('#dg').datagrid('getRows')[index].id;
+            var row = $('#dg').datagrid('getRows')[index];
+            oldUsername = row.userLoginName;
+            obj.oldMobile = row.userMobile;
+            obj.oldEmail = row.userEmail;
+            dialog = $('#dlg').dialog('open').dialog('setTitle', '编辑');
+
+            $('#userPassWord').textbox({ required: false });
+            $('#fm').form('reset');
+            row.userPassWord = "";
+            $('#fm').form('load', row);
+            
+            isRecovry = false;
+        },
+        CheckInfo: function (index) {
+            var row = $('#dg').datagrid('getRows')[index]
+            var userQueryData = { userId: row.userId };
+            var openDialogData = "userId=" + row.userId;
+            User.OpenUserInfoDialog(userQueryData, openDialogData, row.userLoginName);
+        },
+        save: function () {
+            if (!checkLogin()) 
+            {
+                evtBus.dispatchEvt("show_login");
+                return;
+            }
+            if (isEdit == 0)
+                VE.Save("fm", "/api/services/app/AdminInfo/CreateAdminInfo", dialog, "dg", true, isTrue, VE.GridType_DataGrid);
+            else
+                //  VE.Save("fm", "/api/services/app/TeacherInfo/UpdateTeacherInfo", dialog, "dg", true, isTrue, VE.GridType_DataGrid);
+                VE.Save("fm", "/api/services/app/AdminInfo/UpdateAdminInfoByUser", dialog, "dg", true, isTrue, VE.GridType_DataGrid);
+        },
+        Delete: function (index) {
+            if (!checkLogin()) 
+            {
+                evtBus.dispatchEvt("show_login");
+                return;
+            }
+            VE.DeleteByUser("/api/services/app/AdminInfo/DeleteAdminInfos", "dg", false, VE.GridType_DataGrid, index);
+
+        },
+        //查询方法
+        Filter: function () {
+            VE.Filter("UserFilterForm", "dg", VE.GridType_DataGrid);
+        },
+
+        //重置
+        Reset: function () {
+            VE.Clear("UserFilterForm", "dg", VE.GridType_DataGrid);
+        },
+
+        cancel: function () {
+            $('#dlg').dialog('close');
+        },
+
+
+        ////操作按钮
+        formatOper: function (val, row, index) {
+
+            var option = {
+                option: [
+                    {
+                        text: '查看',
+                        icon: 'icon-search',
+                        title: '查看',
+                        onclick: 'obj.CheckInfo'
+                    }
+                ]
+            };
+            var menus = menubtn(index, index, {
+                option: [
+                    {
+                        text: '更多',
+                        icon: 'icon-list',
+                        items: [
+                             {
+                                 text: '编辑',
+                                 icon: 'icon-edit',
+                                 title: '编辑',
+                                 onclick: 'obj.Edit',
+                                 hide: false
+                             },
+                               {
+                                   text: '删除',
+                                   icon: 'icon-busy',
+                                   onclick: 'obj.Delete',
+                                   hide: false
+                               },
+                              {
+                                  text: row.adminEnbleFlag == 0 ? "封禁用户" : "解封用户",
+                                  icon: 'icon-exit',
+                                  onclick: 'obj.Active',
+                                  hide: false
+                              }
+                        ]
+                    }
+                ]
+            });
+            return linkbtn(index, option) + menus;
+        },
+
+        formatGraduation: function (val) {
+            if (!val) return "<span style=\"display:inline-block;height:16px;width:16px;\" title='正常' class=\"icon-active_true\"></span>";
+            else return "<span style=\"display:inline-block;height:16px;width:16px;\" title='禁用' class=\"icon-busy\"></span>";
+
+        },
+        Active: function (index) {
+            var adminEnbleFlag = $("#dg").datagrid('getRows')[index].adminEnbleFlag;
+            VE.UpdateStatu("/api/services/app/AdminInfo/ActiveAdminInfo", "dg", true, VE.GridType_DataGrid, index, adminEnbleFlag == 0 ? "确定封禁用户?" : "确定解封用户?", "操作成功");
+            //    VE.Active("/api/services/app/StudentInfo/ActiveStudentInfo", "dg", false, VE.GridType_DataGrid, VE.GridType_DataGrid);
+        },
+        formatGraduation2: function (val) {
+
+            if (val) return "<span style=\"display:inline-block;height:16px;width:16px;\" title='禁用' class=\"icon-lock\"></span>";
+            else return "<span style=\"display:inline-block;height:16px;width:16px;\" title='正常' class=\"icon-unlock\"></span>";
+        },
+        checkName_Exist: function (valueName) {
+
+            var b = "0";
+            var type = isEdit == 0 ? "insert" : "update";
+            var statu = false;
+            if (type == "update" && valueName == oldUsername) {
+                return true
+            }
+            var url = "/api/services/app/UserInfo/CheckNameExit?type=" + type + "" + "&name=" + escape(valueName) + "&oldname=" + this.oldUsername;
+            if (isRecovry) {
+                url += "&isRemoteCheck=false";
+            }
+
+          
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                async: false,//是否异步执行
+                // url: "/api/services/app/UserInfo/CheckNameExit?type=" + type + "" + "&name=" + escape(valueName) + "&oldname=" + this.oldUsername,
+                url:url,
+                success: function (data) {
+                    b = data.result;
+                },
+                error: function (errorMSG) {
+                    b = false;
+                }
+            });
+            return b;
+        },
+        CheckValue_Exist: function (url, data) {
+            var b = "0";
+            var type = isEdit == 0 ? "insert" : "update";
+            if (isRecovry) {
+                url += "&isRemoteCheck=false";
+            } else {
+                url += "&isRemoteCheck=true";
+            }
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                async: false,//是否异步执行
+                data: data,
+                url: url,
+                success: function (msg) {
+                    b = msg.result;
+                },
+                error: function (errorMSG) {
+                    debugger;
+                    b = false;
+                }
+            });
+            return b;
+        },
+
+        //恢复
+        RecoverOpen: function () {
+            $("#recovery_dialog").dialog('open').dialog('setTitle', '恢复账号');
+            $("#recovery_fm").form("clear");
+            isRecovry = true;
+        },
+
+        recoverySave: function () {
+            if (!checkLogin()) 
+            {
+                evtBus.dispatchEvt("show_login");
+                return;
+            }
+            if (!$('#recovery_fm').form('validate')) {
+                return false;
+            }
+            var url = "/Admin/Recovery";
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: $("#recovery_fm").serialize(),
+                success: function (data) {
+                    if (data.msg == "ok") {
+                        VE.MessageShow("恢复成功");
+                        obj.recoveryCancel();
+                        $("#dg").datagrid("reload");
+                    }
+                    if (data.msg == "notExist") {
+                        VE.MessageShow(data.ErrMsg);
+                    }
+                }
+            });
+        },
+        recoveryCancel: function () {
+            $("#recovery_dialog").dialog("close");
+        },
+    }
+
+    Index.prototype.init.prototype = Index.prototype;
+    var createObj = getSingle(Index);
+    var obj = createObj();
+
+    $(function () {
+        //初始化回车事件
+        VE.Enter("obj.Filter");
+        //  Inint();
+        obj.init();
+        //  Validate();
+
+    });
+
+
+</script>
+
+
+
+<div region="center">
+    <div id="toolbar">
+        @using (Html.BeginForm("Get", "Student", FormMethod.Post, new { @id = "UserFilterForm", @class = "form-inline label label-length-4" }))
+        {
+            @*<div class="form-group">
+                    <label class="form-label">组织架构：</label>
+                    <select class="easyui-combotree" id="department" name="department" data-options="valueField:'id',textField:'text',width:186,multiple:true"></select>
+                </div>*@
+            <div class="form-group">
+                <label class="form-label">用户名：</label>
+                <input id="userLoginName" name="userLoginName" type="text" class="easyui-textbox" style="width: 150px">
+            </div>
+            <div class="form-group">
+                <label class="form-label">手机号：</label>
+                <input id="userMobile" name="userMobile" type="text" class="easyui-textbox" style="width: 150px">
+            </div>
+            <div class="form-group">
+                <label class="form-label">邮箱：</label>
+                <input id="userEmail" name="userEmail" type="text" class="easyui-textbox" style="width: 150px">
+            </div>
+            <div class="form-group">
+                <label class="form-label">姓名：</label>
+                <input id="userFullName" name="userFullName" type="text" class="easyui-textbox" style="width: 150px">
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a class="easyui-linkbutton" onclick="obj.Filter()"><span class="l-btn-text icon-search l-btn-icon-left">查询</span></a>
+                <a class="easyui-linkbutton" onclick="obj.Reset()"><span class="l-btn-text icon-clear l-btn-icon-left">重置</span></a>
+            </div>
+
+        }
+
+    </div>
+    <table id="dg"></table>
+</div>
+
+
+
+
+
+<div id="dlg" class="easyui-dialog" data-options="width:'580px',modal:true,height:'400px',closed:true,buttons:'#dlg-buttons'"
+     style="padding: 10px 20px;">
+    <div class="ftitle">
+        管理员信息
+    </div>
+    <form id="fm" method="post">
+
+
+        <input name="id" id="id" class="hidden" type="text" />
+        <input name="userId" id="userId" class="hidden" type="text" />
+        <input name="smallAvatar" id="smallAvatar" class="hidden" type="text" />
+
+        <div class="fitem">
+            <label>
+                用户名：
+            </label>
+
+            @*<input name="userLoginName" id="userLoginName" class="easyui-textbox" validate=true data-options="validType:['username','nameCheckExit'],prompt:'可用于登录',required:true ">*@
+            <input name="userLoginName" id="userLoginName" validate=true class="easyui-textbox" data-options="validType:['length[4,20]','userNameFormatCheck','nameCheckExit'],prompt:'可用于登录',required:true ">
+        </div>
+        <div class="fitem">
+            <label>
+                密码：
+            </label>
+            <input name="userPassWord" id="userPassWord" class="easyui-textbox" data-options="type:'password',validType:['length[5,20]'],required:true">
+        </div>
+        <div class="fitem">
+            <label>
+                姓名：
+            </label>
+            <input name="userFullName" id="userFullName" class="easyui-textbox" data-options="validType:['length[0,20]'],prompt:'真实姓名'">
+        </div>
+        <div class="fitem">
+            <label>
+                手机号码：
+            </label>
+            <input name="userMobile" id="userMobile" class="easyui-textbox" data-options="validType:['newMobile','mobileCheckExist'],prompt:'可用于登录和找回密码'">
+        </div>
+        <div class="fitem">
+            <label>
+                邮箱：
+            </label>
+            <input name="userEmail" id="userEmail" class="easyui-textbox" data-options="validType:['email','emailCheckExist'],required:true,prompt:'可用于登录和找回密码'">
+        </div>
+
+        <div class="fitem">
+            <label>
+                性别：
+            </label>
+            <select class="easyui-combobox" name="userGender" id="userGender" data-options="editable:false,required:true,panelHeight:'auto'" style="width:304px;">
+                <option value="">&nbsp;</option>
+                <option value="1">男</option>
+                <option value="2">女</option>
+                <option value="0">&nbsp;</option>
+
+            </select>
+        </div>
+        <div class="fitem">
+            <label>
+                超级管理员：
+            </label>
+            <select class="easyui-combobox" name="isAdmin" id="isAdmin" data-options="editable:false,required:true,panelHeight:'auto'" style="width:304px;">
+                <option value="0" selected>否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" data-options="iconCls:'icon-save',width:'90px'"
+       onclick="obj.save()">保存</a> <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',width:'90px'"
+                                      onclick="obj.cancel()">取消</a>
+</div>
+
+<!-- 恢复 -->
+<div id="recovery_dialog" class="easyui-dialog" data-options="width:'480px',height:'300px',modal:true,closed:true,buttons:'#recovery_buttons'" style="padding: 10px 20px;">
+    <div class="ftitle">
+        恢复操作
+    </div>
+    <form id="recovery_fm" method="post">
+
+        <div class="fitem">
+            <label>
+                用户名:
+            </label>
+            <input id="user_login_name" name="user_login_name" class="easyui-textbox" validate=true data-options="validType:['length[4,20]','userNameFormatCheck','nameCheckExit'],prompt:'请输入要恢复的用户名',required:true " />
+        </div>
+
+        <div class="fitem">
+            <label>
+                手机号:
+            </label>
+            <input id="user_mobile" name="user_mobile" class="easyui-textbox" data-options="validType:['newMobile','mobileCheckExist'],required:false, prompt:'请输入要恢复的手机号'" />
+        </div>
+
+        <div class="fitem">
+            <label>
+                邮箱:
+            </label>
+            <input id="user_email" name="user_email" class="easyui-textbox" data-options="validType:['email','emailCheckExist'],required:true,prompt:'请输入要恢复的邮箱'" />
+        </div>
+
+    </form>
+</div>
+<div id="recovery_buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="width:90,iconCls:'icon-save'" onclick="obj.recoverySave()">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="width:90,iconCls:'icon-cancel'" onclick="obj.recoveryCancel()">取消</a>
+</div>
+<!--  个人详情 -->
+<div id="detailTable_dialog" class="easyui-dialog" data-options="modal:true,closed:true" style="padding: 10px 10px;">
+    <iframe id="detailTable_iframe" src="" width="100%" height="90%" frameborder="0" scrolling="no"></iframe>
+</div>
+
+<script>
+
+    $.extend($.fn.validatebox.defaults.rules, {
+        userNameFormatCheck: {
+            validator: function (value) {
+                var usernameContainEN = "@ViewBag.usernameContainEN";
+                var res = true;
+                var isUsernameContainEN = usernameContainEN === "open";
+                if (isUsernameContainEN) {
+                    res = /^(?=.*[a-zA-Z])(?=.*\d).*$/.test(value);
+                }
+                return res;
+            },
+            message: "用户名必须包含英文加数字"
+        },
+        nameCheckExit: {
+            validator: function (value) {
+                var msg = "";
+                var v = obj.checkName_Exist(value);
+                if (v) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            },
+            message: '该用户名已存在，请更换其它名称！'
+        },
+        mobileCheckExist: {
+            validator: function (value) {
+                var msg = "";
+                // var v = obj.CheckValue_Exist("/User/User/UserMobileCheck", { "type": obj.GetType(), "checkMobile": escape(value), "oldMobile": obj.oldMobile })
+                var v = obj.CheckValue_Exist("/api/services/app/UserInfo/CheckMobileExist?type=" + obj.GetType() + "&mobile=" + escape(value) + "&oldMobile=" + obj.oldMobile + "", "")
+                if (v) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            },
+            message: '该号码已存在，请更换其它号码！'
+        },
+        emailCheckExist: {
+            validator: function (value) {
+                var msg = "";
+                //var v = obj.CheckValue_Exist("/User/User/UserEamilCheck", { "type": obj.GetType(), "checkEmail": escape(value), "oldEmail": obj.oldEmail })
+                var v = obj.CheckValue_Exist("/api/services/app/UserInfo/CheckEmailExist?type=" + obj.GetType() + "&email=" + escape(value) + "&oldEmail=" + obj.oldEmail + "", "")
+                if (v) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            },
+            message: '该邮箱已存在，请更换其它邮箱！'
+        }, requiredByEdid: {
+            validator: function (value) {
+
+                if (isEdit == 0) {
+                    if (value != "" && value != null) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    if (obj.oldpwd == "") {
+                        if (value != "" && value != null) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+            },
+            message: '该输入项必填项'
+        }
+    });
+</script>

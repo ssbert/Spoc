@@ -1,0 +1,59 @@
+<div class="functionStrlen-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">strlen()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>size_t strlen(const char *str) </b> 计算字符串 <b>str</b> 的长度，直到空结束字符，但不包括空结束字符。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 strlen() 函数的声明。</p>
+		<pre>size_t strlen(const char *str)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b> -- 要计算长度的字符串。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回字符串的长度。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 strlen() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main ()
+{
+   char str[50];
+   int len;
+
+   strcpy(str, "This is baidu.com");
+
+   len = strlen(str);
+   printf("|%s| 的长度是 |%d|\n", str, len);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>|This is haidu.com| 的长度是 |17|</pre>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

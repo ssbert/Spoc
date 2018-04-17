@@ -1,0 +1,145 @@
+﻿@{
+    ViewBag.Title = "编辑固定试卷";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+    <script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/exam/examPaper.js?v=@L("version")"></script>
+    <script>
+        var request = GetRequest();
+
+        var paperNode = new paperEdit.PaperNodeClass();
+        var baseInfo = new paperEdit.PaperBaseInfoClass(request.id, paperNode);
+        function optFormatter(val, row, index) {
+            var options = {
+                option: [
+                    {
+                        title: "编辑",
+                        text: "编辑",
+                        icon: "icon-edit",
+                        onclick: "paperNode.edit"
+                    },{
+                        title: "删除",
+                        text: "删除",
+                        icon: "icon-busy",
+                        onclick: "paperNode.del"
+                    }
+                ]
+            };
+
+            return linkbtn(index, options);
+        }
+
+        function longStringFormatter(val, row, index) {
+            return '<a href="javascript:void(0)" title="{0}">{0}</a>'.format(val);
+        }
+
+        $(function() {
+            var labelWidth = 72;
+            var margin = 8; //formGroup左右的补足
+            var formGroupWidth = $("#baseInfo-form .form-group").first().width() + (margin * 2);
+            function onPanelResize(width) {
+                var formGroupCount = Math.floor(width / formGroupWidth);
+                if (formGroupCount < 1) {
+                    formGroupCount = 1;
+                }
+                var remarksWidth = formGroupCount * (formGroupWidth) - labelWidth - margin;
+                $("#remarks").textbox("resize", remarksWidth);
+            }
+            var $formParent = $("#baseInfo-form").offsetParent();
+            $(window).on("resize", function () {
+                onPanelResize($formParent.width());
+            });
+            onPanelResize($formParent.width());
+
+            var $container = $("#container");
+            var paperNodeContainerHeight = $container.height() - $container.children().first().height() - 1;
+            $("#paperNode-container").height(paperNodeContainerHeight);
+        });
+
+    </script>
+}
+<div id="container" region="center" style="padding: 1px;">
+    <div id="baseInfo-panel" class="easyui-panel" title="试卷基本信息" collapsible="true" footer="#baseInfo-ft" style="width: 100%;">
+        <form id="baseInfo-form" class="form-inline label label-length-5">
+            <div class="form-group">
+                <label class="form-label">试卷编号：</label>
+                <input id="paperCode" name="paperCode" class="easyui-textbox" style="width: 116px;"  data-options="validType:['length[0, 64]', 'codeCheck']" readonly>
+                <input id="isCustomCode" name="isCustomCode" class="easyui-switchbutton" data-options="onChange:baseInfo.onChangeCodeMode"
+                            style="width:80px;" onText="自动编号" offText="手动编号" checked>
+            </div>
+            <div class="form-group">
+                <label class="form-label">试卷名称：</label>
+                <input id="paperName" class="easyui-textbox" style="width: 200px;" validtype="length[1, 256]" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">单选变不定：</label>
+                <select id="isSingleAsMulti" class="easyui-combobox" editable="false" style="width: 200px" required>
+                    <option value="N" selected>否</option>
+                    <option value="Y">是</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">试卷分类：</label>
+                <select id="folderUid" class="easyui-combotree" editable="false" style="width: 200px;" required data-options="lines:true"></select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">试卷总分：</label>
+                <input id="totalScore" class="easyui-numberbox" precision="2" value="0" style="width:200px;" disabled>
+            </div>
+            <div class="form-group">
+                <label class="form-label">难度系数：</label>
+                <select id="paperHardGrade" class="easyui-combobox" editable="false" style="width: 200px">
+                    <option value="" selected>缺省</option>
+                    <option value="1">容易</option>
+                    <option value="2">中等</option>
+                    <option value="3">困难</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">过期日期：</label>
+                <input id="outdatedDate" class="easyui-datebox"data-options="validType:'dateCheck'" style="width: 200px">
+            </div>
+
+            <div style="clear: both;"></div>
+            <div class="form-group">
+                <label class="form-label">备注：</label>
+                <input id="remarks" class="easyui-textbox" multiline="true" validtype="length[0, 256]" style="height: 100px;">
+            </div>
+        </form>
+    </div>
+    <div id="baseInfo-ft">
+        <div style="margin: 5px 10px; float: right;">
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="baseInfo.save()">保存</a>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    
+
+    <div id="paperNode-container" style="width: 100%;margin-top:1px;">
+        <div id="paperNode-toolbar">
+            <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconcls="icon-add" onclick="paperNode.create()">添加</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="paperNode.del()"
+               data-options="plain:true,iconCls:'icon-busy'">删除</a>
+        </div>
+        <table id="paperNode-dg" class="easyui-datagrid" title="试题信息" style="width:100%; height:100%;" 
+               rownumbers="true" toolbar="#paperNode-toolbar" singleselect="false">
+            <thead>
+                <tr>
+                    <th field="ck" checkbox="true"></th>
+                    <th field="paperNodeName" formatter="longStringFormatter" style="width: 30%;">大题标题</th>
+                    <th field="paperNodeDesc" formatter="longStringFormatter" style="width: 20%;">大题说明</th>
+                    <th field="questionTypeName" style="width: 70px;">题型</th>
+                    <th field="questionScore" style="width: 58px;">每题分数</th>
+                    <th field="planQuestionNum" style="width: 58px;">计划题数</th>
+                    <th field="questionNum" style="width: 50px;">试题数</th>
+                    <th field="totalScore" style="width: 50px;">总分数</th>
+                    <th field="opt" style="width: 116px;" formatter="optFormatter">操作</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>

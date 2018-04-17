@@ -1,0 +1,80 @@
+<div class="fileTruncate-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">File truncate() 方法</span>
+		</h1>
+		<p>
+			<a href="#fileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 File(文件) 方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>	
+		<p>truncate() 方法用于从文件的首行首字符开始截断，截断文件为 size 个字符，无 size 表示从当前位置截断；截断之后 V 后面的所有字符被删除，其中 Widnows 系统下的换行代表2个字符大小。 。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>truncate() 方法语法如下：</p>
+		<pre>fileObject.truncate( [ size ])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>size</b> -- 可选，如果存在则文件截断为 size 字节。 </p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法没有返回值。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 truncate() 方法的使用：</p>
+		<p>文件 runoob.txt 的内容如下：</p>
+		<pre>1:www.runoob.com
+2:www.runoob.com
+3:www.runoob.com
+4:www.runoob.com
+5:www.runoob.com</pre>
+		<p>循环读取文件的内容：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+fo = open("runoob.txt", "r+")
+print ("文件名: ", fo.name)
+
+line = fo.readline()
+print ("读取行: %s" % (line))
+
+fo.truncate()
+line = fo.readlines()
+print ("读取行: %s" % (line))
+
+# 关闭文件
+fo.close()</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>文件名:  runoob.txt
+读取行: 1:www.runoob.com
+
+读取行: ['2:www.runoob.com\n', '3:www.runoob.com\n', '4:www.runoob.com\n', '5:www.runoob.com\n']</pre>
+		<p>以下实例截取 runoob.txt 文件的10个字节：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+# 打开文件
+fo = open("runoob.txt", "r+")
+print ("文件名为: ", fo.name)
+
+# 截取10个字节
+fo.truncate(10)
+
+str = fo.read()
+print ("读取数据: %s" % (str))
+
+# 关闭文件
+fo.close()</code></pre>
+		</div>
+		<p>以上实例输出结果为：</p>
+		<pre>文件名为:  runoob.txt
+读取数据: 1:www.runo</pre>
+		<p>
+			<a href="#fileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 File(文件) 方法
+			</a>
+		</p>
+	</div>
+</div>

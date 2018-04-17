@@ -1,0 +1,1 @@
+call proc_add_field('challenge_grade', 'result', 'longtext', ' comment ''±àÒë½á¹û'' after `score`');

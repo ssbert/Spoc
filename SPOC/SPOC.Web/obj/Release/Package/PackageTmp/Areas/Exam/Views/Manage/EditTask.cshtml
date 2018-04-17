@@ -1,0 +1,175 @@
+﻿
+@{
+    ViewBag.Title = "EditTask";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="north" title="考试任务信息" footer="#ft" style="width: 100%; height: 20%">
+    <form id="taskForm" class="form-inline label label-length-4">
+        <div class="form-group">
+            <label class="form-label">编号：</label>
+            <input id="code" name="code" class="easyui-textbox" style="width: 116px;"  data-options="validType:['length[0, 64]', 'codeCheck']" readonly>
+            <input id="isCustomCode" name="isCustomCode" class="easyui-switchbutton" data-options="onChange:edit.onChangeCodeMode"
+                   style="width:80px;" onText="自动编号" offText="手动编号" checked>
+        </div>
+        <div class="form-group">
+            <label class="form-label">考试名称：</label>
+            <input id="title" name="title" class="easyui-textbox" style="width: 200px;" validtype="length[1, 256]" required>
+        </div>
+</form>
+</div>
+<div id="ft">
+    <div style="margin: 5px 10px; float: right;">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="edit.save()">保存</a>
+    </div>
+    <div style="clear:both;"></div>
+</div>
+
+<div region="west" title="考试" style="width: 70%; height: 80%;">
+    <div id="examDgToolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="edit.editExam()">添加</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-busy" onclick="edit.delExam()">删除</a>
+    </div>
+    <table id="examDg" class="easyui-datagrid" fit="true" rownumbers="true" singleselect="false" toolbar="#examDgToolbar" border="false">
+        <thead>
+        <tr>
+            <th field="ck" checkbox="true"></th>
+            <th field="examName">考试名称</th>
+            <th field="beginTime" formatter="timeFormatter">开始时间</th>
+            <th field="endTime" formatter="timeFormatter">结束时间</th>
+            <th field="examTime" formatter="examTimeFormatter">考试时长</th>
+            <th field="passGradeType" formatter="passGradeType">通过条件</th>
+            <th field="maxExamNum" formatter="maxExamNum">考试次数</th>
+            <th field="examTypeCode" formatter="examTypeCodeFormatter">考试类型</th>
+            <th field="opt" formatter="examDgOptFormatter">操作</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+<div region="center" title="发布班级" style="width: 30%; height: 80%;">
+    <div id="classDgToolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="edit.showClassDialog()">添加发布</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-busy" onclick="edit.unpublish()">删除发布</a>
+    </div>
+    <table id="classDg" class="easyui-datagrid" fit="true" rownumbers="true" singleselect="false" toolbar="#classDgToolbar" border="false">
+        <thead>
+        <tr>
+            <th field="ck" checkbox="true"></th>
+            <th field="name">班级</th>
+            <th field="opt" formatter="classDgOptFormatter">操作</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+<div id="classDialog" class="easyui-dialog" title="发布到班级" style="width:300px;height:150px;" draggable="false" modal="true" buttons="#btns" closed="true">
+    <form id="classesForm" class="form-horizontal">
+        <div class="form-group">
+            <input id="classIds" class="easyui-combotree" multiple="true" valueField="id" textField="name" style="width: 200px" required/>
+        </div>
+    </form>
+    <div id="btns">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-disk" onclick="edit.publish()">确定</a>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script src="~/Areas/Assets/js/notificationHelper.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/exam/examTaskEdit.js?v=@L("version")"></script>
+    <script>
+        function timeFormatter(val) {
+            if (stringIsEmpty(val)) {
+                return "不限";
+            }
+            return val;
+        }
+
+        function examTimeFormatter(val) {
+            if (val === 0) {
+                return "不限";
+            }
+            return (val / 60) + "分钟";
+        }
+
+        function passGradeType(val, row) {
+            if (val === "passGradeRate") {
+                if (row.passGradeRate && row.passGradeRate !== 0) {
+                    return row.passGradeRate + "%";
+                }
+            } else if (val === "passGradeScore") {
+                if (row.passGradeScore && row.passGradeScore !== 0) {
+                    return row.passGradeScore + "分";
+                }
+            } else {
+                return "";
+            }
+            return "不限";
+        }
+
+        function maxExamNum(val) {
+            if (val) {
+                return val + "次";
+            }
+            return "不限";
+        }
+
+        function examTypeCodeFormatter(val) {
+            return val === "exam_normal" ? "正考" : "补考";
+        }
+
+        function examDgOptFormatter(val, row, index) {
+            var options = [
+                {
+                    title: "设为正考",
+                    text: "设为正考",
+                    icon: "icon-ok",
+                    onclick: "edit.setMainExam('{0}')".format(row.id),
+                    hasParams: "true"
+                },
+                {
+                    title: "编辑",
+                    text: "编辑",
+                    icon: "icon-edit",
+                    onclick: "edit.editExam('{0}')".format(row.id),
+                    hasParams: "true"
+                }, {
+                    title: "删除",
+                    text: "删除",
+                    icon: "icon-busy",
+                    onclick: "edit.delExam('{0}')".format(row.id),
+                    hasParams: "true"
+                }
+            ];
+
+            if (row.examTypeCode === "exam_normal") {
+                options.shift();
+            }
+            return linkbtn(index, { option: options });
+        }
+
+        function classDgOptFormatter(val, row, index) {
+            var options = [
+                {
+                    title: "删除发布",
+                    text: "删除发布",
+                    icon: "icon-busy",
+                    onclick: "edit.unpublish('{0}')".format(row.id),
+                    hasParams: "true"
+                }
+            ];
+            return linkbtn(index, { option: options });
+        }
+
+        var request = GetRequest();
+        var edit = new ExamTaskEdit(request.id);
+        $(function() {
+            if (!guidIsEmpty(request.id)) {
+                edit.loadData();
+            }
+        });
+    </script>
+}

@@ -1,0 +1,201 @@
+﻿@{
+    ViewBag.Title = "试题选择";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-easyui-extension/datagrid-client-pagination.js"></script>
+    <script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/exam/component.js?v=@L("version")"></script>
+    <script>
+        var request = GetRequest();
+        var exceptionType = request.exceptionType;
+
+        var questionTypeData = [
+            { value: "", text: "-全部-" },
+            { value: "single", text: "单选题" },
+            { value: "multi", text: "多选题" },
+            { value: "judge", text: "判断题" },
+            { value: "fill", text: "填空题" },
+            { value: "program", text: "编程题" }
+        ];
+
+        var exception;
+        if (exceptionType === "exercisesBank") {
+            exception = new nv.componentData.ExercisesBankQuestionidClass(request["id"]);
+        } else if (exceptionType === "paperNode") {
+            exception = new nv.componentData.PaperNodeQuestionUidClass(request["id"]);
+        }
+        
+        
+
+        $(function () {
+            if (!stringIsEmpty(request.questionBaseTypeCode)) {
+                questionTypeData.shift();
+            }
+            questionTypeData[0].selected = true;
+            $("#questionBaseTypeCode").combobox("loadData", questionTypeData);
+        });
+
+        var component = new nv.components.ExamQuestionSelectorClass({
+            questionBaseTypeCode: request["questionBaseTypeCode"],
+            exception: exception,
+            handle: request["id"],
+            tabIndex: request["tabIndex"]
+        });
+
+        var dgFormatter = {
+            outdatedDate: function(value, row, index) {
+                if (value === 0) {
+                    return "不限";
+                }
+                return new Date(value * 1000).format("yyyy-MM-dd hh:mm:ss");
+            },
+            questionStatusCode: function(value, row, index) {
+                switch (value) {
+                case "normal":
+                    return "正常";
+                case "outdated":
+                    return "已过期";
+                case "disabled":
+                    return "禁用";
+                case "draft":
+                    return "草稿";
+                default:
+                    return "正常";
+                }
+            },
+            questionText: function(value, row, index) {
+                value = value.replace(/<[^>]+>/g, "");
+                if (value.length > 60) {
+                    value = value.substr(0, 60) + "...";
+                }
+                return value;
+            },
+            hardGrade: function(val) {
+                if (val === "1") {
+                    return "容易";
+                } else if (val === "2") {
+                    return "中等";
+                } else if (val === "3") {
+                    return "困难";
+                } else if (stringIsEmpty(val)) {
+                    return "缺省";
+                }
+                return val;
+            }
+        };
+    </script>
+}
+
+<div id="container" region="center">
+    <div class="easyui-layout" fit="true">
+        <div region="center" border="false" style="width:50%; padding: 10px 5px 10px 10px;">
+            <div id="question-dg-toolbar">
+                <form id="query-form" class="form-inline label label-length-4">
+                    <div class="form-group">
+                        <label class="form-label">题干：</label>
+                        <input id="questionText" name="questionText" type="text" class="easyui-textbox" style="width: 150px">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">编号：</label>
+                        <input id="questionCode" name="questionCode" type="text" class="easyui-textbox" style="width: 150px">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">题型：</label>
+                        <select id="questionBaseTypeCode" name="questionBaseTypeCode" class="easyui-combobox" editable="false" style="width: 150px;">
+                            
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">试题分类：</label>
+                        <input id="folderUid" name="folderUid" class="easyui-combotree" multiple="true" lines="true" editable="false" style="width:150px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">状态：</label>
+                        <select id="questionStatusCode" name="questionStatusCode" class="easyui-combobox" editable="false" style="width: 150px;">
+                            <option value="" selected>-全部-</option>
+                            <option value="normal">正常</option>
+                            <option value="disabled">禁用</option>
+                            <option value="outdated">已过期</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">难度：</label>
+                        <select id="hardGrade" name="hardGrade" class="easyui-combobox" editable="false" style="width: 150px;">
+                            <option value="">-全部-</option>
+                            <option value="1">容易</option>
+                            <option value="2">中等</option>
+                            <option value="3">困难</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">试题分析：</label>
+                        <select id="hasAnalysis" name="hasAnalysis" class="easyui-combobox" editable="false" style="width: 150px;">
+                            <option value="">-全部-</option>
+                            <option value="N">不包含试题分析</option>
+                            <option value="Y">包含试题分析</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">知识点：</label>
+                        <input id="labelIdList" name="labelIdList" class="easyui-combotree" multiple="true" lines="true" style="width: 150px;"
+                               url="/api/services/app/LibLabel/GetComboboxList" method="get"
+                               data-options="loadFilter:function(data){ return data.result; }"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"></label>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="component.query()">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="component.queryReset()">重置</a>
+                    </div>
+                </form>
+                <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconcls="icon-add" onclick="component.addToSelected()">选择</a>
+            </div>
+            <table id="question-dg" class="easyui-datagrid" pagination="true" rownumbers="true" title="候选栏"
+                   singleselect="false" toolbar="#question-dg-toolbar" pagenumber="1" pagesize="30" fit="true">
+                <thead>
+                    <tr>
+                        <th field="ck" checkbox="true"></th>
+                        <th field="questionCode" sortable="true">编号</th>
+                        <th field="questionTypeName" sortable="true">题型</th>
+                        <th field="questionText" formatter="dgFormatter.questionText" sortable="true">题干</th>
+                        <th field="score" sortable="true">分数</th>
+                        <th field="questionStatusCode" formatter="dgFormatter.questionStatusCode" sortable="true">状态</th>
+                        <th field="hardGrade" formatter="dgFormatter.hardGrade" sortable="true">难度</th>
+                        <th field="outdatedDate" formartter="dgFormatter.outdateDate" sortable="true">过期时间</th>
+                        <th field="listOrder" sortable="true">排序号</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div region="east" border="false" split="false" style="width:50%; padding: 10px 10px 10px 5px;">
+            <div id="selected-dg-toolbar">
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="component.remove()"
+                   data-options="plain:true,iconCls:'icon-busy'">删除</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="component.selected()"
+                   data-options="plain:true,iconCls:'icon-save'">确定选择并关闭</a>
+            </div>
+            <table id="selected-dg" class="easyui-datagrid" rownumbers="true" singleselect="false" title="已选择"
+                   toolbar="#selected-dg-toolbar" pagination="true" pageSize="30" fit="true">
+                <thead>
+                    <tr>
+                        <th field="ck" checkbox="true"></th>
+                        <th field="questionCode">编号</th>
+                        <th field="questionTypeName">题型</th>
+                        <th field="questionText" formatter="dgFormatter.questionText">题干</th>
+                        <th field="score">分数</th>
+                        <th field="questionStatusCode" formatter="dgFormatter.questionStatusCode">状态</th>
+                        <th field="hardGrade" formatter="dgFormatter.hardGrade">难度</th>
+                        <th field="outdatedDate" formartter="dgFormatter.outdateDate">过期时间</th>
+                        <th field="listOrder">排序号</th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+

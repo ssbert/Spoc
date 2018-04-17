@@ -1,0 +1,74 @@
+<div class="functionClock-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">clock()</span>
+		</h1>
+		<p>
+			<a href="#standardLibTimeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;time.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>clock_t clock(void)</b> 返回程序执行起（一般为程序的开头），处理器时钟所使用的时间。为了获取 CPU 所使用的秒数，您需要除以 CLOCKS_PER_SEC。</p>
+		<p>在 32 位系统中，CLOCKS_PER_SEC 等于 1000000，该函数大约每 72 分钟会返回相同的值。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 clock() 函数的声明。</p>
+		<pre>clock_t clock(void)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>NA</b></li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回自程序启动起，处理器时钟所使用的时间。如果失败，则返回 -1 值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 clock() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;time.h&gt;
+#include &lt;stdio.h&gt;
+ 
+int main()
+{
+   clock_t start_t, end_t;
+   double total_t;
+   int i;
+ 
+   start_t = clock();
+   printf("程序启动，start_t = %ld\n", start_t);
+    
+   printf("开始一个大循环，start_t = %ld\n", start_t);
+   for(i=0; i< 10000000; i++)
+   {
+   }
+   end_t = clock();
+   printf("大循环结束，end_t = %ld\n", end_t);
+   
+   total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+   printf("CPU 占用的总时间：%f\n", total_t  );
+   printf("程序退出...\n");
+ 
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>程序启动，start_t = 2614
+开始一个大循环，start_t = 2614
+大循环结束，end_t = 28021
+CPU 占用的总时间：0.025407
+程序退出...</pre>
+		<p>
+			<a href="#standardLibTimeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;time.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

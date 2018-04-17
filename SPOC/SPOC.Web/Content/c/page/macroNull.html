@@ -1,0 +1,81 @@
+<div class="macroNull-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库宏 - <span class="green">NULL</span>	
+		</h1>
+		<p>
+			<a href="#standardLibStddefH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stddef.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库宏 <b>NULL</b> 是一个空指针常量的值。它可以被定义为 <b>((void*)0), 0</b> 或 <b>0L</b>，这取决于编译器供应商。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>	
+		<p>下面是取决于编译器的 NULL 宏的声明。</p>
+		<pre>#define NULL ((char *)0)
+
+或
+
+#define NULL 0L
+
+或
+
+#define NULL 0</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>NA</b>
+			</li>		
+		</ul>	
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<ul>
+			<li>
+				<b>NA</b>
+			</li>		
+		</ul>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 NULL 宏的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stddef.h&gt;
+#include &lt;stdio.h&gt;
+
+int main ()
+{
+   FILE *fp;
+
+   fp = fopen("file.txt", "r");
+   if( fp != NULL ) 
+   {
+      printf("成功打开文件 file.txt\n");
+      fclose(fp);
+   }
+
+   fp = fopen("nofile.txt", "r");
+   if( fp == NULL ) 
+   {
+      printf("不能打开文件 nofile.txt\n");
+   }
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>假设文件 <b>file.txt</b> 已存在，但是 <b>nofile.txt</b> 不存在。让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>成功打开文件 file.txt
+不能打开文件 nofile.txt</pre>
+		<p>
+			<a href="#standardLibStddefH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stddef.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

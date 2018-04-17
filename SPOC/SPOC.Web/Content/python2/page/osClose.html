@@ -1,0 +1,51 @@
+<div class="osClose-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">os.close() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>
+		<p>os.close() 方法用于关闭指定的文件描述符 fd。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>close()方法语法格式如下：</p>
+		<pre>os.close(fd);</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>fd</b> -- 文件描述符。 </p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法没有返回值。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 close() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os, sys
+
+# 打开文件
+fd = os.open( "foo.txt", os.O_RDWR|os.O_CREAT )
+
+#  写入字符串
+os.write(fd, "This is test")
+
+# 关闭文件
+os.close( fd )
+
+print "关闭文件成功!!"</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>关闭文件成功!!</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

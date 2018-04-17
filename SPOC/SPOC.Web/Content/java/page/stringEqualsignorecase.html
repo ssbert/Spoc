@@ -1,0 +1,53 @@
+<div class="stringEqualsignorecase-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">equalsIgnoreCase() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>equalsIgnoreCase() 方法用于将字符串与指定的对象比较，不考虑大小写。</p>
+		<h3 class="n-h3">语法</h3>
+		<pre>public boolean equalsIgnoreCase(String anotherString)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>anObject</b> -- 与字符串进行比较的对象。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>如果给定对象与字符串相等，则返回 true；否则返回 false。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test {
+    public static void main(String args[]) {
+        String Str1 = new String("runoob");
+        String Str2 = Str1;
+        String Str3 = new String("runoob");
+        String Str4 = new String("RUNOOB");
+        boolean retVal;
+
+        retVal = Str1.equals( Str2 );
+        System.out.println("返回值 = " + retVal );
+
+        retVal = Str3.equals( Str4);
+        System.out.println("返回值 = " + retVal );
+
+        retVal = Str1.equalsIgnoreCase( Str4 );
+        System.out.println("返回值 = " + retVal );
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>返回值 = true
+返回值 = false
+返回值 = true</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

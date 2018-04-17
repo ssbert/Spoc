@@ -1,0 +1,60 @@
+<div class="osLstat-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">os.lstat() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>	
+		<p>os.lstat() 方法用于类似 stat() 返回文件的信息,但是没有符号链接。在某些平台上，这是fstat的别名，例如 Windows。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>lstat()方法语法格式如下：</p>
+		<pre>os.lstat(path)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>path</b> --  要返回信息的文件。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回文件信息。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 lstat() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+import os, sys
+
+# 打开文件
+path = "/var/www/html/foo.txt"
+fd = os.open( path, os.O_RDWR|os.O_CREAT )
+
+# 关闭打开的文件
+os.close( fd )
+
+# 获取元组
+info = os.lstat(path)
+
+print ("文件信息 :", info)
+
+# 获取文件 uid
+print ("文件 UID  :%d" % info.st_uid)
+
+# 获取文件 gid
+print ("文件 GID :%d" % info.st_gid)</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>文件信息 : (33261, 3450178L, 103L, 1, 500, 500, 0L, 
+             1238866944, 1238866944, 1238948312)
+文件 UID :500
+文件 GID :500</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

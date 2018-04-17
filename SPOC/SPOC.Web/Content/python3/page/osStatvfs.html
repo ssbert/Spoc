@@ -1,0 +1,59 @@
+<div class="osStatvfs-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">os.statvfs() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>	
+		<p>os.statvfs() 方法用于返回包含文件描述符fd的文件的文件系统的信息。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>statvfs()方法语法格式如下：</p>
+		<pre>os.statvfs([path])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>path</b> -- 文件路径。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回的结构:</p>
+		<ul>
+			<li><p><b>f_bsize:</b> 文件系统块大小 </p></li>
+			<li><p><b>f_frsize:</b> 分栈大小 </p></li>
+			<li><p><b>f_blocks:</b> 文件系统数据块总数</p></li>
+			<li><p><b>f_bfree:</b> 可用块数</p></li>
+			<li><p><b>f_bavail:</b>非超级用户可获取的块数</p></li>
+			<li><p><b>f_files:</b> 文件结点总数 </p></li>
+			<li><p><b>f_ffree:</b> 可用文件结点数 </p></li>
+			<li><p><b>f_favail:</b> 非超级用户的可用文件结点数 </p></li>
+			<li><p><b>f_fsid:</b> 文件系统标识 ID</p></li>
+			<li><p><b>f_flag:</b> 挂载标记</p></li>
+			<li><p><b>f_namemax:</b> 最大文件长度 </p></li>
+		</ul>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 statvfs() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+import os, sys
+
+# 显示 "a1.py" 文件的 statvfs 信息
+stinfo = os.statvfs('a1.py')
+
+print (stinfo)</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>posix.statvfs_result(f_bsize=4096, f_frsize=4096, f_blocks=1909350L, f_bfree=1491513L,
+f_bavail=1394521L, f_files=971520L, f_ffree=883302L, f_fvail=883302L, f_flag=0,
+f_namemax=255)</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

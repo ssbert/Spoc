@@ -1,0 +1,286 @@
+﻿@{
+    ViewBag.Title = "分类类型管理";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+    <script src="~/Scripts/jquery-easyui-1.5.2/extension/datagrid-dnd.js"></script>
+    <script>
+        var dataArray = [];
+        var isGridInit = false;
+        var formParamCache = {};
+        var editId = emptyGuid;
+
+        function disableBtn() {
+            $("#cancel-btn").linkbutton("disable");
+            $("#save-btn").linkbutton("disable");
+        }
+
+        function enableBtn() {
+            $("#cancel-btn").linkbutton("enable");
+            $("#save-btn").linkbutton("enable");
+        }
+
+        function onChangeCodeMode(checked) {
+            var isCustomCode = !checked;
+            $("#folderCode")
+                .textbox("readonly", !isCustomCode)
+                .textbox({ required: isCustomCode });
+            var row = $("#dg").datagrid("getSelected");
+            if (!isCustomCode && $.isObject(row)) {
+                $("#folderCode").textbox("setValue", stringIsEmpty(row.folderCode) ? "" : row.folderCode);
+            }
+        }
+
+        function setFormData(data) {
+            var funcText = data.isCustomCode ? "uncheck" : "check";
+            $("#isCustomCode").switchbutton(funcText);
+            $("#folderTypeName").textbox("setValue", data.folderTypeName);
+            $("#folderTypeCode").textbox("setValue", data.folderTypeCode);
+            $("#folderName").textbox("setValue", data.folderName);
+            $("#folderCode").textbox("setValue", data.folderCode).textbox({ readonly: !data.isCustomCode });
+            $("#remarks").textbox("setValue", data.remarks);
+        }
+
+        function onSelect_dg(index, row) {
+            setFormData(row);
+            enableBtn();
+        }
+
+        function onUnSelect_dg(index, row) {
+            $("#edit-form").form("clear");
+            disableBtn();
+        }
+
+        function onDrop_dg(targetRow, srcRow, point) {
+            var formData = {
+                id: srcRow.id,
+                folderTypeName: srcRow.folderTypeName,
+                folderTypeCode: srcRow.folderTypeCode,
+                folderCode: srcRow.folderCode,
+                folderName: srcRow.folderName,
+                remarks: srcRow.remarks,
+                listOrder: targetRow.listOrder + (point === "top" ? 0 : 1)
+            }
+            updateCategoryType(formData);
+        }
+
+        function cancelEdit() {
+            var data = $("#dg").datagrid("getSelected");
+            if (data) {
+                setFormData(data);
+            } else {
+                $("#edit-form").form("clear");
+            }
+            if (row.is)
+            $("#folderName").textbox({ readonly: true });
+        }
+
+        function updateCategoryType(param) {
+            VE.Mask("");
+            var url = "/api/services/app/NvFolderType/Update";
+            nv.post(url, param, function(data) {
+                VE.UnMask();
+                if (data.success) {
+                    $.messager.show({ title: "提示", msg: "修改成功！" });
+                    getData();
+                } else {
+                    $.messager.alert("提示", data.error.message, "info");
+                }
+            });
+        }
+
+        function saveEdit() {
+            var $form = $("#edit-form");
+            var validate = $form.form("validate");
+            if (!validate) {
+                return;
+            }
+            if (!checkLogin()) {
+                evtBus.dispatchEvt("show_login");
+                return;
+            }
+            var data = $("#dg").datagrid("getSelected");
+            editId = data.id;
+            updateCategoryType({
+                id: data.id,
+                folderTypeName: $("#folderTypeName").textbox("getValue"),
+                folderTypeCode: $("#folderTypeCode").textbox("getValue"),
+                folderCode: data.folderCode,
+                isCustomCode: !($("#isCustomCode").switchbutton("options").checked),
+                folderName: data.folderName,
+                remarks: $("#remarks").textbox("getValue"),
+                listOrder: data.listOrder
+            });
+        }
+
+        function deleteCategoryType(id) {
+            $.messager.confirm("删除确认",
+                "确认进行删除操作吗？",
+                function(b) {
+                    if (!b) {
+                        return;
+                    }
+
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    VE.Mask("");
+                    var url = "/api/services/app/NvFolderType/Delete?ids=" + id;
+                    nv.get(url, function(data) {
+                        VE.UnMask();
+                        if (data.success) {
+                            $.messager.show({ title: "提示", msg: "删除成功！" });
+                            getData();
+                            $("#edit-form").form("clear");
+                        } else {
+                            $.messager.alert("提示", data.error.message, "info");
+                        }
+                    });
+                });
+        }
+
+        function getQueryFormParam() {
+            return {
+                folderTypeName: $("#folderTypeName-query").textbox("getValue"),
+                folderTypeCode: $("#folderTypeCode-query").textbox("getValue")
+            };
+        }
+
+        function getData(formParam) {
+
+            if ($.isEmptyObject(formParam)) {
+                formParam = formParamCache;
+            } else {
+                formParamCache = formParam;
+            }
+
+            VE.Mask("");
+            var url = "/api/services/app/NvFolderType/GetAll";
+            nv.post(url, formParam, function(data) {
+                VE.UnMask();
+                if (data.success) {
+                    $("#dg").datagrid("loadData", data.result);
+                       
+                    if (!stringIsEmpty(editId)) {
+                        var rowIndex = 0;
+                        $.each(data.result.rows, function(i, v) {
+                            if (v.id === editId) {
+                                rowIndex = i;
+                                return false;
+                            }
+                            return true;
+                        });
+                        $("#dg").datagrid("selectRow", rowIndex);
+                        editId = emptyGuid;
+                    }
+                } else {
+                    $.messager.alert("提示", data.error.message, "info");
+                }
+            });
+        }
+
+        function initDataGrid() {
+            $("#dg")
+                .datagrid({
+                    rownumbers: true,
+                    fit: true,
+                    toolbar: "#toolbar",
+                    footer: "#footer",
+                    singleSelect: true,
+                    onSelect: onSelect_dg,
+                    onUnSelect: onUnSelect_dg,
+                    onDrop: onDrop_dg,
+                    onLoadSuccess: function() {
+                        $(this).datagrid("enableDnd");
+                    }
+                });
+
+        }
+
+        function query() {
+            getData(getQueryFormParam());
+        }
+
+        $(function() {
+            initDataGrid();
+            query();
+        });
+    </script>
+}
+<div region="center">
+
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-4">
+            <div class="form-group">
+                <label class="form-label">类型名称：</label>
+                <input id="folderTypeName-query" class="easyui-textbox" style="width: 200px;">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">类型编码：</label>
+                <input id="folderTypeCode-query" class="easyui-textbox" style="width: 200px;">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" onclick="query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" onclick="$('#query-form').form('clear');">重置</a>
+            </div>
+        </form>
+    </div>
+
+    <table id="dg" class="easyui-datagrid">
+        <thead>
+        <tr>
+            <th field="folderTypeName">分类类型名称</th>
+            <th field="folderTypeCode">编码</th>
+            <th field="folderName">根分类名</th>
+            <th field="remarks">类型说明</th>
+        </tr>
+        </thead>
+    </table>
+
+    <div id="footer">
+        <form id="edit-form" class="form-inline label label-length-4">
+            <div class="form-group">
+                <label class="form-label">类型名称：</label>
+                <input id="folderTypeName" name="folderTypeName" class="easyui-textbox" style="width: 200px;" required validtype="length[1, 64]">
+            </div>
+            <div class="form-group">
+                <label class="form-label">类型编码：</label>
+                <input id="folderTypeCode" name="folderTypeCode" class="easyui-textbox" style="width: 200px;" data-options="validType:['length[1,36]', 'categoryTypeCodeCheck']" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">根分类名：</label>
+                <input id="folderName" name="folderName" class="easyui-textbox" style="width: 200px;" required validtype="length[1, 64]">
+            </div>
+            <div class="form-group">
+                <label class="form-label">分类编码：</label>
+                <input id="folderCode" name="folderCode" class="easyui-textbox" style="width: 116px;" data-options="validType:['length[0,36]', 'codeCheck']" readonly>
+                <input id="isCustomCode" name="isCustomCode" class="easyui-switchbutton" data-options="onChange: onChangeCodeMode"
+                            style="width:80px;" onText="自动编号" offText="手动编号" checked>
+            </div>
+            <div style="clear: right;"></div>
+
+            <div class="form-group">
+                <label class="form-label">类型说明：</label>
+                <input id="remarks" name="remarks" class="easyui-textbox" multiline="true" validtype="length[0,64]" style="width: 768px; height: 64px;">
+            </div>
+
+            <div style="clear: right;"></div>
+
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" id="cancel-btn" class="easyui-linkbutton" iconcls="icon-clear" onclick="cancelEdit()" disabled="true">重置</a>
+                <a href="javascript:void(0)" id="save-btn" class="easyui-linkbutton" iconcls="icon-save" onclick="saveEdit()" disabled="true">保存修改</a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

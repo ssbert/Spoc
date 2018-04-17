@@ -1,0 +1,49 @@
+<div class="osStat_float_times-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">os.stat_float_times() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>	
+		<p>os.stat_float_times() 方法用于决定stat_result是否以float对象显示时间戳。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>stat_float_times()方法语法格式如下：</p>
+		<pre>os.stat_float_times([newvalue])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>newvalue</b> --  如果为 True, 调用 stat() 返回 floats,如果 False, 调用 stat 返回 ints。如果没有该参数返回当前设置。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回 True 或 False。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 stat_float_times() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+import os, sys
+
+# Stat 信息
+statinfo = os.stat('a2.py')
+
+print (statinfo)
+statinfo = os.stat_float_times()
+print (statinfo)</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>posix.stat_result(st_mode=33188, st_ino=3940649674337682L, st_dev=277923425L, 
+st_nlink=1, st_uid=400, st_gid=401, st_size=335L, st_atime=1330498089, st_mtime=13
+30498089, st_ctime=1330498089)
+True</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

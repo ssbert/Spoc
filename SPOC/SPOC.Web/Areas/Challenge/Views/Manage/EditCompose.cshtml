@@ -1,0 +1,112 @@
+﻿@{
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+    <script src="~/Scripts/ueditor1_4_3_2-utf8-net/utf8-net/ueditor.config.js" type="text/javascript"></script>
+    <script src="~/Scripts/ueditor1_4_3_2-utf8-net/utf8-net/ueditor.all.js" type="text/javascript"></script>
+    <script src="~/Scripts/ueditor1_4_3_2-utf8-net/utf8-net/lang/zh-cn/zh-cn.js" type="text/javascript"></script>
+    <script src="~/Areas/Assets/js/tabHelper.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/question-bank/edit.js?v=@L("version")"></script>
+    <script>
+        var request = GetRequest();
+        var edit = new ComposeQuestion(request["id"]);
+    </script>
+}
+<div region="center">
+    <form id="edit-form" class="form-horizontal label label-length-4">
+        <div class="form-group">
+            <label class="form-label">试题题型：</label>
+            <span>组合题</span> 
+        </div>
+        <div class="form-group">
+            <label class="form-label">试题编号：</label>
+            <input id="questionCode" class="easyui-textbox" style="width:616px;" data-options="validType:['length[0, 64]', 'codeCheck']" readonly>
+            <input id="isCustomCode" name="isCustomCode" class="easyui-switchbutton" data-options="onChange:edit.onChangeCodeMode"
+                            style="width:80px;" onText="自动编号" offText="手动编号" checked>
+        </div>
+        <div class="form-group">
+            <label class="form-label">试题分数：</label>
+            <input id="score" class="easyui-numberbox" precision="1" style="width:700px;" min="0" value="0" readonly>
+        </div>
+        <div class="form-group">
+            <label class="form-label">试题分类：</label>
+            <input id="folderUid" valueField="id" textField="text" class="easyui-combotree" editable="false" style="width:700px;" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">答题时限：</label>
+            <input id="examTime" class="easyui-timespinner" showseconds="true" style="width:700px;" value="0" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">试题状态：</label>
+            <select id="questionStatusCode" class="easyui-combobox" editable="false" style="width:700px;" required>
+                <option value="normal" selected>正常</option>
+                <option value="disabled">禁用</option>
+                <option value="outdated">已过期</option>
+                <option value="draft">草稿</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">试题难度：</label>
+            <select id="hardGrade" class="easyui-combobox" editable="false" style="width:700px;" required>
+                <option value="" selected>缺省</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">排序号：</label>
+            <input id="listOrder" class="easyui-numberbox" value="0" style="width:700px;" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">题干：</label>
+            <script id="questionText" type="text/plain" style="display:inline-block;">
+            </script>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">试题分析：</label>
+            <script id="questionAnalysis" type="text/plain" style="display:inline-block;">
+            </script>
+        </div>
+
+        <div id="child-table" class="form-group" style="display: none;">
+            <div id="toolbar">
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="edit.onAddChildQuestion()">新增</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="edit.onEditChildQuestion()">编辑</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="edit.onDeleteChildQuestion()">删除</a>
+            </div>
+            <table id="dg" class="easyui-datagrid" title="子试题列表" pageNumber="1" pageSize="30"
+                    data-options="pagination:true,rownumbers:true,singleSelect:false,toolbar:'#toolbar'">
+                <thead>
+                    <tr>
+                        <th field="ck" checkbox="true"></th>
+                        <th field="questionCode">编号</th>
+                        <th field="questionTypeName">题型</th>
+                        <th field="questionText">题干</th>
+                        <th field="score">分数</th>
+                        <th field="questionStatusCode" formatter="dgFormatter.questionStatusCode">状态</th>
+                        <th field="hardGrade">难度</th>
+                        <th field="listOrder">排序号</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label"></label>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-save" onclick="edit.onSaveOnly()">只保存</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-save" onclick="edit.onSaveAndClose()">保存并关闭</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-save" onclick="edit.onSaveAndNewlyAdd()">保存并新增</a>
+        </div>
+    </form>
+</div>
+
+

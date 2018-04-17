@@ -1,0 +1,154 @@
+﻿@{
+
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UserInfoDetails</title>
+    <script type="text/javascript">
+
+
+    function UserData() {
+        this.id = "";
+    }
+    UserData.prototype = {
+        init: function () {
+         //   $('#adminPermissionInfoListStrCheck').combotree({ url: '/User/Admin/GetPermissionInfoList', required: true });
+          /*  var jsdata = null;
+            $.ajax({
+                url: "/User/Admin/GetPermissionInfoList",
+                type: "get",
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    jsdata = data;
+                }
+            });
+            debugger;
+            $("#user_info_form").find("#adminPermissionInfoListStr").combotree('loadData', jsdata);*/
+            dataInfo.dataBind();
+
+        },
+        formBind: function (row) {
+           
+            $('#userPassWord').textbox({ required: false });
+            $('#user_info_form').form('clear');
+            row.userPassWord = "";
+      
+            $('#user_info_form').form('load', row);
+         //   this.Travel("adminPermissionInfoListStrCheck", row.adminPermissionInfoList);
+        }, ArrDateFormateByGet: function (obj, perArr) {
+
+            if (obj != null && obj != "undefined") {
+                for (var p = 0; p < perArr.length; p++) { // 方法
+                    obj[perArr[p]] = VE.FormatterDateTime(obj[perArr[p]])
+                }
+            }
+
+        }, dataBind: function () {
+                $.ajax({
+                    url: "/User/User/GetUserInfoById/",
+                    data: { id: "@ViewBag.data.id", userId: "@ViewBag.data.userId", userName: "@ViewBag.data.userName", identity: "@ViewBag.data.identity" },
+                        type: "post",
+                        dataType: "json",
+                        async: false,
+                        success: function (dataObj) {
+
+
+                             dataInfo.formBind(dataObj);
+                          //  $("#user_info_form input").attr("disabled", "disabled");
+                        }
+                    });
+
+        }, Travel: function (treeID, obj) {
+            var i;
+            for (i = 0; i < obj.length ; i++) {
+                node = $('#' + treeID).combotree('tree').tree('find', obj[i].roleManageId);
+                $('#' + treeID).combotree('tree').tree('check', node.target);
+            }
+        }
+        }
+
+        var dataInfo = new UserData();
+        $(function () {
+
+            dataInfo.init();
+            $('#teacherEdit_form').form('clear');
+        });
+
+
+    </script>
+
+</head>
+<body>
+    <div region="center">
+        <div id="user_info_div" class="form-horizontal label label-length-4">
+            <form id="user_info_form" name="user_info_form">
+                <input name="id" id="id" class="hidden" type="text" />
+                <input name="userId" id="userId" class="hidden" type="text" />
+
+                <div class="fitem">
+                    <label>
+                        用户名：
+                    </label>
+
+                    <input name="userLoginName" id="userLoginName" class="easyui-textbox" validate=true data-options=" readonly:true">
+                </div>
+                <div class="fitem">
+                    <label>
+                        密码：
+                    </label>
+                    <input name="userPassWord" id="userPassWord" class="easyui-textbox" data-options=" readonly:true">
+                </div>
+                <div class="fitem">
+                    <label>
+                        姓名：
+                    </label>
+                    <input name="userFullName" id="userFullName" class="easyui-textbox" data-options=" readonly:true">
+                </div>
+                <div class="fitem">
+                    <label>
+                        手机号码：
+                    </label>
+                    <input name="userMobile" id="userMobile" class="easyui-textbox" data-options=" readonly:true">
+                </div>
+                <div class="fitem">
+                    <label>
+                        邮箱：
+                    </label>
+                    <input name="userEmail" id="userEmail" class="easyui-textbox" data-options=" readonly:true">
+                </div>
+
+                <div class="fitem">
+                    <label>
+                        性别：
+                    </label>
+                    <select class="easyui-combobox" name="userGender" id="userGender" data-options=" editable:false,readonly:true" style="width:304px;">
+                        <option value="">&nbsp;</option>
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                        <option value="0">&nbsp;</option>
+                    </select>
+                </div>
+              @*  <div class="fitem">
+                      <label>
+                          用户权限：
+                      </label>
+    <select id="adminPermissionInfoListStrCheck" name="adminPermissionInfoListStrCheck" class="easyui-combotree" style="width: 300px;"
+      data-options="url:'/User/Admin/GetPermissionInfoList',method:'get',required:true" multiple="true"></select>
+
+
+
+                </div>*@
+            </form>
+
+        </div>
+    </div>
+</body>
+</html>
+

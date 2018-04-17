@@ -1,0 +1,64 @@
+<div class="functionAtof-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">atof()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>double atof(const char *str)</b> 把参数 <b>str</b> 所指向的字符串转换为一个浮点数（类型为 double 型）。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 atof() 函数的声明。</p>
+		<pre>double atof(const char *str)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b> -- 要转换为浮点数的字符串。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>函数返回转换后的双精度浮点数，如果没有执行有效的转换，则返回零（0.0）。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 atof() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+ 
+int main()
+{
+   float val;
+   char str[20];
+   
+   strcpy(str, "98993489");
+   val = atof(str);
+   printf("字符串值 = %s, 浮点值 = %f\n", str, val);
+ 
+   strcpy(str, "runoob");
+   val = atof(str);
+   printf("字符串值 = %s, 浮点值 = %f\n", str, val);
+ 
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>字符串值 = 98993489, 浮点值 = 98993488.000000
+字符串值 = runoob, 浮点值 = 0.000000</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

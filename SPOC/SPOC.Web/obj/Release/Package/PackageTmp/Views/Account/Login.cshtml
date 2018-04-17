@@ -1,0 +1,180 @@
+﻿@using System.Web.Optimization
+@model SPOC.Web.Models.LoginViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    @*<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>*@
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@L("PlatForm")语言混合式教学支持系统</title>
+    <link rel="shortcut icon" href="~/images/favicon.ico" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/rsa")
+
+    <script src="~/Scripts/bootstrap-select/bootstrap-select.js"></script>
+    <script src="~/Scripts/bootstrap-select/select.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/base.css">
+    <link rel="stylesheet" type="text/css" href="~/css/login.css">
+    <link rel="stylesheet" type="text/css" href="~/Scripts/bootstrap-select/bootstrap-select.css">
+    <style>
+        .bootstrap-select.btn-group .dropdown-menu.inner {
+            padding-top: 5px
+        } .pull-left {
+            padding-left: 40px
+        }
+    </style>
+</head>
+<body>
+<div class="login-page">
+    <img src="~/images/login_full_bg.jpg" alt="backgroundImg" class="bg-img">
+    <div class="login-container">
+        <div>
+            <div class="login-tab">
+                <ul class="clearfix">
+                    @if (Model.RegisterDisplay)
+                    {
+                        <li class="active" style="width:50%;"><a href="#login" data-toggle="tab">登陆</a></li>
+                    }
+                    else
+                    {
+                        <li class="active" style="width:100%;"><a href="#login" data-toggle="tab">登陆</a></li>
+                    }
+                    @if (Model.RegisterDisplay)
+                    {
+                        <li><a href="#register" data-toggle="tab">注册</a></li>
+                    }
+                </ul>
+            </div>
+            <div class="login-tab-content">
+                <div class="login-win tab-content active" id="login">
+                    <div id="loginFail" class="login-fail fillet_5" style="display: none;">
+                        登陆失败，请重新尝试
+                    </div>
+                    <form id="loginForm">
+                        <div class="input-group">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <input id="userLoginName" name="userLoginName" class="form-control" type="text" placeholder="用户名" required>
+
+                        </div>
+                        <div class="input-group">
+                            <span class="glyphicon glyphicon-lock"></span>
+                            <input id="userPassWord" name="userPassWord" class="form-control" type="password" placeholder="密码" required>
+
+                        </div>
+                        <div class="login-tips clearfix">
+                            <div class="remember pull-left">
+                                <label for="rememberMe">记住我</label>
+                                <input id="rememberMe" name="rememberMe" type="checkbox">
+                            </div>
+                            <a class="forget text-right pull-right" href="/Account/ForgetPassword">
+                                忘记了你的密码？
+                            </a>
+                        </div>
+                        <button id="loginBtn" type="button" class="btn login-btn" onclick="login.doLogin()">登陆</button>
+                    </form>
+                    <div class="sign-block text-center">
+                        <p class="text-center name">@L("PlatForm")语言混合式教学支持系统</p>
+                        <p class="text-center gray tips">BEST AI INSIDE</p>
+                    </div>
+                </div>
+                @if (Model.RegisterDisplay)
+                {
+                  
+                    <div class="tab-content" id="register">
+                        <div id="registerFail" class="login-fail fillet_5" style="display: none;color: red">
+                            
+                        </div>
+                        <form id="registerForm">
+                            <div class="input-group">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <input type="text" name="registerLoginName" id="registerLoginName" class="form-control" placeholder="请输入用户名" required  minlength="4" maxlength="16" >
+                            </div>
+                            <div class="input-group">
+                                <span class="glyphicon glyphicon-screenshot"></span>
+                                <input type="text" name="userFullName" id="userFullName" class="form-control" placeholder="请输入真实姓名" required>
+                            </div>
+                            <div class="input-group">
+                                <span class=" glyphicon glyphicon-envelope"></span>
+                                <input type="email" name="userEmail" id="userEmail" class="form-control" placeholder="输入你的邮箱">
+                            </div>
+                            <div class="input-group">
+                                <span class="glyphicon glyphicon-lock"></span>
+                                <input type="password" name="passWord" id="passWord" class="form-control" placeholder="请输入密码" required   minlength="5" maxlength="20" checkPassWord>
+                            </div>
+                            <div class="input-group">
+                                <span class="glyphicon glyphicon-th-large"></span>
+                                @Html.DropDownListFor(model => model.Class, Model.ClassListItems as IEnumerable<SelectListItem>, new {@class = "form-control singleSelect", @style = "float: none"  })
+                            </div>
+                            <button id="btnRegister" type="button" class="btn register-btn" onclick="register.doRegister()">立刻注册</button>
+                        </form>
+                        <div class="sign-block text-center">
+                            <p class="text-center name">@L("PlatForm")语言混合式教学支持系统</p>
+                            <p class="text-center gray tips">BEST AI INSIDE</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/common/common.js"></script>
+<script src="~/js/account/login.js?v=@L("version")"></script>
+
+<script>
+
+    window.onload = function () {
+        $('.login-container').css('transform', 'scale(1)');
+    }
+
+    var login = new Login("@Model.RsaKey", "@Model.ModulusKey", "@Model.SkipUrl");
+    var register = new Register("@Model.RsaKey", "@Model.ModulusKey");
+    LoadSelect();
+    $("form").validate({
+        errorPlacement: function(error, element) {
+            error.appendTo(element.parent());
+        },
+        errorElement: "label"
+    });
+    $.validator.addMethod("checkPassWord",function(value,element,params){  
+        var checkPassWord = /^[0-9a-zA-Z]\w{4,20}$/;  
+        return this.optional(element) || (checkPassWord.test(value));  
+    },"密码格式不正确,(5-20位英文、数字、符号)！");
+    $(function () {
+
+        var rememberMe = nv.cookie.get("spoc_rememberMe");
+        if (rememberMe != null) {
+            $("#rememberMe").prop("checked", true);
+            $("#userLoginName").val(rememberMe.userLoginName);
+        }
+
+        $("#userLoginName").keydown(function(evt) {
+            if (evt.keyCode === 13) {//Enter
+                $("#userPassWord").focus();
+            }
+        });
+
+        $("#userPassWord").keydown(function (evt) {
+            if (evt.keyCode === 13) {//Enter
+                login.doLogin();
+            }
+        });
+
+        $("#loginBtn").keydown(function(evt) {
+            if (evt.keyCode === 13) {//Enter
+                login.doLogin();
+            }
+        });
+    });
+</script>
+</body>
+</html>

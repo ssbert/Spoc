@@ -1,0 +1,44 @@
+﻿form.form-horizontal div.form-group {
+    margin: 8px;
+}
+
+form.form-inline div.form-group,
+form.form-horizontal div.form-row div.form-group {
+    display: inline-block;
+    margin: 4px 8px;
+}
+
+form.form-inline label,
+form.form-horizontal label {
+    vertical-align: top;
+    line-height: 22px;
+}
+
+label.form-label {
+    display: inline-block;
+    text-align: right;
+}
+
+form.label-length-2 label.form-label {
+    width: 36px;
+}
+
+form.label-length-3 label.form-label {
+    width: 48px;
+}
+
+form.label-length-4 label.form-label {
+    width: 60px;
+}
+
+form.label-length-5 label.form-label {
+    width: 72px;
+}
+
+form.label-length-6 label.form-label {
+    width: 84px;
+}
+
+.datagrid-row-selected span {
+    color: white;
+}

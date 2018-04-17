@@ -1,0 +1,77 @@
+<div class="functionBsearch-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">bsearch()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>void *bsearch(const void *key, const void *base, size_t nitems, size_t size, int (*compar)(const void *, const void *))</b> 对 <b>nitems</b> 对象的数组执行二分查找，<b>base</b> 指向进行查找的数组，<b>key</b> 指向要查找的元素，<b>size</b> 指定数组中每个元素的大小。</p>
+		<p>数组的内容应根据 <b>compar</b> 所对应的比较函数升序排序。 </p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 bsearch() 函数的声明。</p>
+		<pre>void *bsearch(const void *key, const void *base, size_t nitems, size_t size, int (*compar)(const void *, const void *))</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b> key </b> -- 指向要查找的元素的指针，类型转换为 void*。</li>
+			<li><b> base </b> -- 指向进行查找的数组的第一个对象的指针，类型转换为 void*。</li>
+			<li><b> nitems </b> -- base 所指向的数组中元素的个数。</li>
+			<li><b> size </b> -- 数组中每个元素的大小，以字节为单位。</li>
+			<li><b> compar </b> -- 用来比较两个元素的函数。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果查找成功，该函数返回一个指向数组中匹配元素的指针，否则返回空指针。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 bsearch() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int cmpfunc(const void * a, const void * b)
+{
+   return ( *(int*)a - *(int*)b );
+}
+
+int values[] = { 5, 20, 29, 32, 63 };
+
+int main ()
+{
+   int *item;
+   int key = 32;
+
+   /* 使用 bsearch() 在数组中查找值 32 */
+   item = (int*) bsearch (&key, values, 5, sizeof (int), cmpfunc);
+   if( item != NULL ) 
+   {
+      printf("Found item = %d\n", *item);
+   }
+   else 
+   {
+      printf("Item = %d could not be found\n", *item);
+   }
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>Found item = 32</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

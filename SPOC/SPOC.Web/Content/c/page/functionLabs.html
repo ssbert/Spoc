@@ -1,0 +1,60 @@
+<div class="functionLabs-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">labs()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>long int labs(long int x)</b> 返回 <b>x</b> 的绝对值。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 labs() 函数的声明。</p>
+		<pre>long int labs(long int x)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b> x </b> -- 完整的值。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回 x 的绝对值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 labs() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main ()
+{
+   long int a,b;
+
+   a = labs(65987L);
+   printf("a 的值 = %ld\n", a);
+
+   b = labs(-1005090L);
+   printf("b 的值 = %ld\n", b);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>a 的值 = 65987
+b 的值 = 1005090</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

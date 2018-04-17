@@ -1,0 +1,337 @@
+﻿
+@{
+    ViewBag.Title = "编辑随机试卷";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div id="container" region="center">
+    <!--基础信息-->
+    <div id="policy-panel" class="easyui-panel" title="试卷基本信息" collapsible="true" footer="#policy-ft" style="width: 100%;">
+        <form id="policy-form" class="form-inline label label-length-5">
+            <div class="form-group">
+                <label class="form-label">试卷编号：</label>
+                <input id="policyCode" name="policyCode" class="easyui-textbox" style="width: 116px;" data-options="validType:['length[0, 64]', 'codeCheck']" readonly>
+                <input id="isCustomCode" name="isCustomCode" class="easyui-switchbutton" data-options="onChange:policy.onChangeCodeMode"
+                       style="width:80px;" onText="自动编号" offText="手动编号" checked>
+            </div>
+            <div class="form-group">
+                <label class="form-label">试卷名称：</label>
+                <input id="policyName" class="easyui-textbox" style="width: 200px;" validtype="length[1, 256]" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">试卷分类：</label>
+                <select id="folderUid" class="easyui-combotree" editable="false" style="width: 200px;" required data-options="lines:true"></select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">单选变不定：</label>
+                <select id="isSingleAsMulti" class="easyui-combobox" editable="false" style="width: 200px" required>
+                    <option value="N" selected>否</option>
+                    <option value="Y">是</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">试卷总分：</label>
+                <input id="totalScore" class="easyui-numberbox" precision="2" value="0" style="width:200px;" disabled>
+            </div>
+            <div class="form-group">
+                <label class="form-label">难度系数：</label>
+                <select id="paperHardGrade" class="easyui-combobox" editable="false" style="width: 200px">
+                    <option value="" selected>难度不限</option>
+                    <option value="1">容易</option>
+                    <option value="2">中等</option>
+                    <option value="3">困难</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">过期日期：</label>
+                <input id="outdatedDate" class="easyui-datebox" data-options="validType:'dateCheck'" style="width: 200px">
+            </div>
+
+            <div style="clear: both;"></div>
+            <div class="form-group">
+                <label class="form-label">备注：</label>
+                <input id="remarks" class="easyui-textbox" multiline="true" validtype="length[0, 256]" style="height: 100px;">
+            </div>
+        </form>
+    </div>
+    <div id="policy-ft">
+        <div style="margin: 5px 10px; float: right;">
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="policy.save()">保存</a>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+
+
+
+    <!--大题信息-->
+    <div id="policyNode-container">
+        <div id="policyNode-toolbar">
+            <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconcls="icon-add" onclick="policyNodeList.edit()">添加</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="policyNodeList.del()"
+               data-options="plain:true,iconCls:'icon-busy'">删除</a>
+        </div>
+        <table id="policyNode-dg" class="easyui-datagrid" title="试题大题信息" style="width:100%;" rownumbers="true" toolbar="#policyNode-toolbar" singleselect="false">
+            <thead>
+                <tr>
+                    <th field="ck" checkbox="true"></th>
+                    <th field="policyNodeName" formatter="longStringFormatter" style="width: 30%; -moz-min-width: 124px; -ms-min-width: 124px; -o-min-width: 124px; -webkit-min-width: 124px; min-width: 124px;">大题标题</th>
+                    <th field="policyNodeDesc" formatter="longStringFormatter" style="width: 20%; -moz-min-width: 83px; -ms-min-width: 83px; -o-min-width: 83px; -webkit-min-width: 83px; min-width: 83px;">大题说明</th>
+                    <th field="questionTypeName" style="width: 56px;" formatter="questionTypeNameFormatter">试题类型</th>
+                    <th field="questionNum" style="width: 50px;">试题数</th>
+                    <th field="totalScore" style="width: 50px;">总分数</th>
+                    <th field="opt" style="width: 220px;" formatter="optFormatter">操作</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+
+
+    <!--抽题策略-->
+    <div id="policyItem-container">
+        <div id="policyItemList-toolbar">
+            <form id="query-form" class="form-inline label label-length-4">
+                <div class="form-group">
+                    <label class="form-label" for="policyNodeId2">大题</label>
+                    <input id="policyNodeId2" name="policyNodeId2" class="easyui-combobox" editable="false" valueField="id" textField="policyNodeName" style="width:150px;"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="questionBaseTypeCode2">试题类型：</label>
+                    <select id="questionBaseTypeCode2" name="questionBaseTypeCode2" class="easyui-combobox" editable="false" style="width:150px;">
+                        <option value="">所有</option>
+                        <option value="all">不限题型</option>
+                        <option value="single">单选题</option>
+                        <option value="multi">多选题</option>
+                        <option value="judge">判断题</option>
+                        <option value="fill">填空题</option>
+                        <option value="program">编程题</option>
+                        <option value="program_fill">编程填空题</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label"></label>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="policyItemList.query()">查询</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="$('#query-form').form('clear')">重置</a>
+                </div>
+            </form>
+        </div>
+        <table id="policyItemList-dg" title="已有策略" class="easyui-datagrid" style="width:100%;" rownumbers="true" toolbar="#policyItemList-toolbar">
+            <thead>
+                <tr>
+                    <th field="policyNodeName" sortable="true">大题标题</th>
+                    <th field="questionTypeName" formatter="questionTypeNameFormatter" sortable="true">试题类型</th>
+                    <th field="hardGrade" formatter="hardGradeFormatter" sortable="true">难度</th>
+                    <th field="questionScore" sortable="true">分数</th>
+                    <th field="questionNum" sortable="true">试题数</th>
+                    <th field="questionTypeName" sortable="true">试题类型</th>
+                    <th field="folderName" formatter="folderNameFormatter" sortable="true">试题分类</th>
+                    <th field="labelList" formatter="labelListFormatter">知识点</th>
+                    <th field="opt" formatter="optFormatter3">操作</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+</div>
+
+<div id="node-dialog" class="easyui-dialog" style="width: 470px; height: 180px;" modal="true" closed="true" draggable="false">
+    <form id="node-form" class="form-horizontal label-length-2">
+        <div class="form-group">
+            <label class="form-label">题型：</label>
+            <input id="questionTypeUid" name="questionTypeUid" class="easyui-combobox" editable="false" style="width: 400px;" required
+                   data-options="url:'/api/services/app/QuestionType/Get', method:'get',
+                    valueField:'id', textField:'questionTypeName',
+                    loadFilter: loadFilter,
+                    onChange: policyNode.questionTypeChange" value="16d8bb70-41c5-11e6-b3b7-005056c00008">
+        </div>
+        <div class="form-group">
+            <label class="form-label">标题：</label>
+            <input id="policyNodeName" name="policyNodeName" class="easyui-textbox" style="width: 400px;" validType="length[1,64]" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">说明：</label>
+            <input id="policyNodeDesc" name="policyNodeDesc" class="easyui-textbox" style="width: 400px;">
+        </div>
+        <div class="form-group">
+            <label class="form-label">&nbsp;</label>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" onclick="policyNode.reset()">重置</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="policyNode.save()">保存</a>
+        </div>
+    </form>
+</div>
+
+<div id="item-edit-dialog" class="easyui-dialog" style="width: 800px; height: 500px;" modal="true" closed="true" draggable="false">
+    <form id="item-form" class="form-horizontal label-length-4">
+        <div class="form-group">
+            <label class="form-label">题型：</label>
+            <input id="questionTypeName" class="easyui-textbox" style="width: 400px;" disabled>
+        </div>
+        <div class="form-group">
+            <label class="form-label">试题分类：</label>
+            <input id="folderUid2" name="folderUid" class="easyui-combotree" editable="false" multiple="true" style="width:400px;" data-options="lines:true">
+        </div>
+        <div class="form-group">
+            <label class="form-label">知识点：</label>
+            <input id="labelIdList" name="labelIdList" class="easyui-combotree" multiple="true" lines="true" style="width: 400px;"
+                   url="/api/services/app/LibLabel/GetComboboxList" method="get"
+                   data-options="loadFilter:function(data){ return data.result; }" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">分数：</label>
+            <input id="questionScore" class="easyui-numberbox" style="width: 400px;" min="0" precision="2">
+        </div>
+        <div class="form-group">
+            <label class="form-label">难度：</label>
+            <select id="hardGrade" class="easyui-combobox" style="width: 400px;" editable="false" valueField="hardGrade" textField="text"></select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">题数：</label>
+            <input id="questionNum" class="easyui-numberbox" style="width: 400px;" min="0" validType="questionNumValidate">
+        </div>
+        <div class="form-group">
+            <label class="form-label">题库题数：</label>
+            <input id="questionNum2" class="easyui-numberbox" style="width: 400px;" min="0" disabled="">
+        </div>
+        <div class="form-group">
+            <label class="form-label"></label>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="policyItem.save()">保存</a>
+        </div>
+    </form>
+</div>
+
+
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+    <script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/exam/policyEdit.js?v=@L("version")"></script>
+    <script>
+        $.extend($.fn.validatebox.defaults.rules, {
+            questionNumValidate: {
+                validator: function (value, param) {
+                    if (parseInt(value) > parseInt($("#questionNum2").numberbox("getValue"))) {
+                        return false;
+                    }
+                    return true;
+                },
+                message: "题数不可大于题库可用题数"
+            }
+        });
+        var category = new nv.category.CombotreeDataClass("folderUid", "exam_paper");
+        var request = GetRequest();
+
+        
+
+        var policyItem = new PolicyItemClass();
+        var policyItemList = new policyItemListClass(request.id, policyItem);
+
+        var policyNode = new PolicyNodeClass();
+        var policyNodeList = new PolicyNodeListClass(policyNode, policyItemList);
+
+        var policy = new PolicyClass(request["id"]);
+
+        function optFormatter(val, row, index) {
+            var options = {
+                option: [
+                    {
+                        title: "添加策略",
+                        text: "添加策略",
+                        icon: "icon-add",
+                        onclick: "policyNodeList.addItem"
+                    }, {
+                        title: "编辑大题",
+                        text: "编辑大题",
+                        icon: "icon-edit",
+                        onclick: "policyNodeList.edit"
+                    }, {
+                        title: "删除",
+                        text: "删除",
+                        icon: "icon-busy",
+                        onclick: "policyNodeList.del"
+                    }
+                ]
+            };
+
+            return linkbtn(index, options);
+        }
+        
+
+        function optFormatter3(val, row, index) {
+            var options = {
+                option: [
+                    {
+                        title: "编辑",
+                        text: "编辑",
+                        icon: "icon-edit",
+                        onclick: "policyItemList.edit"
+                    }, {
+                        title: "删除",
+                        text: "删除",
+                        icon: "icon-busy",
+                        onclick: "policyItemList.del"
+                    }
+                ]
+            };
+
+            return linkbtn(index, options);
+        }
+
+        function questionTypeNameFormatter(val, row, index) {
+            if (stringIsEmpty(val)) {
+                return "全部题型";
+            }
+            return val;
+        }
+
+        function folderNameFormatter(val, row, index) {
+            if (!stringIsEmpty(val) && val.length > 40) {
+                var str = val.substr(0, 40) + "...";
+                return '<a href="javascript:void(0)" title="{0}">{1}</a>'.format(val, str);
+            }
+            return val;
+        }
+
+        function labelListFormatter(val, row, index) {
+            var str = row.labelList.join(",");
+            var str2 = str;
+            if (row.labelList.length > 0 && str.length > 40) {
+                str2 = str.substr(0, 40) + "...";
+            }
+            return '<a href="javascript:void(0)" title="{0}">{1}</a>'.format(str, str2);
+        }
+
+        function hardGradeFormatter(val) {
+            if (val === "1") {
+                return "容易";
+            } else if (val === "2") {
+                return "中等";
+            } else if (val === "3") {
+                return "困难";
+            } else if (stringIsEmpty(val)) {
+                return "难度不限";
+            }
+            return val;
+        }
+
+        function longStringFormatter(val, row, index) {
+            return '<a href="javascript:void(0)" title="{0}">{0}</a>'.format(val);
+        }
+
+        function loadFilter(data) {
+            if (data.result && data.result.length > 0) {
+                data.result.push({
+                    id: "00000000-0000-0000-0000-000000000000",
+                    questionTypeName: "不限题型"
+                });
+            }
+            return data.result;
+        }
+
+        $(function () {
+            category.getCategory();
+            policyItemList.initDatagrid();
+            policy.initPage();
+        });
+    </script>
+}

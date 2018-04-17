@@ -1,0 +1,338 @@
+﻿@model SPOC.Core.Dto.Challenge.ProblemViewDto
+@{
+    ViewBag.Title = "Problem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var id = Model.id;
+    //开始答题时间
+    var answerTime = Model.answerTime;
+    var allowPasteCode = ViewBag.allowPasteCode;
+    var language = L("Language");
+    if (language == "python3")
+    {
+        language = "python";
+    }
+}
+@section styles{<link rel="stylesheet" type="text/css" href="~/css/detail.css"> }
+
+<!-- 详情-S -->
+<div class="challenge-detail-page detail-page container-box center">
+    <div class="detail-header">
+        <h2 class="header-title">@Model.title</h2>
+
+    </div>
+    <div class="detail-content">
+        <div class="nav-tab">
+
+            <ul class="clearfix">
+                <li class="item active"><a href="#" >程序</a></li>
+                <li class="item"><a href="/challenges/rank/@id">单题排行榜</a></li>
+                <li class="item" ><a href="/challenges/submissions/@id">提交记录</a></li>
+            </ul>
+        </div>
+        <div class="tab-content" ng-app="problem-app" ng-controller="problem-ctrl">
+            <div class="problem-content content-box active" id="problem">
+                <div class="row">
+                    <div class="content-left col-lg-9 col-md-9">
+                        @Html.Raw(Model.questionText)
+                    </div>
+
+                    <div class="content-right col-lg-3 col-md-3">
+                        <div class="slider-problem-info">
+                            <div class="submissions">
+                                提交数：<a href="javascript:" class="thin">@Model.submitNum</a>
+                            </div>
+                            <div class="max-score">
+                                最高分：<span class="thin">@Model.score</span>
+                            </div>
+                            <div class="difficulty">
+                                难易程度：<span class="thin">@Model.hard</span>
+                            </div>
+                        </div>
+                        @*<div class="slider-problem-rate">
+                                <div class="rate">
+                                    评价此挑战：<br/>
+                                    <span class="glyphicon glyphicon-star-empty star"></span><span class="glyphicon glyphicon-star-empty star"></span><span class="glyphicon glyphicon-star-empty star"></span><span class="glyphicon glyphicon-star-empty star"></span><span class="glyphicon glyphicon-star-empty star"></span>
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <h3>程序面板</h3>
+                    </div>
+                    <div class="editor-panel" id="container">
+
+                    </div>
+                    <div id="divPreinstallCode" hidden="hidden">@Model.preinstallCode</div>
+                    <div class="editor-footer clearfix">
+                        <div class="code-input input-group pull-left">
+                            @if (Model.hasParam)
+                            {
+
+                                <span>Main函数参数：</span>
+                                <input type="text" id="Param" class="form-control fillet_5" style="width: 400px">
+                            }
+                            @if (Model.hasInputParam)
+                            {
+                                <span>输入流参数：</span>
+                                <input type="text" id="InputParam" class="form-control fillet_5" style="width: 400px">
+                            }
+
+                        </div>
+                        <div class="editor-btn text-right pull-right">
+                            <button class="run-code btn" ng-click="doRunCode()">测试</button>
+                            <button class="submit-code btn" ng-click="doSubmitCode()">提交</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- 运行结果 -->
+                <div class="run-results" ng-show="runResult" style="display: none">
+                    <!-- 通过 -->
+                    <div class="results" ng-show="runResult.code<=2">
+                        @*<h3 ng-show="runResult.code==1">恭喜，你通过了本次测试！</h3>
+                        <h3 ng-show="runResult.code==2">你的代码无法通过测试！</h3>*@
+                        <div class="results-con">
+                        @if (Model.hasParam)
+                        {
+                            <div class="result-item">
+                                <p>Main函数参数</p>
+                                <pre class="item-box"><code>{{runResult.param}}</code></pre>
+                            </div>
+                        }@if (Model.hasInputParam)
+                         {
+                             <div class="result-item">
+                                 <p>输入流参数</p>
+                                 <pre class="item-box"><code>{{runResult.inputParam}}</code></pre>
+                             </div>
+                         }
+                            <div class="result-item">
+                                <p>你的输出</p>
+                                <pre class="item-box"><code>{{runResult.compileResult}}</code></pre>
+                            </div>
+                            @*<div class="result-item">
+                                <p>期望输出</p>
+                                <pre class="item-box"><code>{{runResult.answer}}</code></pre>
+                            </div>
+                            <div class="result-item" ng-show="runResult.code==2">
+                                <p>编译信息</p>
+                                <pre class="item-box"><code>Wrong Answer</code></pre>
+                            </div>*@
+                        </div>
+                    </div>
+
+                    <!-- 编译错误 -->
+                    <div class="error-results" ng-show="runResult.code==3">
+                        <div class="results-con">
+                            <h3 class="red">编译错误</h3>
+                            <div class="result-item">
+                                <p>编译信息</p>
+                                <pre class="item-box"><code>{{runResult.msg}}</code></pre>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- 提交结果 -->
+                <div class="submit-results" style="display: none">
+                    <div class="results" id="divProgress" style="display: none">
+                        <h3 class="text-center">提交中</h3>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" id="prog" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                <span class="sr-only">0% Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results" ng-show="submitResult.code >=2">
+                        <h3 class="text-center red" ng-show="submitResult.code == 2">{{submitResult.msg}}</h3>
+                        <h3 class="text-center red" ng-show="submitResult.code == 3">编译错误(得分: {{submitResult.score}} )</h3>
+                        <div class="result-item" ng-show="submitResult.code == 3">
+                            <p>编译信息</p>
+                            <pre class="item-box">
+                            <code>{{submitResult.msg}} </code></pre>
+                        </div>
+                        <div class="btn-box text-right">
+                            <button class="try-agin-btn btn btn-default" ng-click="doAgain()">再试一次</button>
+                        </div>
+                    </div>
+                    <div class="results" ng-show="submitResult.code ==1">
+                        <h3 class="text-center green">{{submitResult.msg}}</h3>
+                        <div class="btn-box text-right" ng-show="nextId">
+                            <button class="next-btn btn btn-default" ng-click="goNext()">下一个挑战</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+<!-- 详情-E -->
+@section Scripts{
+    @if (allowPasteCode == "false")
+    {
+        <script src="~/Scripts/monaco-editor/min/vs/loader.js"></script>
+    }
+    else
+    {
+    <script src="~/Scripts/monaco-editor/min_paste_on/vs/loader.js"></script> }
+   
+    <script src="~/js/common/common.js"></script>
+    <script src="~/Scripts/angular-1.2.19/angular.js"></script>
+    <script>
+        var app = angular.module('problem-app', []).controller('problem-ctrl', controller);
+
+        function controller($scope, $http) {
+            var editor;
+            var value = 0;
+            if ('@allowPasteCode' === "false")
+                require.config({ paths: { 'vs': '/Scripts/monaco-editor/min/vs' } });
+            else
+                require.config({ paths: { 'vs': '/Scripts/monaco-editor/min_paste_on/vs' } });
+            require(['vs/editor/editor.main'],
+                function() {
+                    editor = monaco.editor.create(document.getElementById('container'),
+                        {
+                            language: '@language'
+                        });
+                    //禁用全局粘贴
+                    if ('@allowPasteCode' === "false") {
+                        $(document).on('paste',
+                            '.inputarea',
+                            function() {
+                                return false;
+                            });
+                    }
+                    editor.setValue(decodeURIComponent($("#divPreinstallCode").html()));
+                });
+           
+            //重新挑战
+            $scope.doAgain = doAgain;
+            //下一个挑战
+            $scope.goNext = goNext;
+            //运行代码
+            $scope.doRunCode = function () {
+           
+                $(".run-results").show();
+                $scope.submitResult = null;
+               var index= layer.msg("代码编译运行中",
+                   {
+                        time: 60000,
+                        icon: 16,
+                        shade: 0.01,
+                        skin: ''
+                    });
+                var code = editor.getValue();
+                nv.post("/api/services/app/ChallengeQuestion/CompileRun",
+                    {
+                        id: '@id',
+                        language: "1", //1 C++ 0 C
+                        param: $("#Param").val(),
+                        inputParam: $("#InputParam").val(),
+                        code: code
+                    },
+                    function(data) {
+                        //layer.closeAll('loading');
+                        layer.close(index);
+                        if (data.success) {
+                            $scope.runResult = data.result;
+                            $scope.$apply();
+
+                        } else {
+                            if (data.error.code === -1) {
+                                layer.msg(data.error.message);
+                                layer.alert(data.error.message,
+                                    {
+                                        closeBtn: 0
+                                    },
+                                    function() {
+                                        location.reload();
+                                    });
+                                return;
+                            }
+                            layer.msg('编译出错!请稍后重试或联系老师' + data.error.message);
+                        }
+                    });
+
+            }
+            //提交代码
+            $scope.doSubmitCode = function() {
+                $(".submit-results").show();
+                $("#divProgress").show();
+                $scope.runResult = null;
+                $scope.submitResult = null;
+                //重置进度条
+                value = 0;
+                $("#prog").css("width", "0");
+                increment();
+                //提交代码
+                var code = editor.getValue();
+                nv.post("/api/services/app/ChallengeQuestion/Submit",
+                    {
+                        id: '@id',
+                        language: "1", //1 C++ 0 C
+                        param: "",
+                        inputParam: "",
+                        code: code,
+                        answerTime: @answerTime //答题时间
+                    },
+                    function(data) {
+                        $("#prog").css("width", "100%");
+                        if (data.success) {
+                            $scope.submitResult = data.result;
+                            $scope.nextId = data.result.id;
+                            $scope.$apply();
+                        } else {
+                            if (data.error.code === -1) {
+                                layer.alert(data.error.message,
+                                    {
+                                        closeBtn: 0
+                                    },
+                                    function() {
+                                        location.reload();
+                                    });
+                                return;
+                            }
+                            layer.msg('提交出错!' + data.error.message);
+                        }
+                        $("#divProgress").hide();
+                        $("#prog").css("width", "0");
+                    });
+
+            }
+
+            function doAgain() {
+                //定位到编辑器
+                scrollOffset($("#container").offset());
+
+            }
+
+            //定位到元素
+            function scrollOffset(scrollOffset) {
+                $("body,html").animate({
+                        scrollTop: scrollOffset.top - 70
+                    },
+                    0);
+            }
+
+            //下一题
+            function goNext() {
+                if ($scope.nextId !== "") {
+                    location.href = "/challenges/problem/" + $scope.nextId;
+                }
+            }
+
+            //进度条百分数增加
+            function increment() {
+                value += 1;
+                $("#prog").css("width", value + "%");
+                if (value <= 95) {
+                    setTimeout(increment, 50);
+                }
+            }
+        }
+
+    </script>
+}
+

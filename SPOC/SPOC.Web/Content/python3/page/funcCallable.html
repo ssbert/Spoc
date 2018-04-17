@@ -1,0 +1,65 @@
+<div class="funcCallable-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">callable() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>callable() 函数用于检查一个对象是否是可调用的。如果返回True，object仍然可能调用失败；但如果返回False，调用对象ojbect绝对不会成功。</p>
+		<p>对于函数, 方法, lambda 函式, 类, 以及实现了 <b>__call__</b> 方法的类实例, 它都返回 True。 </p>
+		<h3 class="n-h3">语法</h3>
+		<p>callable()方法语法：</p>
+		<pre>callable(object)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>
+				object -- 对象
+			</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>可调用返回 True，否则返回 False。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 callable() 的使用方法：</p>
+		<div class="n-example">
+			<pre><code>>>>callable(0)
+False
+>>> callable("runoob")
+False
+ 
+>>> def add(a, b):
+...     return a + b
+... 
+>>> callable(add)             # 函数返回 True
+True
+>>> class A:                  # 类
+...     def method(self):
+...             return 0
+... 
+>>> callable(A)               # 类返回 True
+True
+>>> a = A()
+>>> callable(a)               # 没有实现 __call__, 返回 False
+False
+>>> class B:
+...     def __call__(self):
+...             return 0
+... 
+>>> callable(B)
+True
+>>> b = B()
+>>> callable(b)               # 实现 __call__, 返回 True
+True</code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+</div>

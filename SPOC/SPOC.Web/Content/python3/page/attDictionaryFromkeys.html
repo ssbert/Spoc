@@ -1,0 +1,47 @@
+<div class="attDictionaryFromkeys-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">字典 fromkeys()方法</span>
+		</h1>
+		<p>
+			<a href="#dictionary" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 字典
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>	
+		<p>Python 字典 fromkeys() 函数用于创建一个新字典，以序列seq中元素做字典的键，value为字典所有键对应的初始值。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>fromkeys()方法语法：</p>
+		<pre>dict.fromkeys(seq[, value]))</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>seq -- 字典键值列表。</li>
+			<li>value -- 可选参数, 设置键序列（seq）的值。</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法返回列表。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 fromkeys()函数的使用方法：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+seq = ('name', 'age', 'sex')
+
+dict = dict.fromkeys(seq)
+print ("新的字典为 : %s" %  str(dict))
+
+dict = dict.fromkeys(seq, 10)
+print ("新的字典为 : %s" %  str(dict))</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>新的字典为 : {'age': None, 'name': None, 'sex': None}
+新的字典为 : {'age': 10, 'name': 10, 'sex': 10}</pre>
+		<p>
+			<a href="#dictionary" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 字典
+			</a>
+		</p>
+	</div>
+</div>

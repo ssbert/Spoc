@@ -1,0 +1,167 @@
+<div class="install-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#intro" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python 简介
+		</a>
+		<a href="#chineseEncoding" class="pull-right green">
+			Python 中文编码
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">环境搭建</span>
+		</h1>
+		<p>本章节我们将向大家介绍如何在本地搭建Python开发环境。</p>
+		<p>Python可应用于多平台包括 Linux 和 Mac OS X。</p>
+		<p>你可以通过终端窗口输入 "python" 命令来查看本地是否已经安装Python以及Python的安装版本。</p>
+		<ul>
+			<li>Unix (Solaris, Linux, FreeBSD, AIX, HP/UX, SunOS, IRIX, 等等。)</li>
+			<li>Win 9x/NT/2000</li>
+			<li>Macintosh (Intel, PPC, 68K)</li>
+			<li>OS/2</li>
+			<li>DOS (多个DOS版本)</li>
+			<li>PalmOS</li>
+			<li>Nokia 移动手机</li>
+			<li>Windows CE</li>
+			<li>Acorn/RISC OS</li>
+			<li>BeOS</li>
+			<li>Amiga</li>
+			<li>VMS/OpenVMS</li>
+			<li>QNX</li>
+			<li>VxWorks</li>
+			<li>Psion</li>
+			<li>Python 同样可以移植到 Java 和 .NET 虚拟机上。</li>
+		</ul>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Python下载</h2>
+		<p>Python最新源码，二进制文档，新闻资讯等可以在Python的官网查看到：</p>
+		<p>Python官网：<a href="http://www.python.org/" class="n-text-line green">http://www.python.org/</a></p>
+		<p>你可以在以下链接中下载 Python 的文档，你可以下载 HTML、PDF 和 PostScript 等格式的文档。c</p>
+		<p>Python文档下载地址：<a href="www.python.org/doc/" class="n-text-line green">www.python.org/doc/</a></p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Python安装</h2>
+		<p>Python已经被移植在许多平台上（经过改动使它能够工作在不同平台上）。</p>
+		<p>您需要下载适用于您使用平台的二进制代码，然后安装Python。</p>
+		<p>如果您平台的二进制代码是不可用的，你需要使用C编译器手动编译源代码。</p>
+		<p>编译的源代码，功能上有更多的选择性， 为python安装提供了更多的灵活性。</p>
+		<p>以下为不同平台上安装Python的方法：</p>
+		<h3 class="n-h3">Unix & Linux 平台安装 Python:</h3>
+		<p>以下为在Unix & Linux 平台上安装 Python 的简单步骤：</p>
+		<ul>
+			<li>打开WEB浏览器访问<a href="http://www.python.org/download/" target="_blank" class="green n-text-line">http://www.python.org/download/</a></li>
+			<li>选择适用于Unix/Linux的源码压缩包。</li>
+			<li>下载及解压压缩包。</li>
+			<li>如果你需要自定义一些选项修改<i>Modules/Setup</i> </li>
+			<li><b>执行</b> ./configure 脚本</li>
+			<li>make</li>
+			<li>make install</li>
+		</ul>
+		<p>执行以上操作后，Python会安装在 /usr/local/bin 目录中，Python库安装在/usr/local/lib/pythonXX，XX为你使用的Python的版本号。</p>
+		<h3 class="n-h3">Window 平台安装 Python:</h3>
+		<ul>
+			<li>打开WEB浏览器访问<a href="http://www.python.org/download/" target="_blank" class="n-text-line green">http://www.python.org/download/</a></li>
+			<li>在下载列表中选择Window平台安装包，包格式为：<i>python-XYZ.msi</i> 文件 ， XYZ 为你要安装的版本号。</li>
+			<li>要使用安装程序 <i>python-XYZ.msi</i>, Windows系统必须支持Microsoft Installer 2.0搭配使用。只要保存安装文件到本地计算机，然后运行它，看看你的机器支持MSI。Windows XP和更高版本已经有MSI，很多老机器也可以安装MSI。 </li>
+			<li>下载后，双击下载包，进入Python安装向导，安装非常简单，你只需要使用默认的设置一直点击"下一步"直到安装完成即可。</li>
+		</ul>
+		<h3 class="n-h3">MAC 平台安装 Python:</h3>
+		<p>最近的Macs系统都自带有Python环境，你也可以在链接 <a href="http://www.python.org/download/" class="n-text-line green" target="_blank">http://www.python.org/download/</a> 上下载最新版安装。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">环境变量配置</h2>
+		<p>程序和可执行文件可以在许多目录，而这些路径很可能不在操作系统提供可执行文件的搜索路径中。</p>
+		<p>path(路径)存储在环境变量中，这是由操作系统维护的一个命名的字符串。这些变量包含可用的命令行解释器和其他程序的信息。</p>
+		<p>Unix或Windows中路径变量为PATH（UNIX区分大小写，Windows不区分大小写）。</p>
+		<p>在Mac OS中，安装程序过程中改变了python的安装路径。如果你需要在其他目录引用Python，你必须在path中添加Python目录。</p>
+		<h3 class="n-h3">在 Unix/Linux 设置环境变量</h3>
+		<ul>
+			<li><b>在 csh shell:</b> 输入 <br><pre>setenv PATH "$PATH:/usr/local/bin/python"</pre>, 按下"Enter"。</li>
+			<li><b>在 bash shell (Linux):</b> 输入 <br><pre>export PATH="$PATH:/usr/local/bin/python" </pre>，按下"Enter"。pre</li>
+			<li><b>在 sh 或者 ksh shell:</b> 输入 <br><pre>PATH="$PATH:/usr/local/bin/python" </pre>, 按下"Enter"。</li>
+		</ul>
+		<p><b>注意:</b> /usr/local/bin/python 是 Python 的安装目录。</p>
+		<h3 class="n-h3">在 Windows 设置环境变量</h3>
+		<p>在环境变量中添加Python目录：</p>
+		<p><b>在命令提示框中(cmd) :</b> 输入 </p>
+		<pre>path=%path%;C:\Python </pre>
+		<p>按下"Enter"。 </p>
+		<p><b>注意:</b> C:\Python 是Python的安装目录。</p>
+		<p>也可以通过以下方式设置：</p>
+		<ul><li>右键点击"计算机"，然后点击"属性"</li><li>然后点击"高级系统设置"</li><li>
+选择"系统变量"窗口下面的"Path",双击即可！</li><li>
+</li><li>
+然后在"Path"行，添加python安装路径即可(我的D:\Python32)，所以在后面，添加该路径即可。
+<b>ps：记住，路径直接用分号"；"隔开！</b></li><li>
+最后设置成功以后，在cmd命令行，输入命令"python"，就可以有相关显示。</li></ul>
+		<p>
+			<img src="/Content/python2/images/201209201707594792.png">
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Python 环境变量</h2>
+		<p>下面几个重要的环境变量，它应用于Python：</p>
+		<table>
+<tbody><tr><th>变量名</th><th>描述</th></tr>
+<tr><td>PYTHONPATH</td><td> PYTHONPATH是Python搜索路径，默认我们import的模块都会从PYTHONPATH里面寻找。</td></tr>
+<tr><td>PYTHONSTARTUP </td><td>Python启动后，先寻找PYTHONSTARTUP环境变量，然后执行此变量指定的文件中的代码。</td></tr>
+<tr><td>PYTHONCASEOK  </td><td>加入PYTHONCASEOK的环境变量, 就会使python导入模块的时候不区分大小写.</td></tr>
+<tr><td>PYTHONHOME   </td><td>另一种模块搜索路径。它通常内嵌于的PYTHONSTARTUP或PYTHONPATH目录中，使得两个模块库更容易切换。</td></tr>
+</tbody></table>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">运行Python</h2>
+		<p>有三种方式可以运行Python：</p>
+		<h3 class="n-h3">1、交互式解释器：</h3>
+		<p>你可以通过命令行窗口进入python并开在交互式解释器中开始编写Python代码。</p>
+		<p>你可以在Unix，DOS或任何其他提供了命令行或者shell的系统进行python编码工作。</p>
+		<pre>$ python # Unix/Linux
+
+或者
+
+C:>python # Windows/DOS </pre>
+		<p>以下为Python命令行参数：</p>
+		<table>
+<tbody><tr>
+<th>选项</th><th>描述</th></tr>
+<tr><td>-d</td><td>在解析时显示调试信息</td></tr>
+<tr><td>-O</td><td>生成优化代码 ( .pyo 文件 )</td></tr>
+<tr><td>-S</td><td>启动时不引入查找Python路径的位置</td></tr>
+<tr><td>-V</td><td>输出Python版本号</td></tr>
+<tr><td>-X</td><td>
+从 1.6版本之后基于内建的异常（仅仅用于字符串）已过时。</td></tr>
+<tr><td>-c cmd</td><td>执行 Python 脚本，并将运行结果作为 cmd 字符串。</td></tr>
+<tr><td>file</td><td>在给定的python文件执行python脚本。</td></tr>
+</tbody></table>
+		<h3 class="n-h3">2、命令行脚本</h3>
+		<p>在你的应用程序中通过引入解释器可以在命令行中执行Python脚本，如下所示：</p>
+		<pre>$ python script.py # Unix/Linux
+
+或者
+
+C:>python script.py # Windows/DOS </pre>
+		<p><b>注意：</b>在执行脚本时，请检查脚本是否有可执行权限。</p>
+		<h3 class="n-h3">3、集成开发环境（IDE：Integrated Development Environment）: PyCharm </h3>
+		<p>PyCharm 是由 JetBrains 打造的一款 Python IDE，支持 macOS、 Windows、 Linux 系统。</p>
+		<p>PyCharm 功能 : 调试、语法高亮、Project管理、代码跳转、智能提示、自动完成、单元测试、版本控制……</p>
+		<p>PyCharm 下载地址 : <a href="https://www.jetbrains.com/pycharm/download/" class="n-text-line green"  target="_blank">https://www.jetbrains.com/pycharm/download/</a></p>
+		<p>
+			<img src="..//Content/python2/images/pycharm_ui_darcula.png">
+		</p>
+		<p>继续下一章之前，请确保您的环境已搭建成功。如果你不能够建立正确的环境，那么你就可以从您的系统管理员的帮助。</p>
+		<p>在以后的章节中给出的例子已在 Python2.7.6 版本测试通过。</p>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#intro" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python 简介
+		</a>
+		<a href="#chineseEncoding" class="pull-right green">
+			Python 中文编码
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+</div>

@@ -1,0 +1,60 @@
+<div class="osFchdir-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">os.fchdir() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>
+		<p>os.fchdir() 方法通过文件描述符改变当前工作目录。</p>
+		<p>Unix, Windows 上可用。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>fchdir()方法语法格式如下：</p>
+		<pre>os.fchdir(fd);</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>fd</b> -- 文件描述符</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>没有返回值。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 fchdir() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os, sys
+
+# 首先到目录 "/var/www/html" 
+os.chdir("/var/www/html" )
+
+# 输出当前目录
+print "当前工作目录为 : %s" % os.getcwd()
+
+# 打开新目录 "/tmp"
+fd = os.open( "/tmp", os.O_RDONLY )
+
+# 使用 os.fchdir() 方法修改到新目录
+os.fchdir(fd)
+
+# 输出当前目录
+print "当前工作目录为 : %s" % os.getcwd()
+
+# 关闭打开的目录
+os.close( fd )</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>当前工作目录为 : /var/www/html
+当前工作目录为 : /tmp</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

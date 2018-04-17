@@ -1,0 +1,71 @@
+<div class="functionRemove-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">remove()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int remove(const char *filename)</b> 删除给定的文件名 <b>filename</b>，以便它不再被访问。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 remove() 函数的声明。</p>
+		<pre>int remove(const char *filename)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>filename</b>  -- 这是 C 字符串，包含了要被删除的文件名称。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果成功，则返回零。如果错误，则返回 -1，并设置 errno。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 remove() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main ()
+{
+   int ret;
+   FILE *fp;
+   char filename[] = "file.txt";
+
+   fp = fopen(filename, "w");
+
+   fprintf(fp, "%s", "这里是 baidu.com");
+   fclose(fp);
+   
+   ret = remove(filename);
+
+   if(ret == 0) 
+   {
+      printf("文件删除成功");
+   }
+   else 
+   {
+      printf("错误：不能删除该文件");
+   }
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>假设我们有一个文本文件 <b>file.txt</b>，它的内容如下。我们将使用上面的程序来删除该文件。让我们编译并运行上面的程序，这将生成下面的消息，且文件被永久删除。</p>
+		<pre>文件删除成功</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

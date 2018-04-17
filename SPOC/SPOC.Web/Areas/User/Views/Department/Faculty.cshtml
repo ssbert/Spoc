@@ -1,0 +1,311 @@
+﻿
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<div data-options="region:'center',border:false" style="padding:1px;">
+    <div id="toolbar">
+
+            <form id="query-form" class="form-inline label label-length-4">
+                <div class="form-group">
+                    <label class="form-label">院系名称：</label>
+                    <input id="qname" name="qname" type="text" class="easyui-textbox" style="width: 150px;">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">院系代码：</label>
+                    <input id="qcode" name="qcode" type="text" class="easyui-textbox" style="width: 150px;">
+                </div>
+                <div class="form-group">
+                    <label class="form-label"></label>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="query()">搜索</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="faculty().rest()">重置</a>
+                </div>
+            </form>
+ 
+        <a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'" onclick="Refresh()">刷新</a>
+        <a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="faculty().add()">新增</a>
+        <a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-busy'" onclick="faculty().del()">删除</a>
+ 
+    </div>
+    <table id="dg" class="easyui-datagrid" rownumbers="true" fit="true" pagination="true" toolbar="#toolbar" pagenum="1" pagesize="30">
+        <thead>
+        <tr>
+            <th field="ck" checkbox="true"></th>
+            <th field="code" sortable="true">院系代码</th>
+            <th field="name" sortable="true">院系名称</th>
+            <th field="updateUser" sortable="true">变更人</th>
+            <th field="updateTime" sortable="true">更新时间</th>
+            <th field="option" formatter="faculty().formatOpt" width="110">操作</th>
+        </tr>
+        </thead>
+    </table>
+    <div id="faculty_panel" class="easyui-panel" data-options="border:false" style="margin-top:1px;">
+      
+
+        <div id="faculty_dialog" class="easyui-dialog" data-options="width:'580px',height:'460px',closed:true,buttons:'#faculty_buttons'" style="padding:1px;">
+            <div class="ftitle">
+                院系编辑
+            </div>
+            <form id="fm" method="post">
+                <input id="id" name="id" type="hidden" />
+                <div class="fitem">
+                    <label>
+                        院系代码:
+                    </label>
+                    <input id="code" name="code" class="easyui-textbox" data-options="required:true,validType:'length[1,30]'">
+                </div>
+                <div class="fitem">
+                    <label>
+                        院系名称:
+                    </label>
+                    <input id="name" name="name" class="easyui-textbox" data-options="required:true,validType:'length[1,40]'">
+                </div>
+                
+               
+               
+            </form>
+        </div>
+        <div id="faculty_buttons">
+            <a href="javascript:;" id="btnSave" class="easyui-linkbutton" data-options="iconCls:'icon-save',width:'90px'" onclick="faculty().save()">保存</a>
+            <a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',width:'90px'" onclick="faculty().cancel()">取消</a>
+        </div>
+    </div>
+
+    </div>
+
+    <script src="~/Scripts/jquery-easyui-extension/datagrid-ext.js?@L("version")"></script>
+    <script type="text/javascript">
+        var isEdit = false;
+        var serviceUrl = "/api/services/app/";
+        var paramCache = {
+            sort: "updateTime",
+            order: "desc",
+            skip: 0,
+            pageSize: 30
+        };
+        function getFormParam() {
+            paramCache.name = $("#qname").textbox("getValue");
+            paramCache.code = $("#qcode").textbox("getValue");
+            return paramCache;
+        }
+
+        $(function () {
+            //初始化回车事件
+            VE.Enter("query");
+            initDataGrid();
+            query();
+        });
+        function Refresh() {
+            paramCache = getFormParam();
+            paramCache.skip = 0;
+            faculty().loadData(paramCache);
+        }
+    
+        function query() {
+            paramCache = getFormParam();
+            paramCache.skip = 0;
+            faculty().loadData(paramCache);
+        };
+        function faculty() {
+            return new faculty.prototype.init();
+        }
+
+        function initDataGrid() {
+            $("#dg").datagrid({
+                    onSortColumn: function (sort, order) {
+                        paramCache.sort = sort;
+                        paramCache.order = order;
+                        query();
+                    }
+                })
+                .datagrid("getPager")
+                .pagination({
+                    onSelectPage: function (pageNumber, pageSize) {
+                        paramCache.pageNumber = pageNumber;
+                        paramCache.skip = (pageNumber - 1) * pageSize;
+                        if (paramCache.skip < 0) {
+                            paramCache.skip = 0;
+                        }
+                        paramCache.pageSize = pageSize;
+                        faculty().loadData(paramCache);
+                    },
+                    onChangePageSize: function (pageSize) {
+                        paramCache.pageSize = pageSize;
+                        faculty().loadData(paramCache);
+                    }
+                });
+        };
+        faculty.prototype = {
+            init: function () {
+
+            },
+
+            loadData: function (param) {
+                if (!checkLogin()) {
+                    evtBus.dispatchEvt("show_login");
+                    return;
+                }
+                var url = serviceUrl + "Department/GetFacultyUiList";
+                var $dg = $("#dg");
+                $dg.datagrid("loading");
+                nv.post(url, param, function (data) {
+                    $dg.datagrid("loaded");
+                    if (data.success) {
+
+                        $dg.datagrid("loadData", data.result.rows)
+                            .datagrid("getPager")
+                            .pagination({
+                                pageNumber: param.pageNumber,
+                                total: data.result.total
+                            });
+                    } else {
+                        $.messager.alert("提示", data.error.message, "info");
+                    }
+                });
+            },
+            formatOpt: function (val, row, index) {
+                var option = {
+                    option: [
+                        {
+                            text: '编辑',
+                            icon: 'icon-edit',
+                            title: '编辑',
+                            onclick: 'faculty().edit("' + row.id + '",' + index + ')',
+                            hasParams: 'true'
+                        }
+                         ,
+                         {
+                             text: '删除',
+                             icon: 'icon-busy',
+                             title: '删除',
+                             onclick: 'faculty().del("' + row.id + '",' + index + ')',
+                             hasParams: 'true'
+                         }
+                    ]
+                };
+                return linkbtn(row.id, option);
+            },
+            add: function () {
+                if (!checkLogin()) {
+                    evtBus.dispatchEvt("show_login");
+                    return;
+                }
+                isEdit = false;
+                $('#faculty_dialog').dialog('open').dialog('setTitle', '新增');
+                $('#fm').form('clear');
+            },
+            edit: function (id, index) {
+                if (!checkLogin()) {
+                    evtBus.dispatchEvt("show_login");
+                    return;
+                }
+                $('#dg').datagrid('clearSelections'); //取消之前选中行
+                VE.Mask();
+                $('#dg').datagrid('selectRow', index); // 关键在这里
+                var row = $('#dg').datagrid('getSelected');
+                isEdit = true;
+                $('#faculty_dialog').dialog('open').dialog('setTitle', '编辑');
+                $('#fm').form('load', row); 
+              
+                VE.UnMask();
+            },
+            cancel: function () {
+              
+                $('#faculty_dialog').dialog('close');
+                
+            },
+            del: function (id, index) {
+                if (!checkLogin()) {
+                    evtBus.dispatchEvt("show_login");
+                    return;
+                }
+                if (id) {        
+                   $('#dg').datagrid('clearSelections'); //取消之前选中行  
+                   $('#dg').datagrid('selectRow', index); // 关键在这里
+                }
+                var rows = $('#dg').datagrid('getSelections'); // 选择的行关键在这里;
+               
+                if (!rows.length) {
+                    $.messager.alert("提示", "请选择一行数据", "info");
+                }
+                else {
+                    $.messager.confirm(VE.MessageConfirmTitle,
+                        VE.MessageConfirmMsg,
+                        function(r) {
+                            if (r) {
+                                VE.Ids = [];
+                                for (var i = 0; i < rows.length; i++) {
+                                    VE.Ids.push(rows[i].id);
+                                }
+                                $.ajax({
+                                    url: serviceUrl + "Department/DeleteFaculty",
+                                    contentType: 'application/json',
+                                    type: 'post',
+                                    dataType: 'json',
+                                    data: JSON.stringify({ id: VE.Ids.join(',') }),
+                                    success: function(r) {
+                                        if (r.result === VE.Ids.length) {
+                                            VE.MessageShow("删除成功");
+                                        } else {
+                                            VE.MessageShow(("成功删除{0}条记录!已跳过含有专业引用的院系").format(r.result));   
+                                        }
+                                        VE.ConvertFunction("query");
+                                    }
+                                });
+                            }});
+                    //VE.Delete(serviceUrl + "Department/DeleteFaculty", "dg", false, VE.GridType_DataGrid,"query");
+                }
+               
+            },
+            save: function () {
+                if (!checkLogin()) {
+                    evtBus.dispatchEvt("show_login");
+                    return false;
+                }
+                if (!$("#fm").form("validate")) {
+                    return false;
+                }
+                $('#btnSave').linkbutton('disable');
+                if (!isEdit) {
+                    $.ajax({
+                        type: "post",
+                        url: serviceUrl + '/Department/InsertFaculty',
+                        data: $("#fm").serialize(),
+                        success: function (data) {
+                            if (data.success) {
+                                $('#btnSave').linkbutton('enable');
+                                Refresh();
+                                faculty().cancel();
+                            }
+                        }
+                    });
+                }
+                else {
+                    $.ajax({
+                        type: "post",
+                        url: serviceUrl + '/Department/ModifyFaculty',
+                        data: $("#fm").serialize(),
+                        success: function (data) {
+                            if (data.success) {
+                                $('#btnSave').linkbutton('enable');
+                                Refresh();
+                                faculty().cancel();
+                            }
+                        }
+                    });
+                }
+                return true;
+            },
+            
+            rest: function () {
+                $("#qname").textbox("clear", "none");
+                $("#qcode").textbox("clear", "none");
+            }
+        };
+        
+        faculty.prototype.init.prototype = faculty.prototype;
+    </script>
+
+
+
+

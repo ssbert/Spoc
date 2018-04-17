@@ -1,0 +1,50 @@
+<div class="conditional-operator-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">条件运算符 ? :</span>
+		</h1>
+		<p>
+			<a href="#operator" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 运算符
+			</a>
+		</p>
+		<pre>Exp1 ? Exp2 : Exp3;</pre>
+		<p>其中，Exp1、Exp2 和 Exp3 是表达式。请注意冒号的使用和位置。? : 表达式的值取决于 Exp1 的计算结果。如果 Exp1 为真，则计算 Exp2 的值，且 Exp2 的计算结果则为整个 ? : 表达式的值。如果 Exp1 为假，则计算 Exp3 的值，且 Exp3 的计算结果则为整个 ? : 表达式的值。</p>
+		<p>? 被称为三元运算符，因为它需要三个操作数，可以用来代替如下所示的 if-else 语句：</p>
+		<pre>if(condition){
+   var = X;
+}else{
+   var = Y;
+}</pre>
+		<p>例如，请看下面这段代码：</p>
+		<pre>if(y < 10){ 
+   var = 30;
+}else{
+   var = 40;
+}</pre>
+		<p>上面的代码可以写成以下语句：</p>
+		<pre>var = (y < 10) ? 30 : 40;</pre>
+		<p>在这里，如果 y 小于 10，则 var 被赋值为 30，如果 y 不小于 10，则 var 被赋值为 40。请看下面的实例：</p>
+		<pre>#include &lt;iostream&gt;
+using namespace std;
+ 
+int main ()
+{
+   // 局部变量声明
+   int x, y = 10;
+
+   x = (y < 10) ? 30 : 40;
+
+   cout << "value of x: " << x << endl;
+ 
+   return 0;
+}</pre>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre>value of x: 40</pre>
+		<p>
+			<a href="#operator" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 运算符
+			</a>
+		</p>
+	</div>
+</div>

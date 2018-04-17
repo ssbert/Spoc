@@ -1,0 +1,167 @@
+﻿@using SPOC.Exam.ViewDto
+@model SingleExamGradeViewOutputDto
+@{
+    ViewBag.Title = "ExamGrade";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    h3 {
+        font-size: 26px;
+    }
+
+    .exam-result-content {
+        padding: 20px 0;
+    }
+
+    .exam-result-table {
+        border: 1px solid #c2c7d0;
+    }
+
+    .exam-result-table .table-header,
+    .exam-result-table .table-row {
+        border-bottom: 1px solid #c2c7d0;
+        margin-bottom: -1px;
+    }
+
+    .exam-result-table .table-header-colum,
+    .exam-result-table .table-row-colum {
+        float: left;
+        text-align: center;
+    }
+
+    .exam-result-table .table-header-colum {
+        height: 50px;
+        line-height: 50px;
+        font-weight: 600;
+    }
+
+    .exam-result-table .table-row-colum {
+        height: 60px;
+        line-height: 60px;
+    }
+
+    .exam-result-table .start-time {
+        width: 25%;
+    }
+
+    .exam-result-table .end-time {
+        width: 25%;
+    }
+
+    .exam-result-table .score {
+        width: 25%;
+        text-align: left;
+        padding-left: 8%;
+    }
+
+    .exam-result-table .handle {
+        width: 25%;
+    }
+</style>
+<div class="container container-box">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>@Model.Title</h3>
+        </div>
+    </div>
+
+    <div class="row exam-result-content">
+        <div class="col-sm-12">
+            @*<table class="table">
+                <thead>
+                <tr>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>得分</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.ExamGradeList)
+                {
+                    <tr>
+                        <td>@item.BeginTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td>@EndTimeFormat(item.EndTime)</td>
+                        <td>@ScoreFormat(item)</td>
+                        <td>
+                            @if (item.IsCompiled)
+                            {
+                                <a class="btn btn-success" href="/Exam/Manage/UserExamPreview?examGradeUid=@item.Id&filterType=" target="_blank">
+                                    查看结果
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>*@
+            <div class="exam-result-table">
+                <div class="table-header clearfix">
+                    <div class="table-header-colum start-time">
+                        开始时间
+                    </div>
+                    <div class="table-header-colum end-time">
+                        结束时间
+                    </div>
+                    <div class="table-header-colum score">
+                        得分
+                    </div>
+                    <div class="table-header-colum handle">
+                        操作
+                    </div>
+                </div>
+                <div class="table-body">
+                    @foreach (var item in Model.ExamGradeList)
+                    {
+                        <div class="table-row clearfix">
+                            <div class="table-row-colum start-time">
+                                @item.BeginTime.ToString("yyyy-MM-dd HH:mm:ss")
+                            </div>
+                            <div class="table-row-colum end-time">
+                                @EndTimeFormat(item.EndTime)
+                            </div>
+                            <div class="table-row-colum score">
+                                @ScoreFormat(item)
+                            </div>
+                            <div class="table-row-colum handle">
+                                @if (item.IsCompiled)
+                                {
+                                    <a class="btn green-btn" href="/Exam/Manage/UserExamPreview?examGradeUid=@item.Id&filterType=" target="_blank">
+                                        查看结果
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@functions
+{
+
+    string EndTimeFormat(DateTime? dateTime)
+    {
+        if (!dateTime.HasValue)
+        {
+            return "-";
+        }
+        return dateTime.Value.ToString("yyyy-MM-dd HH:mm:ss");
+    }
+
+    string ScoreFormat(ExamGradeViewItem item)
+    {
+        if (item.IsCompiled)
+        {
+            return item.GradeScore.HasValue ? item.GradeScore.Value.ToString("0.00") : "0.00";
+        }
+        return "等待评分";
+    }
+
+}

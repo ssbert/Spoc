@@ -1,0 +1,54 @@
+<div class="funcXrange-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">xrange() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>xrange() 函数用法与 range 完全相同，所不同的是生成的不是一个数组，而是一个生成器。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>xrange 语法：</p>
+		<pre>xrange(stop)
+xrange(start, stop[, step])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>start: 计数从 start 开始。默认是从 0 开始。例如range（5）等价于range（0， 5）;</li>
+			<li>stop: 计数到 stop 结束，但不包括 stop。例如：range（0， 5） 是[0, 1, 2, 3, 4]没有5</li>
+			<li>step：步长，默认为1。例如：range（0， 5） 等价于 range(0, 5, 1)</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回生成器。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 xrange 的使用方法：</p>
+		<div class="n-example">
+			<pre><code>>>>xrange(8)
+xrange(8)
+>>> list(xrange(8))
+[0, 1, 2, 3, 4, 5, 6, 7]
+>>> range(8)                 # range 使用
+[0, 1, 2, 3, 4, 5, 6, 7]
+>>> xrange(3, 5)
+xrange(3, 5)
+>>> list(xrange(3,5))
+[3, 4]
+>>> range(3,5)               # 使用 range
+[3, 4]
+>>> xrange(0,6,2)
+xrange(0, 6, 2)              # 步长为 2
+>>> list(xrange(0,6,2))
+[0, 2, 4]
+>>></code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 内置函数
+			</a>
+		</p>
+	</div>
+</div>

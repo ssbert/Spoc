@@ -1,0 +1,80 @@
+<div class="functionFread-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">fread()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)</b> 从给定流 <b>stream</b> 读取数据到 <b>ptr</b> 所指向的数组中。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 fread() 函数的声明。</p>
+		<pre>size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>ptr</b> -- 这是指向带有最小尺寸 size*nmemb 字节的内存块的指针。
+			</li>
+			<li>	
+				<b>size</b> -- 这是要读取的每个元素的大小，以字节为单位。
+			</li>
+			<li>	
+				<b>nmemb</b> -- 这是元素的个数，每个元素的大小为 size 字节。
+			</li>
+			<li>	
+				<b>stream</b> -- 这是指向 FILE 对象的指针，该 FILE 对象指定了一个输入流。
+			</li>	
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>成功读取的元素总数会以 size_t 对象返回，size_t 对象是一个整型数据类型。如果总数与 nmemb 参数不同，则可能发生了一个错误或者到达了文件末尾。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 fread() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main()
+{
+   FILE *fp;
+   char c[] = "This is baidu";
+   char buffer[20];
+
+   /* 打开文件用于读写 */
+   fp = fopen("file.txt", "w+");
+
+   /* 写入数据到文件 */
+   fwrite(c, strlen(c) + 1, 1, fp);
+
+   /* 查找文件的开头 */
+   fseek(fp, SEEK_SET, 0);
+
+   /* 读取并显示数据 */
+   fread(buffer, strlen(c)+1, 1, fp);
+   printf("%s\n", buffer);
+   fclose(fp);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将创建一个文件 <b>file.txt</b>，然后写入内容 This is runoob。接下来我们使用 <b>fseek()</b> 函数来重置写指针到文件的开头，文件内容如下所示：</p>
+		<pre>This is baidu</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,47 @@
+<div class="numberEquals-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">equals() 方法</span>
+		</h1>
+		<p>
+			<a href="#number" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java Number & Math类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>equals() 方法用于判断 Number 对象与方法的参数进是否相等。</p>
+		<h3 class="n-h3">语法</h3>
+		<pre>public boolean equals(Object o)</pre>
+		<h3 class="n-h3">参数</h3>
+		<p><b>o</b> -- 任何对象。</p>
+		<h3 class="n-h3">返回值</h3>
+		<p>如 Number 对象不为 Null，且与方法的参数类型与数值都相等返回 True，否则返回 False。</p>
+		<p>Double 和 Float 对象还有一些额外的条件，可以参阅 API 手册：<b>JDK 1.6</b>。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test{
+    public static void main(String args[]){
+        Integer x = 5;
+        Integer y = 10;
+        Integer z =5;
+        Short a = 5;
+
+        System.out.println(x.equals(y));  
+        System.out.println(x.equals(z)); 
+        System.out.println(x.equals(a));
+    }
+}
+</code></pre>
+		</div>
+		<p>编译以上程序，输出结果为：</p>
+		<pre>false
+true
+false</pre>
+	</div>
+	<p>
+		<a href="#number" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java Number & Math类
+		</a>
+	</p>
+</div>

@@ -1,0 +1,49 @@
+<div class="osMknod-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">os.mknod() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>
+		<p>os.mknod() 方法用于创建一个指定文件名的文件系统节点（文件，设备特别文件或者命名pipe）。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>mknod()方法语法格式如下：</p>
+		<pre>os.mknod(filename[, mode=0600[, device=0]])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>filename</b> --  创建的文件系统节点</p></li>
+			<li><p><b>mode</b> --   mode指定创建或使用节点的权限, 组合 (或者bitwise) stat.S_IFREG, stat.S_IFCHR, stat.S_IFBLK, 和stat.S_IFIFO (这些常数在stat模块). 对于 stat.S_IFCHR和stat.S_IFBLK, 设备定义了 最新创建的设备特殊文件 (可能使用 os.makedev()),其它都将忽略。</p></li>
+			<li><p><b>device</b> --  可选，指定创建文件的设备</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法没有返回值。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 mknod() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os
+import stat
+
+filename = '/tmp/tmpfile'
+mode = 0600|stat.S_IRUSR
+
+# 文件系统节点指定不同模式
+os.mknod(filename, mode)</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>-rw-------. 1 root   root         0 Apr 30 02:38 tmpfile</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

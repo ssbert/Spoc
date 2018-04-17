@@ -1,0 +1,117 @@
+.exercise-page {
+    padding-top: 20px;
+    position: relative;
+}
+
+/*练习列表*/
+.exercise-page .exercise-lists {
+    padding-top: 20px;
+}
+
+.exercise-page .exercise-list-view .view {
+    padding: 20px;
+    margin-bottom: 30px;
+    transform: none;
+    position: relative;
+}
+
+.exercise-page .exercise-list-view .view .iconfont.status {
+    position: absolute;
+    top: 0px;
+    left: 40%;
+    font-size: 70px;
+    color: rgba(243, 78, 78, 0.8);
+}
+
+.exercise-page .exercise-list-view .view:hover .view-header .pull-right .iconfont {
+    color: #979faf;
+}
+
+.exercise-page .exercise-list-view .view-header * {
+    line-height: 34px;
+}
+
+.exercise-page .exercise-list-view .view-header .iconfont {
+    color: #e0e4e8;
+    cursor: pointer;
+    font-size: 20px;
+    margin: 0px 8px 0 3px;
+}
+
+.exercise-page .exercise-list-view .view-notice > * {
+    color: #979faf;
+    margin-left: 20px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.exercise-page .view-header .title .glyphicon {
+    font-size: 14px;
+    color: #e0e4e8;
+}
+
+.exercise-page .view-header .title .glyphicon.active {
+    color: #EBBC2A;
+}
+
+.exercise-page .view-header .pull-right .glyphicon:hover {
+    color: #39424e;
+}
+
+.exercise-page .exercise-lists .exercise-list-view h3 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.exercise-page .exercise-lists .exercise-list-view h3 a {
+    color: #2ec866;
+}
+
+.exercise-page .view-bottom .tips {
+    margin-top: 22px;
+    font-weight: 600;
+}
+
+.exercise-page .view-bottom .tips > .tip {
+    color: #979faf;
+    margin-right: 10px;
+}
+
+.exercise-page .view-bottom .start-btn {
+    width: 145px;
+    padding: 10px 15px;
+    color: #fff;
+    font-weight: 600;
+    border-color: #088837;
+    border-bottom-color: #007827;
+    background-color: #29b35b;
+    background-image: -webkit-gradient(linear, top left, bottom left, color-stop(0, #2ec866), color-stop(1, #29b35b));
+    background-image: -webkit-linear-gradient(top, #2ec866, #29b35b);
+    background-image: linear-gradient(to bottom, #2ec866, #29b35b);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.1), inset 0 -1px 4px rgba(32,138,70,0.3);
+}
+
+.exercise-page .view-bottom .progress-box {
+    display: inline-block;
+    color: #979faf;
+}
+
+.exercise-page .view-bottom .progress {
+    display: inline-block;
+    margin-bottom: 0;
+    height: 12px;
+    line-height: 12px;
+    width: 150px;
+}
+
+.exercise-page .view-bottom .progress-bar {
+    line-height: 12px;
+}
+
+/*无数据时样式*/
+.no-data-tip.iconfont {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    margin-top: -75px;
+}

@@ -1,0 +1,59 @@
+<div class="osPathconf-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">os.pathconf() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>	
+		<p>os.pathconf() 方法用于返回一个打开的文件的系统配置信息。</p>
+		<p>Unix 平台下可用。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>fpathconf()方法语法格式如下：</p>
+		<pre>os.fpathconf(fd, name)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>fd</b> -- 文件描述符</p></li>
+			<li><p><b>name</b> --  检索的系统配置的值，它也许是一个定义系统值的字符串，这些名字在很多标准中指定（POSIX.1, Unix 95, Unix 98, 和其它）。一些平台也定义了一些额外的名字。这些名字在主操作系统上pathconf_names的字典中。对于不在pathconf_names中的配置变量，传递一个数字作为名字，也是可以接受的。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回文件的系统信息。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 fpathconf() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+import os, sys
+
+# 打开文件
+fd = os.open( "foo.txt", os.O_RDWR|os.O_CREAT )
+
+print ("%s" % os.pathconf_names)
+
+# 获取文件最大连接数
+no = os.fpathconf(fd, 'PC_LINK_MAX')
+print ("Maximum number of links to the file. :%d" % no)
+
+# 获取文件名最大长度
+no = os.fpathconf(fd, 'PC_NAME_MAX')
+print ("Maximum length of a filename :%d" % no)
+
+# 关闭文件
+os.close( fd)
+
+print ("关闭文件成功!!")</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>关闭文件成功!!</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "EditTask";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="north" title="练习信息" footer="#ft" style="width: 100%;" id="regionDiv">
+    <form id="taskForm" class="form-inline label label-length-6">
+        <div class="form-group">
+            <label class="form-label">练习名称：</label>
+            <input id="title" name="title" class="easyui-textbox" style="width: 200px;" validtype="length[1, 256]" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">结束时间：</label>
+            <input id="endTime" name="endTime" class="easyui-datetimebox" style="width: 200px;" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">练习题：</label>
+            <input id="questionText" name="questionText" class="easyui-textbox" style="width: 200px;"
+                   buttonText="选择.." buttonIcon="icon-add" data-options="onClickButton:edit.openQuestionSelector" required>
+            <input id="questionId" name="questionId" type="hidden" required />
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-page_find" onclick="edit.preview()">预览</a>
+        </div>
+        @*<div style="clear: both;"></div>*@
+        <div class="form-group">
+            <label class="form-label">显示答案：</label>
+            <label>
+                <input type="radio" name="showAnswer" value="true" onclick="edit.showAnswerChange()" checked />
+                是
+            </label>
+            <label>
+                <input type="radio" name="showAnswer" value="false" onclick="edit.showAnswerChange()" />
+                否
+            </label>
+        </div>
+        @*<div style="clear: both;"></div>*@
+        <div id="showAnswerTypeGroup" class="form-group">
+            <label class="form-label">显示答案类型：</label>
+            <label>
+                <input type="radio" name="showAnswerType" value="0" checked />
+                练习时间结束后
+            </label>
+            <label>
+                <input type="radio" name="showAnswerType" value="1" />
+                任何时间
+            </label>
+        </div>
+    </form>
+</div>
+
+<div id="ft">
+    <div style="margin: 5px 10px; float: right;">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="edit.save()">保存</a>
+    </div>
+    <div style="clear:both;"></div>
+</div>
+
+<div region="center" title="发布教学班级" style="width: 30%; height: 80%;">
+    <div id="classDgToolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="edit.showClassDialog()">添加发布</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-busy" onclick="edit.unpublish()">删除发布</a>
+    </div>
+    <table id="classDg" class="easyui-datagrid" fit="true" rownumbers="true" singleselect="false" toolbar="#classDgToolbar" border="false">
+        <thead>
+            <tr>
+                <th field="ck" checkbox="true"></th>
+                <th field="name">教学班级</th>
+                <th field="opt" formatter="classDgOptFormatter">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<div id="classDialog" class="easyui-dialog" title="发布到教学班级" style="width:300px;height:150px;" draggable="false" modal="true" buttons="#btns" closed="true">
+    <form id="classesForm" class="form-horizontal">
+        <div class="form-group">
+            <input id="classIds" class="easyui-combotree" multiple="true" valueField="id" style="width: 200px" required />
+        </div>
+    </form>
+    <div id="btns">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-disk" onclick="edit.publish()">确定</a>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script src="~/Areas/Assets/js/notificationHelper.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/exercises/exerciseTaskEdit.js?v=@L("version")"></script>
+    <script>
+        function classDgOptFormatter(val, row, index) {
+            var options = [
+                {
+                    title: "删除发布",
+                    text: "删除发布",
+                    icon: "icon-busy",
+                    onclick: "edit.unpublish('{0}')".format(row.id),
+                    hasParams: "true"
+                }
+            ];
+            return linkbtn(index, { option: options });
+        }
+
+        var request = GetRequest();
+        var edit = new ExerciseTaskEdit(request.id);
+        $(function () {
+            if (!guidIsEmpty(request.id)) {
+                edit.loadData();
+            }
+        });
+
+        window.onload = function () {
+            setHeight();
+        }
+
+        function setHeight() {
+            var height = $('#taskForm').height();
+            $('#regionDiv').css('height', height + 'px');
+        }
+
+        $(window).on('resize', function () {
+            setTimeout(function () {
+                setHeight();
+            }, 300);
+        })
+    </script>
+}

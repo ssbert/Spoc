@@ -1,0 +1,72 @@
+<div class="assignmentOperatorsOL-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">赋值运算符重载</span>
+		</h1>
+		<p>
+			<a href="#overloading" class="green n-text-line">
+				<img src="/Content/cplus/images/up.gif"> C++ 重载运算符和重载函数
+			</a>
+		</p>
+		<p>就像其他运算符一样，您可以重载赋值运算符（ = ），用于创建一个对象，比如拷贝构造函数。</p>
+		<p>下面的实例演示了如何重载赋值运算符。</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>#include &lt;iostream&gt;
+using namespace std;
+ 
+class Distance
+{
+   private:
+      int feet;             // 0 到无穷
+      int inches;           // 0 到 12
+   public:
+      // 所需的构造函数
+      Distance(){
+         feet = 0;
+         inches = 0;
+      }
+      Distance(int f, int i){
+         feet = f;
+         inches = i;
+      }
+      void operator=(const Distance &D )
+      { 
+         feet = D.feet;
+         inches = D.inches;
+      }
+      // 显示距离的方法
+      void displayDistance()
+      {
+         cout << "F: " << feet <<  " I:" <<  inches << endl;
+      }
+      
+};
+int main()
+{
+   Distance D1(11, 10), D2(5, 11);
+
+   cout << "First Distance : "; 
+   D1.displayDistance();
+   cout << "Second Distance :"; 
+   D2.displayDistance();
+
+   // 使用赋值运算符
+   D1 = D2;
+   cout << "First Distance :"; 
+   D1.displayDistance();
+
+   return 0;
+}</code></pre>
+		</div>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre>First Distance : F: 11 I:10
+Second Distance :F: 5 I:11
+First Distance :F: 5 I:11</pre>
+		<p>
+			<a href="#overloading" class="green n-text-line">
+				<img src="/Content/cplus/images/up.gif"> C++ 重载运算符和重载函数
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,305 @@
+﻿
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+<script src="~/Areas/Assets/js/tabHelper.js?@L("version")"></script>
+<div region="center">
+    <div id="toolbar">
+        <div class="easyui-panel">
+            <a href="javascript:;" class="easyui-linkbutton bacthApprove-btn" data-options="plain:true,iconCls:'icon-ok'">通过</a>
+            <a href="javascript:;" class="easyui-linkbutton bacthRefuse-btn" data-options="plain:true,iconCls:'icon-cancel'">不通过</a>
+        </div>
+        <div class="easyui-panel" style="margin-top:1px;padding:5px;">
+            <form action="/" method="post" class="form-inline label label-length-4" style="width:100%;">
+                <div class="form-group">
+                    <label class="form-label">班级：</label>
+                    <select class="easyui-combotree" id="classScreen" name="classScreen" data-options="valueField:'id',textField:'text',width:150,multiple:true,lines:true"></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">状态：</label>
+                    <select id="status" class="easyui-combobox" name="status" data-options="width:150, panelHeight:80, editable:false,valueField: 'id',
+		textField: 'value',data: [{
+			id: 'approving',
+			value: '待审核'
+		},{
+			id: 'refused',
+			value: '已拒绝'
+		}]">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">用户名：</label>
+                    <input id="userLoginName" name="user_login_name" type="text" class="easyui-textbox" style="width: 150px">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">姓名：</label>
+                    <input id="userFullName" name="user_full_name" type="text" class="easyui-textbox" style="width: 150px">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">手机号：</label>
+                    <input id="userMobile" name="user_mobile" type="text" class="easyui-textbox" style="width: 150px">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">邮箱：</label>
+                    <input id="userEmail" name="user_email" type="text" class="easyui-textbox" style="width: 150px">
+                </div>
+                <div class="form-group">
+                    <a href="javascript:;" class="easyui-linkbutton check-btn" data-options="iconCls:'icon-search'">查询</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <table id="stdg" class="easyui-datagrid" rownumbers="true" fit="true" pagination="true" toolbar="#toolbar" style="width:100%;">
+
+    </table>
+</div>
+
+<script src="~/Scripts/jquery-easyui-extension/datagrid-ext.js?@L("version")"></script>
+<script>
+    $(function () {
+
+        function StudentApprove() {
+            this.tableDiv = $('#stdg');
+            this.statusId = 'approving';
+            this.param = {
+                classId: "",
+                userLoginName: "",
+                userFullName: "",
+                userMobile: "",
+                userEmail: "",
+                sort: "createTime",
+                order: "desc",
+                skip: 0,
+                pageSize: 20,
+                rows: 0,
+                page: 0,
+                status:"approving",
+                orderExpression: ""
+            }
+        }
+
+        StudentApprove.prototype = {
+
+            constructor: StudentApprove,
+
+            init: function () {
+                this.formatter();
+                this.initEvent();
+                this.initPage();
+                this.getClass();
+                this.initApproveStatus();
+                this.query();
+            },
+
+            getFormParam: function () {
+                var nodes = $('#classScreen').combotree('tree').tree('getChecked');
+                var arrays = [];
+                $(nodes).each(function (index, value) {
+                    if (!(value.children && value.children != 0)) {
+                        arrays.push(value.id);
+                    }
+                });
+                this.param.classId = arrays.join(',');
+                this.param.status = this.statusId;
+                this.param.userLoginName = $('#userLoginName').textbox("getValue");
+                this.param.userFullName = $('#userFullName').textbox("getValue");
+                this.param.userMobile = $('#userMobile').textbox("getValue");
+                this.param.userEmail = $('#userEmail').textbox("getValue");
+                return this.param;
+            },
+
+            getData: function (url, param, callback) {
+                var that = this;
+                $.ajax({
+                    method: "post",
+                    url: url,
+                    data: param,
+                    success: function (data) {
+                        callback(that, data);
+                    }
+                })
+            },
+
+            applyStudents: function (that, data) {
+                var rows = data.result.rows;
+                that.tableDiv.datagrid("loaded");
+                that.tableDiv.datagrid("loadData", rows)
+                    .datagrid("getPager")
+                    .pagination({
+                        pageNumber: that.param.pageNumber,
+                        pageSize: that.param.pageSize,
+                        total: data.result.total
+                    });
+            },
+
+            getClass: function (data) {
+                this.getData('/api/services/app/Department/GetDepartmentTree', {}, this.applyClass);
+            },
+
+            applyClass: function (that, data) {
+                $('#classScreen').combotree('loadData', data);
+            },
+
+            query: function () {
+                var param = this.getFormParam();
+                this.getData('/api/services/app/studentInfo/GetApplyStudentUiList', param, this.applyStudents);
+            },
+
+            approvePass: function (that, data) {
+                if (data.success) {
+                    that.query();
+                } else {
+                    $.messager.alert('提示', '操作失败，请重试');
+                }
+            },
+
+            approveNoPass: function (that, data) {
+                if (data.success) {
+                    that.query();
+                } else {
+                    $.messager.alert('提示', '操作失败，请重试');
+                }
+            },
+
+            initApproveStatus: function () {
+                var that = this;
+                $('#status').combobox({
+                    onSelect: function (record) {
+                        that.statusId = record.id;
+                    }
+                });
+            },
+
+            initEvent: function () {
+                var that = this;
+                $(window).keydown(function (event) {
+                    if (event.keyCode == 13) {
+                        that.query();
+                    }
+                });
+                $(document).on('click', '.check-btn', function (e) {
+                    that.query();
+                });
+                $(document).on('click', '.bacthApprove-btn', function (e) {
+                    var id = that.getCheckedId();
+                    if (id == null || id == "") {
+                        return;
+                    }
+                    that.getData('/api/services/app/studentInfo/ApplyStudents', { id: id, status: "approved" }, that.approvePass);
+                });
+                $(document).on('click', '.bacthRefuse-btn', function (e) {
+                    var id = that.getCheckedId();
+                    if (id == null || id == "") {
+                        return;
+                    }
+                    that.getData('/api/services/app/studentInfo/ApplyStudents', { id: id, status: "refused" }, that.approveNoPass);
+                });
+                $(document).on('click','#pass-btn', function (e) {
+                    var id = e.currentTarget.dataset.id;
+                    that.getData('/api/services/app/studentInfo/ApplyStudents', { id: id, status:"approved"}, that.approvePass);
+                });
+                $(document).on('click','#noPass-btn', function (e) {
+                    var id = e.currentTarget.dataset.id;
+                    that.getData('/api/services/app/studentInfo/ApplyStudents', { id: id, status:"refused"}, that.approveNoPass);
+                });
+            },
+
+            getCheckedId: function () {
+                var checkedId = [],
+                    rows = this.tableDiv.datagrid('getChecked');
+                $(rows).each(function (index, value) {
+                    checkedId.push(value.id);
+                });
+                return checkedId.join(',');
+            },
+
+            initPage: function () {
+                var that = this;
+                this.tableDiv.datagrid({
+                    onSortColumn: function (sort, order) {
+                        that.param.sort = sort;
+                        that.param.order = order;
+                        that.query();
+                    }
+                })
+                .datagrid("getPager")
+                .pagination({
+                    onSelectPage: function (pageNumber, pageSize) {
+                        that.param.pageNumber = pageNumber;
+                        that.param.skip = (pageNumber - 1) * pageSize;
+                        if (that.param.skip < 0) {
+                            that.param.skip = 0;
+                        }
+                        that.param.pageSize = pageSize;
+                        that.query();
+                    },
+                    onChangePageSize: function (pageSize) {
+                        that.param.pageSize = pageSize;
+                        that.query();
+                    }
+                });
+            },
+
+            formatter: function () {
+                this.tableDiv.datagrid({
+                    columns: [[
+                        { field: 'checkbox', checkbox: true},
+                        { field: 'userLoginName', title: '用户名', sortable: true },
+                        { field: 'userFullName', title: '姓名', sortable: true },
+                        { field: 'className', title: '班级', sortable: true },
+                        { field: 'userMobile', title: '手机', sortable: true  },
+                        { field: 'userEmail', title: '邮箱', sortable: true  },
+                        { field: 'classStudentName', title: '班级额定人数', sortable: true },
+                        { field: 'studentName', title: '班级实际人数', sortable: true},
+                        { field: 'createTime', title: '创建时间', sortable: true },
+                        {
+                            field: 'status', title: '状态', sortable: true, formatter: function (val, row, index) {
+                                if (row.status === "approving") {
+                                    return '<span style="color:orange;">待审核<span>';
+                                } else if (row.status === "refused"){
+                                    return '<span style="color:red;">审核未通过<span>';
+                                } else if (row.status === "approved") {
+                                    return '<span style="color:green;">审核通过<span>';
+                                } 
+                            }
+                        },
+                        {   
+                            field: 'itemid',title: "操作", formatter: function (val, row, index) {
+                                var option = {
+                                    option: [
+                                        {
+                                            text: '通过',
+                                            icon: 'icon-ok',
+                                            title: '通过',
+                                            id: 'pass-btn',
+                                            hasParams: 'true'
+                                        }
+                                        ,
+                                        {
+                                            text: '不通过',
+                                            icon: 'icon-cancel',
+                                            title: '不通过',
+                                            id:'noPass-btn',
+                                            hasParams: 'true'
+                                        }
+                                    ]
+                                };
+                                return linkbtn(row.id, option);
+                            }
+                        }
+                    ]]
+                })
+            },
+
+        }
+
+        var studentApprove = new StudentApprove();
+
+        studentApprove.init();
+        
+        
+    })
+</script>
+
+

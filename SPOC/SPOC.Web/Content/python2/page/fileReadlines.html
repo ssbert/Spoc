@@ -1,0 +1,62 @@
+<div class="fileReadlines-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">File readlines() 方法</span>
+		</h1>
+		<p>
+			<a href="#fileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python File(文件) 方法
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>
+		<p>readlines() 方法用于读取所有行(直到结束符 EOF)并返回列表，该列表可以由 Python 的 for... in ... 结构进行处理。</p>
+		<p>如果碰到结束符 EOF 则返回空字符串。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>readlines() 方法语法如下：</p>
+		<pre>fileObject.readlines( );</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>无</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回列表，包含所有的行。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 readlines() 方法的使用：</p>
+		<p>文件 runoob.txt 的内容如下：</p>
+		<pre>1:www.runoob.com
+2:www.runoob.com
+3:www.runoob.com
+4:www.runoob.com
+5:www.runoob.com</pre>
+		<p>循环读取文件的内容：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+# 打开文件
+fo = open("runoob.txt", "r")
+print "文件名为: ", fo.name
+ 
+for line in fo.readlines():                          #依次读取每行  
+    line = line.strip()                             #去掉每行头尾空白  
+    print "读取的数据为: %s" % (line)
+ 
+# 关闭文件
+fo.close()</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>文件名为:  runoob.txt
+读取的数据为: 1:www.runoob.com
+读取的数据为: 2:www.runoob.com
+读取的数据为: 3:www.runoob.com
+读取的数据为: 4:www.runoob.com
+读取的数据为: 5:www.runoob.com</pre>
+		<p>
+			<a href="#fileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python File(文件) 方法
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,57 @@
+<div class="osFchown-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">os.fchown() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>	
+		<p>os.fchown() 方法用于修改一个文件的所有权，这个函数修改一个文件的用户ID和用户组ID，该文件由文件描述符fd指定。</p>
+		<p>Unix上可用。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>fchown()方法语法格式如下：</p>
+		<pre>os.fchown(fd, uid, gid)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>fd</b> -- 文件描述符</p></li>
+			<li><p><b>uid</b> -- 文件所有者的用户id</p></li>
+			<li><p><b>gid</b> -- 文件所有者的用户组id</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法没有返回值。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 fchown() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+ 
+import os, sys, stat
+ 
+# 打开文件 "/tmp/foo.txt"
+fd = os.open( "/tmp", os.O_RDONLY )
+ 
+# 设置文件的用户 id 为 100
+os.fchown( fd, 100, -1)
+ 
+# 设置文件的用户组 id 为 50
+os.fchown( fd, -1, 50)
+ 
+ 
+print ("修改权限成功!!")
+ 
+# 关闭文件
+os.close( fd )</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>修改权限成功!!</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,34 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@L("PlatForm")语言混合式教学支持系统</title>
+    <link rel="shortcut icon" href="~/images/favicon.ico" />
+    @Styles.Render("~/Content/css")
+    <link rel="stylesheet" type="text/css" href="~/css/base.css">
+
+    @RenderSection("styles", required: false)
+</head>
+<body>
+@Html.Action("Top", "PartialView")
+    @RenderBody()
+<!--版权（页脚）-->
+<div class="footer">
+    <p>©2016-2017 本站由 深圳市博思特教育科技有限公司 提供技术支持</p>
+    <p>Best AI Scoring Inside @L("version")</p>
+</div>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<script type="text/javascript" src="~/js/fixFooter.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    })
+</script>
+@RenderSection("scripts", required: false)
+</body>
+</html>

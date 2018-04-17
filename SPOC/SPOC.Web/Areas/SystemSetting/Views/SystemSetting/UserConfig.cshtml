@@ -1,0 +1,287 @@
+﻿@model SPOC.SysSetting.SiteSetDTO.SiteSetDto
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+@section scripts
+{
+    <script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+}
+<div class="easyui-panel">
+    <a href="javascript:location.reload()" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'">刷新</a>
+    <a href="javascript:;" class="easyui-linkbutton" onclick="save()" data-options="plain:true,iconCls:'icon-save'">保存</a>
+</div>
+<div id="user_config_tabs" class="easyui-tabs" style="overflow-y:scroll;  max-height:600px;  ">
+    <form id="siteData">
+
+        <div title="注册设置" style="padding:10px">
+            <div id="user_register_accordion" class="easyui-accordion">
+                <div title="注册设置" data-options="selected:true" style="overflow:auto;padding:10px;">
+                    <div class="fitem">
+                        <label>
+                            学生注册：
+                        </label>
+
+                        <label style="width:60px;text-align:left">@Html.RadioButton("userRegisterDispaly", "true", Model.userRegisterDispaly == "true" ? true : false, new { @style = "width:13px; " })@*<input name="rd_stu_register" type="radio" style="width:13px;" value="open" checked="">*@开启</label>
+                        <label style="width:60px;text-align:left">@Html.RadioButton("userRegisterDispaly", "false", Model.userRegisterDispaly == "false" ? true : false, new { @style = "width:13px;" })@*<input name="rd_stu_register" type="radio" style="width:13px;" value="close">*@关闭</label>
+                    </div>
+                </div>
+               
+
+                <div title="服务器邮件设置" data-options="" style="overflow:auto;padding:10px;">
+                    <div class="fitem">
+                        <label style="width: 120px">
+                            邮件发送：
+                        </label>
+                        <label style="width:60px;text-align:left">@Html.RadioButton("isSendEmail", "open", Model.isSendEmail == "open" ? true : false, new { @checked = true, @style = "width:13px;" })开启</label>
+                        <label style="width:60px;text-align:left">@Html.RadioButton("isSendEmail", "closed", Model.isSendEmail == "closed" ? true : false, new { @style = "width:13px;" })关闭</label>
+                    </div>
+                    <div class="fitem">
+                        <label style="width: 120px">
+                            SMTP服务器地址：
+                        </label>
+                        @*<input class="easyui-textbox" data-options="">*@
+                        @Html.TextBox("mailer_host", Model.mailer_host, new { @class = "easyui-textbox" })
+                    </div>
+                    <div class="fitem">
+                        <label style="width: 120px">
+                            SMTP端口号：
+                        </label>
+                        @*<input class="easyui-textbox" data-options="">*@
+                        @Html.TextBox("mailer_hostPort", Model.mailer_hostPort, new { @class = "easyui-textbox" })
+                        通常端口号为25
+                    </div>
+                    <div class="fitem">
+                        <label style="width: 120px">
+                            SMTP用户名：
+                        </label>
+                        @*<input name="course_title" class="easyui-textbox" data-options="multiline:true,height:'50px'">*@
+                        @Html.TextBox("mailer_username", Model.mailer_username, new { @class = "easyui-textbox"  })
+
+                    </div>
+                    <div class="fitem">
+                        <label style="width: 120px">
+                            SMTP密码：
+                        </label>
+
+                        @Html.TextBox("mailer_password", Model.mailer_password, new { @class = "easyui-textbox" })
+                        @*<input name="mailer_password" id="mailer_password" class="easyui-textbox" data-options="type:'password'  ">*@
+
+                    </div>
+                    <div class="fitem">
+                        <label style="width: 120px">
+                            发信人地址：
+                        </label>
+                        @*<input name="course_title" class="easyui-textbox" data-options="multiline:true,height:'50px'">*@
+                        @Html.TextBox("mailer_from", Model.mailer_from, new { @class = "easyui-textbox" })
+
+                    </div>
+                    <div class="fitem">
+                        <label style="width: 120px">
+                            发信人名称：
+                        </label>
+                        @*<input name="course_title" class="easyui-textbox" data-options="multiline:true,height:'50px'">*@
+                        @Html.TextBox("mailer_name", Model.mailer_name, new { @class = "easyui-textbox" })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div title="登录设置" style="padding:10px">
+        <div id="user_login_accordion" class="easyui-accordion">
+            <div title="登录设置" data-options="selected:true" style="overflow:auto;padding:10px;">
+                 
+                <div class="fitem">
+                    <label style="width: 140px">
+                        用户登录限制：
+                    </label>
+                    <label style="width:60px;text-align:left">@Html.RadioButton("loginLimit", "open", Model.loginLimit == "open" ? true : false, new { @style = "width:13px;" })@*<input name="rd_login" type="radio" style="width:13px;" value="open" checked="">*@开启</label>
+                    <label style="width:60px;text-align:left">@Html.RadioButton("loginLimit", "closed", Model.loginLimit == "closed" ? true : false, new { @style = "width:13px;" })@*<input name="rd_login" type="radio" style="width:13px;" value="close">*@关闭</label>
+                    开启后同一帐号只能在一处登录
+                </div>
+                
+
+                  
+            </div>
+        </div>
+            </div>
+        <div title="用户中心设置" style="padding:10px">
+            <div id="user_center_accordion" class="easyui-accordion">
+                <div title="用户中心设置" data-options="selected:true" style="overflow:auto;padding:10px;">
+                    <div class="fitem">
+                        <label style="width: 170px">
+                            用户名一定要包含英文+数字：
+                        </label>
+                        <label style="width:60px;text-align:left">@Html.RadioButton("usernameContainEN", "open", Model.usernameContainEN == "open" ? true : false, new { @style = "width:13px;" })开启</label>
+                        <label style="width:60px;text-align:left">@Html.RadioButton("usernameContainEN", "closed", Model.usernameContainEN == "closed" ? true : false, new { @style = "width:13px;" })关闭</label>
+                    </div>
+                  
+                    <div class="fitem">
+                        <label style="width: 170px">
+                            允许用户修改头像：
+                        </label>
+                        <label style="width:60px;text-align:left">@Html.RadioButton("allowEditAvatarPicture", "true", Model.allowEditAvatarPicture == "true" ? true : false, new { @style = "width:13px;" })开启</label>
+                        <label style="width:60px;text-align:left">@Html.RadioButton("allowEditAvatarPicture", "false", Model.allowEditAvatarPicture == "false" ? true : false, new { @style = "width:13px;" })关闭</label>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+        <div title="教学设置" style="padding:10px">
+            <div id="code_accordion" class="easyui-accordion">
+                <div title="防拷贝设置" data-options="selected:false" style="overflow:auto;padding:10px;">
+                 
+                  
+                    <div class="fitem">
+                        <label style="width: 170px">
+                            允许代码粘贴：
+                        </label>
+                        <label style="width:60px;text-align:left">@Html.RadioButton("allowPasteCode", "true", Model.allowPasteCode == "true" ? true : false, new { @style = "width:13px;" })开启</label>
+                        <label style="width:60px;text-align:left">@Html.RadioButton("allowPasteCode", "false", Model.allowPasteCode == "false" ? true : false, new { @style = "width:13px;" })关闭</label>
+                        开启后代码编辑器允许拷贝粘贴代码
+                    </div>
+                   
+                </div>
+                <div title="标签积分设置" data-options="selected:true" style="overflow:auto;padding:10px;">
+                 
+                  
+                    <div class="fitem">
+                        <label style="width: 120px">
+                           标签积分点数：
+                        </label>
+                        @Html.TextBox("labelPoint", Model.labelPoint, new { @class = "easyui-numberbox", data_options = "min:0" })
+                        学员通过标签知识点后给予的积分奖励.积分是判断知识点是否掌握的重要依据
+                    </div>
+                    <div class="fitem">
+                        <label style="width: 120px">
+                            标签扣分点数：
+                        </label>
+                        @*<input class="easyui-textbox" data-options="">*@
+                        @Html.TextBox("labelDeductPoint", Model.labelDeductPoint, new { @class = "easyui-numberbox" , data_options = "min:0,validType:['lessThen']" })
+                        学员不通过标签知识点后给予的积分扣除.
+                    </div>
+                    <div class="fitem">
+                        <label style="width: 120px">
+                            得分点比率上限：
+                        </label>
+       
+                        @Html.TextBox("maxPointRate", Model.maxPointRate, new { @class = "easyui-numberbox", data_options = "min:0,max:100" })
+                        通过得分点获取到单题最大成绩百分比(%)                   
+                    </div>
+
+                </div>
+            </div>
+        </div>
+            
+    </form>
+</div>
+
+<script type="text/javascript">
+
+
+    //host = window.location.host;
+    //$("#address").html("http://" + host + "/Account/Register/");
+    $(function () {
+        $("#mailer_password").textbox({ "type": "password" });
+    });
+    $('#user_config_tabs').tabs({
+        onSelect: function (title, index) {
+            if (title === '用户信息设置') {
+                $('#user_config_grid').datagrid({
+                    url: '/Areas/Admin/Assets/js/data/user_config_list.js',
+                    method: 'get',
+                    pagination: true,
+                    rownumbers: true,
+                    columns: [
+                        [
+                            { title: '内容', field: 'name' },
+                            {
+                                title: '是否可以注册',
+                                field: 'register',
+                                formatter: function (val, row) {
+                                    if (val) {
+                                        return '<input type="checkbox" checked />';
+                                    }
+                                    return '<input type="checkbox" >';
+                                }
+                            },
+                            {
+                                title: '是否需要完善',
+                                field: 'completed',
+                                formatter: function (val, row) {
+                                    if (val) {
+                                        return '<input type="checkbox" checked />';
+                                    }
+                                    return '<input type="checkbox" >';
+                                }
+                            },
+                            {
+                                title: '是否需要显示',
+                                field: 'show',
+                                formatter: function (val, row) {
+                                    if (val) {
+                                        return '<input type="checkbox" checked />';
+                                    }
+                                    return '<input type="checkbox" >';
+                                }
+                            },
+                            {
+                                title: '是否为必填',
+                                field: 'required',
+                                formatter: function (val, row) {
+                                    if (val) {
+                                        return '<input type="checkbox" checked />';
+                                    }
+                                    return '<input type="checkbox" >';
+                                }
+                            },
+                            {
+                                title: '是否可以编辑',
+                                field: 'edit',
+                                formatter: function (val, row) {
+                                    if (val) {
+                                        return '<input type="checkbox" checked />';
+                                    }
+                                    return '<input type="checkbox" >';
+                                }
+                            },
+                            {
+                                title: '是否可以导出',
+                                field: 'export',
+                                formatter: function (val, row) {
+                                    if (val) {
+                                        return '<input type="checkbox" checked />';
+                                    }
+                                    return '<input type="checkbox" >';
+                                }
+                            }
+                        ]
+                    ],
+                    onLoadSuccess: function () {
+                        $("#user_info_accordion").accordion('getSelected').panel('collapse').panel('expand');
+                    }
+                });
+            }
+        }
+    });
+
+    function save() {
+        if (!$("#siteData").form("validate")) {
+            return;
+        }
+        if (!checkLogin()) {
+            evtBus.dispatchEvt("show_login");
+            return;
+        }
+        $.ajax({
+            type: "post",
+            url: "/SystemSetting/SystemSetting/ModifyUserConfigSet",
+            data: $("#siteData").serialize(),
+            success: function(data) {
+                if (data === "ok") {
+                    $.messager.show({ title: '操作提示', msg: '保存成功！' });
+                }
+            }
+        });
+    }
+
+</script>

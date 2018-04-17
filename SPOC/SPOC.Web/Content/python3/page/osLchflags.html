@@ -1,0 +1,66 @@
+<div class="osLchflags-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">os.lchflags() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>	
+		<p>os.lchflags() 方法用于设置路径的标记为数字标记，类似 chflags()，但是没有软链接。</p>
+		<p>只支持在 Unix 下使用。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>lchflags()方法语法格式如下：</p>
+		<pre>os.lchflags(path, flags)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>path</b> --  设置标记的文件路径</p></li>
+			<li><p><b>flags</b> -- 可以由一个或多个标记组合，多个使用"|"隔开：</p>
+				<ul>
+					<li><p><b>UF_NODUMP:</b> 非转储文件</p></li>
+					<li><p><b>UF_IMMUTABLE:</b> 文件是只读的</p></li>
+					<li><p><b>UF_APPEND:</b> 文件只能追加内容</p></li>
+					<li><p><b>UF_NOUNLINK:</b> 文件不可删除</p></li>
+					<li><p><b>UF_OPAQUE:</b> 目录不透明，需要通过联合堆栈查看</p></li>
+					<li><p><b>SF_ARCHIVED:</b> 可存档文件(超级用户可设)</p></li>
+					<li><p><b>SF_IMMUTABLE:</b> 文件是只读的(超级用户可设)</p></li>
+					<li><p><b>SF_APPEND:</b> 文件只能追加内容(超级用户可设)</p></li>
+					<li><p><b>SF_NOUNLINK:</b> 文件不可删除(超级用户可设)</p></li>
+					<li><p><b>SF_SNAPSHOT:</b> 快照文件(超级用户可设)</p></li>
+				</ul>
+			</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法没有返回值。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 lchflags() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+import os, sys
+
+# 打开文件
+path = "/var/www/html/foo.txt"
+fd = os.open( path, os.O_RDWR|os.O_CREAT )
+
+# 关闭文件
+os.close( fd )
+
+# 修改文件标记
+ret = os.lchflags(path, os.UF_IMMUTABLE )
+
+print ("修改文件标记成功!!")</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>修改文件标记成功!!</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

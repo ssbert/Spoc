@@ -1,0 +1,84 @@
+<div class="functionFputc-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">fputc()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int fputc(int char, FILE *stream)</b> 把参数 <b>char</b> 指定的字符（一个无符号字符）写入到指定的流 stream 中，并把位置标识符往前移动。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 fputc() 函数的声明。</p>
+		<pre>int fputc(int char, FILE *stream)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>char</b> -- 这是要被写入的字符。该字符以其对应的 int 值进行传递。</li>
+			<li><b>stream</b> -- 这是指向 FILE 对象的指针，该 FILE 对象标识了要被写入字符的流。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果没有发生错误，则返回被写入的字符。如果发生错误，则返回 EOF，并设置错误标识符。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 fputc() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main ()
+{
+   FILE *fp;
+   int ch;
+
+   fp = fopen("file.txt", "w+");
+   for( ch = 33 ; ch <= 100; ch++ )
+   {
+      fputc(ch, fp);
+   }
+   fclose(fp);
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将在当前目录中创建文件 <b>file.txt</b>，它的内容如下：</p>
+		<pre>!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcd</pre>
+		<p>现在让我们使用下面的程序查看上面文件的内容：</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main ()
+{
+   FILE *fp;
+   int c;
+
+   fp = fopen("file.txt","r");
+   while(1)
+   {
+      c = fgetc(fp);
+      if( feof(fp) )
+      {
+          break ;
+      }
+      printf("%c", c);
+   }
+   fclose(fp);
+   return(0);
+}</code></pre>
+		</div>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

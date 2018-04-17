@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "StructureMap";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div class="libChart" id="libchart" style="width: 100%; height: 100%;"></div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/echarts/echarts.min.js"></script>
+    <script src="~/js/libchart.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script>
+        var request = GetRequest();
+        var tabHelper = new TabHelper("tabs");
+        var labelDeductPoint = @ViewBag.labelDeductPoint;
+        $(function() {
+            libChart.initChart(
+                {
+                    nodesUrl: "/api/services/app/structureMap/GetMainMapData",
+                    linesUrl: "/api/services/app/LibLabelView/GetUserLabelScore?userId=" + request.userId,
+                    labelLink: "/Statement/Lib/UserAnswerRecords",
+                    labelCallBack: function(link, id) {
+                        var url = link + "?labelId={0}&userId={1}".format(id, request.userId);
+                        tabHelper.openTab("作答记录", url, "icon-06");
+                    },
+                    ruleCallBack: function (setStatic, score) {
+                        if (score > 0) {
+                            setStatic("已掌握");
+                        } else if (score <= 0 && score > labelDeductPoint) {
+                            setStatic("不稳定");
+                        } else if (score <= labelDeductPoint) {
+                            setStatic("未掌握");
+                        } else if (score === "none") {
+                            setStatic("无反馈");
+                        }
+                    }
+                }
+            );
+        });
+    </script>
+}

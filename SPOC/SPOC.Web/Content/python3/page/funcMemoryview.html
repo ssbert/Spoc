@@ -1,0 +1,58 @@
+<div class="funcMemoryview-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">memoryview() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>memoryview() 函数返回给定参数的内存查看对象(Momory view)。</p>
+		<p>所谓内存查看对象，是指对支持缓冲区协议的数据进行包装，在不需要复制对象基础上允许Python代码访问。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>memoryview 语法：</p>
+		<pre>memoryview(obj)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>obj -- 对象</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回元组列表。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 memoryview 的使用方法：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">Python2.x 应用：</h2>
+			<pre><code>>>>v = memoryview('abcefg')
+>>> v[1]
+'b'
+>>> v[-1]
+'g'
+>>> v[1:4]
+&lt;memory at 0x77ab28&gt;
+>>> v[1:4].tobytes()
+'bce'</code></pre>
+		</div>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">Python3.x 应用：</h2>
+			<pre><code>>>>v = memoryview(bytearray("abcefg", 'utf-8'))
+>>> print(v[1])
+98
+>>> print(v[-1])
+103
+>>> print(v[1:4])
+&lt;memory at 0x10f543a08&gt;
+>>> print(v[1:4].tobytes())
+b'bce'
+>>></code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+</div>

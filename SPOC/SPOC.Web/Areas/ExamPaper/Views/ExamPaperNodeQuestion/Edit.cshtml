@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "编辑大题试题";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+<script src="~/Areas/Assets/js/exam/examPaper.js?v=@L("version")"></script>
+<script>
+    var request = GetRequest();
+    var edit = new PaperNodeQuestionEditClass(request["id"]);
+</script>
+}
+
+<div region="center">
+    <form class="form-horizontal label label-length-4">
+        <div class="form-group">
+            <label class="form-label">试题编码：</label>
+            <span id="questionCode"></span>
+        </div>
+        <div class="form-group">
+            <label class="form-label">试题类型：</label>
+            <span id="questionTypeName"></span>
+        </div>
+        <div class="form-group">
+            <label class="form-label">题干：</label>
+            <span id="questionText" style="display:inline-block;"></span>
+        </div>
+        <div class="form-group">
+            <label for="paperQuestionScore" class="form-label">分数：</label>
+            <input id="paperQuestionScore" name="paperQuestionScore" class="easyui-numberbox" precision="2" style="width:400px;" required>
+        </div>
+        <div class="form-group">
+            <label for="paperQuestionExamTime" class="form-label">答题时限：</label>
+            <input id="paperQuestionExamTime" name="paperQuestionExamTime" class="easyui-numberbox" suffix="秒" style="width:400px;" required>
+        </div>
+        <div class="form-group">
+            <label for="listOrder" class="form-label">试题顺序：</label>
+            <input id="listOrder" name="listOrder" class="easyui-numberbox" style="width:400px;" required>
+        </div>
+        <div class="form_group">
+            <label class="form-label"></label>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-disk" onclick="edit.save()">保存</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-undo" onclick="edit.reset()">重置</a>
+        </div>
+    </form>
+</div>

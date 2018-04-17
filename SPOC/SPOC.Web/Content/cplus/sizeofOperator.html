@@ -1,0 +1,45 @@
+<div class="sizeof-operator-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">sizeof 运算符</span>
+		</h1>
+		<p>
+			<a href="#operator" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 运算符
+			</a>
+		</p>
+		<p><b>sizeof</b> 是一个关键字，它是一个编译时运算符，用于判断变量或数据类型的字节大小。</p>
+		<p>sizeof 运算符可用于获取类、结构、共用体和其他用户自定义数据类型的大小。</p>
+		<p>使用 sizeof 的语法如下：</p>
+		<pre>sizeof (data type)</pre>
+		<p>其中，data type 是要计算大小的数据类型，包括类、结构、共用体和其他用户自定义数据类型。</p>
+		<p>请尝试下面的实例，理解 C++ 中 sizeof 的用法。复制并黏贴下面的 C++ 程序到 test.cpp 文件中，编译并运行程序。</p>
+		<pre>#include &lt;iostream&gt;
+using namespace std;
+ 
+int main()
+{
+   cout << "Size of char : " << sizeof(char) << endl;
+   cout << "Size of int : " << sizeof(int) << endl;
+   cout << "Size of short int : " << sizeof(short int) << endl;
+   cout << "Size of long int : " << sizeof(long int) << endl;
+   cout << "Size of float : " << sizeof(float) << endl;
+   cout << "Size of double : " << sizeof(double) << endl;
+   cout << "Size of wchar_t : " << sizeof(wchar_t) << endl;
+   return 0;
+}</pre>
+		<p>当上面的代码被编译和执行时，它会产生下列结果，结果会根据使用的机器而不同：</p>
+		<pre>Size of char : 1
+Size of int : 4
+Size of short int : 2
+Size of long int : 4
+Size of float : 4
+Size of double : 8
+Size of wchar_t : 4</pre>
+		<p>
+			<a href="#operator" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 运算符
+			</a>
+		</p>
+	</div>
+</div>

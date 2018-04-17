@@ -1,0 +1,71 @@
+<div class="functionFmod-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库宏 - <span class="green">setjmp()</span>
+		</h1>
+		<p>
+			<a href="#standardLibSetjmpH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;setjmp.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库宏 <b>int setjmp(jmp_buf environment)</b> ：创建本地的jmp_buf缓冲区并且初始化，用于将来跳转回此处。这个子程序保存程序的调用环境于env参数所指的缓冲区，env将被longjmp使用。如果是从setjmp直接调用返回，setjmp返回值为0。如果是从longjmp恢复的程序调用环境返回，setjmp返回非零值。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 setjmp() 宏的声明。</p>
+		<pre>int setjmp(jmp_buf environment)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>environment</b> -- 这是一个类型为 jmp_buf 的用于存储环境信息的对象。
+			</li>	
+		</ul>	
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>这个宏可能不只返回一次。第一次，在直接调用它时，它总是返回零。当调用 longjmp 时带有设置的环境信息，这个宏会再次返回，此时它返回的值会传给 longjmp 作为第二个参数。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 setjmp() 宏的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;setjmp.h&gt;
+
+static jmp_buf buf;
+
+void second(void) {
+    printf("second\n");         // 打印
+    longjmp(buf,1);             // 跳回setjmp的调用处 - 使得setjmp返回值为1
+}
+
+void first(void) {
+    second();
+    printf("first\n");          // 不可能执行到此行
+}
+
+int main() {   
+    if ( ! setjmp(buf) ) {
+        first();                // 进入此行前，setjmp返回0
+    } else {                    // 当longjmp跳转回，setjmp返回1，因此进入此行
+        printf("main\n");       // 打印
+    }
+
+    return 0;
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>second
+main</pre>
+		<p>
+			<a href="#standardLibSetjmpH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;setjmp.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "ExamPaperSelector";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+    <script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/exam/component.js?v=@L("version")"></script>
+    <script>
+        var selector = new nv.components.ExamPaperSelectorClass();
+    </script>
+}
+
+<div id="container" region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-4">
+            <div class="form-group">
+                <label class="form-label" for="paperCode">编号：</label>
+                <input id="paperCode" name="paperCode" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="paperName">试卷名称：</label>
+                <input id="paperName" name="paperName" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label">试卷类型：</label>
+                <select id="paperTypeCode" name="paperTypeCode" class="easyui-combobox" editable="false" style="width:150px;">
+                    <option value="" selected>全部</option>
+                    <option value="fix">固定试卷</option>
+                    <option value="random">随机试卷</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">试卷分类：</label>
+                <input id="folderUid" name="folderUid" class="easyui-combotree" multiple="true" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="selector.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo'" onclick="$('#query-form').form('reset')">重置</a>
+            </div>
+        </form>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleselect="true" toolbar="#toolbar" pagenumber="1" pagesize="30" fit="true">
+        <thead>
+            <tr>
+                <th field="paperCode">编号</th>
+                <th field="paperName">试卷名称</th>
+                <th field="paperTypeCode" formatter="selector.paperTypeCodeFormatter">试卷类型</th>
+                <th field="createTime">创建日期</th>
+                <th field="remarks">备注</th>
+                <th field="opt" formatter="selector.optFormatter">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+

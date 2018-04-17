@@ -1,0 +1,62 @@
+<div class="fileTell-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">File tell() 方法</span>
+		</h1>
+		<p>
+			<a href="#fileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 File(文件) 方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>	
+		<p>tell() 方法返回文件的当前位置，即文件指针当前位置。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>tell() 方法语法如下：</p>
+		<pre>fileObject.seek(offset[, whence])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p>无</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回文件的当前位置。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 tell() 方法的使用：</p>
+		<p>文件 runoob.txt 的内容如下：</p>
+		<pre>1:www.runoob.com
+2:www.runoob.com
+3:www.runoob.com
+4:www.runoob.com
+5:www.runoob.com</pre>
+		<p>循环读取文件的内容：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+# 打开文件
+fo = open("runoob.txt", "r+")
+print ("文件名为: ", fo.name)
+
+line = fo.readline()
+print ("读取的数据为: %s" % (line))
+
+# 获取当前文件位置
+pos = fo.tell()
+print ("当前位置: %d" % (pos))
+
+
+# 关闭文件
+fo.close()</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>文件名为:  runoob.txt
+读取的数据为: 1:www.runoob.com
+
+当前位置: 17</pre>
+		<p>
+			<a href="#fileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 File(文件) 方法
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,44 @@
+<div class="attTimeTime-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">time time()方法</span>
+		</h1>
+		<p>
+			<a href="#dateTime" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 时间和日期
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>Python time time() 返回当前时间的时间戳（1970纪元后经过的浮点秒数）。 </p>
+		<h3 class="n-h3">语法</h3>
+		<p>time()方法语法：</p>
+		<pre>time.time()</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>NA</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回当前时间的时间戳（1970纪元后经过的浮点秒数）。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 time() 函数的使用方法：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+import time
+
+print "time.time(): %f " %  time.time()
+print time.localtime( time.time() )
+print time.asctime( time.localtime(time.time()) )</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>time.time(): 1234892919.655932
+(2009, 2, 17, 10, 48, 39, 1, 48, 0)
+Tue Feb 17 10:48:39 2009</pre>
+		<p>
+			<a href="#dateTime" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 时间和日期
+			</a>
+		</p>
+	</div>
+</div>

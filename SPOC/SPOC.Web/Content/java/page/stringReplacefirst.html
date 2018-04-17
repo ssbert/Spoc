@@ -1,0 +1,45 @@
+<div class="stringReplacefirst-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">replaceFirst() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>replaceFirst() 方法使用给定的参数 replacement 替换字符串第一个匹配给定的正则表达式的子字符串。</p>
+		<h3 class="n-h3">语法</h3>
+		<pre>public String replaceFirst(String regex,
+                           String replacement)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>regex</b> -- 匹配此字符串的正则表达式。</p></li> 
+			<li><p><b>replacement</b> -- 用来替换第一个匹配项的字符串。</p></li> 
+		<h3 class="n-h3">返回值</h3>
+		<p>成功则返回替换的字符串，失败则返回原始字符串。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test {
+    public static void main(String args[]) {
+        String Str = new String("hello runoob，I am from runoob。");
+
+        System.out.print("返回值 :" );
+        System.out.println(Str.replaceFirst("runoob", "google" ));
+        System.out.print("返回值 :" );
+        System.out.println(Str.replaceFirst("(.*)runoob(.*)", "google" ));
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>返回值 :hello google，I am from runoob。
+返回值 :google</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

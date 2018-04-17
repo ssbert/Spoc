@@ -1,0 +1,85 @@
+<div class="numberXxxvalue-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">xxxValue() 方法</span>
+		</h1>
+		<p>
+			<a href="#number" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java Number & Math类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>xxxValue() 方法用于将 Number 对象转换为 xxx 数据类型的值并返回。</p>
+		<p>相关的方法有：</p>
+		<table>
+			<tbody>
+				<tr>
+					<th>类型</th>
+					<th>方法及描述</th>
+				</tr>
+				<tr>
+					<td>byte</td>
+					<td><p><b>byteValue() :</b></p><p>
+					以 byte 形式返回指定的数值。</p></td>
+				</tr>
+				<tr>
+					<td>abstract  double</td>
+					<td><p><b>doubleValue() :</b></p><p>
+					以 double 形式返回指定的数值。</p></td>
+				</tr>
+				<tr>
+					<td>abstract  float	</td>
+					<td><p><b>floatValue() :</b></p><p>
+					以 float 形式返回指定的数值。</p></td>
+				</tr>
+				<tr>
+					<td>abstract  int</td>
+					<td><p><b>intValue() :</b></p><p>
+					以 int 形式返回指定的数值。</p></td>
+				</tr>
+				<tr>
+					<td>abstract  long</td>
+					<td><p><b>longValue() :</b></p><p>
+					以 long 形式返回指定的数值。</p></td>
+				</tr>
+				<tr>
+					<td>short</td>
+					<td><p><b>shortValue() :</b></p><p>
+					以 short 形式返回指定的数值。</p></td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">参数</h3>
+		<p>以上各函数不接受任何的参数。</p>
+		<h3 class="n-h3">返回值</h3>
+		<p>转换为 xxx 类型后该对象表示的数值。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">Test.java 文件</h2>
+			<pre><code>public class Test{ 
+ 
+   public static void main(String args[]){
+      Integer x = 5;
+      // 返回 byte 原生数据类型
+      System.out.println( x.byteValue() );
+ 
+      // 返回 double 原生数据类型
+      System.out.println(x.doubleValue());
+ 
+      // 返回 long 原生数据类型
+      System.out.println( x.longValue() );      
+   }
+}</code></pre>
+		</div>
+		<p>编译以上程序，输出结果为：</p>
+		<pre>5
+5.0
+5</pre>
+	</div>
+	<p>
+		<a href="#number" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java Number & Math类
+		</a>
+	</p>
+</div>

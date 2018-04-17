@@ -1,0 +1,260 @@
+﻿@*@model SPOC.Common.Pagination.PaginationOutputDto<SPOC.User.Dto.Notification.NotificationItem>*@
+@{
+    ViewBag.Title = "Notice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/css/notice.css">
+
+}
+<!-- 系统消息页模块-S -->
+<div class="notifications-page container-box center">
+    <div class="title">
+        <h2>通知</h2>
+    </div>
+    <div class="notifications-lists">
+        
+    </div>
+    <div class="modal fade notice-modal" tabindex="-1">
+
+    </div>
+    <!-- 分页导航-S -->
+    <div class="page-nav">
+        <div class="pagination"></div>
+    </div>
+    <!-- 分页导航-E -->
+</div>
+
+<script type="text/template" id="noticeTemplate">
+
+    {{if items.length !== 0 }}
+        {{each items}}
+            <div class="notifications clearfix">
+                <div class="icon col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                    <span class="glyphicon glyphicon-bullhorn fillet text-center"></span>
+                </div>
+                <div class="subject col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    {{if $value.read === false}}
+                        <p class="title"><span class="red fillet_5 notice-type">{{$value.typeName}}</span><span data-toggle="modal" data-target=".notice-modal" data-id={{$value.id}} class="title-text">{{$value.content}}</span></p>
+                    {{else}}
+                        <p class="title thin"><span class="red fillet_5 notice-type">{{$value.typeName}}</span><span data-toggle="modal" data-target=".notice-modal" data-id={{$value.id}} class="title-text">{{$value.content}}</span></p>
+                    {{/if}}
+                </div>
+                <div class="info col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <p class="date">
+                        发布时间：<span>{{dealDate($value.createTime)}}</span>
+                    </p>
+                    {{if $value.read === false}}
+                        <p class="status red">
+                            未读
+                        </p>
+                    {{else}}
+                        <p class="status green">
+                            已读
+                        </p>
+                    {{/if}}
+                    
+                </div>
+            </div>
+        {{/each}}
+    {{/if}}
+
+</script>
+<script type="text/template" id="modalTemplate">
+    {{each items}}
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="create-time">
+                    <span class="gray">
+                        发布于：
+                        <small class="gray">{{dealDate($value.createTime)}}</small>
+                    </span>
+                </div>
+                <p>{{$value.content}}</p>
+            </div>
+        </div>
+    {{/each}}
+</script>
+<!-- 系统消息页模块-E -->
+<script type="text/javascript" src="~/Scripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="~/Scripts/artTemplate-4.12.1/template-web.js"></script>
+<script type="text/javascript" src="~/Scripts/jqPaginator-1.2.1/jqpaginator.min.js"></script>
+<script>
+    (function () {
+
+        function Notices() {
+            this.dataBox;
+            this.url;
+            this.setReadUrl;
+            this.notTemplateId;
+            this.mdlTemplateId;
+            this.container;
+            this.pageContainer;
+            this.modalContainer;
+            this.skip = 0;
+        }
+
+        Notices.prototype = {
+
+            constructor: Notices,
+
+            init: function (options) {
+                this.url = options.url;
+                this.setReadUrl = options.setReadUrl;
+                this.notTemplateId = options.notTemplateId;
+                this.mdlTemplateId = options.mdlTemplateId;
+                this.container = options.container;
+                this.pageContainer = options.pageContainer;
+                this.modalContainer = options.modalContainer;
+                this.pageSize = options.pageSize || 6;
+                this.getData(this.url, { skip: this.skip, pageSize: this.pageSize });
+                this.initPagination();
+            },
+
+            getData: function (url, options) {
+                var that = this;
+                $.ajax({
+                    method: "POST",
+                    url: url,
+                    data: {
+                        pageSize: options.pageSize,
+                        skip: options.skip * that.pageSize
+                    },
+                    success: function (data) {
+                        that.dataBox = data.result.rows;
+                        that.applyContent(that.dataBox, that.notTemplateId, that.container);
+                        that.bindClick();
+                        that.calcTotalPage(data.result.total, that.pageSize);
+                        that.locateNotice();
+                    }
+                })
+            },
+
+            setRead: function (url, id, target, value) {
+                var that = this;
+                $.ajax({
+                    method: "POST",
+                    url: url,
+                    data: {
+                        id: id
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            target.addClass('thin');
+                            target.parents('.notifications').find('.status').addClass('green').removeClass('red').text("已读");
+                            value.read = true;
+                        } else {
+                            return false;
+                        }
+                    }
+                })
+            },
+
+            applyContent: function (data, templateId, container) {
+                var str = template(templateId, { items: data });
+                container.html(str);
+            },
+
+            initPagination: function () {
+                var that = this;
+                this.pageContainer.jqPaginator({
+                    totalPages: 1,
+                    visiblePages: 5,
+                    currentPage: 1,
+                    first: '<li class="first"><a href="javascript:void(0);" class="glyphicon glyphicon-backward"></a></li>',
+                    prev: '<li class="prev"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-left"></a></li>',
+                    next: '<li class="next"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-right"></a></li>',
+                    last: '<li class="last"><a href="javascript:void(0);" class="glyphicon glyphicon-forward"></a></li>',
+                    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+                    onPageChange: function (num, type) {
+                        if (type !== 'init') {
+                            that.getData(that.url, { skip: num - 1, pageSize: that.pageSize });
+                        }
+                    }
+                });
+                this.pageContainer.css('display', 'none');
+            },
+
+            calcTotalPage: function (total, pageSize) {
+                if (total > pageSize) {
+                    this.totalPage = Math.ceil(total / pageSize);
+                    this.setTotalPage(this.pageContainer, this.totalPage);
+                    this.pageContainer.css('display', 'inline-block');
+                } else {
+                    this.totalPage = 1;
+                }
+            },
+
+            setTotalPage: function (pageContainer, totalPage) {
+                pageContainer.jqPaginator('option', {
+                    totalPages: totalPage
+                });
+            },
+
+            showDetail: function (id, target) {
+                var that = this;
+                var tar = [];
+                $(that.dataBox).each(function (index, value) {
+                    if (value.id === id) {
+                        tar.push(value);
+                        if (value.read === false) {
+                            that.setRead(that.setReadUrl, id, target, value);
+                        }
+                        return false;
+                    }
+                });
+                that.applyContent(tar, that.mdlTemplateId, that.modalContainer);
+            },
+
+            bindClick: function () {
+                var that = this;
+                $(".notifications .title-text").on("click", function (e) {
+                    var id = e.target.dataset.id,
+                        target = $(e.target);
+                    that.showDetail(id, target);
+                    //that.setRead(that.setReadUrl, id, target);
+                })
+            },
+
+            locateNotice: function () {
+                var noticeId = localStorage.getItem('noticeId');
+                if (noticeId) {
+                    var noticeLists = $('.notifications');
+                    if (noticeId) {
+                        noticeLists.each(function (index, value) {
+                            var target = $(value).find('.title-text');
+                            var targetId = $(value).find('.title-text')[0].dataset.id;
+                            if (noticeId === targetId) {
+                                target.trigger('click');
+                            }
+                        })
+                    }
+                    localStorage.setItem('noticeId', null);
+                }
+            }
+
+        }
+
+        var notices = new Notices();
+
+        //初始化
+        notices.init({
+            url: "/api/services/app/notification/GetPagination",
+            setReadUrl: "/api/services/app/notification/SetNotificationIsRead",
+            notTemplateId: 'noticeTemplate',
+            mdlTemplateId: 'modalTemplate',
+            container: $('.notifications-lists'),
+            pageContainer: $('.pagination'),
+            modalContainer: $('.notice-modal'),
+            pageSize: 10
+        });
+
+        template.helper("dealDate", function (date) {
+            return new Date(+new Date(date) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
+        })
+
+    })();
+</script>
+

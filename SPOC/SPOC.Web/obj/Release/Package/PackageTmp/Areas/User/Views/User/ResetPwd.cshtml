@@ -1,0 +1,57 @@
+﻿
+@{
+
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>修改密码</title>
+    <script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+    <script type="text/javascript">
+       // $("#userName").attr("disabled", "disabled");
+    </script>
+</head>
+<body>
+    <div region="center">
+        <div id="pwdUpdate_div" class="form-horizontal label label-length-4">
+
+            <form id="pwdUpdate_form" method="post">
+                <input name="userMobile" id="userMobile" class="hidden" type="text" />
+                <input name="userId" id="userId" class="hidden" type="text" />
+                <div class="fitem">
+                    <label>
+                        用户名：
+                    </label>
+                    <input name="userName" id="userName" validate=true class="easyui-textbox" data-options=" readonly:true">
+                </div>
+                <div class="fitem">
+                    <label>
+                        原密码：
+                    </label>
+                    @*<input name="oldPassWord" id="oldPassWord" class="easyui-textbox" data-options="type:'password',validType:['length[5,20]'],required:true">*@
+                    <input name="oldPassWord" id="oldPassWord" class="easyui-textbox" value="......" data-options=" type:'password',readonly:true">
+                </div>
+                <div class="fitem">
+                    <label>
+                        新密码：
+                    </label>
+                    <input name="newPassWord" id="newPassWord" class="easyui-textbox" data-options="type:'password',validType:['length[5,20]'] ,required:true ">
+                </div>
+
+            </form>
+        </div>
+        
+        <div id="dlg-pwdEdit">
+            <a href="javascript:void(0)" class="easyui-linkbutton c6" data-options="iconCls:'icon-save',width:'90px'"
+               onclick="obj.ResetPwdSubmit()">确定</a> <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',width:'90px'"
+                                              onclick="obj.cancel()">取消</a>
+        </div>
+
+    </div>
+</body>
+</html>

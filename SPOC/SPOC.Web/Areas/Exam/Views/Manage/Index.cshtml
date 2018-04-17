@@ -1,0 +1,145 @@
+﻿@using SPOC.Common.Cookie
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+    var cookie = CookieHelper.GetLoginInUserInfo();
+    var display = cookie.IsAdmin ? "" : "display: none;";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-6">
+            <div class="form-group">
+                <label class="form-label" for="code">编号：</label>
+                <input id="code" name="code" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="title">考试名称：</label>
+                <input id="title" name="title" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group" style="@display">
+                <label class="form-label" for="userFullName">创建者姓名：</label>
+                <input id="userFullName" name="userFullName" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group" style="@display">
+                <label class="form-label" for="userLoginName">创建者用户名：</label>
+                <input id="userLoginName" name="userLoginName" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label">创建时间：</label>
+                <input id="createBeginTime" name="createBeginTime" class="easyui-datetimebox" style="width: 150px;" />
+                至
+                <input id="createEndTime" name="createEndTime" class="easyui-datetimebox" style="width: 150px;" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">考试时间：</label>
+                <input id="beginTime" name="beginTime" class="easyui-datetimebox" style="width: 150px;" />
+                至
+                <input id="endTime" name="endTime" class="easyui-datetimebox" style="width: 150px;" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">教学班级：</label>
+                <input id="classIds" class="easyui-combotree" style="width: 150px" data-options="
+                        url:'/api/services/app/Department/GetAllClass',
+                        method:'get',
+                        valueField:'id',
+                        multiple:true,
+                        panelHeight:'auto',
+                        loadFilter:function(data){
+                            $.each(data.result, function(k, v){v.text = v.name;});
+                            return data.result;
+                        }" />
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="manage.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="$('#query-form').form('clear')">重置</a>
+            </div>
+        </form>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="manage.add()">创建</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="false" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+                <th field="code">编号</th>
+                <th field="title">考试名称</th>
+                <th field="classes" formatter="classesFormatter">教学班级</th>
+                <th field="createTime">创建日期</th>
+                @if (cookie.IsAdmin)
+                {
+                    <th field="userLoginName">创建者用户名</th>
+                    <th field="userFullName">创建者姓名</th>
+                }
+                <th field="opt" formatter="optFormatter">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<div id="classDialog" class="easyui-dialog" title="发布到教学班级" style="width:300px;height:150px;" draggable="false" modal="true" buttons="#btns" closed="true">
+    <form id="classesForm" class="form-horizontal">
+        <div class="form-group">
+            <input id="candidateClassIds" class="easyui-combobox" multiple="true" valueField="id" textField="name" style="width: 200px" autocomplete="off" required />
+        </div>
+    </form>
+    <div id="btns">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-disk" onclick="manage.publish()">确定</a>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script src="~/Areas/Assets/js/notificationHelper.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/exam/examTaskManage.js?v=@L("version")"></script>
+    <script>
+        function classesFormatter(val) {
+            if (!val) {
+                return "";
+            }
+            var arr = [];
+            $.each(val,
+                function(k, v) {
+                    arr.push(v);
+                });
+            if (arr.length > 0) {
+                return arr.join(",");
+            }
+            return "";
+        }
+
+        function optFormatter(val, row, index) {
+            var options = [
+                {
+                    title: "发布",
+                    text: "发布",
+                    icon: "icon-redo",
+                    onclick: "manage.showClassDialog({0})".format(index),
+                    hasParams: "true"
+                },
+                {
+                    title: "编辑",
+                    text: "编辑",
+                    icon: "icon-edit",
+                    onclick: "manage.edit('{0}')".format(row.id),
+                    hasParams: "true"
+                },
+                {
+                    title: "删除",
+                    text: "删除",
+                    icon: "icon-busy",
+                    onclick: "manage.del"
+                }
+            ];
+
+            return linkbtn(index, { option: options });
+        }
+
+        var manage = new ExamTaskManage();
+        $(function() {
+            manage.initPagination();
+            manage.query();
+        });
+    </script>
+}

@@ -1,0 +1,57 @@
+<div class="functionGetenv-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">getenv()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>char *getenv(const char *name)</b> 搜索 name 所指向的环境字符串，并返回相关的值给字符串。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 getenv() 函数的声明。</p>
+		<pre>char *getenv(const char *name)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>name</b> -- 包含被请求变量名称的 C 字符串。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回一个以 null 结尾的字符串，该字符串为被请求环境变量的值。如果该环境变量不存在，则返回 NULL。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 getenv() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main ()
+{
+   printf("PATH : %s\n", getenv("PATH"));
+   printf("HOME : %s\n", getenv("HOME"));
+   printf("ROOT : %s\n", getenv("ROOT"));
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>PATH : /sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin
+HOME : /
+ROOT : (null)</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

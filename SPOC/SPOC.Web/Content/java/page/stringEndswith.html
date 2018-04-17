@@ -1,0 +1,46 @@
+<div class="stringEndswith-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">endsWith() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>endsWith() 方法用于测试字符串是否以指定的后缀结束。</p>
+		<h3 class="n-h3">语法</h3>
+		<pre>public boolean endsWith(String suffix)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>suffix</b> -- 指定的后缀。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>如果参数表示的字符序列是此对象表示的字符序列的后缀，则返回 true；否则返回 false。注意，如果参数是空字符串，或者等于此 String 对象（用 equals(Object) 方法确定），则结果为 true。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test {
+    public static void main(String args[]) {
+        String Str = new String("菜鸟教程：www.baidu.com");
+        boolean retVal;
+
+        retVal = Str.endsWith( "baidu" );
+        System.out.println("返回值 = " + retVal );
+
+        retVal = Str.endsWith( "com" );
+        System.out.println("返回值 = " + retVal );
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>返回值 = false
+返回值 = true</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

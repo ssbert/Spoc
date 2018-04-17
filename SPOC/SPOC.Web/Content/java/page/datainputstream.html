@@ -1,0 +1,100 @@
+<div class="datainputstream-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">DataInputStream类</span>
+		</h1>
+		<p>
+			<a href="#filesIo" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java 流(Stream)
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>数据输入流允许应用程序以与机器无关方式从底层输入流中读取基本 Java 数据类型。 </p>
+		<p>下面的构造方法用来创建数据输入流对象。</p>
+		<pre>DataInputStream dis = new DataInputStream(InputStream in);</pre>
+		<p>另一种创建方式是接收一个字节数组，和两个整形变量 off、len，off表示第一个读取的字节，len表示读取字节的长度。 </p>
+		<table class="reference">
+			<tbody>
+				<tr>
+					<th>
+						序号</th>
+					<th>
+						方法描述</th>
+				</tr>
+				<tr>
+					<td>
+						1</td>
+					<td>
+						<strong>public final int read(byte[] r, int off, int len)throws IOException</strong><br>
+						从所包含的输入流中将 <code>len</code> 个字节读入一个字节数组中。如果len为-1，则返回已读字节数。</td>
+				</tr>
+				<tr>
+					<td>
+						2</td>
+					<td>
+						<strong>Public final int read(byte [] b)throws IOException</strong><br>
+						从所包含的输入流中读取一定数量的字节，并将它们存储到缓冲区数组 <code>b</code> 中。</td>
+				</tr>
+				<tr>
+					<td>
+						3</td>
+					<td>
+						<ol style="list-style-type:lower-alpha;">
+							<li>
+								<strong>public final Boolean readBooolean()throws IOException,</strong></li>
+							<li>
+								<strong>public final byte readByte()throws IOException,</strong></li>
+							<li>
+								<strong>public final short readShort()throws IOException </strong></li>
+							<li>
+								<strong>public final Int readInt()throws IOException</strong></li>
+						</ol>
+						从输入流中读取字节，返回输入流中两个字节作为对应的基本数据类型返回值。</td>
+				</tr>
+				<tr>
+					<td>
+						4</td>
+					<td>
+						<strong>public String readLine() throws IOException</strong><br>
+						从输入流中读取下一文本行。</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">实例</h3>
+		<p>下面的例子演示了DataInputStream和DataOutputStream的使用，该例从文本文件test.txt中读取5行，并转换成大写字母，最后保存在另一个文件test1.txt中。</p>
+		<p>test.tx 文件内容如下：</p>
+		<pre>runoob1
+runoob2
+runoob3
+runoob4
+runoob5</pre>
+		<div class="n-example">
+			<pre>import java.io.*;
+ 
+public class Test{
+   public static void main(String args[])throws IOException{
+ 
+      DataInputStream in = new DataInputStream(new FileInputStream("test.txt"));
+      DataOutputStream out = new DataOutputStream(new  FileOutputStream("test1.txt"));
+      BufferedReader d  = new BufferedReader(new InputStreamReader(in));
+     
+      String count;
+      while((count = d.readLine()) != null){
+          String u = count.toUpperCase();
+          System.out.println(u);
+          out.writeBytes(u + "  ,");
+      }
+      d.close();
+      out.close();
+   }
+}</pre>
+		</div>
+		<p>以上实例编译运行结果如下：</p>
+		<pre>RUNOOB1
+RUNOOB2
+RUNOOB3
+RUNOOB4
+RUNOOB5</pre>
+	</div>
+</div>

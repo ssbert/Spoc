@@ -1,0 +1,150 @@
+﻿@model SPOC.Core.Dto.Challenge.RankListViewDto
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int pageSize = 0;
+    if (Model.Total % 5 > 0)
+    {
+        pageSize = Model.Total / 5 + 1;
+    }
+    else
+    {
+        pageSize = Model.Total / 5;
+    }
+    var id = ViewBag.id;
+}
+
+@section styles{<link rel="stylesheet" type="text/css" href="~/css/detail.css"> }
+
+<!-- 详情-S -->
+<div class="challenge-detail-page detail-page container-box center">
+<div class="detail-header">
+    <h2 class="header-title">@ViewBag.title</h2>
+
+</div>
+<div class="detail-content">
+<div class="nav-tab">
+
+    <ul class="clearfix">
+        <li class="item "><a href="/challenges/problem/@id" >程序</a></li>
+        <li class="item active"><a href="#">单题排行榜</a></li>
+        <li class="item" ><a href="/challenges/submissions/@id">提交记录</a></li>
+    </ul>
+</div>
+<div class="tab-content">
+<!-- 排行榜 -->
+<div class="leaderboard-content content-box active" id="single-leaderboard">
+    <div class="single-leaderboard">
+        @if (Model.RankList.Count != 0 && Model.RankList != null)
+        {
+            <div class="leaderboard-table">
+                <div class="table-header clearfix">
+                    <div class="table-header-colum rank">
+                        排名
+                    </div>
+                    <div class="table-header-colum hacker">
+                        学生
+                    </div>
+                    <div class="table-header-colum counts">
+                        挑战次数
+                    </div>
+                    <div class="table-header-colum time">
+                        耗时
+                    </div>
+                    <div class="table-header-colum results">
+                        是否通过
+                    </div>
+                </div>
+                <div class="table-body">
+                    @{
+                        foreach (var rank in Model.RankList)
+                        {
+                            <div class="table-row clearfix">
+                                <div class="table-row-colum rank">
+                                    @rank.rank
+                                </div>
+                                <div class="table-row-colum hacker">
+                                    @rank.userName
+                                </div>
+                                <div class="table-row-colum counts">
+                                    @rank.submitTimes
+                                </div>
+                                <div class="table-row-colum time">
+                                    @rank.time
+                                </div>
+                                <div class="table-row-colum results">
+                                    <span class="glyphicon @(rank.isPass==1?"glyphicon-ok green":"glyphicon-remove red")"></span>
+                                </div>
+                            </div>
+                        }
+                    }
+
+
+                </div>
+            </div>
+            <div class="leaderboard-table self">
+                <div class="table-body">
+                    <div class="table-row clearfix">
+                        <div class="table-row-colum rank">
+                            @Model.Rank.rank
+                        </div>
+                        <div class="table-row-colum hacker">
+                            @Model.Rank.userName
+                        </div>
+                        <div class="table-row-colum counts">
+                            @Model.Rank.submitTimes
+                        </div>
+                        <div class="table-row-colum time">
+                            @Model.Rank.time
+                        </div>
+                        <div class="table-row-colum results">
+                            <span class="glyphicon @(Model.Rank.isPass==1?"glyphicon-ok green":"glyphicon-remove red")"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         }
+         else
+         {
+            <div class="iconfont icon-nodata"></div>
+         }
+
+    </div>
+    <!-- 分页导航-S -->
+    <div class="page-nav">
+        <div class="pagination"></div>
+    </div>
+    <!-- 分页导航-E -->
+</div>
+
+</div>
+</div>
+</div>
+<script src="~/Scripts/jquery-3.2.1.min.js"></script>
+<script src="~/Scripts/jqPaginator-1.2.1/jqpaginator.min.js"></script>
+<script>
+        var current = @Model.CurrentPage;
+
+        (function() {
+            if (@Model.Total > 5) {
+                $('.pagination').jqPaginator({
+                    totalPages: @pageSize,
+                    visiblePages: 5,
+                    currentPage: current,
+                    first: '<li class="first"><a href="javascript:void(0);" class="glyphicon glyphicon-backward"></a></li>',
+                    prev:
+                        '<li class="prev"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-left"></a></li>',
+                    next:
+                        '<li class="next"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-right"></a></li>',
+                    last: '<li class="last"><a href="javascript:void(0);" class="glyphicon glyphicon-forward"></a></li>',
+                    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+                    onPageChange: function(num, type) {
+                        if (type === "change") {
+                            window.location.href = "/challenges/rank?id=@id&currentPage=" + num;
+                        }
+                    }
+                });
+            }
+        })();
+
+</script>
+

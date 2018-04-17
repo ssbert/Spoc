@@ -1,0 +1,50 @@
+<div class="stringGetchars-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">getChars() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>getChars() 方法将字符从字符串复制到目标字符数组。</p>
+		<h3 class="n-h3">语法</h3>
+		<pre>public void getChars(int srcBegin, int srcEnd, char[] dst,  int dstBegin)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>srcBegin</b> -- 字符串中要复制的第一个字符的索引。</p></li>
+			<li><p><b>srcEnd</b> -- 字符串中要复制的最后一个字符之后的索引。</p></li>
+			<li><p><b>dst</b> -- 目标数组。</p></li>
+			<li><p><b>dstBegin</b> -- 目标数组中的起始偏移量。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>没有返回值，但会抛出 IndexOutOfBoundsException 异常。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test {
+    public static void main(String args[]) {
+        String Str1 = new String("www.runoob.com");
+        char[] Str2 = new char[6];
+
+        try {
+            Str1.getChars(4, 10, Str2, 0);
+            System.out.print("拷贝的字符串为：" );
+            System.out.println(Str2 );
+        } catch( Exception ex) {
+            System.out.println("触发异常...");
+        }
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>拷贝的字符串为：runoob</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

@@ -1,0 +1,244 @@
+﻿
+@{
+    ViewBag.Title = "ClassContrast";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-5">
+            <div class="form-group">
+                <label class="form-label">教学班级：</label>
+                <input id="classIds" class="easyui-combotree" style="width: 400px" data-options="
+                        valueField:'id',
+                        textField:'text',
+                        multiple:true,lines:true,
+                        panelHeight:'400'" />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="title">知识点：</label>
+                <select  multiple="multiple" class="multiSelect"  id="label" style="width:400px"></select>  
+            </div>
+            <div class="form-group">
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="classStatement.query()">查询</a>
+            </div>
+        </form>
+        
+    </div>
+    <div id="divTab" data-options="region:'south1'" style="padding: 20px 10px 0px 10px" >
+        <div class="charts" id="charts" style="width: 100%;height:800px;"></div>
+
+        @*<div class="charts" id="charts">
+
+        </div>*@
+
+    </div>
+
+
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/echarts/echarts.min.js"></script>
+    <script src="~/Scripts/echarts/macarons.js"></script>
+    <script src="~/Scripts/select2-4.0.5/js/select2.full.js"></script>
+    <link href="~/Scripts/select2-4.0.5/css/select2.css" rel="stylesheet"/>
+    <script>
+        //绘制charts
+        var chart;
+        var ClassStatement = (function() {
+            function init() {
+                var queryParam = { skip: 0, pageSize: 30 };
+                this.query = function() {
+                    setParam();
+                    loadData(queryParam);
+                };
+                this.reset = function() {
+                    $("#query-form").form("reset");
+
+                };
+
+
+                this.initCombotree = function() {
+                    var url = "/api/services/app/Department/GetAllDepartmentTree";
+                    nv.post(url,
+                        null,
+                        function(data) {
+                            if (data.success) {
+                                $("#classIds").combotree("loadData", data.result);
+                            }
+                        });
+
+                };
+                this.loadLabel = function () {
+                    $("#label").select2({
+                        placeholder: "请选择知识点"
+                    }).on("select2:select",
+                        function (e) {
+                    
+                        }).on("select2:unselect",
+                        function (e) {
+
+                           //e.params.data.id
+                        });
+                    //加载知识点
+                    $.getJSON("/api/services/app/liblabel/LoadLabelForChoose",
+                        function(data) {
+                            $('#label').empty(); //清空下拉框
+                            $.each(data.result,
+                                function(i, item) {
+                                   
+                                    $('#label').append("<option value='" + item.id + "'>" + item.title + "</option>");
+                                   
+                                });
+
+
+                        });
+                }
+
+                function setParam() {
+                    var nodes = $("#classIds").combotree("tree").tree("getChecked");
+                    var classIds = [];
+                    $.each(nodes,
+                        function(k, v) {
+                            if (!v.children || v.children.length === 0) {
+                                classIds.push(v.id);
+                            }
+                        });
+
+                    queryParam.classIdList = classIds;
+                    queryParam.skip = 0;
+                    queryParam.labelId=$("#label").val();
+
+                }
+
+                function loadData(param) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "LibLabelStatement/ClassContrast";
+                    nv.post(url,
+                        param,
+                        function(data) {
+                            if (data.success) {
+
+                                initChart(data.result);
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }
+
+                function initChart(data) {
+
+                    var option = {
+                        title: {
+                            top:20,
+                            text: '班级知识点掌握情况对比',
+                            subtext: '掌握比率'
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        grid: {
+                            top: 60
+                        },
+                        legend: {
+                            top: 0,
+                            data: data.legend,
+                            type: 'scroll'
+                         
+                        },
+                        toolbox: {
+                            top: 20,
+                            show: true,
+                            feature: {
+                                dataZoom: {
+                                    yAxisIndex: 'none'
+                                },
+                                dataView: {
+                                    readOnly: true, //去掉刷新按钮
+                                    optionToContent: function (opt) {
+                                        var axisData = opt.xAxis[0].data; //坐标数据
+                                        var series = opt.series; //折线图数据
+                                        var tdHeads = '<td  style="padding: 0 10px"></td>'; //表头
+                                        var tdBodys = ''; //数据
+                                        series.forEach(function (item) {
+                                            //组装表头
+                                            tdHeads += '<td style="padding: 0 10px">'+item.name+'</td>';
+                                        });
+                                        var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>' + tdHeads +'</tr>';
+                                        for (let i = 0, l = axisData.length; i < l; i++) {
+                                            for (let j = 0; j < series.length; j++) {
+                                                //组装表数据
+                                                tdBodys += '<td>'+ series[j].data[i]+
+                                            '</td >';
+                                            }
+                                            table += '<tr><td style="padding: 0 10px">'+axisData[i]+'</td>'+tdBodys+'</tr>';
+                                            tdBodys = '';
+                                        }
+                                        table += '</tbody></table>';
+                                        return table;
+                                    }
+                                },
+                                magicType: { type: ['line', 'bar'] },
+                                restore: {},
+                                saveAsImage: {}
+                            }
+                        },
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            name: "知识点", //坐标轴名称。
+                            //nameLocation:'end',//坐标轴名称显示位置。
+                            data: data.xAxis,
+                            axisLabel: { //坐标轴刻度标签的相关设置。
+                                interval: 0,
+                                rotate: "45"
+                            }
+                        },
+                        yAxis: {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value} %'
+                            }
+                        },
+                        series: data.seriesData
+                    };
+                    chart.clear();
+                    chart.setOption(option);
+                }
+
+            }
+
+            return init;
+        })();
+
+        var classStatement = new ClassStatement();
+
+        $(function() {
+            $("#charts").css('height', document.body.clientHeight - 80);
+            chart = echarts.init(document.getElementById('charts'), e_macarons);
+            classStatement.initCombotree();
+            classStatement.loadLabel();
+            classStatement.query();
+        });
+        $(window).on('resize',
+            function() {
+                var width = document.body.clientWidth - 30; //$('.layout-body').width();
+                var height = document.body.clientHeight - 80;
+                if (width > 0) {
+                    setTimeout(function() {
+                            $('.charts').css('width', width + 'px');
+                            $('.charts').css('height', height + 'px');
+                            chart.resize();
+                        },
+                        300);
+                }
+            });
+    </script>
+}

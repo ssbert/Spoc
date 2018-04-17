@@ -1,0 +1,68 @@
+<div class="functionCos-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">cos()</span>
+		</h1>
+		<p>
+			<a href="#standardLibMathH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;math.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>double cos(double x)</b> 返回弧度角 x 的余弦。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 cos() 函数的声明。</p>
+		<pre>double cos(double x)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>x</b> -- 浮点值，代表了一个以弧度表示的角度。
+			</li>
+		</ul>	
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>该函数返回 x 的余弦。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 cos() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+#define PI 3.14159265
+
+int main ()
+{
+   double x, ret, val;
+
+   x = 60.0;
+   val = PI / 180.0;
+   ret = cos( x*val );
+   printf("%lf 的余弦是 %lf 度\n", x, ret);
+   
+   x = 90.0;
+   val = PI / 180.0;
+   ret = cos( x*val );
+   printf("%lf 的余弦是 %lf 度\n", x, ret);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>60.000000 的余弦是 0.500000 度
+90.000000 的余弦是 0.000000 度</pre>
+		<p>
+			<a href="#standardLibMathH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;math.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

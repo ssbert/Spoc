@@ -1,0 +1,67 @@
+<div class="functionRealloc-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">realloc()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>void *realloc(void *ptr, size_t size)</b> 尝试重新调整之前调用 <b>malloc</b> 或 <b>calloc</b> 所分配的 <b>ptr</b> 所指向的内存块的大小。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 realloc() 函数的声明。</p>
+		<pre>void *realloc(void *ptr, size_t size)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>ptr</b> --  指针指向一个要重新分配内存的内存块，该内存块之前是通过调用 malloc、calloc 或 realloc 进行分配内存的。如果为空指针，则会分配一个新的内存块，且函数返回一个指向它的指针。</li>
+			<li><b>size</b> -- 内存块的新的大小，以字节为单位。如果大小为 0，且 ptr 指向一个已存在的内存块，则 ptr 所指向的内存块会被释放，并返回一个空指针。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回一个指针 ，指向重新分配大小的内存。如果请求失败，则返回 NULL。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 realloc() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main()
+{
+   char *str;
+
+   /* 最初的内存分配 */
+   str = (char *) malloc(15);
+   strcpy(str, "baidu");
+   printf("String = %s,  Address = %u\n", str, str);
+
+   /* 重新分配内存 */
+   str = (char *) realloc(str, 25);
+   strcat(str, ".com");
+   printf("String = %s,  Address = %u\n", str, str);
+
+   free(str);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>String = baidu, Address = 355090448
+String = baidu.com, Address = 355090448</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

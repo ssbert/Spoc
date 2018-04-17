@@ -1,0 +1,152 @@
+<div class="builtInFunctions-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#osFileMethods" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python OS 文件/目录方法
+		</a>
+		<a href="#object" class="pull-right green">
+			Python 面向对象
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">内置函数</span>
+		</h1>
+		<table>
+			<thead valign="bottom">
+				<tr>
+					<th></th>
+					<th></th>
+					<th>内置函数</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody valign="top">
+				<tr class="row-even">
+					<td><a href="#funcNumberAbs" class="n-text-line green">abs()</a></td>
+					<td><a href="#funcDivmod" class="n-text-line green">divmod()</a></td>
+					<td><a href="#funcInput" class="n-text-line green">input()</a></td>
+					<td><a href="#funcOpen" class="n-text-line green">open()</a></td>
+					<td><a href="#funcStaticmethod" class="n-text-line green">staticmethod()</a></td>
+				</tr>
+				<tr>
+					<td><a href="#funcAll" class="n-text-line green">all()</a></td>
+					<td><a href="#funcEnumerate" class="n-text-line green">enumerate()</a></td>
+					<td><a href="#funcInt" class="n-text-line green">int()</a></td>
+					<td><a href="#funcOrd" class="n-text-line green">ord()</a></td>
+					<td><a href="#funcStr" class="n-text-line green">str()</a></td>
+				</tr>
+				<tr class="row-even">
+					<td><a href="#funcAny" class="n-text-line green">any()</a></td>
+					<td><a href="#funcEval" class="n-text-line green">eval()</a></td>
+					<td><a href="#funcIsinstance" class="n-text-line green">isinstance()</a></td>
+					<td><a href="#funcNumberPow" class="n-text-line green">pow()</a></td>
+					<td><a href="#funcSum" class="n-text-line green">sum()</a></td>
+				</tr>
+				<tr>
+					<td><a href="#funcBasestring" class="n-text-line green">basestring()</a></td>
+					<td><a href="#funcExecfile" class="n-text-line green">execfile()</a></td>
+					<td><a href="#funcIssubclass" class="n-text-line green">issubclass()</a></td>
+					<td><a href="#funcPrint" class="n-text-line green">print()</a></td>
+					<td><a href="#funcSuper" class="n-text-line green">super()</a></td>
+				</tr>
+				<tr>
+					<td><a href="#funcBin" class="n-text-line green">bin()</a></td>
+					<td><a href="#funcFile" class="n-text-line green">file()</a></td>
+					<td><a href="#funcIter" class="n-text-line green">iter()</a></td>
+					<td><a href="#funcProperty" class="n-text-line green">property()</a></td>
+					<td><a href="#attTupleTuple" class="n-text-line green">tuple()</a></td>
+				</tr>
+				<tr>
+					<td><a href="#funcBool" class="n-text-line green">bool()</a></td>
+					<td><a href="#funcFilter" class="n-text-line green">filter()</a></td>
+					<td><a href="#attStringLen" class="n-text-line green">len()</a></td>
+					<td><a href="#funcRange" class="n-text-line green">range()</a></td>
+					<td><a href="#funcType" class="n-text-line green">type()</a></td>
+				</tr>
+				<tr>
+					<td><a href="#funcBytearray" class="n-text-line green">bytearray()</a></td>
+					<td><a href="#funcFloat" class="n-text-line green">float()</a></td>
+					<td><a href="#attListList" class="n-text-line green">list()</a></td>
+					<td><a href="#funcRawInput" class="n-text-line green">raw_input()</a></td>
+					<td><a href="#funcUnichr" class="n-text-line green">unichr()</a></td>
+				</tr>
+				<tr>
+					<td><a href="#funcCallable" class="n-text-line green">callable()</a></td>
+					<td><a href="#attStringFormat" class="n-text-line green">format()</a></td>
+					<td><a href="#funcLocals" class="n-text-line green">locals()</a></td>
+					<td><a href="#funcReduce" class="n-text-line green">reduce()</a></td>
+					<td>unicode()</td>
+				</tr>
+				<tr class="row-even">
+					<td><a href="#funcChr" class="n-text-line green">chr()</a></td>
+					<td><a href="#funcFrozenset" class="n-text-line green">frozenset()</a></td>
+					<td><a href="#funcLong" class="n-text-line green">long()</a></td>
+					<td><a href="#funcReload" class="n-text-line green">reload()</a></td>
+					<td><a href="#funcVars" class="n-text-line green">vars()</a></td>
+				</tr>
+				<tr>
+					<td><a href="#funcClassmethod" class="n-text-line green">classmethod()</a></td>
+					<td><a href="#funcGetattr" class="n-text-line green">getattr()</a></td>
+					<td><a href="#funcMap" class="n-text-line green">map()</a></td>
+					<td><a href="#funcRepr" class="n-text-line green">repr()</a></td>
+					<td><a href="#funcXrange" class="n-text-line green">xrange()</a></td>
+				</tr>
+				<tr class="row-even">
+					<td><a href="#funcNumberCmp" class="n-text-line green">cmp()</a></td>
+					<td><a href="#funcGlobals" class="n-text-line green">globals()</a></td>
+					<td><a href="#funcNumberMax" class="n-text-line green">max()</a></td>
+					<td><a href="#attListReverse" class="n-text-line green">reversed()</a></td>
+					<td><a href="#funcZip" class="n-text-line green">zip()</a></td>
+				</tr>
+				<tr>
+					<td><a href="#funcCompile" class="n-text-line green">compile()</a></td>
+					<td><a href="#funcHasattr" class="n-text-line green">hasattr()</a></td>
+					<td><a href="#funcMemoryview" class="n-text-line green">memoryview()</a></td>
+					<td><a href="#funcNumberRound" class="n-text-line green">round()</a></td>
+					<td><a href="#func__import__">__import__()</a></td>
+				</tr>
+				<tr>
+					<td><a href="#funcComplex" class="n-text-line green">complex()</a></td>
+					<td><a href="#funcHash" class="n-text-line green">hash()</a></td>
+					<td><a href="#funcNumberMin" class="n-text-line green">min()</a></td>
+					<td><a href="#funcSet" class="n-text-line green">set()</a></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><a href="#funcDelattr" class="n-text-line green">delattr()</a></td>
+					<td><a href="#funcHelp" class="n-text-line green">help()</a></td>
+					<td><a href="#funcNext" class="n-text-line green">next()</a></td>
+					<td><a href="#funcSetattr" class="n-text-line green">setattr()</a></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><a href="#funcDict" class="n-text-line green">dict()</a></td>
+					<td><a href="#funcHex" class="n-text-line green">hex()</a></td>
+					<td>object()</td>
+					<td><a href="#funcSlice" class="n-text-line green">slice()</a></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><a href="#funcDir" class="n-text-line green">dir()</a></td>
+					<td><a href="#funcId" class="n-text-line green">id()</a></td>
+					<td><a href="#funcOct" class="n-text-line green">oct()</a></td>
+					<td><a href="#funcSorted" class="n-text-line green">sorted()</a></td>
+					<td><a href="#funcExec" class="n-text-line green">exec 内置表达式</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#osFileMethods" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python OS 文件/目录方法
+		</a>
+		<a href="#object" class="pull-right green">
+			Python 面向对象
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+</div>	

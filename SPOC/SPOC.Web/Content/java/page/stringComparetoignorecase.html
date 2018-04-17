@@ -1,0 +1,52 @@
+<div class="stringComparetoignorecase-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">compareToIgnoreCase() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>compareToIgnoreCase() 方法用于按字典顺序比较两个字符串，不考虑大小写。</p>
+		<h3 class="n-h3">语法</h3>
+		<pre>int compareToIgnoreCase(String str)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>str</b> -- 要比较的字符串。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<ul><li>如果参数字符串等于此字符串，则返回值 0；</li><li>如果此字符串小于字符串参数，则返回一个小于 0 的值；</li><li>如果此字符串大于字符串参数，则返回一个大于 0 的值。</li></ul>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test {
+
+    public static void main(String args[]) {
+        String str1 = "STRINGS";
+        String str2 = "Strings";
+        String str3 = "Strings123";
+
+        int result = str1.compareToIgnoreCase( str2 );
+        System.out.println(result);
+      
+        result = str2.compareToIgnoreCase( str3 );
+        System.out.println(result);
+     
+        result = str3.compareToIgnoreCase( str1 );
+        System.out.println(result); 
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>0
+-3
+3</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

@@ -1,0 +1,91 @@
+<div class="modifier-type-block">
+    <div class="n-nav-strip clearfix">
+        <a href="#constant" class="pull-left green">
+            <span class="glyphicon glyphicon-arrow-left gray"></span>
+            C++ 常量
+        </a>
+        <a href="#storageClass" class="pull-right green">
+            C++ 存储类
+            <span class="glyphicon glyphicon-arrow-right gray"></span>
+        </a>
+    </div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">修饰符类型</span>
+		</h1>
+		<p>C++ 允许在 <b>char、int</b> 和 <b>double</b> 数据类型前放置修饰符。修饰符用于改变基本类型的含义，所以它更能满足各种情境的需求。</p>
+		<p>下面列出了数据类型修饰符：</p>
+		<ul>
+			<li>signed</li>
+			<li>unsigned</li>
+			<li>long</li>
+			<li>short</li>
+		</ul>
+		<p>修饰符 <b>signed、unsigned、long</b> 和 <b>short</b> 可应用于整型，<b>signed</b> 和 <b>unsigned</b> 可应用于字符型，<b>long</b> 可应用于双精度型。</p>
+		<p>修饰符 <b>long</b> 和 <b>unsigned</b> 也可以作为 <b>long</b> 或 <b>short</b> 修饰符的前缀。例如：<b>unsigned long int</b>。</p>
+		<p>C++ 允许使用速记符号来声明<b>无符号短整数</b>或<b>无符号长整数</b>。您可以不写 int，只写单词 <b>unsigned、short</b> 或 <b>unsigned、long</b>，int 是隐含的。例如，下面的两个语句都声明了无符号整型变量。</p>
+		<pre>unsigned x;
+unsigned int y;</pre>
+		<p>为了理解 C++ 解释有符号整数和无符号整数修饰符之间的差别，我们来运行一下下面这个短程序：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>#include &lt;iostream&gt;
+using namespace std;
+ 
+/* 
+ * 这个程序演示了有符号整数和无符号整数之间的差别
+*/
+int main()
+{
+   short int i;           // 有符号短整数
+   short unsigned int j;  // 无符号短整数
+ 
+   j = 50000;
+ 
+   i = j;
+   cout << i << " " << j;
+ 
+   return 0;
+}</code></pre>
+		</div>
+		<p>当上面的程序运行时，会输出下列结果：</p>
+		<pre>-15536 50000</pre>
+		<p>上述结果中，无符号短整数 50,000 的位模式被解释为有符号短整数 -15,536。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">C++ 中的类型限定符</h2>
+		<p>类型限定符提供了变量的额外信息。</p>
+		<table>
+			<thead>
+				<tr>
+					<th>限定符</th>
+					<th>含义</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>const</td>
+					<td>const 类型的对象在程序执行期间不能被修改改变。</td>
+				</tr>
+				<tr>
+					<td>volatile</td>
+					<td>修饰符 volatile 告诉编译器，变量的值可能以程序未明确指定的方式被改变。</td>
+				</tr>
+				<tr>
+					<td>restrict</td>
+					<td>由 restrict 修饰的指针是唯一一种访问它所指向的对象的方式。只有 C99 增加了新的类型限定符 restrict。</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+    <div class="n-nav-strip clearfix">
+        <a href="#constant" class="pull-left green">
+            <span class="glyphicon glyphicon-arrow-left gray"></span>
+            C++ 常量
+        </a>
+        <a href="#storageClass" class="pull-right green">
+            C++ 存储类
+            <span class="glyphicon glyphicon-arrow-right gray"></span>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="osAccess-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">os.access() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>	
+		<p>os.access() 方法使用当前的uid/gid尝试访问路径。大部分操作使用有效的 uid/gid, 因此运行环境可以在 suid/sgid 环境尝试。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>access()方法语法格式如下：</p>
+		<pre>os.access(path, mode);</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>path</b> -- 要用来检测是否有访问权限的路径。 </p></li>
+			<li><p><b>mode</b> -- mode为F_OK，测试存在的路径，或者它可以是包含R_OK, W_OK和X_OK或者R_OK, W_OK和X_OK其中之一或者更多。</p>
+				<ul>
+					<li><b>os.F_OK:</b> 作为access()的mode参数，测试path是否存在。</li>
+					<li><b>os.R_OK:</b> 包含在access()的mode参数中 ， 测试path是否可读。 </li>
+					<li><b>os.W_OK</b> 包含在access()的mode参数中 ， 测试path是否可写。</li>
+					<li><b>os.X_OK</b> 包含在access()的mode参数中 ，测试path是否可执行。</li>
+				</ul>
+			</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>如果允许访问返回 True , 否则返回False。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 access() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+import os, sys
+
+# 假定 /tmp/foo.txt 文件存在，并有读写权限
+
+ret = os.access("/tmp/foo.txt", os.F_OK)
+print ("F_OK - 返回值 %s"% ret)
+
+ret = os.access("/tmp/foo.txt", os.R_OK)
+print ("R_OK - 返回值 %s"% ret)
+
+ret = os.access("/tmp/foo.txt", os.W_OK)
+print ("W_OK - 返回值 %s"% ret)
+
+ret = os.access("/tmp/foo.txt", os.X_OK)
+print ("X_OK - 返回值 %s"% ret)</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>F_OK - 返回值 True
+R_OK - 返回值 True
+W_OK - 返回值 True
+X_OK - 返回值 False</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,77 @@
+<div class="osFstat-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">os.fstat() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>
+		<p>os.fstat() 方法用于返回文件描述符fd的状态，类似 stat()。</p>
+		<p>Unix，Windows上可用。</p>
+		<p>fstat 方法返回的结构:</p>
+		<ul>
+			<li><p><b>st_dev:</b> 设备信息 </p></li>
+			<li><p><b>st_ino:</b> 文件的i-node值 </p></li>
+			<li><p><b>st_mode:</b>  文件信息的掩码，包含了文件的权限信息，文件的类型信息(是普通文件还是管道文件，或者是其他的文件类型) </p></li>
+			<li><p><b>st_nlink:</b> 硬连接数 </p></li>
+			<li><p><b>st_uid:</b> 用户ID </p></li>
+			<li><p><b>st_gid:</b> 用户组 ID</p></li>
+			<li><p><b>st_rdev:</b> 设备 ID (如果指定文件) </p></li>
+			<li><p><b>st_size:</b> 文件大小，以byte为单位 </p></li>
+			<li><p><b>st_blksize:</b> 系统 I/O 块大小</p></li>
+			<li><p><b>st_blocks:</b> 文件的是由多少个 512 byte 的块构成的 </p></li>
+			<li><p><b>st_atime:</b> 文件最近的访问时间 </p></li>
+			<li><p><b>st_mtime:</b> 文件最近的修改时间 </p></li>
+			<li><p><b>st_ctime:</b> 文件状态信息的修改时间（不是文件内容的修改时间） </p></li>
+		</ul>
+		<h3 class="n-h3">语法</h3>
+		<p>fstat()方法语法格式如下：</p>
+		<pre>os.fstat(fd)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>fd</b> -- 文件的描述符。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回文件描述符fd的状态。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 fstat() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os, sys
+
+# 打开文件
+fd = os.open( "foo.txt", os.O_RDWR|os.O_CREAT )
+
+# 获取元组
+info = os.fstat(fd)
+
+print "文件信息 :", info
+
+# 获取文件 uid
+print "文件 UID :%d" % info.st_uid
+
+# 获取文件 gid
+print "文件 GID  :%d" % info.st_gid
+
+# 关闭文件
+os.close( fd)</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>文件信息 : (33261, 3753776L, 103L, 1, 0, 0, 
+            102L, 1238783197, 1238786767, 1238786767)
+文件 UID :0
+文件 GID :0</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,72 @@
+<div class="interpreter-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#dataType" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python3 基本数据类型
+		</a>
+		<a href="#comment" class="pull-right green">
+			Python3 注释
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">解释器</span>
+		</h1>
+		<p>Linux/Unix的系统上，一般默认的 python 版本为 2.x，我们可以将 python3.x 安装在 /usr/local/python3 目录中。 </p>
+		<p>安装完成后，我们可以将路径 <b>/usr/local/python3/bin</b> 添加到您的 Linux/Unix 操作系统的环境变量中，这样您就可以通过 shell 终端输入下面的命令来启动 Python3 。 </p>
+		<pre>$ PATH=$PATH:/usr/local/python3/bin/python3    # 设置环境变量
+$ python3 --version
+Python 3.4.0</pre>
+		<p>在Window系统下你可以通过以下命令来设置Python的环境变量，假设你的Python安装在 C:\Python34 下:</p>
+		<pre>set path=%path%;C:\python34</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">交互式编程</h2>
+		<p>我们可以在命令提示符中输入"Python"命令来启动Python解释器：</p>
+		<pre>$ python3</pre>
+		<p>执行以上命令后，出现如下窗口信息：</p>
+		<pre>$ python3
+Python 3.4.0 (default, Apr 11 2014, 13:05:11) 
+[GCC 4.8.2] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> </pre>
+		<p>在 python 提示符中输入以下语句，然后按回车键查看运行效果：</p>
+		<pre>print ("Hello, Python!");</pre>
+		<p>以上命令执行结果如下：</p>
+		<pre>Hello, Python!</pre>
+		<p>当键入一个多行结构时，续行是必须的。我们可以看下如下 if 语句：</p>
+		<pre>>>> flag = True
+>>> if flag :
+...     print("flag 条件为 True!")
+... 
+flag 条件为 True!</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">脚本式编程</h2>
+		<p>将如下代码拷贝至 <b>hello.py</b>文件中：</p>
+		<pre>print ("Hello, Python!");</pre>
+		<p>通过以下命令执行该脚本：</p>
+		<pre>python3 hello.py</pre>
+		<p>输出结果为：</p>
+		<pre>Hello, Python!</pre>
+		<p>在Linux/Unix系统中，你可以在脚本顶部添加以下命令让Python脚本可以像SHELL脚本一样可直接执行： </p>
+		<pre>#! /usr/bin/env python3</pre>
+		<p>然后修改脚本权限，使其有执行权限，命令如下：</p>
+		<pre>$ chmod +x hello.py</pre>
+		<p>执行以下命令：</p>
+		<pre>./hello.py</pre>
+		<p>输出结果为：</p>
+		<pre>Hello, Python!</pre>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#dataType" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python3 基本数据类型
+		</a>
+		<a href="#comment" class="pull-right green">
+			Python3 注释
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+</div>

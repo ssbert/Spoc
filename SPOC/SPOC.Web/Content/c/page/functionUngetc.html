@@ -1,0 +1,83 @@
+<div class="functionUngetc-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">ungetc()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int ungetc(int char, FILE *stream)</b> 把字符 <b>char</b>（一个无符号字符）推入到指定的流 <b>stream</b> 中，以便它是下一个被读取到的字符。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 ungetc() 函数的声明。</p>
+		<pre>int ungetc(int char, FILE *stream)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>char</b> -- 这是要被推入的字符。该字符以其对应的 int 值进行传递。</li>
+			<li><b>stream</b> -- 这是指向 FILE 对象的指针，该 FILE 对象标识了输入流。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果成功，则返回被推入的字符，否则返回 EOF，且流 stream 保持不变。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 ungetc() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main ()
+{
+   FILE *fp;
+   int c;
+   char buffer [256];
+
+   fp = fopen("file.txt", "r");
+   if( fp == NULL ) 
+   {
+      perror("打开文件时发生错误");
+      return(-1);
+   }
+   while(!feof(fp)) 
+   {
+      c = getc (fp);
+      /* 把 ! 替换为 + */
+      if( c == '!' ) 
+      {
+         ungetc ('+', fp);
+      }
+      else 
+      {
+         ungetc(c, fp);
+      }
+      fgets(buffer, 255, fp);
+      fputs(buffer, stdout);
+   }
+   return(0);
+}</code></pre>
+		</div>
+		<p>假设我们有一个文本文件 <b>file.txt</b>，它的内容如下。文件将作为实例中的输入：</p>
+		<pre>this is baidu
+!c standard library
+!library functions and macros</pre>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>this is baidu
++c standard library
++library functions and macros
++library functions and macros</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

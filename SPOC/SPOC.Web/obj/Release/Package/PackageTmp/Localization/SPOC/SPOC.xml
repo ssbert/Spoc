@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<localizationDictionary culture="en">
+  <texts>
+    <text name="HomePage" value="Home page" />
+    <text name="About" value="About" />
+    <text name="WellcomeMessage" value="Welcome to SmartUFO!" />
+    <text name="Home_ThisIsATemplate" value="This project template is a starting point to develop web applicatins using..." />
+    <text name="Home_AspNetDescription" value="ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that enables a clean separation of concerns and that gives you full control over markup for enjoyable, agile development." />
+    <text name="Home_AspNetBoilerplateDescription" value="ASP.NET Boilerplate is a framework to build web based applications with best practices and most popular tools." />
+    <text name="LearnMore" value="Learn more" />
+    <text name="Home_AngularDescription" value="AngularJs is a Single-Page Application framework by Google. It lets you extend HTML vocabulary for your application. The resulting environment is extraordinarily expressive, readable, and quick to develop." />
+    <text name="AboutFormat" value="About {0}" />
+    <text name="About_AspNetBoilerplateDescription" value="ASP.NET Boilerplate is a starting point for new web applications with best practices and most popular tools! ASP.NET Boilerplate provides an infrastructure for &lt;strong&gt;NLayer architecture&lt;/strong&gt; and &lt;strong&gt;Domain Driven Design&lt;/strong&gt;." />
+    <text name="ForMoreInformation" value="For more information" />
+    <text name="version" value="v2.0 20180109" />
+    <text name="IsAdminInitialize" value="true" />
+    <!--新课网的地址-->
+    <!--<text name="payUrl" value="http://localhost:8006/" />-->
+    <text name="payUrl" value="http://192.168.4.12:3042" />
+    <!--读取文件相对路径的地址-->
+    <!--<text name="smartbox_uri" value="http://cdn.newmooc.cn:32800" />-->
+    <text name="smartbox_uri" value="http://test.newmooc.cn:32800" />
+    <text name="isRepaired" value="true" />
+    <!--SmartUFO关键字查询的功能-->
+    <text name="Keywords" value="高校教育信息化，教育信息化平台系统，在线教育平台，职教实训教学平台系统，自考助学管理系统，成教系统，mooc系统，慕课系统，考试系统，网校建设，网校平台，微课平台，资源共建共享平台，云教育解决方案，移动学习系统" />
+    <text name="Description" value="集教、学、考、管理、运营于一体的在线教育平台，高校教育信息化系统，BEST SPOC-C++,混合式学习管理系统。" />
+    <text name="Language" value="cpp" />
+    <!--平台名称-->
+    <text name="PlatForm" value="C++" />
+  </texts>
+</localizationDictionary>

@@ -1,0 +1,456 @@
+﻿@model SPOC.Web.Models.Leaderboard.ExamRankViewModel
+@{
+    ViewBag.Title = "ExamRank";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link rel="stylesheet" type="text/css" href="~/css/ranks.css">
+    <link rel="stylesheet" type="text/css" href="~/Scripts/bootstrap-select/bootstrap-select.css">
+}
+<div class="ranks-page container-box center"  ng-app="examrank-app" ng-controller="examrank-ctrl">
+    <div class="btn-group select-tab" role="group" aria-label="...">
+        <ul>
+            <li ><a href="/leaderboard/" class="btn btn-default r-radius-none" >挑战排行榜</a></li>
+            <li class="active"><a href="#examRank" class="btn btn-default l-radius-none" >考试排行榜</a></li>
+        </ul>
+    </div>
+    <div class="ranks-content content-box tab-content"> 
+        @if (Model.ExamListItems.Any())
+        {
+            <div class="exam-select">
+                <div class="btn-group">
+                    @Html.DropDownListFor(model => model.Exam, Model.ExamListItems as IEnumerable<SelectListItem>, new { @class = "form-control singleSelect", @style = "float: none", @onchange = "selectOnchang(this)" })
+                </div>
+            </div>
+            <div class="exam-rank" id="examRank" ng-show="rankViewList">
+                <h2 class="table-title"><span ng-bind="examName"></span>成绩排名</h2>
+                <div class="exam-mes clearfix">
+                    <div class="pull-right self-info">
+                        我的班级排名: <span ng-bind="rankViewList.userGradeRank.rankingInClass"></span>
+                        总排名: <span ng-bind="rankViewList.userGradeRank.ranking"></span>
+                    </div>
+                </div>
+                <div class="rank-table exam-detail-table">
+                    <div class="table-header clearfix">
+                        <div class="table-header-colum student">
+                            学生
+                            @*<span class="iconfont icon-saixuan" data-toggle="dropdown" id="studentScreen2"></span>
+                                <div class="dropdown-menu" aria-labelledby="studentScreen2">
+                                    <p>按姓名过滤</p>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="输入姓名">
+                                    </div>
+                                    <ul>
+                                        <li>陈鸣</li>
+                                        <li>陈紫枫</li>
+                                        <li>陈旭鑫</li>
+                                    </ul>
+                                </div>*@
+                        </div>
+                        <div class="table-header-colum scores">
+                            分数
+                        </div>
+                        <div class="table-header-colum classes">
+                            院系 / 专业 / 班级
+                        </div>
+                        <div class="table-header-colum class-rank">
+                            班级排名
+                        </div>
+                        <div class="table-header-colum all-rank">
+                            总排名
+                        </div>
+                    </div>
+                    <div class="table-body" ng-repeat="rankView in rankViewList.gradeRankList">
+                        <div class="table-row clearfix" ng-class='{"table-row clearfix self": rankViewList.userGradeRank.userId==rankView.userId}'>
+                            <div class="table-row-colum student">
+                                <span ng-bind="rankView.userFullName"></span>
+                            </div>
+                            <div class="table-row-colum scores">
+                                <span ng-bind="rankView.score | formatScore"></span>
+                            </div>
+                            <div class="table-row-colum classes">
+                                <span ng-bind="rankView.facultyName"></span> / <span ng-bind="rankView.majorName"></span> / <span ng-bind="rankView.className"></span>
+
+                            </div>
+                            <div class="table-row-colum class-rank">
+                                <span ng-bind="rankView.rankingInClass | formatRank"></span>
+
+                            </div>
+                            <div class="table-row-colum all-rank">
+                                <span ng-bind="rankView.ranking | formatRank"></span>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <h2 class="table-title"><span ng-bind="rankViewList.className"></span><span ng-bind="examName"></span>考试分布情况</h2>
+                <div class="rank-table exam-pandect-table">
+                    <div class="table-header clearfix">
+                        <div class="table-header-colum scores">
+                            0 - 49
+                        </div>
+                        <div class="table-header-colum scores">
+                            50 - 59
+                        </div>
+                        <div class="table-header-colum scores">
+                            60 - 69
+                        </div>
+                        <div class="table-header-colum scores">
+                            70 - 79
+                        </div>
+                        <div class="table-header-colum scores">
+                            80 - 89
+                        </div>
+                        <div class="table-header-colum scores">
+                            90 - 100
+                        </div>
+                        <div class="table-header-colum num">
+                            参考人数
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="table-row clearfix">
+                            <div class="table-row-colum scores" ng-class='{"self": rankViewList.userGradeRank.level==0}'>
+                                <span ng-bind="rankViewList.levelView.level0"></span>
+                            </div>
+                            <div class="table-row-colum scores" ng-class='{"self": rankViewList.userGradeRank.level==1}'>
+                                <span ng-bind="rankViewList.levelView.level1"></span>
+
+                            </div>
+                            <div class="table-row-colum scores" ng-class='{"self": rankViewList.userGradeRank.level==2}'>
+                                <span ng-bind="rankViewList.levelView.level2"></span>
+                            </div>
+                            <div class="table-row-colum scores" ng-class='{"self": rankViewList.userGradeRank.level==3}'>
+                                <span ng-bind="rankViewList.levelView.level3"></span>
+                            </div>
+                            <div class="table-row-colum scores" ng-class='{"self": rankViewList.userGradeRank.level==4}'>
+                                <span ng-bind="rankViewList.levelView.level4"></span>
+                            </div>
+                            <div class="table-row-colum scores" ng-class='{"self": rankViewList.userGradeRank.level==5}'>
+                                <span ng-bind="rankViewList.levelView.level5"></span>
+                            </div>
+                            <div class="table-row-colum num">
+                                <span ng-bind="rankViewList.levelView.total"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="charts-block">
+                    <div class="cut-btn-box">
+                        <button class="cut-bar btn btn-default">
+                            <span class="iconfont icon-bar"></span>
+                            <span class="i-text">切换柱形图</span>
+                        </button>
+                        <button class="cut-pie btn btn-default">
+                            <span class="iconfont icon-pie"></span>
+                            <span class="i-text">切换饼图</span>
+                        </button>
+                    </div>
+                    <div class="charts" id="charts">
+
+                    </div>
+                </div>
+
+            </div>
+        }
+        else
+        {
+            <div class="no-data-tip iconfont icon-nodata"></div>
+        }
+
+    </div>
+</div>
+@section scripts
+{<script src="~/Scripts/bootstrap-select/bootstrap-select.js"></script>
+    <script src="~/Scripts/bootstrap-select/select.js"></script>
+    <script src="~/Scripts/echarts/echarts.min.js"></script>
+    <script src="~/Scripts/echarts/macarons.js"></script>
+    <script src="~/js/common/common.js"></script>
+    <script src="~/Scripts/angular-1.2.19/angular.js"></script>
+    <script>
+        var app = angular.module('examrank-app', []).controller('examrank-ctrl', controller);
+        LoadSelect();
+
+        //绘制charts
+        var chart = echarts.init(document.getElementById('charts'), e_macarons);
+        //格式化成绩
+        app.filter('formatScore',
+            function() {
+                return function(score) {
+                    if (score === -1) {
+                        return "—";
+                    } 
+                    return score.toFixed(2); 
+                }
+            });
+        //格式化排名 -1表示不参与排名（通常指未参加考试或者成绩未刷新的学生）
+        app.filter('formatRank',
+            function() {
+                return function(rank) {
+                    if (rank === -1) {
+                        return "—";
+                    } 
+                    return rank; 
+                }
+            });
+        function controller($scope, $http) {
+
+            $scope.examName = $('#Exam').find("option:selected").text();
+            $scope.examId = $('#Exam').val();
+
+            $scope.query = function (examId) {
+                $scope.examName = $('#Exam').find("option:selected").text();
+                $scope.examId = $('#Exam').val();
+                $http({
+                    method: 'GET',
+                    url: '/api/services/app/ExamRankingView/LeaderboardView?examId=' + examId
+                }).success(function (data, status, headers, config) {
+                    var result = data.result;
+                    $scope.rankViewList = result;
+                    initBar(result.levelView, result.className, result.userGradeRank.level, result.userGradeRank.score);
+                    // $scope.$apply();
+                }).error(function(data, status, headers, config) {
+
+                    if (data.error.code === -1) {
+                        layer.msg(data.error.message);
+                        layer.alert(data.error.message,
+                            {
+                                closeBtn: 0
+                            },
+                            function() {
+                                location.reload();
+                            });
+                        return;
+                    }
+                    layer.msg('获取报表数据出现错误！' + data.error.message);
+                });
+            };
+            $scope.query($scope.examId);
+
+            function initBar(levelData, className, level, score) {
+
+                var barData = {
+                    data: [
+                        levelData.level0, levelData.level1, levelData.level2, levelData.level3, levelData.level4,
+                        levelData.level5
+                    ],
+                    item: ["0 - 49", "50 - 59", "60 - 69", "70 - 79", "80 - 89", "90 - 100"]
+                };
+                var barOption = {
+                    title: {
+                        text: className + $scope.examName + '考试情况分布图',
+                        top: -3
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{b} : {c}"
+                    },
+                    legend: {
+                        show: false,
+                        data: ['人数']
+                    },
+                    grid: {
+                        top: 80
+                    },
+                    toolbox: {
+                        show: true,
+                        right: 20,
+                        feature: {
+                            magicType: { show: false, type: ['line', 'bar'] },
+                            restore: { show: false },
+                            saveAsImage: { show: true }
+                        }
+                    },
+                    calculable: true,
+                    xAxis: {
+                        show: true,
+                        data: barData.item,
+                        name: '分数段'
+                    },
+                    yAxis: {
+                        show: true,
+                        min: 0,
+                        //max: levelData.level5 + 5,
+                        name: '人数'
+                    },
+                    series: [
+                        {
+                            name: "人数",
+                            type: 'bar',
+                            barMaxWidth: 60,
+                            data: barData.data,
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius: [10, 10, 0, 0]
+                                }
+                            },
+                            markPoint: {
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: "inside",
+                                        offset: [0, -3],
+                                        formatter: function() {
+                                            return score.toFixed(2).toString();
+                                        }
+                                    }
+                                },
+                                data: [
+                                    {
+                                        name: '我的分数',
+                                        value: score.toFixed(2),
+                                        xAxis: level,
+                                        yAxis: barData.data[level],
+                                        symbolSize: 70,
+                                        itemStyle: {
+                                            normal: {
+                                                color: '#f34e4e'
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+                chart.setOption(barOption);
+
+            }
+
+            function initPie(levelData, level, score) {
+
+                var pieData = [
+                    {
+                        value: levelData.level0,
+                        name: "0 - 49"
+                    },
+                    {
+                        value: levelData.level1,
+                        name: "50 - 59"
+                    },
+                    {
+                        value: levelData.level2,
+                        name: "60 - 69"
+                    },
+                    {
+                        value: levelData.level3,
+                        name: "70 - 79"
+                    },
+                    {
+                        value: levelData.level4,
+                        name: "80 - 89"
+                    },
+                    {
+                        value: levelData.level5,
+                        name: "90 - 100"
+                    }
+                ];
+                var pieOption = {
+                    xAxis: {
+                        show: false
+                    },
+                    yAxis: {
+                        show: false
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            magicType: {
+                                show: true,
+                                type: ['pie', 'funnel'],
+                                option: {
+                                    funnel: {
+                                        x: '25%',
+                                        width: '50%',
+                                        funnelAlign: 'left',
+                                        max: levelData.total
+                                    }
+                                }
+                            },
+                            restore: { show: false },
+                            saveAsImage: { show: true }
+                        }
+                    },
+                    series: [
+                        {
+                            name: "人数",
+                            type: 'pie',
+                            data: pieData,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true,
+                                        formatter: '{b} : {c} ({d}%)'
+                                    },
+                                    labelLine: { show: true }
+                                },
+                                emphasis: {
+                                    label: {
+                                        show: true,
+                                        formatter: "{b}\n{c} ({d}%)",
+                                        position: 'center',
+                                        textStyle: {
+                                            fontSize: '14',
+                                            fontWeight: 'bold'
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+
+                }
+                chart.setOption(pieOption);
+                chart.dispatchAction({
+                    type: 'pieSelect',
+                    name: pieData[level].name
+                });
+            }
+
+
+            $('.cut-bar').on('click',
+                function() {
+                    initBar($scope.rankViewList.levelView,
+                        $scope.rankViewList.className,
+                        $scope.rankViewList.userGradeRank.level,
+                        $scope.rankViewList.userGradeRank.score);
+                });
+
+            $('.cut-pie').on('click',
+                function() {
+                    initPie($scope.rankViewList.levelView,
+                        $scope.rankViewList.userGradeRank.level,
+                        $scope.rankViewList.userGradeRank.score);
+                });
+
+        }
+
+        $(window).on('resize',
+            function() {
+                var width = $('.exam-rank').width();
+                if (width < 1280) {
+                    setTimeout(function() {
+                            $('.charts').css('width', width + 'px');
+                            chart.resize();
+                        },
+                        300);
+                }
+            });
+
+        function selectOnchang(obj) {
+            var value = obj.options[obj.selectedIndex].value;
+            var appElement = document.querySelector('[ng-controller=examrank-ctrl]');
+            var $scope = angular.element(appElement).scope();
+            $scope.query(value);
+            $scope.$apply();
+        }
+
+
+    </script>
+}
+

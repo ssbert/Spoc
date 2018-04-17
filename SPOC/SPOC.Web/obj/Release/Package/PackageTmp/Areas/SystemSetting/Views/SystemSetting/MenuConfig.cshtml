@@ -1,0 +1,231 @@
+﻿@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+<div class="easyui-panel">
+    <a href="javascript:" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'" onclick="Refresh()">刷新</a>
+    <a href="javascript:" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="Add()">新增</a>
+    <a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-busy'" onclick="MenuConfig().del()">删除</a>
+</div>
+<div id="MenuConfig_panel" class="easyui-panel" data-options="border:false" style="margin-top:1px;">
+    <table id="dg" class="easyui-datagrid" data-options=""></table>
+    <div id="MenuConfig_dialog" class="easyui-dialog" data-options="width:'580px',height:'460px',closed:true,buttons:'#MenuConfig_buttons'" style="padding:1px;">
+        <div class="ftitle">
+            菜单信息
+        </div>
+        <form id="fm" method="post">
+            <input name="id" id="id" type="hidden" />
+            <div class="fitem">
+                <label> 菜单名称: </label>
+                <input id="menuName" name="menuName" class="easyui-textbox" data-options="required:true,validType:'length[1,50]'">
+            </div>
+            <div class="fitem">
+                <label> 菜单编码: </label>
+                <input id="menuCode" name="menuCode" class="easyui-textbox" data-options="required:true,validType:['length[0, 64]', 'codeCheck']">
+            </div>
+            <div class="fitem">
+                <label> 菜单URL: </label>
+                <input id="menuUrl" name="menuUrl" class="easyui-textbox" data-options="required:false,validType:'length[1,50]'">
+            </div>
+            <div class="fitem">
+                <label> 是否启用: </label>
+                <select id="isActive" name="isActive" class="easyui-combobox" data-options="width:304,panelHeight:'auto'">
+                    <option value="1">启用</option>
+                    <option value="0">禁用</option>
+                </select>
+            </div>
+            <div class="fitem">
+                <label> 顺序号:</label>
+                <input id="listOrder" name="listOrder" class="easyui-textbox" data-options="required:true,validType:'length[1,20]'">
+            </div>
+            <div class="fitem">
+                <label> 父级菜单: </label>
+                <select id="pid" name="pid" class="easyui-combotree" data-options="width:304,lines:true"></select>
+            </div>
+        </form>
+    </div>
+    <div id="MenuConfig_buttons">
+        <a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-save',width:'90px'" onclick="MenuConfig().save()">保存</a>
+        <a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',width:'90px'" onclick="MenuConfig().cancel()">取消</a>
+    </div>
+</div>
+<script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+<script type="text/javascript">
+
+    var datagrid;
+    var dialog;
+    var isSave = false; // 当保存时isSave为True，不需要判断当前Form值是否更新，否则都会进行对比
+    var isTrue = true; //新增时为True,grid重新加载，修改时为False，grid为reload
+    var id = 0;
+    var isEdit = false;
+
+    $(function () {
+        //初始化回车事件
+        VE.Enter("Filter");
+        GridInit();
+    });
+
+    function GridInit() {
+        var toorBarH = $(".easyui-panel").height();
+        var fullHeight = $(window).height() - toorBarH - 3;
+        datagrid = $("#dg").datagrid({
+            url: VE.AppPath + '/SystemSetting/SystemSetting/GetAllMenu',
+            title: '菜单设置',
+            rownumbers: true,
+            pagination: true,
+            height: fullHeight,
+            pageSize: VE.PageSize,
+            pageList: VE.PageList,
+            ctrlSelect: true,
+            fitColumns: true,
+            nowrap: false,
+            border: true,
+            idField: 'id',
+            sortName: 'listOrder',
+            sortOrder: 'asc',
+            columns: [
+                [
+                    { field: 'ck', checkbox: true },
+                    { field: 'id', title: 'id', width: 80, sortable: true, hidden: true },
+                    { field: 'menuName', title: '菜单名称', width: 60, sortable: true },
+                    { field: 'menuCode', title: '菜单编码', width: 60, sortable: true },
+                    { field: 'isActive', title: '启用状态', width: 60, sortable: true },
+                    { field: 'listOrder', title: '顺序号', width: 100, sortable: true },
+                    { field: 'pidName', title: '父级菜单', width: 80, sortable: true },
+                    { field: 'option', title: '操作', width: 110, sortable: true, formatter: MenuConfig().formatOpt }
+                ]
+            ]
+
+        });
+    }
+
+    function MenuConfig() {
+        return new MenuConfig.prototype.init();
+    }
+
+    function Add() {
+        isEdit = false;
+        $('#MenuConfig_dialog').dialog('open').dialog('setTitle', '编辑');
+        $('#fm').form('clear');
+        MenuConfig().initPidTree();
+    }
+
+    MenuConfig.prototype = {
+        constructor: MenuConfig,
+        init: function () {
+
+        },
+        formatOpt: function (val, row, index) {
+            var option = {
+                option: [
+                    {
+                        text: '编辑',
+                        icon: 'icon-edit',
+                        title: '编辑',
+                        onclick: 'MenuConfig().edit'
+                    },
+                    {
+                        text: "删除",
+                        icon: 'icon-busy',
+                        title: '删除',
+                        onclick: 'MenuConfig().del'
+                    }
+                ]
+            };
+            return linkbtn(row.id, option);
+        },
+        edit: function (id) {
+            $('#MenuConfig_dialog').dialog('open').dialog('setTitle', '编辑');
+            this.initPidTree();
+            isEdit = true;
+            //        $('#fm').form('clear');
+            this.initEdit(id);
+        },
+        cancel: function () {
+            $('#MenuConfig_dialog').dialog('close');
+        },
+        task: function () {
+
+        },
+        del: function (obj) {
+            if (typeof (obj) != "undefined") {
+                $("#dg").datagrid("selectRecord", obj);
+            }
+            var rows = $('#dg').datagrid('getSelections'); // 选择的行关键在这里;
+            if (!rows.length && !obj) {
+                $.messager.alert("提示", "请选择一行数据", "info");
+            }
+            else {
+                VE.Delete("/api/services/app/Menu/DeleteMenu", "dg", false, VE.GridType_DataGrid);
+            }
+        },
+        initPidTree: function () {
+            $('#pid').combotree({
+                url: VE.AppPath + '/SystemSetting/SystemSetting/GetTreeMenu',
+                valueField: 'id',
+                textField: 'text'
+            });
+        },
+        save: function () {
+            if (!$('#fm').form('validate')) {
+                return false;
+            }
+
+            if (!isEdit) {
+                $.ajax({
+                    type: "post",
+                    url: VE.AppPath + '/SystemSetting/SystemSetting/InsertMenu',
+                    data: $("#fm").serialize(),
+                    success: function (data) {
+                        if (data.code == "ok") {
+                            VE.MessageShow("保存成功");
+                            Refresh();
+                            MenuConfig().cancel();
+                        } else {
+                            $.messager.alert("提示", data.msg, "info");
+                        }
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    type: "post",
+                    url: VE.AppPath + '/SystemSetting/SystemSetting/ModifyMenu',
+                    data: $("#fm").serialize(),
+                    success: function (data) {
+                        if (data.code == "ok") {
+                            VE.MessageShow("保存成功");
+                            Refresh();
+                            MenuConfig().cancel();
+                        } else {
+                            $.messager.alert("提示", data.msg, "info");
+                        }
+                    }
+                });
+            }
+            return true;
+        },
+        initEdit: function (id) {
+            $.ajax({
+                type: "post",
+                url: "/api/services/app/Menu/GetMenuById?id=" + id,
+                success: function(data) {
+                    var model = data.result;
+                    $("#id").val(model.id);
+                    $("#menuCode").textbox("setValue", model.menuCode);
+                    $("#menuName").textbox("setValue", model.menuName);
+                    $("#menuUrl").textbox("setValue", model.menuUrl);
+                    $("#isActive").combobox("setValue", model.isActive);
+                    $("#listOrder").textbox("setValue", model.listOrder);
+                    $("#pid").combotree("setValue", model.pid);
+                }
+            });
+        }
+    };
+    MenuConfig.prototype.init.prototype = MenuConfig.prototype;
+
+    function Refresh() {
+        $('#dg').datagrid('reload');
+    }
+</script>
+
+

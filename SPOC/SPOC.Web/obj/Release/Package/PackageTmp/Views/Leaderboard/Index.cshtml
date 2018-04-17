@@ -1,0 +1,245 @@
+﻿@model SPOC.Core.Dto.Challenge.ChallengeLeaderboardView
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int pageSize;
+    if (Model.Total % 10 > 0)
+    {
+        pageSize = Model.Total / 10 + 1;
+    }
+    else
+    {
+        pageSize = Model.Total / 10;
+    }
+}
+@section styles{
+    <link rel="stylesheet" type="text/css" href="~/css/ranks.css">
+<link href="~/Scripts/select2-4.0.5/css/select2.css" rel="stylesheet" />
+    }
+
+
+
+<div class="ranks-page container-box center">
+<div class="btn-group select-tab" role="group" aria-label="...">
+    <ul>
+        <li class="active"><a href="#challengeRank" class="btn btn-default r-radius-none" >挑战排行榜</a></li>
+        <li><a href="/leaderboard/examrank" class="btn btn-default l-radius-none" >考试排行榜</a></li>
+    </ul>
+</div>
+<div class="ranks-content content-box tab-content">
+    
+
+<div class="challenge-rank tab-pane active" id="challengeRank">
+    @if (Model.RankList.Count != 0 && Model.RankList != null)
+    {
+        <h2 class="table-title">挑战排行榜</h2>
+        <div class="exam-mes">
+            <div class="self-info">
+                总分: <span>@Model.PointsRank.points</span>
+                总排名: <span>@Model.PointsRank.rank</span>
+            </div>
+        </div>
+        <div class="rank-table">
+            <div class="table-header clearfix">
+                <div class="table-header-colum rank">
+                    排名
+                </div>
+                <div class="table-header-colum hacker">
+                    学生
+                    <span class="iconfont icon-saixuan  dropdown-toggle" id="studentScreen" data-toggle="dropdown"></span>
+                    <div class="dropdown-menu" aria-labelledby="studentScreen" id="studentModal">
+                        <p>按姓名过滤</p>
+                       <select class="selectUser form-control" data-placeholder="输入姓名" id="selectUser" multiple="multiple"></select> 
+                       
+               
+                    </div>
+                </div>
+                <div class="table-header-colum scores">
+                    总分
+                </div>
+                <div class="table-header-colum classes">
+                    院系 / 专业 / 班级
+                    <span class="iconfont icon-saixuan dropdown-toggle" id="classScreen" data-toggle="dropdown"></span>
+                    <div class="dropdown-menu" aria-labelledby="classScreen" id="classModal">
+                        <p>按班级过滤</p>
+                  
+                         <select class="selectClass form-control"  data-placeholder="输入班级名称" id="selectClass"  multiple="multiple"></select>
+               
+                   
+                    </div>
+                </div>
+            </div>
+            <div class="table-body">
+                @{
+                    foreach (var rank in Model.RankList)
+                    {
+                        <div class="table-row clearfix @(ViewBag.currUserId == rank.userId.ToString()? "self" : "")">
+                            <div class="table-row-colum rank">
+                                @rank.rank
+                            </div>
+                            <div class="table-row-colum hacker">
+                                @rank.userName
+                            </div>
+                            <div class="table-row-colum scores">
+                                @rank.score
+                            </div>
+                            <div class="table-row-colum classes">
+                                @rank.facultyName / @rank.majorName / @rank.className
+                            </div>
+                        </div>
+                    }
+                }
+           
+
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="no-data-tip iconfont icon-nodata"></div>
+    }
+    <!-- 分页导航-S -->
+    <div class="page-nav">
+        <div class="pagination"></div>
+    </div>
+    <!-- 分页导航-E -->
+    
+   
+</div>
+</div>
+</div>
+<script src="~/Scripts/jquery-3.2.1.js"></script>
+<script src="~/Scripts/jqPaginator-1.2.1/jqpaginator.min.js"></script>
+<script src="~/Scripts/select2-4.0.5/js/select2.js"></script>
+<script src="~/Scripts/select2-4.0.5/js/i18n/zh-CN.js"></script>
+<script>
+    var current = @ViewBag.currentPage;
+    (function () {
+
+        if (@Model.Total > 10) {
+            $('.pagination').jqPaginator({
+                totalPages: @pageSize,
+                visiblePages: 5,
+                currentPage: current,
+                first: '<li class="first"><a href="javascript:void(0);" class="glyphicon glyphicon-backward"></a></li>',
+                prev:
+                    '<li class="prev"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-left"></a></li>',
+                next:
+                    '<li class="next"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-right"></a></li>',
+                last: '<li class="last"><a href="javascript:void(0);" class="glyphicon glyphicon-forward"></a></li>',
+                page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+                onPageChange: function(num, type) {
+                    if (type === "change") {
+                        window.location.href = "/leaderboard/?currentPage=" + num;
+                    }
+                }
+            });
+        }
+
+        if (@Model.RankList.Count === 0) {
+            return;
+        }
+
+        $(".selectUser").select2({
+            placeholder: "输入姓名",
+            language: "zh-CN",
+            ajax: {
+                url: "@Url.Action("GetChallengeUserArray")",
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        q: params.term, // 函数的参数
+                        //pagesize : 20,//页面大小
+                        //page: params.page  //分页显示先不要，没有效果
+                    };
+                },
+                processResults: function(data, params) {
+                    //params.page = params.page || 1;
+                    return {
+                        results: data,
+                        //pagination: {
+                        //    more: (params.page * 10) < data.total_count
+                        //}
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function(markup) { return markup; }, //
+            minimumInputLength: 1,
+            maximumSelectionLength: 1,
+            dropdownParent: $('#studentModal')
+
+        }).on("select2:select",
+            function(e) {
+
+                window.location.href = "/leaderboard/?userId=" + e.params.data.id + "&userName=" + e.params.data.text;
+
+            }).on("select2:unselect",
+            function(e) {
+                window.location.href = "/leaderboard/";
+
+            });
+       
+            var data = [{ id: '@ViewBag.userId', text: '@ViewBag.userName' }];
+            $(".selectUser").select2({
+                data: data,
+                minimumInputLength: 1,
+                maximumSelectionLength:1,
+                language: "zh-CN"
+            });
+            $(".selectUser").val(['@ViewBag.userId']).trigger('change');
+        
+        $(".selectClass").select2({
+            language: "zh-CN",
+            ajax: {
+                url: "@Url.Action("GetChallengeClassArray")",
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        q: params.term, // 函数的参数
+
+                    };
+                },
+                processResults: function(data, params) {
+
+                    return {
+                        results: data,
+
+                    };
+                },
+                cache: true
+            },
+            placeholder: "输入班级",
+            escapeMarkup: function(markup) { return markup; }, //
+            minimumInputLength: 1,
+            maximumSelectionLength: 1,
+            dropdownParent: $('#classModal')
+
+        }).on("select2:select",
+            function(e) {
+
+                window.location.href = "/leaderboard/?classId=" + e.params.data.id + "&className=" + e.params.data.text;
+
+            }).on("select2:unselect",
+            function(e) {
+                window.location.href = "/leaderboard/";
+
+            });
+        
+            data = [{ id: '@ViewBag.classId', text: '@ViewBag.className' }];
+            $(".selectClass").select2({
+                data: data,
+                minimumInputLength: 1,
+                maximumSelectionLength:1,
+                language: "zh-CN"
+            });
+            $(".selectClass").val(['@ViewBag.classId']).trigger('change');
+        
+
+    })();
+
+
+</script>
+

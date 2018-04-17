@@ -1,0 +1,61 @@
+<div class="functionPow-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">pow()</span>
+		</h1>
+		<p>
+			<a href="#standardLibMathH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;math.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>double pow(double x, double y)</b> 返回 x 的 y 次幂，即 x<sup>y</sup>。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 pow() 函数的声明。</p>
+		<pre>double pow(double x, double y)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>x</b> -- 代表基数的浮点值。
+			</li>
+			<li>
+				<b>y</b> -- 代表指数的浮点值。
+			</li>	
+		</ul>	
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>该函数返回 x 的 y 次幂的结果。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 pow() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+int main ()
+{
+   printf("值 8.0 ^ 3 = %lf\n", pow(8.0, 3));
+
+   printf("值 3.05 ^ 1.98 = %lf", pow(3.05, 1.98));
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>值 8.0 ^ 3 = 512.000000
+值 3.05 ^ 1.98 = 9.097324</pre>
+		<p>
+			<a href="#standardLibMathH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;math.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

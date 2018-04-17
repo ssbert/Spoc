@@ -1,0 +1,139 @@
+<div class="base64-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java 8 <span class="green">Base64</span>
+		</h1>
+		<p>
+			<a href="#java8NewFeatures" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java 8 新特性
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>在Java 8中，Base64编码已经成为Java类库的标准。</p>
+		<p>Java 8 内置了 Base64 编码的编码器和解码器。</p>
+		<p>Base64工具类提供了一套静态方法获取下面三种BASE64编解码器：</p>
+		<ul><li><b>基本：</b>输出被映射到一组字符A-Za-z0-9+/，编码不添加任何行标，输出的解码仅支持A-Za-z0-9+/。</li><li><b>URL：</b>输出映射到一组字符A-Za-z0-9+_，输出是URL和文件。</li><li><b>MIME：</b>输出隐射到MIME友好格式。输出每行不超过76字符，并且使用'\r'并跟随'\n'作为分割。编码输出最后没有行分割。</li></ul>
+		<h3 class="n-h3">内嵌类</h3>
+		<table class="reference">
+			<tbody>
+			<tr>
+			<th style="width:10%;">序号</th>
+			<th>内嵌类 &amp; 描述</th>
+			</tr>
+			<tr>
+			<td>1</td>
+			<td><b>static class Base64.Decoder</b>
+			<p>该类实现一个解码器用于，使用 Base64 编码来解码字节数据。</p></td>
+			</tr>
+			<tr>
+			<td>2</td>
+			<td><b>static class Base64.Encoder</b>
+			<p>该类实现一个编码器，使用 Base64 编码来编码字节数据。</p></td>
+			</tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">方法</h3>
+		<table class="reference">
+			<tbody>
+			<tr><th style="width:10%;">序号</th>
+			<th>方法名 &amp; 描述</th>
+			</tr>
+			<tr>
+			<td>1</td>
+			<td><b>static Base64.Decoder getDecoder()</b>
+			<p>返回一个 Base64.Decoder ，解码使用基本型 base64 编码方案。</p></td>
+			</tr>
+			<tr>
+			<td>2</td>
+			<td><b>static Base64.Encoder getEncoder()</b>
+			<p>返回一个 Base64.Encoder ，编码使用基本型 base64 编码方案。</p></td>
+			</tr>
+			<tr>
+			<td>3</td>
+			<td><b>static Base64.Decoder getMimeDecoder()</b>
+			<p>返回一个 Base64.Decoder ，解码使用 MIME 型 base64 编码方案。</p></td>
+			</tr>
+			<tr>
+			<td>4</td>
+			<td><p><b>static Base64.Encoder getMimeEncoder()</b></p>
+			<p>返回一个 Base64.Encoder ，编码使用 MIME 型 base64 编码方案。</p></td>
+			</tr>
+			<tr>
+			<td>5</td>
+			<td><b>static Base64.Encoder getMimeEncoder(int lineLength, byte[] lineSeparator)</b>
+			<p>返回一个 Base64.Encoder ，编码使用 MIME 型 base64 编码方案，可以通过参数指定每行的长度及行的分隔符。</p></td>
+			</tr>
+			<tr>
+			<td>6</td>
+			<td><b>static Base64.Decoder getUrlDecoder()</b>
+			<p>返回一个 Base64.Decoder ，解码使用 URL 和文件名安全型 base64 编码方案。</p></td>
+			</tr>
+			<tr>
+			<td>7</td>
+			<td><b>static Base64.Encoder getUrlEncoder()</b>
+			<p>返回一个 Base64.Encoder ，编码使用 URL 和文件名安全型 base64 编码方案。</p></td>
+			</tr>
+			</tbody>
+		</table>
+		<p><b>注意：</b>Base64 类的很多方法从 <b>java.lang.Object</b> 类继承。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Base64 实例</h2>
+		<p>以下实例演示了 Base64 的使用:</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">Java8Tester.java 文件</h2>
+			<pre><code>import java.util.Base64;
+import java.util.UUID;
+import java.io.UnsupportedEncodingException;
+ 
+public class Java8Tester {
+   public static void main(String args[]){
+      try {
+        
+         // 使用基本编码
+         String base64encodedString = Base64.getEncoder().encodeToString("runoob?java8".getBytes("utf-8"));
+         System.out.println("Base64 比那么字符串 (基本) :" + base64encodedString);
+        
+         // 解码
+         byte[] base64decodedBytes = Base64.getDecoder().decode(base64encodedString);
+        
+         System.out.println("原始字符串: " + new String(base64decodedBytes, "utf-8"));
+         base64encodedString = Base64.getUrlEncoder().encodeToString("TutorialsPoint?java8".getBytes("utf-8"));
+         System.out.println("Base64 编码字符串 (URL) :" + base64encodedString);
+        
+         StringBuilder stringBuilder = new StringBuilder();
+        
+         for (int i = 0; i < 10; ++i) {
+            stringBuilder.append(UUID.randomUUID().toString());
+         }
+        
+         byte[] mimeBytes = stringBuilder.toString().getBytes("utf-8");
+         String mimeEncodedString = Base64.getMimeEncoder().encodeToString(mimeBytes);
+         System.out.println("Base64 编码字符串 (MIME) :" + mimeEncodedString);
+         
+      }catch(UnsupportedEncodingException e){
+         System.out.println("Error :" + e.getMessage());
+      }
+   }
+}</code></pre>
+		</div>
+		<p>执行以上脚本，输出结果为：</p>
+		<pre>$ javac Java8Tester.java 
+$ java Java8Tester
+原始字符串: runoob?java8
+Base64 编码字符串 (URL) :VHV0b3JpYWxzUG9pbnQ_amF2YTg=
+Base64 编码字符串 (MIME) :MjY5OGRlYmEtZDU0ZS00MjY0LWE3NmUtNzFiNTYwY2E4YjM1NmFmMDFlNzQtZDE2NC00MDk3LTlh
+ZjItYzNkNGJjNmQwOWE2OWM0NDJiN2YtOGM4Ny00MjhkLWJkMzgtMGVlZjFkZjkyYjJhZDUwYzk0
+ZWMtNDE5ZC00MTliLWEyMTAtZGMyMjVkYjZiOTE3ZTkxMjljMTgtNjJiZC00YTFiLTg3MzAtOTA0
+YzdjYjgxYjQ0YTUxOWNkMTAtNjgxZi00YjQ0LWFkZGMtMzk1YzRkZjIwMjcyMzA0MTQzN2ItYzBk
+My00MmQyLWJiZTUtOGM0MTlmMWIxM2MxYTY4NmNiOGEtNTkxZS00NDk1LThlN2EtM2RjMTZjMWJk
+ZWQyZTdhNmZiNDgtNjdiYy00ZmFlLThjNTYtMjcyNDNhMTRhZTkyYjNiNWY2MmEtNTZhYS00ZDhk
+LWEwZDYtY2I5ZTUwNzJhNGE1</pre>
+	</div>
+	<p>
+		<a href="#java8NewFeatures" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java 8 新特性
+		</a>
+	</p>
+</div>

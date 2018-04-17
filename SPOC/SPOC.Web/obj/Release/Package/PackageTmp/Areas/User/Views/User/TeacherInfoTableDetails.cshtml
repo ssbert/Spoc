@@ -1,0 +1,191 @@
+﻿@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    #fm .datagrid-header {
+        position: absolute;
+        visibility: hidden;
+    }
+
+    #fm .datagrid-row {
+        height: 32px;
+    }
+
+    #fm .datagrid-body td {
+        border-style: double;
+    }
+
+    #fm .easyui-datagrid .panel-header, .panel-body {
+        border-bottom-style: none;
+        border-right-style: none;
+    }
+
+    #fm .datagrid-btable {
+        width: 100%;
+    }
+</style>
+<script type="text/javascript">
+
+    function UserData() {
+
+    }
+    UserData.prototype = {
+        init: function () {
+            dataInfo.getData();
+        },
+        getData: function () {
+            $.ajax({
+                url: "/User/User/GetUserInfoById/",
+                data: { id: "@ViewBag.data.id", userId: "@ViewBag.data.userId", userName: "@ViewBag.data.userName", identity: "@ViewBag.data.identity" },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (dataObj) {
+                    dataInfo.formBind(dataObj);
+                }
+            });
+        },
+        ArrDateFormateByGet: function (obj, perArr) {
+
+            if (obj != null && obj != "undefined") {
+                for (var p = 0; p < perArr.length; p++) { // 方法
+                    obj[perArr[p]] = VE.FormatterDateTime(obj[perArr[p]]);
+                }
+            }
+        },
+        formBind: function (row) {
+            $("#fm").form("clear");
+            this.ArrDateFormateByGet(row, ["teacherBirthday", "teacherEntryDate", "teacherStartworkDate", "teacherGraduateDate", "createTime", "updateTime", "loginTime"]);
+            row.user_password = "";
+            row.user_gender = row.user_gender == "0" ? "" : row.user_gender == "1" ? "男" : "女";
+            row.teacherJobStatusCode = row.teacherJobStatusCode == 0 ? "离职" : row.teacherJobStatusCode == 1 ? "在职" : "停职";
+            row.teacherTitleCreate = row.teacherTitle == 1 ? "教授" : row.teacherTitle = 2 ? "副教授" : row.teacherTitle == 3 ? "讲师" : "助教";
+            $($("#fm").find("label")).each(function () {
+                if ($(this).attr("name") != undefined) {
+                    var name = $(this).attr("name");
+                    row[name] = row[name] == null ? "" : row[name];
+                    $(this).text(row[name]);
+                }
+            });
+
+        }
+    }
+    var dataInfo = new UserData();
+
+    $(function () {
+        dataInfo.init();
+    });
+
+</script>
+<form id="fm">
+    <table class="easyui-datagrid" style=" width:560px; height:auto;" data-options="fitColumns: true, nowrap: false,singleSelect:true,onLoadSuccess: onLoadSuccess">
+        <thead>
+            <tr>
+                <th data-options="field:'id',width:60,sortable:true"></th>
+                <th data-options="field:'id1',width:220,sortable:true"></th>
+                <th data-options="field:'id2',width:60,sortable:true"></th>
+                <th data-options="field:'id3',width:200,sortable:true"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td><h3>用户名</h3></td>
+                <td><label name="user_login_name"></label></td>
+                <td><h3>教师号</h3></td>
+                <td><label name="teacherCode" id="teacherCode"></label></td>
+            </tr>
+            <tr>
+                <td><h3>姓名</h3></td>
+                <td><label name="user_name" id="user_name"></label></td>
+                <td><h3>手机号码</h3></td>
+                <td><label name="user_mobile" id="user_mobile"></label></td>
+            </tr>
+            <tr>
+                <td><h3>邮箱</h3></td>
+                <td><label name="user_email" id="user_email"></label></td>
+                <td><h3>组织架构</h3></td>
+                <td><label name="department" id="department"></label></td>
+            </tr>
+            <tr>
+                <td><h3>性别</h3></td>
+                <td><label name="user_gender" id="user_gender"></label></td>
+                <td><h3>职称</h3></td>
+                <td><label name="teacherTitleCreate" id="teacherTitleCreate"></label></td>
+            </tr>
+            <tr>
+                <td><h3>在职状态</h3></td>
+                <td><label name="teacherJobStatusCode" id="teacherJobStatusCode"></label></td>
+                <td><h3>专业方向</h3></td>
+                <td><label name="teacherProfessionalDirection" id="teacherProfessionalDirection"></label></td>
+            </tr>
+            <tr>
+                <td><h3>身份证号</h3></td>
+                <td><label name="teacherIdCode" id="teacherIdCode"></label></td>
+                <td><h3>出生日期</h3></td>
+                <td><label name="teacherBirthday" id="teacherBirthday"></label></td>
+            </tr>
+            <tr>
+                <td><h3>民族</h3></td>
+                <td><label name="teacherNational" id="teacherNational"></label></td>
+                <td><h3>政治面貌</h3></td>
+                <td><label name="teacherPolitical" id="teacherPolitical"></label></td>
+            </tr>
+            <tr>
+                <td><h3>任职日期</h3></td>
+                <td><label name="teacherEntryDate" id="teacherEntryDate"></label></td>
+                <td><h3>参加工作日期</h3></td>
+                <td><label name="teacherStartworkDate" id="teacherStartworkDate"></label></td>
+            </tr>
+            <tr>
+                <td><h3>高校教龄</h3></td>
+                <td><label name="teacherEduAge" id="teacherEduAge"></label></td>
+                <td><h3>学历</h3></td>
+                <td><label name="teacherEducation" id="teacherEducation"></label></td>
+            </tr>
+            <tr>
+                <td><h3>学位</h3></td>
+                <td><label name="teacherAcademicDegree" id="teacherAcademicDegree"></label></td>
+                <td><h3>毕业学校</h3></td>
+                <td><label name="teacherGraduateSchool" id="teacherGraduateSchool"></label></td>
+            </tr>
+            <tr>
+                <td><h3>毕业日期</h3></td>
+                <td><label name="teacherGraduateDate" id="teacherGraduateDate"></label></td>
+                <td><h3>所学专业</h3></td>
+                <td><label name="teacherStudyProfessional" id="teacherStudyProfessional"></label></td>
+            </tr>
+            @if (ViewBag.IsApplyLiveService)
+            {
+                <tr>
+                    <td><h3>直播推流地址</h3></td>
+                    <td><label name="pushUrl" id="pushUrl"></label></td>
+
+                </tr>
+            }
+        </tbody>
+
+
+
+    </table>
+
+
+
+</form>
+<script type="text/javascript">
+    function onLoadSuccess(data) {
+        var merges = [{
+            index: 11,
+            rowspan: 3
+        }];
+        for (var i = 0; i < merges.length; i++) {
+            $(this).datagrid('mergeCells', {
+                index: merges[i].index,
+                field: 'id1',
+                colspan: merges[i].rowspan
+            });
+        }
+    }
+</script>
+
+

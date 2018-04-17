@@ -1,0 +1,55 @@
+<div class="osRename-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">os.rename() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>
+		<p>os.rename() 方法用于命名文件或目录，从 src 到 dst,如果dst是一个存在的目录, 将抛出OSError。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>rename()方法语法格式如下：</p>
+		<pre>os.rename(src, dst)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>src</b> -- 要修改的目录名</p></li>
+			<li><p><b>dst</b> -- 修改后的目录名</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法没有返回值 </p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 rename() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os, sys
+
+# 列出目录
+print "目录为: %s"%os.listdir(os.getcwd())
+
+# 重命名
+os.rename("test","test2")
+
+print "重命名成功。"
+
+# 列出重命名后的目录
+print "目录为: %s" %os.listdir(os.getcwd())</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>目录为:
+[  'a1.txt','resume.doc','a3.py','test' ]
+重命名成功。
+[  'a1.txt','resume.doc','a3.py','test2' ]</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

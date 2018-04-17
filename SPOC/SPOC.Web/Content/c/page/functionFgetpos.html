@@ -1,0 +1,92 @@
+<div class="functionFgetpos-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">fgetpos()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int fgetpos(FILE *stream, fpos_t *pos)</b> 获取流 <b>stream</b> 的当前文件位置，并把它写入到 <b>pos</b>。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 fgetpos() 函数的声明。</p>
+		<pre>int fgetpos(FILE *stream, fpos_t *pos)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>stream</b> -- 这是指向 FILE 对象的指针，该 FILE 对象标识了流。
+			</li>
+			<li>
+				<b>pos</b> -- 这是指向 fpos_t 对象的指针。
+			</li>	
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果成功，该函数返回零。如果发生错误	，则返回非零值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 fgetpos() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main ()
+{
+   FILE *fp;
+   fpos_t position;
+
+   fp = fopen("file.txt","w+");
+   fgetpos(fp, &position);
+   fputs("Hello, World!", fp);
+  
+   fsetpos(fp, &position);
+   fputs("这将覆盖之前的内容", fp);
+   fclose(fp);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将创建一个文件 <b>file.txt</b>，它的内容如下。首先我们使用 <b>fgetpos()</b> 函数获取文件的初始位置，接着我们向文件写入 Hello, World!，然后我们使用 <b>fsetpos()</b> 函数来重置写指针到文件的开头，重写文件为下列内容：</p>
+		<pre>这将覆盖之前的内容</pre>
+		<p>现在让我们使用下面的程序查看上面文件的内容：</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main ()
+{
+   FILE *fp;
+   int c;
+   int n = 0;
+
+   fp = fopen("file.txt","r");
+   while(1)
+   {
+      c = fgetc(fp);
+      if( feof(fp) )
+      {
+          break ;
+      }
+      printf("%c", c);
+   }
+
+   fclose(fp);
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,46 @@
+<div class="funcComplex-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">complex() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p><b>complex() </b> 函数用于创建一个值为 real + imag * j 的复数或者转化一个字符串或数为复数。如果第一个参数为字符串，则不需要指定第二个参数。</p>
+		<h3 class="n-h3">语法</h3>
+		<pre>class complex([real[, imag]])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>real --  int, long, float或字符串；</li>
+			<li>imag --   int, long, float；</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回一个复数。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 complex 的使用方法：</p>
+		<div class="n-example">
+			<pre><code>>>>complex(1, 2)
+(1 + 2j)
+ 
+>>> complex(1)    # 数字
+(1 + 0j)
+ 
+>>> complex("1")  # 当做字符串处理
+(1 + 0j)
+ 
+# 注意：这个地方在"+"号两边不能有空格，也就是不能写成"1 + 2j"，应该是"1+2j"，否则会报错
+>>> complex("1+2j")
+(1 + 2j)</code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+</div>

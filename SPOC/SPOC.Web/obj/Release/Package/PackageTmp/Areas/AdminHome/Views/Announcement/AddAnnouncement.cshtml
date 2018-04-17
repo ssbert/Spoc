@@ -1,0 +1,216 @@
+﻿@model SPOC.Core.Dto.AnnouncementDto
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+<body>
+    <div id="div_add_info" region="center" border="false" style="padding:10px;">
+        <div class="ftitle">
+            公告信息
+        </div>
+        <form id="fm" class="form-horizontal label label-length-5" method="post">
+            <input type="hidden" id="id" />
+            <div class="form-group">
+                <label class="form-label">
+                    公告标题:
+                </label>
+                <input id="catitle" name="catitle" class="easyui-textbox"  style="width:600px;" data-options="type:'text',validType:['length[1,50]'],required:true">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    公告内容:
+                </label>
+                <script id="content" type="text/plain" style="display:inline-block;">
+            </script>
+               
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    发布班级:
+                </label>
+                <select class="easyui-combotree" id="department" name="department" style="width:600px;" data-options="valueField:'id',textField:'text',width:250,multiple:true,lines:true"></select>
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',width:'90px'" onclick="addCourseAnnouncement.save()">发布</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',width:'90px'" onclick="addCourseAnnouncement.cancel()">取消</a>
+            </div>
+        </form>
+
+
+    </div>
+    </body>
+    <script src="@Url.Content("~/Scripts/ueditor1_4_3_2-utf8-net/utf8-net/ueditor.config.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/ueditor1_4_3_2-utf8-net/utf8-net/ueditor.all.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/ueditor1_4_3_2-utf8-net/utf8-net/lang/zh-cn/zh-cn.js")" type="text/javascript"></script>
+    <script src="/Scripts/jquery-easyui-extension/Validate.js"></script>
+    <script type="text/javascript">
+
+    var addCourseAnnouncement = {
+        ueEditor: null,
+        isEdit: false,
+        announceId:'',
+        init: function () {
+            $.post('/api/services/app/Department/GetDepartmentTree').done(function (data) { //获取下拉框
+          
+                $("#department").combotree('loadData', data);
+                if ('@Model.id' === '@Guid.Empty') {
+                    addCourseAnnouncement.isEdit = false;
+
+                }
+                else {
+                    addCourseAnnouncement.isEdit = true;
+                    addCourseAnnouncement.announceId = '@Model.id';
+                    addCourseAnnouncement.initData('@Model.id');
+                }
+                addCourseAnnouncement.initUE();
+                
+            });
+         
+
+        },
+        initUE: function () {
+            this.ueEditor = UE.getEditor('content', {
+                toolbars: [
+                    [
+                        'insertcode',
+                        'bold',
+                        'italic',
+                        'underline',
+                        'insertimage',
+                        'link',
+                        'unlink',
+                        "fontfamily",
+                        "fontsize",
+                        'insertunorderedlist',
+                        'insertorderedlist',
+                        'blockquote',
+                        'redo',
+                        'undo',
+                        'preview'
+                    ]
+                ]  ,autoHeightEnabled: false,
+                autoFloatEnabled: true,
+                initialFrameWidth: 600,
+                initialFrameHeight: 300,
+                elementPathEnabled: false //元素路径
+            });
+    
+        },
+        initData: function (id) {
+            $.ajax({
+                type: "post",
+                url: "/api/services/app/Announcement/GetAnnouncement",
+                data: { id: id },
+                success: function(data) {
+                    if (data.success) {
+                        var model = data.result;
+                        $("#catitle").textbox('setValue', model.title);
+
+                        var classIds = model.classIds.split(",");
+                        $('#department').combotree('setValues', classIds);
+                        addCourseAnnouncement.ueEditor.ready(function() {
+                            this.setContent(model.content);
+                        });
+
+                    }
+                }
+            });
+        },
+
+        save: function () {
+            if (!checkLogin()) {
+                evtBus.dispatchEvt("show_login");
+                return false;
+            }
+
+            if (!$('#fm').form('validate')) {
+                return false;
+            }
+
+            var nodes = $('#department').combotree("tree").tree('getChecked');
+            var arrays =[];
+            var id; 
+            $(nodes).each(function(index,value){
+                if (!(value.children && value.children != 0))
+                {
+                    id = value.id;
+                    arrays.push(id);
+                }
+            });
+
+            if (!this.isEdit) {
+                var foo = [];
+
+                foo["catitle"] = $("#catitle").textbox('getValue');
+
+                $.ajax({
+                    type: "post",
+                    url: "/api/services/app/Announcement/InsertAnnouncement",
+                    data: {
+                        content: encodeURIComponent(UE.getEditor('content').getContent()),
+                        classId: arrays.toString(),
+                        title: $("#catitle").textbox('getValue')
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            parent.$('#tabs').tabs('close', "公告管理");
+                            addCourseAnnouncement.openTab("公告管理",
+                                "/AdminHome/Announcement/",
+                                '');
+                            addCourseAnnouncement.cancel();
+                        } else {
+                            VE.MessageShow(data.error.message);
+                        }
+                    }
+                });
+            }
+            else {
+                var foo = [];
+                foo["catitle"] = $("#catitle").textbox('getValue');
+                foo["id"] = $("#id").val();
+                $.ajax({
+                    type: "post",
+                    url: "/api/services/app/Announcement/ModifyAnnouncement",
+                    data: {
+                        content: encodeURIComponent(UE.getEditor('content').getContent()),
+                        id: addCourseAnnouncement.announceId,
+                        title: $("#catitle").textbox('getValue'),
+                        classId: arrays.toString()
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                           parent.$('#tabs').tabs('close', "公告管理");
+                           addCourseAnnouncement.openTab("公告管理",
+                                "/AdminHome/Announcement/",
+                                '');
+                            addCourseAnnouncement.cancel();
+                        } else {
+                            VE.MessageShow(data.error.message);
+                        }
+                    }
+                });
+            }
+        }, openTab: function (title, url, icon) {
+            parent.$('#tabs').tabs('close', title);
+            parent.$("#tabs").tabs("add", {
+                title: title,
+                content: '<iframe id="' + title + '" scrolling="auto" src="' + url + '" frameborder="0" style="width:100%;height:100%;line-height:0;display: block;margin:0;padding:0"></iframe>',
+                closable: true,
+                fit: true,
+                icon: icon
+            });
+        },
+        cancel: function () {
+       
+            if (!this.isEdit) {
+                parent.$('#tabs').tabs('close', "公告添加");
+            } else {
+                parent.$('#tabs').tabs('close', "公告编辑");
+            }
+        }
+    }
+
+    addCourseAnnouncement.init();
+
+    </script>

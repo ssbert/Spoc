@@ -1,0 +1,54 @@
+<div class="stringEncode-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">encode()方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 字符串
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>encode() 方法以指定的编码格式编码字符串。errors参数可以指定不同的错误处理方案。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>encode()方法语法：</p>
+		<pre>str.encode(encoding='UTF-8',errors='strict')</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>encoding -- 要使用的编码，如"UTF-8"。</li>
+			<li>errors -- 设置不同错误的处理方案。默认为 'strict',意为编码错误引起一个UnicodeError。 其他可能得值有 'ignore', 'replace', 'xmlcharrefreplace', 'backslashreplace' 以及通过 codecs.register_error() 注册的任何值。</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法返回编码后的字符串，它是一个 bytes 对象。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了encode()方法的实例：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+str = "菜鸟教程";
+str_utf8 = str.encode("UTF-8")
+str_gbk = str.encode("GBK")
+
+print(str)
+
+print("UTF-8 编码：", str_utf8)
+print("GBK 编码：", str_gbk)
+
+print("UTF-8 解码：", str_utf8.decode('UTF-8','strict'))
+print("GBK 解码：", str_gbk.decode('GBK','strict'))</code></pre>
+		</div>
+		<p>以上实例运行后输出结果为：</p>
+		<pre>菜鸟教程
+UTF-8 编码： b'\xe8\x8f\x9c\xe9\xb8\x9f\xe6\x95\x99\xe7\xa8\x8b'
+GBK 编码： b'\xb2\xcb\xc4\xf1\xbd\xcc\xb3\xcc'
+UTF-8 解码： 菜鸟教程
+GBK 解码： 菜鸟教程</pre>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 字符串
+			</a>
+		</p>
+	</div>
+</div>

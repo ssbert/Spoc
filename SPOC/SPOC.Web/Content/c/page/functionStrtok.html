@@ -1,0 +1,70 @@
+<div class="functionStrtok-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">strtok()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>char *strtok(char *str, const char *delim)</b> 分解字符串 <b>str</b> 为一组字符串，<b>delim</b> 为分隔符。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 strtok() 函数的声明。</p>
+		<pre>char *strtok(char *str, const char *delim)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b> -- 要被分解成一组小字符串的字符串。</li>
+			<li><b>delim</b> -- 包含分隔符的 C 字符串。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回被分解的最后一个子字符串，如果没有可检索的字符串，则返回一个空指针。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 strtok() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+
+int main()
+{
+   const char str[80] = "This is - www.w3cschool.cc - website";
+   const char s[2] = "-";
+   char *token;
+   
+   /* 获取第一个子字符串 */
+   token = strtok(str, s);
+   
+   /* 继续获取其他的子字符串 */
+   while( token != NULL ) 
+   {
+      printf( " %s\n", token );
+    
+      token = strtok(NULL, s);
+   }
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>This is 
+www.w3cschool.cc 
+website</pre>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

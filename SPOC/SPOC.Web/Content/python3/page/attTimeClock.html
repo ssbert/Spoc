@@ -1,0 +1,58 @@
+<div class="attTimeClock-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">time clock()方法</span>
+		</h1>
+		<p>
+			<a href="#dateTime" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 日期和时间
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>	
+		<p>Python time clock() 函数以浮点数计算的秒数返回当前的CPU时间。用来衡量不同程序的耗时，比time.time()更有用。</p>
+		<p>这个需要注意，在不同的系统上含义不同。在UNIX系统上，它返回的是"进程时间"，它是用秒表示的浮点数（时间戳）。而在WINDOWS中，第一次调用，返回的是进程运行的实际时间。而第二次之后的调用是自第一次调用以后到现在的运行时间。（实际上是以WIN32上QueryPerformanceCounter()为基础，它比毫秒表示更为精确） </p>
+		<h3 class="n-h3">语法</h3>
+		<p>clock()方法语法：</p>
+		<pre>time.clock()</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>
+				<p>NA</p>
+			</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该函数有两个功能，</p>
+		<p>在第一次调用的时候，返回的是程序运行的实际时间；</p>
+		<p>以第二次之后的调用，返回的是自第一次调用后,到这次调用的时间间隔</p>
+		<p>在win32系统下，这个函数返回的是真实时间（wall time），而在Unix/Linux下返回的是CPU时间。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 clock()函数的使用方法：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+import time
+
+def procedure():
+    time.sleep(2.5)
+
+# time.clock
+t0 = time.clock()
+procedure()
+print (time.clock() - t0)
+
+# time.time
+t0 = time.time()
+procedure()
+print (time.time() - t0)</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>5.000000000000143e-05
+2.5020556449890137</pre>
+		<p>
+			<a href="#dateTime" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 日期和时间
+			</a>
+		</p>
+	</div>
+</div>

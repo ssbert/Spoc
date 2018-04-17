@@ -1,0 +1,162 @@
+﻿
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+<div region="center">
+    <table id="dg"></table>
+</div>
+<script type="text/javascript">
+    TeacherSetting = (function () {
+        var topWin = parent.parent.window;
+        topWin.observer = {
+            clientList: [],
+            listen: function (key, fn) {
+                if (!this.clientList[key]) {
+                    this.clientList[key] = [];
+                }
+                this.clientList[key].push(fn);
+            },
+            trigger: function () {
+                var key = Array.prototype.shift.call(arguments),
+                    fns = this.clientList[key];
+                if (!fns || fns.length === 0) {
+                    return;
+                }
+                for (var i = 0; i < fns.length; i++) {
+                    fns[i].apply(this, arguments);
+                }
+            },
+            remove: function (key, fn) {
+                var fns = this.clientList[key];
+                if (!fns) {
+                    return;
+                }
+                if (!fn) {
+                    fns && (fns.length = 0);
+                } else {
+                    for (var i = 0; i < fns.length - 1; i++) {
+                        var _fn = fns[i];
+                        if (_fn === fn) {
+                            fns.splice(i, 1);
+                        }
+                    }
+                }
+            }
+        };
+        var dialog = null;
+        var datagrid = $("#dg").datagrid({
+            url:  '/api/services/app/Department/GetTeachersByClassId',
+            queryParams: {
+                id: '@ViewBag.id'
+            },
+            rownumbers: true,
+            pagination: true,
+            iconCls: VE.DatagridIconCls,
+            height: '100%',
+            pageSize: VE.PageSize,
+            pageList: VE.PageList,
+            ctrlSelect: true,
+            fitColumns: true,
+            nowrap: false,
+            checkOnSelect: false,
+            border: true,
+            idField: 'id',
+            sortName: 'CreateTime',
+            sortOrder: 'desc',
+            columns: [
+                [
+                    { field: 'id', checkbox: true },
+                    { field: 'userLoginName', title: '用户名', width: 60, sortable: true },
+                    { field: 'userFullName', title: '姓名', width: 100, sortable: true },
+                    {
+                        field: 'gender',
+                        title: '性别',
+                        width: 60,
+                        sortable: true,
+                        formatter: function(val) { return val == "1" ? "男" : val == "2" ? "女" : ""; }
+                    },
+                    { field: 'createTime', title: '加入时间', width: 100, sortable: true, formatter: visibleFormat },
+                    { field: '_opt', title: '操作', width: 100, sortable: true, formatter: delFormat }
+                ]
+            ],
+            toolbar: [
+                {
+                    iconCls: 'icon-add',
+                    text: '添加教师',
+                    handler: function () {
+                        openTab('选择教师', '/user/department/addTeachers/@ViewBag.id', 'icon-edit');
+                    }
+                }, '-', {
+                    iconCls: 'icon-busy',
+                    text: '删除',
+                    handler: function () {
+                        VE.Delete("/api/services/app/Department/DelClassTeacher", "dg", false, VE.GridType_DataGrid);
+                    }
+                }
+            ]
+        });
+        topWin.observer.listen('refresh', function () {
+            datagrid.datagrid('reload');
+        });
+
+
+        function openTab(title, url, icon) {
+            parent.$('#tabs').tabs('close', title);
+            parent.$("#tabs").tabs("add", {
+                title: title,
+                content: '<iframe id="' + title + '" scrolling="no" width="100%" height="100%" src="' + url + '" frameborder="0" border="0" style="line-height: 0;display: block;"></iframe>',
+                closable: true,
+                fit: true,
+                icon: icon
+            });
+        }
+
+        function visibleFormat(value, row) {
+            return value ? '是' : '否';
+        }
+
+        function delFormat(value, row) {
+            var option = {
+                option: [
+                    {
+                        text: '删除',
+                        icon: 'icon-busy',
+                        title: '删除',
+                        onclick: 'TeacherSetting.del'
+                    }
+                ]
+            };
+            return linkbtn(row.id, option);
+        }
+
+
+
+        function del(id) {
+            var rows = $('#dg').datagrid('getSelections');
+            $.messager.confirm('确认对话框', '是否确认删除?', function (r) {
+                if (r) {
+                    $.ajax({
+                        url: '/api/services/app/department/DelClassTeacher',
+                        dataType: 'json',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ id: id }),
+                        success: function (data) {
+                            $.messager.show({ title: "提示", msg: "操作成功！" });
+                            datagrid.datagrid('reload');
+                            rows.length = 0;
+                        }
+                    });
+                }
+            });
+        }
+
+
+
+        return {
+            $datagrid: datagrid,
+            del: del
+
+        };
+    })();
+</script>

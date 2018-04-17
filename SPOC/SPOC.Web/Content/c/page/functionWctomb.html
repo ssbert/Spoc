@@ -1,0 +1,78 @@
+<div class="functionWctomb-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">wctomb()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int wctomb(char *str, wchar_t wchar)</b> 把宽字符 <b>wchar</b> 转换为它的多字节表示形式，并把它存储在 <b>str</b> 指向的字符数组的开头。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 wctomb() 函数的声明。</p>
+		<pre>int wctomb(char *str, wchar_t wchar)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b>  -- 一个指针，指向一个足以存储多字节字符的数组。</li>
+			<li><b>wchar</b>  -- 类型为 wchar_t 的宽字符。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<ul>
+			<li>如果 str 不为 NULL，wctomb() 函数返回写入字节数组中的字节数。如果 wchar 不能被表示为一个多字节序列，则会返回 -1。</li>
+			<li>如果 str 为 NULL，如果编码具有移位状态，则 wctomb() 函数返回非零，如果编码是无状态的，则返回零。</li>
+		</ul>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 wctomb() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define BUFFER_SIZE 50
+
+int main()
+{
+   int i;
+   wchar_t wc = L'a';
+   char *pmbnull = NULL;
+   char *pmb = (char *)malloc(sizeof( char ));
+
+   printf("要转换的宽字符：\n");
+   i = wctomb( pmb, wc );
+   printf("被转换的字符：%u\n", i);
+   printf("多字节字符：%.1s\n", pmb);
+
+   printf("当要转换的字符为 NULL 时尝试转换：\n");
+   i = wctomb( pmbnull, wc );
+   printf("被转换的字符：%u\n", i);
+   /* 不会输出任何值 */
+   printf("多字节字符：%.1s\n", pmbnull);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>要转换的宽字符：
+被转换的字符：1
+多字节字符：a
+当要转换的字符为 NULL 时尝试转换：
+被转换的字符：0
+多字节字符：</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

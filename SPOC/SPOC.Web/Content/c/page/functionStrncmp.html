@@ -1,0 +1,81 @@
+<div class="functionStrncmp-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">strncmp()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int strncmp(const char *str1, const char *str2, size_t n)</b> 把 <b>str1</b> 和 <b>str2</b> 进行比较，最多比较前 <b>n</b> 个字节。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 strncmp() 函数的声明。</p>
+		<pre>int strncmp(const char *str1, const char *str2, size_t n)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>str1</b> -- 要进行比较的第一个字符串。</li>
+			<li><b>str2</b> -- 要进行比较的第二个字符串。</li>
+			<li><b>n</b> -- 要比较的最大字符数。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回值如下：</p>
+		<ul>
+			<li>如果返回值 &lt; 0，则表示 str1 小于 str2。</li>
+			<li>如果返回值 &gt; 0，则表示 str2 小于 str1。</li>
+			<li>如果返回值 = 0，则表示 str1 等于 str2。</li>
+		</ul>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 strncmp() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main ()
+{
+   char str1[15];
+   char str2[15];
+   int ret;
+
+
+   strcpy(str1, "abcdef");
+   strcpy(str2, "ABCDEF");
+
+   ret = strncmp(str1, str2, 4);
+
+   if(ret < 0)
+   {
+      printf("str1 小于 str2");
+   }
+   else if(ret > 0) 
+   {
+      printf("str2 小于 str1");
+   }
+   else 
+   {
+      printf("str1 等于 str2");
+   }
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>str2 小于 str1</pre>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

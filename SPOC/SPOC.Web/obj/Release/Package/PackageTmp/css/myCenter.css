@@ -1,0 +1,133 @@
+.my-center-page {
+    padding-top: 30px;
+}
+
+/*左侧栏*/
+.my-center-page .my-photo .image {
+    height: 150px;
+    width: 150px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.my-center-page .my-photo .user-name {
+    text-align: center;
+    font-size: 20px;
+}
+
+.my-center-page .slide {
+    padding: 10px 0 20px 75px;
+}
+
+.my-center-page .save-changes-btn {
+    display: block;
+    width: 150px;
+    margin: 10px auto;
+    padding: 10px 20px;
+}
+
+/*右侧栏*/
+.my-center-page .content-item {
+    display: none;
+}
+
+.my-center-page .content-item.active {
+    display: block;
+}
+
+.my-center-page .content-item-header h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.my-center-page .content-item-header p {
+    color: #979faf;
+}
+
+.my-center-page .content-item-con .info-item {
+    padding-top: 30px;
+    width: 62.5%;
+    position: relative;
+}
+
+.my-center-page .content-item-con .info-item .help-block {
+    position: absolute;
+    top: 103%;
+    color: #737373;
+    font-size: 12px;
+    margin: 0;
+}
+
+.my-center-page .content-item-con .info-item .help-block .field-validation-error:before,
+.my-center-page .content-item-header .error:before {
+    position: relative;
+    content: "\e101";
+    top: 1px;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    margin-right: 5px;
+}
+
+.my-center-page .content-item-con .info-item .help-block *,
+.my-center-page .content-item-header .error {
+    color: #f34e4e;
+}
+
+.my-center-page .content-item-con .info-item label {
+    margin-bottom: 15px;
+}
+
+.my-center-page .content-item-con .info-item input {
+    height: 40px;
+}
+
+.my-center-page .content-item-con .info-item p {
+    color: #979faf;
+    margin-top: 10px;
+}
+
+.my-center-page .change-password label,
+.my-center-page .change-email label,
+.my-center-page .change-email .info-item .email {
+    line-height: 40px;
+}
+
+.my-center-page .change-email .info-item .email-account {
+    margin-left: 15px;
+}
+
+.my-center-page .save-password,
+.my-center-page .save-email {
+    max-width: 62.5%;
+    padding-top: 30px;
+}
+
+.my-center-page .save-password-btn,
+.my-center-page .save-email-btn {
+    display: block;
+    margin: 0 auto;
+    width: 100px;
+}
+
+.my-center-page .change-user-pic .content-item-con {
+    padding-top: 30px;
+}
+
+.my-center-page .change-user-pic .row >span {
+    font-weight: 600;
+}
+
+.my-center-page .change-user-pic .pic {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+}
+
+.my-center-page .change-user-pic .user-pic p {
+    margin: 20px 0;
+}
+
+

@@ -1,0 +1,98 @@
+<div class="functionLocaleconv-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">localeconv()</span>
+		</h1>
+		<p>
+			<a href="#standardLibLocaleH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;locale.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>struct lconv *localeconv(void)</b> 设置或读取地域化信息。它会返回一个 <b>lconv</b> 结构类型的对象。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 localeconv() 函数的声明。</p>
+		<pre>struct lconv *localeconv(void)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>NA</b> 
+			</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>该函数返回一个指向当前区域 struct lconv 的指针，它的结构如下：</p>
+		<pre>typedef struct {
+   char *decimal_point;
+   char *thousands_sep;
+   char *grouping;    
+   char *int_curr_symbol;
+   char *currency_symbol;
+   char *mon_decimal_point;
+   char *mon_thousands_sep;
+   char *mon_grouping;
+   char *positive_sign;
+   char *negative_sign;
+   char int_frac_digits;
+   char frac_digits;
+   char p_cs_precedes;
+   char p_sep_by_space;
+   char n_cs_precedes;
+   char n_sep_by_space;
+   char p_sign_posn;
+   char n_sign_posn;
+} lconv</pre>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 localeconv() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;locale.h&gt;
+#include &lt;stdio.h&gt;
+
+int main ()
+{
+   struct lconv * lc;
+
+   setlocale(LC_MONETARY, "it_IT");
+   lc = localeconv();
+   printf("Local Currency Symbol: %s\n",lc->currency_symbol);
+   printf("International Currency Symbol: %s\n",lc->int_curr_symbol);
+
+   setlocale(LC_MONETARY, "en_US");
+   lc = localeconv();
+   printf("Local Currency Symbol: %s\n",lc->currency_symbol);
+   printf("International Currency Symbol: %s\n",lc->int_curr_symbol);
+
+   setlocale(LC_MONETARY, "en_GB");
+   lc = localeconv();
+   printf ("Local Currency Symbol: %s\n",lc->currency_symbol);
+   printf ("International Currency Symbol: %s\n",lc->int_curr_symbol);
+
+   printf("Decimal Point = %s\n", lc->decimal_point);
+   
+   return 0;
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>Local Currency Symbol: EUR
+International Currency Symbol: EUR
+Local Currency Symbol: $
+International Currency Symbol: USD
+Local Currency Symbol: £
+International Currency Symbol: GBP
+Decimal Point = .</pre>
+		<p>
+			<a href="#standardLibLocaleH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;locale.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,71 @@
+<div class="funcOpen-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">open() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>python open() 函数用于打开一个文件，创建一个 file 对象，相关的方法才可以调用它进行读写。</p>
+		<p>更多文件操作可参考：<a href="#filesIo" class="n-text-line green">Python 文件I/O</a>。</p>
+		<h3 class="n-h3">函数语法</h3>
+		<pre>open(name[, mode[, buffering]])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p>name : 一个包含了你要访问的文件名称的字符串值。</p></li>
+
+			<li><p>mode : mode 决定了打开文件的模式：只读，写入，追加等。所有可取值见如下的完全列表。这个参数是非强制的，默认文件访问模式为只读(r)。</p></li>
+
+			<li><p>buffering : 如果 buffering 的值被设为 0，就不会有寄存。如果 buffering 的值取 1，访问文件时会寄存行。如果将 buffering 的值设为大于 1 的整数，表明了这就是的寄存区的缓冲大小。如果取负值，寄存区的缓冲大小则为系统默认。</p></li>
+		</ul>
+		<p>不同模式打开文件的完全列表：</p>
+		<table>
+			<tbody>
+				<tr><th style="width:10%">模式</th><th>描述</th></tr>
+				<tr><td>r</td><td>以只读方式打开文件。文件的指针将会放在文件的开头。这是默认模式。</td></tr>
+				<tr><td>rb</td><td>以二进制格式打开一个文件用于只读。文件指针将会放在文件的开头。这是默认模式。</td></tr>
+				<tr><td>r+</td><td>打开一个文件用于读写。文件指针将会放在文件的开头。</td></tr>
+				<tr><td>rb+</td><td>以二进制格式打开一个文件用于读写。文件指针将会放在文件的开头。</td></tr>
+				<tr><td>w</td><td>打开一个文件只用于写入。如果该文件已存在则将其覆盖。如果该文件不存在，创建新文件。</td></tr>
+				<tr><td>wb</td><td>以二进制格式打开一个文件只用于写入。如果该文件已存在则将其覆盖。如果该文件不存在，创建新文件。</td></tr>
+				<tr><td>w+</td><td>打开一个文件用于读写。如果该文件已存在则将其覆盖。如果该文件不存在，创建新文件。</td></tr> 
+				<tr><td>wb+</td><td>以二进制格式打开一个文件用于读写。如果该文件已存在则将其覆盖。如果该文件不存在，创建新文件。</td></tr>
+				<tr><td>a</td><td>打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。</td></tr> 
+				<tr><td>ab</td><td>以二进制格式打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。</td></tr> 
+				<tr><td>a+</td><td>打开一个文件用于读写。如果该文件已存在，文件指针将会放在文件的结尾。文件打开时会是追加模式。如果该文件不存在，创建新文件用于读写。</td></tr> 
+				<tr><td>ab+</td><td>以二进制格式打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。如果该文件不存在，创建新文件用于读写。</td></tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">file 对象方法</h3>
+		<p><strong>file.read([size])</strong> size未指定则返回整个文件,如果文件大小&gt;2倍内存则有问题.f.read()读到文件尾时返回""(空字串)</p>
+		<p><b>file.readline()</b> 返回一行</p>
+		<p><strong>file.readlines([size]) </strong>返回包含size行的列表,size 未指定则返回全部行</p>
+		<p><strong>for line in f: print line </strong>#通过迭代器访问</p>
+		<p><b>f.write("hello\n")</b> #如果要写入字符串以外的数据,先将他转换为字符串.</p>
+		<p><b>f.tell()</b> 返回一个整数,表示当前文件指针的位置(就是到文件头的比特数).</p>
+		<p><b>f.seek(偏移量,[起始位置])</b> 用来移动文件指针.</p>
+		<ul>
+			<li>偏移量:单位:比特,可正可负</li>
+			<li>起始位置:0-文件头,默认值;1-当前位置;2-文件尾</li>
+		</ul>
+		<p><b>f.close()</b> 关闭文件</p>
+		<h3 class="n-h3">实例</h3>
+		<p>测试文件 test.txt，内容如下：</p>
+		<pre>RUNOOB1
+RUNOOB2</pre>
+		<div class="n-example">
+			<pre><code>>>>f = open('test.txt')
+>>> f.read()
+'RUNOOB1\nRUNOOB2\n'</code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+</div>

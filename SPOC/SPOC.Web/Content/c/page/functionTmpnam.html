@@ -1,0 +1,64 @@
+<div class="functionTmpnam-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">tmpnam()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>char *tmpnam(char *str)</b> 生成并返回一个有效的临时文件名，该文件名之前是不存在的。如果 str 为空，则只会返回临时文件名。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 tmpnam() 函数的声明。</p>
+		<pre>char *tmpnam(char *str)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b> -- 这是一个指向字符数组的指针，其中，临时文件名将被存储为 C 字符串。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<ul>
+			<li>一个指向 C 字符串的指针，该字符串存储了临时文件名。如果 str 是一个空指针，则该指针指向一个内部缓冲区，缓冲区在下一次调用函数时被覆盖。</li>
+			<li>如果 str 不是一个空指针，则返回 str。如果函数未能成功创建可用的文件名，则返回一个空指针。</li>
+		</ul>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 tmpnam() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+   char buffer[L_tmpnam];
+   char *ptr;
+
+
+   tmpnam(buffer);
+   printf("临时名称 1: %s\n", buffer);
+ 
+   ptr = tmpnam(NULL);
+   printf("临时名称 2: %s\n", ptr);
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>临时名称 1: /tmp/filebaalTb
+临时名称 2: /tmp/filedCIbb0</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

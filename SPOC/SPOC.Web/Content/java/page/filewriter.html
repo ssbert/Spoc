@@ -1,0 +1,89 @@
+<div class="filewriter-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">FileWriter类</span>
+		</h1>
+		<p>
+			<a href="#filesIo" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java 流(Stream)
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>FileWriter 类从 OutputStreamWriter 类继承而来。该类按字符向流中写入数据。可以通过以下几种构造方法创建需要的对象。 </p>
+		<p>在给出 File 对象的情况下构造一个 FileWriter 对象。</p>
+		<pre>FileWriter(File file)</pre>
+		<p>在给出 File 对象的情况下构造一个 FileWriter 对象。</p>
+		<pre>FileWriter(File file, boolean append)</pre>
+		<p>构造与某个文件描述符相关联的 FileWriter 对象。</p>
+		<pre>FileWriter(FileDescriptor fd)</pre>
+		<p>在给出文件名的情况下构造 FileWriter 对象，它具有指示是否挂起写入数据的 boolean 值。</p>
+		<pre>FileWriter(String fileName, boolean append)</pre>
+		<p>创建FileWriter对象成功后，可以参照以下列表里的方法操作文件。</p>
+		<table>
+			<tbody>
+				<tr>
+					<th>
+						序号</th>
+					<th>
+						方法描述</th>
+				</tr>
+				<tr>
+					<td>
+						1</td>
+					<td>
+						<strong>public void write(int c) throws IOException</strong><br>
+						写入单个字符c。</td>
+				</tr>
+				<tr>
+					<td>
+						2</td>
+					<td>
+						<strong>public void write(char [] c, int offset, int len)</strong><br>
+						写入字符数组中开始为offset长度为len的某一部分。</td>
+				</tr>
+				<tr>
+					<td>
+						3</td>
+					<td>
+						<strong>public void write(String s, int offset, int len)</strong><br>
+						写入字符串中开始为offset长度为len的某一部分。</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>import java.io.*;
+public class FileRead{
+   public static void main(String args[])throws IOException{
+      File file = new File("Hello1.txt");
+      // 创建文件
+      file.createNewFile();
+      // creates a FileWriter Object
+      FileWriter writer = new FileWriter(file); 
+      // 向文件写入内容
+      writer.write("This\n is\n an\n example\n"); 
+      writer.flush();
+      writer.close();
+      //创建 FileReader 对象
+      FileReader fr = new FileReader(file); 
+      char [] a = new char[50];
+      fr.read(a); // 从数组中读取内容
+      for(char c : a)
+          System.out.print(c); // 一个个打印字符
+      fr.close();
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下：</p>
+		<pre>This
+is
+an
+example</pre>
+	</div>
+	<p>
+		<a href="#filesIo" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java 流(Stream)
+		</a>
+	</p>
+</div>

@@ -1,0 +1,507 @@
+﻿@using SPOC.Common.Cookie
+@{
+    ViewBag.Title = "挑战题管理";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+    var cookie = CookieHelper.GetLoginInUserInfo();
+    var hideUserColumn = cookie.IsAdmin ? "false" : "true";
+}
+@section scripts{
+    <script src="~/Scripts/plupload-2.1.2/plupload.full.min.js"></script>
+    <script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/question-bank/importQuestion.js"></script>
+    <script>
+        var serviceUrl = "/api/services/app/";
+        var iframeHtml =
+            '<iframe name="{title}" scrolling="auto" frameborder="0"  src="{url}" style="width:100%;height:99%;"></iframe>';
+        var pageNumberCache = 1;
+        var pageSizeCache = 30;
+        var formParamCache = {};
+
+        var dgFormatter = {
+            examTime: function(value, row, index) {
+                if (value === 0) {
+                    return "不限";
+                }
+                return formatTime(value);
+            },
+            questionStatusCode: function(value, row, index) {
+                switch (value) {
+                case "normal":
+                    return "正常";
+                case "outdated":
+                    return "已过期";
+                case "disabled":
+                    return "禁用";
+                case "draft":
+                    return "草稿";
+                default:
+                    return "正常";
+                }
+            },
+            questionText: function(value, row, index) {
+                value = value.replace(/<[^>]+>/g, "");
+                if (value.length > 60) {
+                    value = value.substr(0, 60) + "...";
+                }
+                return value;
+            },
+            optFormatter: function(val, row, index) {
+                var optionArray = [
+                    {
+                        title: "预览",
+                        text: "预览",
+                        icon: "icon-page_find",
+                        onclick: "previewQuestion"
+                    }
+                ];
+
+                if (row.allowEdit) {
+                    optionArray.push({
+                        title: "编辑",
+                        text: "编辑",
+                        icon: "icon-edit",
+                        onclick: "editQuestion"
+                    });
+                }
+                var options = {
+                    option: optionArray
+                };
+                return linkbtn(index, options);
+            }
+        };
+
+        var handle = evtBus.addEvt("flush_questions",
+            function() {
+                query();
+            });
+
+        $(window)
+            .unload(function() {
+                evtBus.removeEvt(handle);
+            });
+
+        function addQuestion(isCompose) {
+            var title = "新增试题";
+            var url = "/Challenge/Manage/Edit";
+            if (isCompose) { //组合题
+                title = "新增组合题";
+                url += "?compose=true";
+            }
+            parent.$("#tabs")
+                .tabs("add",
+                    {
+                        title: title,
+                        content: iframeHtml.format({ title: title, url: url }),
+                        closable: true,
+                        icon: "icon-add"
+                    });
+        }
+
+        function previewQuestion(index) {
+            $("#dg").datagrid("selectRow", index);
+            var row = $("#dg").datagrid("getRows")[index];
+            var title = "试题预览";
+            var url = "/Challenge/Manage/Preview?id=" + row.id;
+            if (parent.$("#tabs").tabs("exists", title)) {
+                parent.$("#tabs").tabs("select", title);
+                var tab = parent.$("#tabs").tabs("getSelected");
+                parent.$("#tabs")
+                    .tabs("update",
+                        {
+                            tab: tab,
+                            options: {
+                                content: iframeHtml.format({ title: title, url: url })
+                            }
+                        });
+            } else {
+                parent.$("#tabs")
+                    .tabs("add",
+                        {
+                            title: title,
+                            closable: true,
+                            content: iframeHtml.format({ title: title, url: url }),
+                            icon: "icon-page_magnify"
+                        });
+            }
+
+        }
+
+        function deleteQuestion() {
+            var checkedRows = $("#dg").datagrid("getChecked");
+
+            if (!checkedRows || checkedRows.length === 0) {
+                $.messager.alert("提示", "请先勾选要删除的试题！", "info");
+                return;
+            }
+
+            $.messager.confirm("删除确认",
+                "确认进行删除操作吗？",
+                function(b) {
+                    if (!b) {
+                        return;
+                    }
+
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+
+                    var idArray = [];
+                    $.each(checkedRows,
+                        function(k, v) {
+                            if (v.allowEdit)
+                                idArray.push(v.id);
+                        });
+                    if (idArray.length === 0) {
+                        $.messager.alert("提示", "您无权限删除勾选的试题！", "info");
+                        return;
+                    }
+                    VE.Mask("");
+                    var url = serviceUrl + "ChallengeQuestion/Delete?ids=" + idArray.join(",");
+                    nv.get(url,
+                        function(data) {
+                            VE.UnMask();
+                            if (data.success) {
+                                $.messager.show({ title: "提示", msg: checkedRows.length === idArray.length? "删除成功!":"删除成功！已跳过您无权限删除的试题" });
+                                getData();
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                });
+        }
+
+        function editQuestion(index) {
+            $("#dg").datagrid("selectRow", index);
+            var row = $("#dg").datagrid("getRows")[index];
+            var title = "编辑试题";
+            var url = "/Challenge/Manage/Edit?id=" + row.id;
+            if (row.questionBaseTypeCode === "compose") {
+                title = "编辑组合题";
+                url += "&compose=true";
+            }
+            var hasTab = false;
+            if (parent.$("#tabs").tabs("exists", "编辑试题")) {
+                parent.$("#tabs").tabs("select", "编辑试题");
+                hasTab = true;
+            }
+            if (!hasTab && parent.$("#tabs").tabs("exists", "编辑组合题")) {
+                parent.$("#tabs").tabs("select", "编辑组合题");
+                hasTab = true;
+            }
+            if (hasTab) {
+                var tab = parent.$("#tabs").tabs("getSelected");
+                parent.$("#tabs")
+                    .tabs("update",
+                        {
+                            tab: tab,
+                            options: {
+                                title: title,
+                                content: iframeHtml.format({ title: title, url: url })
+                            }
+                        });
+            } else {
+                parent.$("#tabs")
+                    .tabs("add",
+                        {
+                            title: title,
+                            content: iframeHtml.format({ title: title, url: url }),
+                            closable: true,
+                            icon: "icon-edit"
+                        });
+            }
+        }
+
+        function getData(pageNumber, pageSize, formParam) {
+            if (!$.isNumeric(pageNumber)) {
+                pageNumber = pageNumberCache;
+            } else {
+                pageNumberCache = pageNumber;
+            }
+
+            if (!$.isNumeric(pageSize)) {
+                pageSize = pageSizeCache;
+            } else {
+                pageSizeCache = pageSize;
+            }
+
+            if ($.isEmptyObject(formParam)) {
+                formParam = formParamCache;
+            } else {
+                formParamCache = formParam;
+            }
+
+            formParam.skip = (pageNumber - 1) * pageSize;
+            formParam.pageSize = pageSize;
+
+            VE.Mask("");
+            var url = serviceUrl + "ChallengeQuestion/GetPagination";
+            nv.post(url,
+                formParam,
+                function(data) {
+                    VE.UnMask();
+                    if (data.success) {
+                        $("#dg")
+                            .datagrid("loadData", data.result.rows)
+                            .datagrid("getPager")
+                            .pagination({
+                                pageNumber: pageNumberCache,
+                                total: data.result.total
+                            });
+                    } else if (data.error.code === -1) {
+                        evtBus.dispatchEvt("show_login"); //未登录
+                    } else {
+                        $.messager.alert("提示", data.error.message, "info");
+                    }
+                });
+        }
+
+        function getFormParam() {
+            return {
+                title: $("#title").textbox("getValue"),
+                questionText: $("#questionText").textbox("getValue"),
+                questionCode: $("#questionCode").textbox("getValue"),
+                questionBaseTypeCode: $("#questionBaseTypeCode").combobox("getValue"),
+                folderUidList: $("#folderUid").combotree("getValues"),
+                questionStatusCode: $("#questionStatusCode").combobox("getValue"),
+                hardGrade: $("#hardGrade").combobox("getValue"),
+                hasAnalysis: $("#hasAnalysis").combobox("getValue")
+            };
+        }
+
+        function getCombotreeValue(id) {
+            var value = $("#" + id).combotree("getValue");
+        }
+
+        function query() {
+            pageNumberCache = 1;
+            getData(pageNumberCache, pageSizeCache, getFormParam());
+        }
+
+        function importCallback() {
+            query();
+        }
+
+        var importFileType;
+
+        function showImportWindow(fileType) {
+            importFileType = fileType;
+
+            $("#import-from-excel").hide();
+            $("#import-from-word").hide();
+            if (fileType === "excel") {
+                $("#import-from-excel").show();
+            } else if (fileType === "word") {
+                $("#import-from-word").show();
+            }
+
+            $("#import-form").form("reset");
+
+            $("#wd").window("open");
+            importFormChange();
+        }
+
+        function formatTime(second) {
+            var h = Math.floor(second / 3600);
+            var m = Math.floor(second % 3600 / 60);
+            var s = second % 60;
+
+            var fmt = function(t) {
+                if (t < 10) {
+                    return "0" + t;
+                }
+                return "" + t;
+            }
+            return fmt(h) + ":" + fmt(m) + ":" + fmt(s);
+        }
+
+        function importFormChange() {
+            if ($("#import-form").form("validate")) {
+                if (importFileType === "word") {
+                    $("#import-from-word").show();
+                } else {
+                    $("#import-from-excel").show();
+                }
+            } else {
+                if (importFileType === "word") {
+                    $("#import-from-word").hide();
+                } else {
+                    $("#import-from-excel").hide();
+                }
+            }
+        }
+
+        function downloadTemplate() {
+            if (importFileType === "word") {
+                window.open("/fileroot/exportTemplateFile/QuestionTemplate.doc");
+            } else if (importFileType === "excel") {
+                window.open("/fileroot/exportTemplateFile/QuestionTemplate.xls");
+            }
+        }
+
+        function exportQuestions() {
+            if (!checkLogin()) {
+                evtBus.dispatchEvt("show_login");
+                return;
+            }
+
+            var checkedRows = $("#dg").datagrid("getChecked");
+
+            if (!checkedRows || checkedRows.length === 0) {
+                $.messager.alert("提示", "请先勾选要导出的试题！", "info");
+                return;
+            }
+
+            var idArray = [];
+            $.each(checkedRows,
+                function(k, v) {
+                    idArray.push(v.id);
+                });
+
+            var w = window.open("");
+            var url = serviceUrl + "ChallengeQuestion/ExportToWord";
+            nv.post(url,
+                { idList: idArray },
+                function(data) {
+                    if (data.success) {
+                        w.location.href = "/Challenge/Manage/ExportToWord/" + data.result;
+                    } else {
+                        w.close();
+                    }
+                });
+        }
+
+        $(function() {
+            $("#dg")
+                .datagrid("getPager")
+                .pagination({
+                    onSelectPage: function(pageNumber, pageSize) {
+                        getData(pageNumber, pageSize, formParamCache);
+                    },
+                    onChangePageSize: function(pageSize) {
+                        getData(pageNumberCache, pageSize, formParamCache);
+                    }
+                });
+
+            query();
+
+            var uploadExcel = new ImportQuestionClass("excel", query);
+            var uploadWord = new ImportQuestionClass("word", query);
+
+            var category = new nv.category.CombotreeDataClass("folderUid", "challenge_cpp");
+            category.getCategory();
+
+            //var category2 = new nv.category.CombotreeDataClass("wd-folderUid", "challenge_cpp");
+            //category2.getCategory();
+            //$("#import-form").form({ onChange: importFormChange });
+        });
+    </script>
+}
+<div region="center">
+    <div id="toolbar">
+
+        <form id="query-form" class="form-inline label label-length-4">
+            <div class="form-group">
+                <label class="form-label">标题：</label>
+                <input id="title" name="questionText" type="text" class="easyui-textbox" style="width: 150px">
+            </div>
+            <div class="form-group">
+                <label class="form-label">题干：</label>
+                <input id="questionText" name="questionText" type="text" class="easyui-textbox" style="width: 150px">
+            </div>
+            <div class="form-group">
+                <label class="form-label">编号：</label>
+                <input id="questionCode" name="questionCode" type="text" class="easyui-textbox" style="width: 150px">
+            </div>
+            <div class="form-group">
+                <label class="form-label">题型：</label>
+                <select id="questionBaseTypeCode" name="questionBaseTypeCode" class="easyui-combobox" editable="false" style="width: 150px;">
+                    <option value="" selected>-全部-</option>
+                    <option value="program">编程题</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">状态：</label>
+                <select id="questionStatusCode" name="questionStatusCode" class="easyui-combobox" editable="false" style="width: 150px;">
+                    <option value="" selected>-全部-</option>
+                    <option value="normal">正常</option>
+                    <option value="disabled">禁用</option>
+                    <option value="outdated">已过期</option>
+                    <option value="draft">草稿</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">试题分类：</label>
+                <input id="folderUid" name="folderUid" class="easyui-combotree" style="width: 150px;" multiple="true" lines="true">
+            </div>
+            <div class="form-group">
+                <label class="form-label">难度：</label>
+                <select id="hardGrade" name="hardGrade" class="easyui-combobox" editable="false" style="width: 150px;">
+                    <option value="">-全部-</option>
+                    <option value="1">容易</option>
+                    <option value="2">中等</option>
+                    <option value="3">困难</option>
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">试题分析：</label>
+                <select id="hasAnalysis" name="hasAnalysis" class="easyui-combobox" editable="false" style="width: 150px;">
+                    <option value="">-全部-</option>
+                    <option value="N">不包含试题分析</option>
+                    <option value="Y">包含试题分析</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" onclick="query()">搜索</a>
+                <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" onclick="$('#query-form').form('reset');">重置</a>
+            </div>
+        </form>
+
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="addQuestion(false)">创建试题</a>
+        @*<a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="showImportWindow('word')">批量导入试题</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-page_white_word" onclick="exportQuestions()">导出试题</a>*@
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-busy" onclick="deleteQuestion()">删除</a>
+
+    </div>
+    <table id="dg" class="easyui-datagrid" data-options="pagination:true,rownumbers:true,singleSelect:false,toolbar:'#toolbar'" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+                <th field="ck" checkbox="true"></th>
+                <th field="questionCode">编号</th>
+                <th field="questionTypeName">题型</th>
+                <th field="title">标题</th>
+                <th field="questionText" formatter="dgFormatter.questionText">题干</th>
+                <th field="score">分数</th>
+                <th field="questionStatusCode" formatter="dgFormatter.questionStatusCode">状态</th>
+                <th field="hardGrade">难度</th>
+                @*<th field="examTime" formatter="dgFormatter.examTime">答题时间</th>*@
+                <th field="listOrder">排序号</th>
+                <th field="createTime">创建时间</th>
+                <th field="userLoginName" data-options="hidden:@hideUserColumn">创建者用户名</th>
+                <th field="userFullName" data-options="hidden:@hideUserColumn">创建者姓名</th>
+                <th field="opt" formatter="dgFormatter.optFormatter">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div id="wd" class="easyui-window" title="批量导入试题" footer="#wd-buttons" closed="true" minimizable="false" maximizable="false" modal="true" style="width: 400px; height: 200px;">
+    <form id="import-form" class="form-horizontal label label-length-4">
+        <div class="form-group">
+            <label class="form-label">分类：</label>
+            <select id="wd-folderUid" name="wd-folderUid" class="easyui-combotree" editable="false" style="width: 300px;" required></select>
+        </div>
+        <div class="form-group">
+            <label class="form-label"></label>
+            <a href="javascript:void(0)" onclick="downloadTemplate()" style="text-decoration: underline">点此下载模板</a>
+        </div>
+    </form>
+</div>
+<div id="wd-buttons" style="padding: 4px;">
+    <div style="float: right;">
+        <a id="import-from-excel" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save'">上传Excel</a>
+        <a id="import-from-word" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save'">上传Word</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="javascript:$('#wd').dialog('close');">取消</a>
+    </div>
+</div>

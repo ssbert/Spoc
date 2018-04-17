@@ -1,0 +1,56 @@
+<div class="funcReversed-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">reversed() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>reversed 函数返回一个反转的迭代器。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>以下是 reversed 的语法:</p>
+		<pre>reversed(seq)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>seq -- 要转换的序列，可以是 tuple, string, list 或 range。</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回一个反转的迭代器。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下展示了使用 reversed 的实例： </p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/env python3
+ 
+# 字符串
+seqString = 'Runoob'
+print(list(reversed(seqString)))
+ 
+# 元组
+seqTuple = ('R', 'u', 'n', 'o', 'o', 'b')
+print(list(reversed(seqTuple)))
+ 
+# range
+seqRange = range(5, 9)
+print(list(reversed(seqRange)))
+ 
+# 列表
+seqList = [1, 2, 4, 3, 5]
+print(list(reversed(seqList)))</code></pre>
+		</div>
+		<p>以上实例输出结果为：</p>
+		<pre>['b', 'o', 'o', 'n', 'u', 'R']
+['b', 'o', 'o', 'n', 'u', 'R']
+[8, 7, 6, 5]
+[5, 3, 4, 2, 1]</pre>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+</div>

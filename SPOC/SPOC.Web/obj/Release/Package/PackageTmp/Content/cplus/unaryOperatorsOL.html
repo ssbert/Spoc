@@ -1,0 +1,76 @@
+<div class="unaryOperatorsOL-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">一元运算符重载</span>
+		</h1>
+		<p>
+			<a href="#overloading" class="green n-text-line">
+				<img src="/Content/cplus/images/up.gif"> C++ 重载运算符和重载函数
+			</a>
+		</p>
+		<p>一元运算符只对一个操作数进行操作，下面是一元运算符的实例：</p>
+		<ul>
+			<li>递增运算符（ ++ ）和递减运算符（ -- ）</li>
+			<li>一元减运算符，即负号（ - ）</li>
+			<li>逻辑非运算符（ ! ）</li>
+		</ul>
+		<p>一元运算符通常出现在它们所操作的对象的左边，比如 !obj、-obj 和 ++obj，但有时它们也可以作为后缀，比如 obj++ 或 obj--。</p>
+		<p>下面的实例演示了如何重载一元减运算符（ - ）。</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>#include &lt;iostream&gt;
+using namespace std;
+ 
+class Distance
+{
+   private:
+      int feet;             // 0 到无穷
+      int inches;           // 0 到 12
+   public:
+      // 所需的构造函数
+      Distance(){
+         feet = 0;
+         inches = 0;
+      }
+      Distance(int f, int i){
+         feet = f;
+         inches = i;
+      }
+      // 显示距离的方法
+      void displayDistance()
+      {
+         cout << "F: " << feet << " I:" << inches << endl;
+      }
+      // 重载负运算符（ - ）
+      Distance operator- ()  
+      {
+         feet = -feet;
+         inches = -inches;
+         return Distance(feet, inches);
+      }
+};
+int main()
+{
+   Distance D1(11, 10), D2(-5, 11);
+ 
+   -D1;                     // 取相反数
+   D1.displayDistance();    // 距离 D1
+ 
+   -D2;                     // 取相反数
+   D2.displayDistance();    // 距离 D2
+ 
+   return 0;
+}
+</code></pre>
+		</div>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre>F: -11 I:-10
+F: 5 I:-11</pre>
+		<p>希望上面的实例能够帮您更好地理解一元运算符重载的概念，类似地，您可以尝试重载逻辑非运算符（ ！ ）。</p>
+		<p>
+			<a href="#overloading" class="green n-text-line">
+				<img src="/Content/cplus/images/up.gif"> C++ 重载运算符和重载函数
+			</a>
+		</p>
+	</div>
+</div>

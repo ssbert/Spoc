@@ -1,0 +1,48 @@
+<div class="funcStaticmethod-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">staticmethod() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>python staticmethod 返回函数的静态方法。</p>
+		<p>该方法不强制要求传递参数，如下声明一个静态方法：</p>
+		<pre>class C(object):
+    @staticmethod
+    def f(arg1, arg2, ...):
+        ...</pre>
+        <p>以上实例声明了静态方法 f，类可以不用实例化就可以调用该方法 C.f()，当然也可以实例化后调用 C().f()。</p>
+		<h3 class="n-h3">函数语法</h3>
+		<pre>staticmethod(function)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>
+				<p>无</p>
+			</li>
+		</ul>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+class C(object):
+    @staticmethod
+    def f():
+        print('runoob');
+ 
+C.f();          # 静态方法无需实例化
+cobj = C()
+cobj.f()        # 也可以实例化后调用</code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+</div>

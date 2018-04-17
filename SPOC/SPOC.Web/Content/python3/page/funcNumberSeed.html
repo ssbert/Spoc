@@ -1,0 +1,53 @@
+<div class="funcNumberSeed-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">seed() 函数</span>
+		</h1>
+		<p>
+			<a href="#number" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 数字
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>seed() 方法改变随机数生成器的种子，可以在调用其他随机模块函数之前调用此函数。。
+</p>
+		<h3 class="n-h3">语法</h3>
+		<p>以下是 seed() 方法的语法:</p>
+		<pre>import random
+
+random.seed ( [x] )</pre>
+		<p><b>注意：</b>seed()是不能直接访问的，需要导入 random 模块，然后通过 random 静态对象调用该方法。</p>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>x -- 改变随机数生成器的种子seed。如果你不了解其原理，你不必特别去设定seed，Python会帮你选择seed。 </li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>本函数没有返回值。 </p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下展示了使用 seed(() 方法的实例： </p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+import random
+
+random.seed()
+print ("使用默认种子生成随机数：", random.random())
+
+random.seed(10)
+print ("使用整数种子生成随机数：", random.random())
+
+random.seed("hello",2)
+print ("使用字符串种子生成随机数：", random.random())</code></pre>
+		</div>
+		<p>以上实例运行后输出结果为：</p>
+		<pre>使用默认种子生成随机数： 0.9186252047469824
+使用整数种子生成随机数： 0.5714025946899135
+使用字符串种子生成随机数： 0.3537754404730722</pre>
+		<p>
+			<a href="#number" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 数字
+			</a>
+		</p>
+	</div>
+</div>

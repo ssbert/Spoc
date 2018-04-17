@@ -1,0 +1,74 @@
+<div class="osFstatvfs-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">os.fstatvfs() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>	
+		<p>os.fstatvfs() 方法用于返回包含文件描述符fd的文件的文件系统的信息，类似 statvfs()。</p>
+		<p>Unix上可用。</p>
+		<p>fstatvfs 方法返回的结构:</p>
+		<ul>
+			<li><p><b>f_bsize:</b> 文件系统块大小 </p></li>
+			<li><p><b>f_frsize:</b> 分栈大小 </p></li>
+			<li><p><b>f_blocks:</b> 文件系统数据块总数</p></li>
+			<li><p><b>f_bfree:</b> 可用块数</p></li>
+			<li><p><b>f_bavail:</b>非超级用户可获取的块数</p></li>
+			<li><p><b>f_files:</b> 文件结点总数 </p></li>
+			<li><p><b>f_ffree:</b> 可用文件结点数 </p></li>
+			<li><p><b>f_favail:</b> 非超级用户的可用文件结点数 </p></li>
+			<li><p><b>f_fsid:</b> 文件系统标识 ID</p></li>
+			<li><p><b>f_flag:</b> 挂载标记</p></li>
+			<li><p><b>f_namemax:</b> 最大文件长度 </p></li>
+		</ul>
+		<h3 class="n-h3">语法</h3>
+		<p>fstatvfs()方法语法格式如下：</p>
+		<pre>os.fstatvfs(fd)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>fd</b> -- 文件的描述符。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回包含文件描述符fd的文件的文件系统的信息。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 fstatvfs() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+import os, sys
+
+# 打开文件
+fd = os.open( "foo.txt", os.O_RDWR|os.O_CREAT )
+
+# 获取元组
+info = os.fstatvfs(fd)
+
+print ("文件信息 :", info)
+
+# 获取文件名最大长度
+print ("文件名最大长度 :%d" % info.f_namemax)
+
+# 获取可用块数
+print ("可用块数 :%d" % info.f_bfree)
+
+# 关闭文件
+os.close( fd)</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>文件信息 : (4096, 4096, 2621440L, 1113266L, 1113266L, 
+             8929602L, 8764252L, 8764252L, 0, 255)
+文件名最大长度 :255
+可用块数 :1113266</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

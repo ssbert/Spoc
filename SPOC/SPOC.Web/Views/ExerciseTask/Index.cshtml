@@ -1,0 +1,224 @@
+﻿@using System.Globalization
+@using SPOC.Exercises.Enum
+@model SPOC.Common.Pagination.PaginationOutputDto<SPOC.Exercises.Dto.ExerciseViewItem>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="exercise-page container-box center">
+    @if (Model.rows.Count != 0 && Model.rows != null)
+    {
+        <div class="exercise-content">
+            <!-- 练习列表-S -->
+            <div class="exercise-lists">
+                @foreach (var item in Model.rows)
+                {
+                    var isOutTime = item.EndTime.HasValue && item.EndTime.Value <= DateTime.Now;
+                    var titleClass = "";
+                    var btnText = "开始练习";
+                    var btnClass = "";
+                    var btnDisable = "";
+                    var showTip = "";
+                    var status = "";
+                    var doExercise = isOutTime ? "" : "onclick=doExercise('" + item.Id + "')";
+                    if (item.UserState == UserExerciseStateEnum.Fail)
+                    {
+                        btnText = "未通过";
+                        titleClass = "red";
+                        btnClass = "no-pass";
+                        if (isOutTime)
+                        {
+                            btnText = "已完成练习";
+                            status = "icon-weitongguo1";
+                        }
+                    }
+                    else if (item.UserState == UserExerciseStateEnum.NotSubmitted)
+                    {
+                        if (isOutTime)
+                        {
+                            btnText = "未提交";
+                            btnDisable = "disabled";
+                            showTip = "gray";
+                        }
+                    }
+                    else if (item.UserState == UserExerciseStateEnum.Pass)
+                    {
+                        btnText = "已完成练习";
+                        btnDisable = "disabled";
+                        showTip = "gray";
+                        status = "icon-yitongguo1";
+                    }
+
+                    if (isOutTime || item.UserState == UserExerciseStateEnum.Pass)
+                    {
+                        titleClass = "gray";
+                        btnClass = "is-pass";
+                    }
+                    <div class="exercise-list-view">
+                        <div class="view-notice clearfix">
+                            <div class="start-time pull-left normal">
+                                发布时间：
+                                <span class="green">@CreateTimeFormat(item.CreateTime)</span>
+                            </div>
+                            @if (!isOutTime && item.EndTime.HasValue)
+                            {
+                                <div class="count-down pull-left">
+                                    剩余时间：
+                                    <span class="red">@EndTimeFormat(item.EndTime.Value)</span>
+                                </div>
+                            }
+
+                        </div>
+                        <div class="view border_all fillet_5">
+                            <span class="iconfont @status status"></span>
+                            <div class="view-top">
+                                <div class="view-header clearfix">
+                                    <div class="title" href="javascript:;">
+                                        <h3 class="pull-left">
+                                            <a href="javascript:;" class="@titleClass" @doExercise>
+                                                @item.Title
+                                            </a>
+                                        </h3>
+                                    </div>
+                                    <div class="pull-right rank-btn text-right">
+                                        <a href="/ExerciseTask/EnthusiasmRanking/@item.Id">
+                                            <span class="iconfont icon-paihangbang @showTip" title="积极性排行榜" data-toggle="tooltip" data-placement="top"></span>
+                                        </a>
+                                        <a href="/ExerciseTask/EfficiencyRanking/@item.Id">
+                                            <span class="iconfont icon-paixingbang1 @showTip" title="效率排行榜" data-toggle="tooltip" data-placement="top"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="view-bottom clearfix">
+                                <div class="tips pull-left">
+                                    <span class="tip success">
+                                        通过率：<span class="strong">@item.PassRate.ToString("#0.00")%</span>
+                                    </span>
+                                    <span class="tip finish-num">
+                                        已通过人数：<span class="strong">@item.FinishedNum</span>
+                                    </span>
+                                    @if (item.UseTime.HasValue)
+                                    {
+                                        <span class="tip elapsed-time">
+                                            排名：<span class="strong">@item.Ranking</span>
+                                        </span>
+                                        <span class="tip elapsed-time">
+                                            耗时：<span class="strong">@TimeSpanFormat(item.UseTime.Value)</span>
+                                        </span>
+                                    }
+                                </div>
+                                <button class="start-btn btn btn-default pull-right @btnClass" @doExercise @btnDisable>@btnText</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- 练习列表-E -->
+        </div>
+    }
+    else
+    {
+        <div class="no-data-tip iconfont icon-nodata"></div>
+    }
+    <!-- 分页导航-S -->
+    <div class="page-nav">
+        <div class="pagination"></div>
+    </div>
+    <!-- 分页导航-E -->
+</div>
+@functions
+{
+    //发布时间
+    string CreateTimeFormat(DateTime d)
+    {
+        var ampm = d.Hour >= 12 ? "下午" : "上午";
+        var cultureInfo = CultureInfo.CreateSpecificCulture("zh-CN");
+        var str = d.ToString("D", cultureInfo) + "(" + d.ToString("dddd", cultureInfo) + ") " + ampm + d.ToString("h:mm");
+        return str;
+    }
+
+    //距离结束时间
+    string EndTimeFormat(DateTime d)
+    {
+        var ts = d - DateTime.Now;
+        return TimeSpanFormat(ts);
+    }
+
+    //时间格式化
+    string TimeSpanFormat(TimeSpan ts)
+    {
+        var s = ts.Seconds + "秒";
+
+        if (ts.Minutes > 0)
+        {
+            s = ts.Minutes + "分" + s;
+        }
+
+        if (ts.Hours > 0)
+        {
+            s = ts.Hours + "时" + s;
+        }
+
+        if (ts.Days > 0)
+        {
+            s = ts.Days + "天" + s;
+        }
+
+        return s;
+    }
+}
+
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/css/exercise.css">
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jqpaginator.min.js"></script>
+    <script src="~/js/common/common.js"></script>
+    <script>
+        function doExercise(id) {
+            if (!checkLogin()) {
+                window.location.href = "/Account/Login?skipUrl=" + window.location.href;
+                return;
+            }
+
+            layer.confirm("是否要开始练习？确定开始练习将会记录您开始作答的时间！",
+                { icon: 3, title: "提示" },
+                function(index) {
+                    window.location.href = "/ExerciseTask/Exercise/" + id;
+
+                    layer.close(index);
+                });
+        }
+    </script>
+    @if (Model.rows.Count > 0)
+    {
+        <script>
+            (function() {
+                var currentPage = @ViewBag.currentPage;
+                var total = @Model.total;
+                var lastPage = Math.ceil(total / 10);
+                $('.pagination').jqPaginator({
+                    totalPages: lastPage,
+                    visiblePages: 5,
+                    currentPage: currentPage,
+                    first: '<li class="first"><a href="javascript:void(0);" class="glyphicon glyphicon-backward"></a></li>',
+                    prev: '<li class="prev"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-left"></a></li>',
+                    next: '<li class="next"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-right"></a></li>',
+                    last: '<li class="last"><a href="javascript:void(0);" class="glyphicon glyphicon-forward"></a></li>',
+                    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+                    onPageChange: function (num, type) {
+                        if (type === "change") {
+                            window.location.href = "/ExerciseTask?page=" + num;
+                        }
+                    }
+                });
+
+            })()
+        </script>
+    }
+}

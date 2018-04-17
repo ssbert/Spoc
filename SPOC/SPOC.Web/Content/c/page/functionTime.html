@@ -1,0 +1,56 @@
+<div class="functionTime-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">time()</span>
+		</h1>
+		<p>
+			<a href="#standardLibTimeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;time.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>time_t time(time_t *seconds)</b> 返回自纪元 Epoch（1970-01-01 00:00:00 UTC）起经过的时间，以秒为单位。如果 <b>seconds</b> 不为空，则返回值也存储在变量 <b>seconds</b> 中。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 time() 函数的声明。</p>
+		<pre>time_t time(time_t *t)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>seconds</b> -- 这是指向类型为 time_t 的对象的指针，用来存储 seconds 的值。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>以 time_t 对象返回当前日历时间。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 time() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;time.h&gt;
+
+int main ()
+{
+  time_t seconds;
+
+  seconds = time(NULL);
+  printf("自 1970-01-01 起的小时数 = %ld\n", seconds/3600);
+  
+  return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>自 1970-01-01 起的小时数 = 373711</pre>
+		<p>
+			<a href="#standardLibTimeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;time.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

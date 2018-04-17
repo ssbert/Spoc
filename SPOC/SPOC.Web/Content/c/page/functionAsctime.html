@@ -1,0 +1,73 @@
+<div class="functionAsctime-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">asctime()</span>
+		</h1>
+		<p>
+			<a href="#standardLibTimeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;time.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>char *asctime(const struct tm *timeptr)</b> 返回一个指向字符串的指针，它代表了结构 <b>struct timeptr</b> 的日期和时间。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 asctime() 函数的声明。</p>
+		<pre>char *asctime(const struct tm *timeptr)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<p><b>timeptr</b> 是指向 tm 结构的指针，包含了分解为如下各部分的日历时间：</p>
+		<pre>struct tm {
+   int tm_sec;         /* 秒，范围从 0 到 59                */
+   int tm_min;         /* 分，范围从 0 到 59                */
+   int tm_hour;        /* 小时，范围从 0 到 23                */
+   int tm_mday;        /* 一月中的第几天，范围从 1 到 31                    */
+   int tm_mon;         /* 月份，范围从 0 到 11                */
+   int tm_year;        /* 自 1900 起的年数                */
+   int tm_wday;        /* 一周中的第几天，范围从 0 到 6                */
+   int tm_yday;        /* 一年中的第几天，范围从 0 到 365                    */
+   int tm_isdst;       /* 夏令时                        */    
+};</pre>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回一个 C 字符串，包含了可读格式的日期和时间信息 <b>Www Mmm dd hh:mm:ss yyyy</b>，其中，<i>Www</i> 表示星期几，<i>Mmm</i> 是以字母表示的月份，<i>dd</i> 表示一月中的第几天，<i>hh:mm:ss</i> 表示时间，<i>yyyy</i> 表示年份。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 asctime() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;time.h&gt;
+
+int main()
+{
+   struct tm t;
+
+   t.tm_sec    = 10;
+   t.tm_min    = 10;
+   t.tm_hour   = 6;
+   t.tm_mday   = 25;
+   t.tm_mon    = 2;
+   t.tm_year   = 89;
+   t.tm_wday   = 6;
+
+   puts(asctime(&t));
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>Sat Mar 25 06:10:10 1989</pre>
+		<p>
+			<a href="#standardLibTimeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;time.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

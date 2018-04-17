@@ -1,0 +1,65 @@
+<div class="funcEnumerate-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">enumerate() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>enumerate() 函数用于将一个可遍历的数据对象(如列表、元组或字符串)组合为一个索引序列，同时列出数据和数据下标，一般用在 for 循环当中。</p>
+		<p>Python 2.3. 以上版本可用，2.6 添加 start 参数。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>以下是 enumerate() 方法的语法:</p>
+		<pre>enumerate(sequence, [start=0])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>sequence -- 一个序列、迭代器或其他支持迭代对象。</li>
+			<li>start -- 下标起始位置。</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回 enumerate(枚举) 对象。</p>
+		<p><b>注意：</b>空元组、空列表返回值为True，这里要特别注意。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下展示了使用 enumerate() 方法的实例： </p>
+		<div class="n-example">
+			<pre><code>>>>seasons = ['Spring', 'Summer', 'Fall', 'Winter']
+>>> list(enumerate(seasons))
+[(0, 'Spring'), (1, 'Summer'), (2, 'Fall'), (3, 'Winter')]
+>>> list(enumerate(seasons, start=1))       # 小标从 1 开始
+[(1, 'Spring'), (2, 'Summer'), (3, 'Fall'), (4, 'Winter')]</code></pre>
+		</div>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">普通的 for 循环</h2>
+			<pre><code>>>>i = 0
+>>> seq = ['one', 'two', 'three']
+>>> for element in seq:
+...     print i, seq[i]
+...     i +=1
+... 
+0 one
+1 two
+2 three</code></pre>
+		</div>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">for 循环使用 enumerate</h2>
+			<pre><code>>>>seq = ['one', 'two', 'three']
+>>> for i, element in enumerate(seq):
+...     print i, seq[i]
+... 
+0 one
+1 two
+2 three
+>>></code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 内置函数
+			</a>
+		</p>
+	</div>
+</div>

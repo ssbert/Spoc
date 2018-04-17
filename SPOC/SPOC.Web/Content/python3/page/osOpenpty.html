@@ -1,0 +1,53 @@
+<div class="osOpenpty-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">os.openpty() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>	
+		<p>os.openpty() 方法用于打开一个新的伪终端对。返回 pty 和 tty的文件描述符。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>openpty()方法语法格式如下：</p>
+		<pre>os.openpty()</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p>无</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回文件描述符对，主从。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 openpty() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+import os
+
+# 主 pty, 从 tty
+m,s = os.openpty()
+
+print (m)
+print (s)
+
+# 显示终端名
+s = os.ttyname(s)
+print (m)
+print (s)</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>3
+4
+3
+/dev/pty0</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,68 @@
+<div class="macroErrno-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库宏 - <span class="green">errno</span>
+		</h1>
+		<p>
+			<a href="#standardLibErrnoH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;errno.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库宏 <b>extern int errno</b> 是通过系统调用设置的，在错误事件中的某些库函数表明了什么发生了错误。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 errno 宏的声明。</p>
+		<pre>extern int errno</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>NA</b></li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p><b>NA</b></p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 errno 宏的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;string.h&gt;
+
+extern int errno ;
+
+int main ()
+{
+   FILE *fp;
+
+   fp = fopen("file.txt", "r");
+   if( fp == NULL ) 
+   {
+      fprintf(stderr, "Value of errno: %d\n", errno);
+      fprintf(stderr, "Error opening file: %s\n", strerror(errno));
+   }
+   else 
+   {
+      fclose(fp);
+   }
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，当文件 file.txt 不存在时，将产生以下结果：</p>
+		<pre>Value of errno: 2
+Error opening file: No such file or directory</pre>
+		<p>
+			<a href="#standardLibErrnoH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;errno.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

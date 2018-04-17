@@ -1,0 +1,33 @@
+时间:2018-04-13 11:35:02,803 
+级别:ERROR 
+类名:SPOC.Web.Filters.CustomExceptionAttribute
+文件: 第0行
+日志内容:远程主机关闭了连接。错误代码是 0x80070057。
+-----------------------------------------
+
+System.Web.HttpException (0x80070057): 远程主机关闭了连接。错误代码是 0x80070057。
+   在 System.Web.Hosting.IIS7WorkerRequest.RaiseCommunicationError(Int32 result, Boolean throwOnDisconnect)
+   在 System.Web.Hosting.IIS7WorkerRequest.ExplicitFlush()
+   在 System.Web.HttpResponse.Flush(Boolean finalFlush, Boolean async)
+   在 System.Web.HttpResponse.Flush()
+   在 System.Web.HttpResponse.End()
+   在 System.Web.HttpResponseWrapper.End()
+   在 SPOC.Web.Filters.UserAuthorizationAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 E:\SPOC\tfs\SPOC\SPOC\SPOC.Web\Filters\UserAuthorizationAttribute.cs:行号 34
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.InvokeActionMethodFilterAsynchronouslyRecursive(Int32 filterIndex)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.InvokeActionMethodFilterAsynchronouslyRecursive(Int32 filterIndex)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.InvokeActionMethodFilterAsynchronouslyRecursive(Int32 filterIndex)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.InvokeActionMethodFilterAsynchronouslyRecursive(Int32 filterIndex)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.InvokeActionMethodFilterAsynchronouslyRecursive(Int32 filterIndex)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass33.<BeginInvokeActionMethodWithFilters>b__31(AsyncCallback asyncCallback, Object asyncState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.BeginInvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+时间:2018-04-13 11:35:52,821 
+级别:ERROR 
+类名:SPOC.Core.AnnouncementService
+文件:E:\SPOC\tfs\SPOC\SPOC\SPOC.Application\Core\AnnouncementService.cs 第435行
+日志内容:Abp.UI.UserFriendlyException: 未登录系统或登录已经失效，请重新登录
+   在 SPOC.Core.AnnouncementService.GetMyAnnouncement(PaginationInputDto input) 位置 E:\SPOC\tfs\SPOC\SPOC\SPOC.Application\Core\AnnouncementService.cs:行号 399
+-----------------------------------------
+

@@ -1,0 +1,111 @@
+<div class="methodReferences-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java 8 <span class="green">方法引用</span>
+		</h1>
+		<p>
+			<a href="#java8NewFeatures" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java 8 新特性
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>方法引用通过方法的名字来指向一个方法。</p>
+		<p>方法引用可以使语言的构造更紧凑简洁，减少冗余代码。</p>
+		<p>方法引用使用一对冒号 <b>::</b> 。</p>
+		<p>下面，我们在 Car 类中定义了 4 个方法作为例子来区分 Java 中 4 种不同方法的引用。</p>
+		<div class="n-example">
+			<pre><code>package com.runoob.main;
+ 
+@FunctionalInterface
+public interface Supplier&lt;T&gt; {
+    T get();
+}
+ 
+class Car {
+    //Supplier是jdk1.8的接口，这里和lamda一起使用了
+    public static Car create(final Supplier&lt;Car&gt; supplier) {
+        return supplier.get();
+    }
+ 
+    public static void collide(final Car car) {
+        System.out.println("Collided " + car.toString());
+    }
+ 
+    public void follow(final Car another) {
+        System.out.println("Following the " + another.toString());
+    }
+ 
+    public void repair() {
+        System.out.println("Repaired " + this.toString());
+    }
+}</code></pre>
+		</div>
+		<ul>
+			<li>
+				<p><b>构造器引用：</b>它的语法是Class::new，或者更一般的Class&lt; T &gt;::new实例如下：</p>
+				<div class="n-example">
+					<pre><code>final Car car = Car.create( Car::new );
+final List< Car > cars = Arrays.asList( car );</code></pre>
+				</div>
+			</li>
+			<li>
+				<p><b>静态方法引用：</b>它的语法是Class::static_method，实例如下：</p>
+				<div class="n-example">
+					<pre><code>cars.forEach( Car::collide );</code></pre>
+				</div>
+			</li>
+			<li>
+				<p><b>特定类的任意对象的方法引用：</b>它的语法是Class::method实例如下：</p>
+				<div class="n-example">
+					<pre><code>cars.forEach( Car::repair );</code></pre>
+				</div>
+			</li>
+			<li>
+				<p><b>特定对象的方法引用：</b>它的语法是instance::method实例如下：</p>
+				<div class="n-example">
+					<pre><code>final Car police = Car.create( Car::new );
+cars.forEach( police::follow );</code></pre>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">方法引用实例</h2>
+		<p>在 Java8Tester.java 文件输入以下代码：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">Java8Tester.java 文件</h2>
+			<pre><code>import java.util.List;
+import java.util.ArrayList;
+ 
+public class Java8Tester {
+   public static void main(String args[]){
+      List names = new ArrayList();
+        
+      names.add("Google");
+      names.add("Runoob");
+      names.add("Taobao");
+      names.add("Baidu");
+      names.add("Sina");
+        
+      names.forEach(System.out::println);
+   }
+}</code></pre>
+		</div>
+		<p>实例中我们将 System.out::println 方法作为静态方法来引用。</p>
+		<p>执行以上脚本，输出结果为：</p>
+		<pre>$ javac Java8Tester.java 
+$ java Java8Tester
+Google
+Runoob
+Taobao
+Baidu
+Sina
+</pre>
+	</div>
+	<p>
+		<a href="#java8NewFeatures" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java 8 新特性
+		</a>
+	</p>
+</div>

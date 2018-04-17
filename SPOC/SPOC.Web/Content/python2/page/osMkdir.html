@@ -1,0 +1,48 @@
+<div class="osMkdir-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">os.mkdir() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>
+		<p>os.mkdir() 方法用于以数字权限模式创建目录。默认的模式为 0777 (八进制)。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>mkdir()方法语法格式如下：</p>
+		<pre>os.mkdir(path[, mode])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>path</b> --  要创建的目录</p></li>
+			<li><p><b>mode</b> --  要为目录设置的权限数字模式</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法没有返回值。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 mkdir() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os, sys
+
+# 创建的目录
+path = "/tmp/home/monthly/daily/hourly"
+
+os.mkdir( path, 0755 );
+
+print "目录已创建"</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>目录已创建</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

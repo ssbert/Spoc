@@ -1,0 +1,122 @@
+.notifications-page {
+    padding-top: 20px;
+}
+
+.notifications-page .title h2 {
+    font-size: 30px;
+    padding-top: 20px;
+}
+
+.notifications-page .notifications-lists {
+    min-height: 605px;
+}
+
+.notifications-page .notifications .icon .glyphicon {
+    display: block;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    color: #C2C7D0;
+    border: 1px solid #C2C7D0;
+}
+
+.notifications-page .notifications {
+    padding: 25px 0;
+    border-bottom: 1px solid #EFF1F3;
+}
+
+.notifications-page .notifications .subject .title {
+    font-size: 14px;
+    line-height: 28px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.notifications-page .notifications .subject .title-text {
+    cursor: pointer;
+}
+
+.notifications-page .notifications .subject .text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 10px;
+}
+
+.notifications-page .notifications .subject .notice-type {
+    padding: 3px 5px;
+    font-size: 12px;
+    border: 1px solid #f65039;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.notifications-page .notifications .info p {
+    line-height: 22px;
+}
+
+.notifications-page .notifications .btn-box {
+    margin-top: 10px;
+}
+
+.notifications-page .notifications .delete-btn {
+    padding: 2px 6px;
+    font-size: 11px;
+    line-height: 14px;
+    background-image: linear-gradient(to bottom, #fff, #f5f5f5);
+    border: 1px solid #c2c7d0;
+    border-bottom-color: #b4bac5;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), inset 0 -1px 4px rgba(151,159,175,0.2);
+    color: #f65039;
+}
+
+.notifications-page .notifications .delete-btn .glyphicon {
+    color: #f65039;
+}
+
+.notifications-page .notifications .delete-btn:hover {
+    background-color: #f1270b;
+    background-image: -webkit-gradient(linear, top left, bottom left, color-stop(0, #f65039), color-stop(1, #f1270b));
+    background-image: -webkit-linear-gradient(top, #f65039, #f1270b);
+    background-image: linear-gradient(to bottom, #f65039, #f1270b);
+    border-color: #c01f09;
+    color: #fff;
+}
+
+.notifications-page .notifications .delete-btn:hover .glyphicon {
+    color: #fff;
+}
+
+.notifications-page .modal-content {
+    padding: 30px;
+    height: 600px;
+    overflow-y: auto;
+}
+
+.notifications-page .modal-content .close {
+    margin-top: -25px;
+    margin-right: -10px;
+    font-size: 30px;
+}
+
+.notifications-page .modal-content .create-time {
+    padding: 20px 0;
+}
+
+.notifications-page .modal-content .title {
+    padding-bottom: 25px;
+}
+
+.notifications-page .modal-content h3 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.notifications-page .modal-content p {
+    line-height: 2em;
+    text-indent: 2em;
+}
+

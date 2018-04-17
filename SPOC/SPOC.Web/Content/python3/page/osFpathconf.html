@@ -1,0 +1,68 @@
+<div class="osFpathconf-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">os.fpathconf() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>	
+		<p>os.fpathconf() 方法用于返回一个打开的文件的系统配置信息。</p>
+		<p>Unix上可用。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>fpathconf()方法语法格式如下：</p>
+		<pre>os.fpathconf(fd, name)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>fd</b> -- 打开的文件的描述符。</p></li>
+			<li><p><b>name</b> -- 可选，和buffersize参数和Python内建的open函数一样，mode参数可以指定『r,w,a,r+,w+,a+,b』等，表示文件的是只读的还是可以读写的，以及打开文件是以二进制还是文本形式打开。这些参数和C语言中的&lt;stdio.h&gt;中fopen函数中指定的mode参数类似。</p></li>
+			<li><p><b>bufsize</b> -- 检索的系统配置的值，它也许是一个定义系统值的字符串，这些名字在很多标准中指定（POSIX.1, Unix 95, Unix 98, 和其它）。一些平台也定义了一些额外的名字。这些名字在主操作系统上pathconf_names的字典中。对于不在pathconf_names中的配置变量，传递一个数字作为名字，也是可以接受的。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回一个打开的文件的系统配置信息。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 fpathconf() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+import os, sys
+
+# 打开文件
+fd = os.open( "foo.txt", os.O_RDWR|os.O_CREAT )
+
+print ("%s" % os.pathconf_names)
+
+# 获取最大文件连接数
+no = os.fpathconf(fd, 'PC_LINK_MAX')
+print ("文件最大连接数为 :%d" % no)
+
+# 获取文件名最大长度
+no = os.fpathconf(fd, 'PC_NAME_MAX')
+print ("文件名最大长度为 :%d" % no)
+
+# 关闭文件
+os.close( fd )
+
+print ("关闭文件成功!!")</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>{'PC_MAX_INPUT': 2, 'PC_VDISABLE': 8, 'PC_SYNC_IO': 9, 
+'PC_SOCK_MAXBUF': 12, 'PC_NAME_MAX': 3, 'PC_MAX_CANON': 1, 
+'PC_PRIO_IO': 11, 'PC_CHOWN_RESTRICTED': 6, 'PC_ASYNC_IO': 10, 
+'PC_NO_TRUNC': 7, 'PC_FILESIZEBITS': 13, 'PC_LINK_MAX': 0, 
+'PC_PIPE_BUF': 5, 'PC_PATH_MAX': 4}
+
+文件最大连接数为 :127
+文件名最大长度为 :255
+Closed the file successfully!!</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,372 @@
+﻿@using System.Globalization
+@model SPOC.Web.Models.LibLabel.LibLabelViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var statusChecked = Model.Status == 1 ? "checked" : "";
+}
+<div class="answer-records-page container-box center">
+    <div class="records-header clearfix">
+        <h2 class="title pull-left">
+            作答记录
+        </h2>
+        <div class="screen">
+            <div class="dropdown screen-btn pull-left">
+                <a href="#" class="dropdown-toggle fillet_5" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-list"></span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="question-types">
+                        <h4>题型</h4>
+                        <div class="content">
+                            <div class="select-input">
+                                <input type="radio" name="type" id="single" value="single" data-text="单选">
+                                <label for="single">
+                                    <span class="fillet"></span>
+                                    单选
+                                </label>
+                            </div>
+                            <div class="select-input">
+                                <input type="radio" name="type" id="multi" value="multi" data-text="多选">
+                                <label for="multi">
+                                    <span class="fillet"></span>
+                                    多选
+                                </label>
+                            </div>
+                            <div class="select-input">
+                                <input type="radio" name="type" id="fill" value="fill" data-text="填空">
+                                <label for="fill">
+                                    <span class="fillet"></span>
+                                    填空
+                                </label>
+                            </div>
+                            <div class="select-input">
+                                <input type="radio" name="type" id="judge" value="judge" data-text="判断">
+                                <label for="judge">
+                                    <span class="fillet"></span>
+                                    判断
+                                </label>
+                            </div>
+                            <div class="select-input">
+                                <input type="radio" name="type" id="program" value="program" data-text="编程">
+                                <label for="program">
+                                    <span class="fillet"></span>
+                                    编程
+                                </label>
+                            </div>
+                            <div class="select-input">
+                                <input type="radio" name="type" id="program_fill" value="program_fill" data-text="编程填空">
+                                <label for="program_fill">
+                                    <span class="fillet"></span>
+                                    编程填空
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="source-screen">
+                        <h4>来源</h4>
+                        <div class="content">
+                            <div class="select-input">
+                                <input type="radio" name="source" id="challenge" value="challenge" data-text="挑战">
+                                <label for="challenge">
+                                    <span class="fillet"></span>
+                                    挑战
+                                </label>
+                            </div>
+                            <div class="select-input">
+                                <input type="radio" name="source" id="exercise" value="exercise" data-text="练习">
+                                <label for="exercise">
+                                    <span class="fillet"></span>
+                                    练习
+                                </label>
+                            </div>
+                            <div class="select-input">
+                                <input type="radio" name="source" id="exam" value="exam" data-text="考试">
+                                <label for="exam">
+                                    <span class="fillet"></span>
+                                    考试
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*
+        <div class="stem-screen pull-left">
+            题目：
+            <span class="iconfont icon-saixuan" data-toggle="dropdown" id="titleDropdown"></span>
+            <div class="dropdown-menu" aria-labelledby="titleDropdown">
+                <p>按题目过滤</p>
+                <div class="form-group">
+                    <input id="title" name="title" type="text" class="form-control" placeholder="输入题目">
+                </div>
+            </div>
+        </div>
+            *@
+            <div class="stem-screen pull-left">
+                题干：
+                <span class="iconfont icon-saixuan" data-toggle="dropdown" id="textDropdown"></span>
+                <div class="dropdown-menu" aria-labelledby="textDropdown">
+                    <p>按题干过滤</p>
+                    <div class="form-group">
+                        <input id="text" name="text" type="text" class="form-control" placeholder="输入题干">
+                    </div>
+                </div>
+            </div>
+            <div class="pull-left no-pass-select">
+                <span>未通过：</span><input id="status" name="status" type="checkbox" value="1" onchange="checkboxChange()" @statusChecked /><label for="status"></label>
+            </div>
+            <div class="screen-con pull-left" id="div-type" style="display: none;">
+                <div class="screen-item">
+                    <span id="span-type"></span>
+                    <a class="glyphicon glyphicon-remove" href="javascript:;" onclick="radioChange('type','',false)"></a>
+                </div>
+            </div>
+            <div class="screen-con pull-left" id="div-source" style="display: none;">
+                <div class="screen-item">
+                    <span id="span-source"></span>
+                    <a class="glyphicon glyphicon-remove" href="javascript:;" onclick="radioChange('source','',false)"></a>
+                </div>
+            </div>
+            <div class="screen-con pull-left" id="div-title" style="display: none;">
+                <div class="screen-item">
+                    <span id="span-title"></span>
+                    <a class="glyphicon glyphicon-remove" href="javascript:;" onclick="textChange('title', '', false)"></a>
+                </div>
+            </div>
+            <div class="screen-con pull-left" id="div-text" style="display: none;">
+                <div class="screen-item">
+                    <span id="span-text"></span>
+                    <a class="glyphicon glyphicon-remove" href="javascript:;" onclick="textChange('text', '', false)"></a>
+                </div>
+            </div>
+            <div class="recommend-btn pull-right">
+                <a class="btn default-btn" href="/Challenges/Index?label=@Model.Id">
+                    推荐题
+                    <span class="glyphicon glyphicon-link green"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="records-lists">
+        @if (Model.Rows.Any())
+        {
+            foreach (var item in Model.Rows)
+            {
+                var titleClass = "";
+                var status = "";
+                if (@PassFormat(item.Score) == "否")
+                {
+                    titleClass = "class=red";
+                    status = "icon-weitongguo1";
+                }
+                else if(@PassFormat(item.Score) == "是")
+                {
+                    status = "icon-yitongguo1";
+                }
+                <div class="challenge-list-view border_all fillet_5">
+                    <span class="iconfont @status status"></span>
+                    <div class="view-top">
+                        <div class="title">
+                            <h3>
+                                <a @titleClass href="javascript:;"> @item.Title </a>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="view-middle">
+                        <div class="content"> @item.QuestionText </div>
+                    </div>
+                    <div class="view-bottom clearfix">
+                        <div class="tips pull-left">
+                            <span class="tip source">
+                                来源：<span class="strong">@SourceFormat(item.Source)</span>
+                            </span>
+                            <span class="tip type">
+                                题型：<span class="strong">@TypeFormat(item.QuestionBaseTypeCode)</span>
+                            </span>
+                            <span class="tip time">
+                                作答时间：<span class="strong">@CreateTimeFormat(item.CreateTime)</span>
+                            </span>
+                            <span class="tip time">
+                                是否通过：<span class="strong">@PassFormat(item.Score)</span>
+                            </span>
+                        </div>
+                        <a href="/LibLabelView/UserAnswerQuestion/@item.Id" class="btn green-btn pull-right">查看作答</a>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="no-data-tip iconfont icon-nodata"></div>
+        }
+
+    </div>
+    <nav class="page-nav" aria-label="Page navigation"><div class="pagination"></div></nav>
+</div>
+
+@functions
+{
+
+    string SourceFormat(string source)
+    {
+        switch (source)
+        {
+            case "challenge":
+                return "挑战";
+            case "exam":
+                return "考试";
+            case "exercise":
+                return "练习";
+        }
+        return "";
+    }
+
+    string TypeFormat(string type)
+    {
+        switch (type)
+        {
+            case "single":
+                return "单选题";
+            case "multi":
+                return "多选题";
+            case "judge":
+                return "判断题";
+            case "fill":
+                return "填空题";
+            case "program":
+                return "编程题";
+            case "program_fill":
+                return "编程填空题";
+        }
+        return "";
+    }
+
+    string CreateTimeFormat(DateTime d)
+    {
+        var ampm = d.Hour >= 12 ? "下午" : "上午";
+        var cultureInfo = CultureInfo.CreateSpecificCulture("zh-CN");
+        var str = d.ToString("D", cultureInfo) + "(" + d.ToString("dddd", cultureInfo) + ") " + ampm + d.ToString("h:mm");
+        return str;
+    }
+
+    string PassFormat(int score)
+    {
+        return score > 0 ? "是" : "否";
+    }
+}
+
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/css/records.css">
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jqPaginator-1.2.1/jqpaginator.min.js"></script>
+    <script src="~/js/common/common.js"></script>
+    <script>
+        var param = {
+            page: @Model.Page,
+            total: @Model.Total,
+            type: "@Model.Type",
+            source: "@Model.Source",
+            title: "@Model.Title",
+            text: "@Model.Text",
+            id: "@Model.Id",
+            status: "@Model.Status"
+        };
+
+        function radioChange(radioName, value, isInit) {
+            if (stringIsEmpty(value)) {
+                $("input[type='radio'][name='" + radioName + "']:checked").removeProp("checked");
+                $("#div-" + radioName).hide();
+                $("#span-" + radioName).html("");
+            } else {
+                var $radio = $("input:radio[name='" + radioName + "'][value='" + value + "']");
+                $radio.prop("checked", true);
+                $("#div-" + radioName).show();
+                $("#span-" + radioName).html($radio.attr("data-text"));
+            }
+            if (!isInit) {
+                param[radioName] = value;
+                refreshPage();
+            }
+        }
+
+        function textChange(inputName, value, isInit) {
+            if (stringIsEmpty(value)) {
+                $("#div-" + inputName).hide();
+                $("#span-" + inputName).html("");
+            } else {
+                var val = value;
+                if (val.length > 6) {
+                    val = val.substr(0, 5) + "..";
+                }
+                $("#div-" + inputName).show();
+                $("#span-" + inputName).html(val);
+            }
+            if (!isInit) {
+                param[inputName] = value;
+                refreshPage();
+            }
+        }
+
+        function checkboxChange() {
+            param.status = $("#status").prop("checked") ? 1 : 0;
+            refreshPage();
+        }
+
+        function refreshPage() {
+            window.location.href =
+                "/LibLabelView/Index/{id}?page={page}&type={type}&source={source}&title={title}&text={text}&status={status}"
+                .format(param);
+        }
+
+        $(function() {
+            radioChange("source", param.source, true);
+            radioChange("type", param.type, true);
+
+            textChange("title", param.title, true);
+            textChange("text", param.text, true);
+
+            function inputChange(el, func) {
+                var $self = $(el);
+                var val = $self.val();
+                var name = $self.attr("name");
+                func(name, val, false);
+            }
+
+            $("input:radio").change(function() { inputChange(this, radioChange); });
+            $("input:text").blur(function() { inputChange(this, textChange); });
+            $("input:text").keydown(function(event) {
+                if (event.keyCode === 13) {
+                    inputChange(this, textChange);
+                }
+            });
+
+            if (@Model.Rows.Count > 0) {
+                $('.pagination').jqPaginator({
+                    totalPages: Math.ceil(param.total / 10),
+                    visiblePages: 5,
+                    currentPage: param.page,
+                    first:
+                        '<li class="first"><a href="javascript:void(0);" class="glyphicon glyphicon-backward"></a></li>',
+                    prev:
+                        '<li class="prev"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-left"></a></li>',
+                    next:
+                        '<li class="next"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-right"></a></li>',
+                    last:
+                        '<li class="last"><a href="javascript:void(0);" class="glyphicon glyphicon-forward"></a></li>',
+                    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+                    onPageChange: function(num, type) {
+                        if (type === "change") {
+                            param.page = num;
+                            refreshPage();
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}

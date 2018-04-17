@@ -1,0 +1,67 @@
+<div class="subscriptOperatorOL-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">下标运算符 [] 重载</span>
+		</h1>
+		<p>
+			<a href="#overloading" class="green n-text-line">
+				<img src="/Content/cplus/images/up.gif"> C++ 重载运算符和重载函数
+			</a>
+		</p>
+		<p>下标操作符 [] 通常用于访问数组元素。重载该运算符用于增强操作 C++ 数组的功能。</p>
+		<p>下面的实例演示了如何重载下标运算符 []。</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>#include &lt;iostream&gt;
+using namespace std;
+const int SIZE = 10;
+
+class safearay
+{
+   private:
+      int arr[SIZE];
+   public:
+      safearay() 
+      {
+         register int i;
+         for(i = 0; i < SIZE; i++)
+         {
+           arr[i] = i;
+         }
+      }
+      int& operator[](int i)
+      {
+          if( i > SIZE )
+          {
+              cout << "索引超过最大值" << endl; 
+              // 返回第一个元素
+              return arr[0];
+          }
+          return arr[i];
+      }
+};
+int main()
+{
+   safearay A;
+
+   cout << "A[2] 的值为 : " << A[2] << endl;
+   cout << "A[5] 的值为 : " << A[5] << endl;
+   cout << "A[12] 的值为 : " << A[12] << endl;
+
+   return 0;
+}</code></pre>
+		</div>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre>$ g++ -o test test.cpp
+$ ./test 
+A[2] 的值为 : 2
+A[5] 的值为 : 5
+A[12] 的值为 : 索引超过最大值
+0</pre>
+		<p>
+			<a href="#overloading" class="green n-text-line">
+				<img src="/Content/cplus/images/up.gif"> C++ 重载运算符和重载函数
+			</a>
+		</p>
+	</div>
+</div>	

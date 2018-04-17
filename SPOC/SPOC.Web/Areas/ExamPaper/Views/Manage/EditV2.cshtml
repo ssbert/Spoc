@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "编辑固定试卷";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div id="container" region="center">
+
+
+    <!-- 顶部为试题信息 -->
+    <div id="baseInfo-panel" class="easyui-panel" title="试卷基本信息" collapsible="true" footer="#baseInfo-ft" style="width: 100%;">
+        <form id="baseInfo-form" class="form-inline label label-length-5">
+            <div class="form-group">
+                <label class="form-label">试卷编号：</label>
+                <input id="paperCode" name="paperCode" class="easyui-textbox" style="width: 116px;" data-options="validType:['length[0, 64]', 'codeCheck']" readonly>
+                <input id="isCustomCode" name="isCustomCode" class="easyui-switchbutton" data-options="onChange:baseInfo.onChangeCodeMode"
+                       style="width:80px;" onText="自动编号" offText="手动编号" checked>
+            </div>
+            <div class="form-group">
+                <label class="form-label">试卷名称：</label>
+                <input id="paperName" class="easyui-textbox" style="width: 200px;" validtype="length[1, 256]" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">单选变不定：</label>
+                <select id="isSingleAsMulti" class="easyui-combobox" editable="false" style="width: 200px" required>
+                    <option value="N" selected>否</option>
+                    <option value="Y">是</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">试卷分类：</label>
+                <select id="folderUid" class="easyui-combotree" editable="false" style="width: 200px;" required data-options="lines:true"></select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">试卷总分：</label>
+                <input id="totalScore" class="easyui-numberbox" precision="2" value="0" style="width:200px;" disabled>
+            </div>
+            <div class="form-group">
+                <label class="form-label">难度系数：</label>
+                <select id="paperHardGrade" class="easyui-combobox" editable="false" style="width: 200px">
+                    <option value="" selected>缺省</option>
+                    <option value="1">容易</option>
+                    <option value="2">中等</option>
+                    <option value="3">困难</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">过期日期：</label>
+                <input id="outdatedDate" class="easyui-datebox" data-options="validType:'dateCheck'" style="width: 200px">
+            </div>
+
+            <div style="clear: both;"></div>
+            <div class="form-group">
+                <label class="form-label">备注：</label>
+                <input id="remarks" class="easyui-textbox" multiline="true" validtype="length[0, 256]" style="height: 100px;width:790px;">
+            </div>
+        </form>
+    </div>
+    <div id="baseInfo-ft">
+        <div style="margin: 5px 10px; float: right;">
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="baseInfo.save()">保存</a>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+
+
+    
+
+    <div id="nodeContainer" style="float:left;width:50%;">
+        <!-- 左侧为大题列表 -->
+        <div id="paperNode-toolbar">
+            <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconcls="icon-add" onclick="paperNode.create()">添加</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="paperNode.edit()" data-options="plain:true,iconCls:'icon-edit'">编辑</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="paperNode.del()" data-options="plain:true,iconCls:'icon-busy'">删除</a>
+        </div>
+        <table id="paperNode-dg" class="easyui-datagrid" title="大题信息" style="width:100%;"
+               rownumbers="true" toolbar="#paperNode-toolbar" singleselect="true" data-options="onClickCell:paperNode.onClickCell">
+            <thead>
+                <tr>
+                    <th field="paperNodeName" formatter="longStringFormatter">大题标题</th>
+                    <th field="paperNodeDesc" formatter="longStringFormatter">大题说明</th>
+                    <th field="questionTypeName">题型</th>
+                    <th field="questionScore">每题分数</th>
+                    <th field="planQuestionNum">计划题数</th>
+                    <th field="questionNum">试题数</th>
+                    <th field="totalScore">总分数</th>
+                    @*<th field="opt" formatter="optFormatter">操作</th>*@
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+
+
+    <div id="questionContainer" style="float:left;width:50%;">
+        <!-- 右侧为大题的试题列表 -->
+        <div id="paperNodeQuestion-toolbar">
+            <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconcls="icon-add" onclick="paperQuestion.showSelector()">添加</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="paperQuestion.del()"
+               data-options="plain:true,iconCls:'icon-busy'">删除</a>
+        </div>
+        <table id="paperNodeQuestion-dg" class="easyui-datagrid" title="试题信息" style="width:100%;"
+               rownumbers="true" toolbar="#paperNodeQuestion-toolbar" singleselect="false">
+            <thead>
+                <tr>
+                    <th field="ck" checkbox="true"></th>
+                    <th field="questionText" formatter="questionText">题干</th>
+                    <th field="questionTypeName">题型</th>
+                    <th field="paperQuestionExamTime">每题时限（秒）</th>
+                    <th field="paperQuestionScore">分值</th>
+                    <th field="opt" formatter="optFormatter2">操作</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    
+
+
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/tabHelper.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/exam/paperEdit.js?v=@L("version")"></script>
+    <script>
+        var request = GetRequest();
+
+        var paperQuestion = new paperEdit.PaperQuestionClass();
+        var paperNode = new paperEdit.PaperNodeClass(paperQuestion);
+        var baseInfo = new paperEdit.PaperBaseInfoClass(request.id, paperNode);
+
+        function longStringFormatter(val, row, index) {
+            return '<a href="javascript:void(0)" title="{0}">{0}</a>'.format(val);
+        }
+        
+        function questionText (value, row, index) {
+            value = value.replace(/<[^>]+>/g, "");
+            if (value.length > 60) {
+                value = value.substr(0, 60) + "...";
+            }
+            return value;
+        }
+
+        function optFormatter2(val, row, index) {
+            var options = {
+                option: [
+                    {
+                        title: "编辑",
+                        text: "编辑",
+                        icon: "icon-edit",
+                        onclick: "paperQuestion.edit"
+                    }, {
+                        title: "删除",
+                        text: "删除",
+                        icon: "icon-remove",
+                        onclick: "paperQuestion.del"
+                    }
+                ]
+            };
+
+            return linkbtn(index, options);
+        }
+
+        $(function () {
+            baseInfo.pageInit();
+        });
+    </script>
+}

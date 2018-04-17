@@ -1,0 +1,90 @@
+<div class="goto-statement-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">goto 语句</span>
+		</h1>
+		<p>
+			<a href="#loop" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 循环
+			</a>
+		</p>
+		<p><b>goto</b> 语句允许把控制无条件转移到同一函数内的被标记的语句。</p>
+		<p><b>注意</b> 在任何编程语言中，都不建议使用 goto 语句。因为它使得程序的控制流难以跟踪，使程序难以理解和难以修改。任何使用 goto 语句的程序可以改写成不需要使用 goto 语句的写法。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			语法
+		</h2>
+		<p>C++ 中 <b>goto</b> 语句的语法：</p>
+		<pre>goto label;
+..
+.
+label: statement;</pre>
+		<p>在这里，<b>label</b> 是识别被标记语句的标识符，可以是任何除 C++ 关键字以外的纯文本。标记语句可以是任何语句，放置在标识符和冒号（:）后边。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			流程图
+		</h2>
+		<p>
+			<img src="/Content/cplus/images/cpp_goto_statement.jpg">
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<pre>#include &lt;iostream&gt;
+using namespace std;
+ 
+int main ()
+{
+   // 局部变量声明
+   int a = 10;
+
+   // do 循环执行
+   LOOP:do
+   {
+       if( a == 15)
+       {
+          // 跳过迭代
+          a = a + 1;
+          goto LOOP;
+       }
+       cout << "a 的值：" << a << endl;
+       a = a + 1;
+   }while( a < 20 );
+ 
+   return 0;
+}</pre>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre>a 的值： 10
+a 的值： 11
+a 的值： 12
+a 的值： 13
+a 的值： 14
+a 的值： 16
+a 的值： 17
+a 的值： 18
+a 的值： 19</pre>
+		<p>goto 语句一个很好的作用是退出深嵌套例程。例如，请看下面的代码片段：</p>
+		<pre>for(...) {
+   for(...) {
+      while(...) {
+         if(...) goto stop;
+         .
+         .
+         .
+      }
+   }
+}
+stop:
+cout << "Error in program.\n";</pre>
+		<p>消除 <b>goto</b> 会导致一些额外的测试被执行。一个简单的 <b>break</b> 语句在这里不会起到作用，因为它只会使程序退出最内层循环</p>
+		<p>
+			<a href="#loop" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 循环
+			</a>
+		</p>
+	</div>
+</div>	

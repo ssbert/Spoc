@@ -1,0 +1,47 @@
+<div class="stringContentequals-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">contentEquals() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>contentEquals() 方法用于将此字符串与指定的 StringBuffer 比较。</p>
+		<h3 class="n-h3">语法</h3>
+		<pre>public boolean contentEquals(StringBuffer sb)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>sb</b> -- 要与字符串比较的 StringBuffer。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>如字符串与指定 StringBuffer 表示相同的字符序列，则返回 true；否则返回 false。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test {
+    public static void main(String args[]) {
+        String str1 = "String1";
+        String str2 = "String2";
+        StringBuffer str3 = new StringBuffer( "String1");
+
+        boolean  result = str1.contentEquals( str3 );
+        System.out.println(result);
+          
+        result = str2.contentEquals( str3 );
+        System.out.println(result);
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>true
+false</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

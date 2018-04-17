@@ -1,0 +1,70 @@
+<div class="functionFtell-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">ftell()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>long int ftell(FILE *stream)</b> 返回给定流 stream 的当前文件位置。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 ftell() 函数的声明。</p>
+		<pre>long int ftell(FILE *stream)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>stream</b> -- 这是指向 FILE 对象的指针，该 FILE 对象标识了流。
+			</li>	
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回位置标识符的当前值。如果发生错误，则返回 -1L，全局变量 errno 被设置为一个正值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 ftell() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main ()
+{
+   FILE *fp;
+   int len;
+
+   fp = fopen("file.txt", "r");
+   if( fp == NULL ) 
+   {
+      perror ("打开文件错误");
+      return(-1);
+   }
+   fseek(fp, 0, SEEK_END);
+
+   len = ftell(fp);
+   fclose(fp);
+
+   printf("file.txt 的总大小 = %d 字节\n", len);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>假设我们有一个文本文件 <b>file.txt</b>，它的内容如下：</p>
+		<pre>This is baidu.com</pre>
+		<p>让我们编译并运行上面的程序，如果文件内容如上所示，这将产生以下结果，否则会根据文件内容给出不同的结果：</p>
+		<pre>file.txt 的总大小 = 18 字节</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

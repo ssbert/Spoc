@@ -1,0 +1,248 @@
+﻿
+@{
+    ViewBag.Title = "Class";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-3">
+            <div class="form-group">
+                <label class="form-label">教学班级：</label>
+                <input id="classIds" class="easyui-combotree" style="width: 400px;" data-options="
+                        valueField:'id',
+                        textField:'text',
+                        multiple:true,
+                        panelHeight:'auto'" />
+            </div>
+            <div class="form-group">
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="classStatement.query()">查询</a>
+            </div>
+        </form>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-page_white_excel" onclick="classStatement.export()">导出</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" rownumbers="true" singleSelect="true" toolbar="#toolbar" style="width: 100%;">
+        <thead>
+            <tr>
+                <th field="className" sortable="true">教学班级</th>
+                <th field="averageScore" formatter="scoreFormatter" sortable="true">平均分</th>
+                <th field="maxScore" formatter="scoreFormatter" sortable="true">最高分</th>
+                <th field="minScore" formatter="scoreFormatter" sortable="true">最低分</th>
+                <th field="passRate" formatter="rateFormatter" sortable="true">通过率</th>
+                <th field="joinRate" formatter="rateFormatter" sortable="true">参考率</th>
+                <th field="passNum" sortable="true">通过人数</th>
+                <th field="joinNum" sortable="true">参考人数</th>
+                <th field="studentNum" sortable="true">教学班人数</th>
+                <th field="scoreSectionNum1" sortable="true">0-49</th>
+                <th field="scoreSectionNum2" sortable="true">50-59</th>
+                <th field="scoreSectionNum3" sortable="true">60-69</th>
+                <th field="scoreSectionNum4" sortable="true">70-79</th>
+                <th field="scoreSectionNum5" sortable="true">80-89</th>
+                <th field="scoreSectionNum6" sortable="true">90-100</th>
+                <th field="ranking" sortable="true">排名</th>
+            </tr>
+        </thead>
+    </table>
+    <div id="chart" style="width: 100%; height: 600px; padding: 10px;"></div>
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript" src="~/Scripts/echarts/echarts.min.js"></script>
+    <script>
+        var request = GetRequest();
+        var examTitle = decodeURIComponent(request.title);
+
+        function scoreFormatter(val) {
+            if (stringIsEmpty(val)) {
+                return "-";
+            }
+            return val.toFixed(2);
+        }
+
+        function rateFormatter(val) {
+            return val.toFixed(2) + "%";
+        }
+
+        var ClassStatement = (function() {
+
+            function init(id) {
+                var self = this;
+                var classIdList;
+                var queryParam = { examTaskId: id };
+                var chart;
+                var examTaskClassData;
+
+                this.query = function() {
+                    setParam();
+                    loadData(queryParam);
+                };
+
+                this.reset = function() {
+                    $("#query-form").form("reset");
+                    if (classIdList.length > 0) {
+                        filterClassIdList();
+                    }
+                };
+
+                this.initDatagrid = function() {
+                    $("#dg").datagrid({
+                        onSortColumn: function(sort, order) {
+                            queryParam.sort = sort;
+                            queryParam.order = order;
+                            loadData(queryParam);
+                        }
+                    });
+                };
+
+                this.setClassIds = function(idList) {
+                    classIdList = idList;
+                    if (idList.length > 0) {
+                        filterClassIdList();
+                    }
+                    self.query();
+                };
+
+                this.initCombotree = function() {
+                    var url = "/api/services/app/ExamTaskStatement/GetExamTaskClassTree?id=" + queryParam.examTaskId;
+                    nv.get(url,
+                        function(data) {
+                            if (data.success) {
+                                examTaskClassData = data.result;
+                                $("#classIds").combotree("loadData", data.result);
+                                evtBus.dispatchEvt("statement_pageinit", { statement: classStatement });
+                            }
+                        });
+                };
+
+                this.initChart = function(elId) {
+                    chart = echarts.init(document.getElementById(elId));
+
+                    var barOption = {
+                        title: {
+                            text: examTitle + "成绩分布图",
+                        },
+                        color: ["#66cccc", "#ccff66", "#ff99cc", "#ff9999", "#ffcc99", "#ff6666", "#ff9999", "#99cc33", "#ff9900", "#ff0033"],
+                        legend: {
+                            data: ["aaa", "bbb", "ccc"],
+                            top: 20,
+                            padding: [20, 0]
+                        },
+                        grid: {
+                            top: 85
+                        },
+                        xAxis: { data: ["0 - 49", "50 - 59", "60 - 69", "70 - 79", "80 - 89", "90 - 100"] },
+                        yAxis: { minInterval: 1 },
+                        tooltip: {}
+                    };
+
+                    chart.setOption(barOption);
+                }
+
+                this.export = function () {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var newWindow = window.open("");
+                    setParam();
+                    $("#dg").datagrid("loading");
+                    var url = "/Statement/Exam/ExportClass";
+                    nv.post(url,
+                        queryParam,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            newWindow.location.href = "/Statement/Exam/Download/" + data.result.id + "?fileName=班级排名";
+                        });
+                }
+
+                function setParam() {
+                    var nodes = $("#classIds").combotree("tree").tree("getChecked");
+                    var classIds = [];
+                    $.each(nodes,
+                        function(k, v) {
+                            if (!v.children || v.children.length === 0) {
+                                classIds.push(v.id);
+                            }
+                        });
+                    queryParam.classIdList = classIds;
+                }
+
+                function loadData(param) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "ExamTaskStatement/GetClassRankingList";
+                    nv.post(url,
+                        param,
+                        function(data) {
+                            $("#dg").datagrid("loaded");
+                            if (data.success) {
+                                var rows = data.result;
+                                $("#dg").datagrid("loadData", rows);
+                                chart.setOption(getChartOption(rows));
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }
+
+                function filterClassIdList() {
+                    var ids = [];
+
+                    function getId(node) {
+                        ids.push(node.id);
+                        if (node.children && node.children.length > 0) {
+                            $.each(node.children, function(k, v) { getId(v); });
+                        }
+                    }
+
+                    $.each(examTaskClassData, function(k, v) { getId(v); });
+                    var classIds = [];
+                    $.each(ids,
+                        function(k, v) {
+                            if (classIdList.indexOf(v) !== -1) {
+                                classIds.push(v);
+                            }
+                        });
+                    classIdList = classIds;
+                    $("#classIds").combotree("setValues", classIdList);
+                }
+                
+                function getChartOption(rows) {
+                    var option = {
+                        series: [],
+                        legend: { data: [] }
+                    };
+                    $.each(rows,
+                        function(k, v) {
+                            option.series.push({
+                                name: v.className,
+                                type: "bar",
+                                data: [
+                                    v.scoreSectionNum1, v.scoreSectionNum2, v.scoreSectionNum3, v.scoreSectionNum4,
+                                    v.scoreSectionNum5, v.scoreSectionNum6
+                                ]
+                            });
+                            option.legend.data.push(v.className);
+                        });
+                    return option;
+                }
+            }
+
+            return init;
+        })();
+
+        var classStatement = new ClassStatement(request.id);
+
+        $(function() {
+            classStatement.initChart("chart");
+            classStatement.initCombotree();
+            classStatement.initDatagrid();
+
+        });
+    </script>
+}

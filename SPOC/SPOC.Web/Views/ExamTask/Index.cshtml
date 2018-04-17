@@ -1,0 +1,283 @@
+﻿@using System.Globalization
+@using SPOC.Common.Cookie
+@model SPOC.Common.Pagination.PaginationOutputDto<SPOC.Exam.ViewDto.ExamTaskViewItem>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var cookie = CookieHelper.GetLoginInUserInfo();
+}
+
+
+<div class="exam-page container-box center">
+    @if (Model.rows.Count != 0 && Model.rows != null)
+    {
+        <div class="exam-content">
+            <div class="exam-lists">
+                @foreach (var item in Model.rows)
+                {
+                    var examTypeText = item.IsMainExam ? "考试" : "补考";
+                    var examTimeText = examTypeText + "时间：";
+                    var btnText = "";
+                    var btnDisable = "";
+                    var btnClass = "";
+                    var doExam = "";
+                    var showTip = "";
+                    var status = "";
+                    if (item.BeginTime.HasValue && item.BeginTime.Value > DateTime.Now)
+                    {
+                        btnText = "等待" + examTypeText;
+                        btnDisable = "disabled";
+                        btnClass = "no-pass";
+                    }
+                    else
+                    {
+                        if (!item.EndTime.HasValue || item.EndTime.Value > DateTime.Now)
+                        {
+                            if (item.IsMaxExamCount)
+                            {
+                                btnText = "已完成考试";
+                                btnClass = "is-pass";
+                                btnDisable = "disabled";
+                                showTip = "gray";
+                            }
+                            else
+                            {
+                                btnText = (item.IsMainExam ? "开始" : "参加") + examTypeText;
+                                doExam = "onclick=doExam('" + item.ExamId + "')";
+                            }
+                        }
+                        else
+                        {
+                            btnText = item.ExamGradeId == Guid.Empty ? "缺考" : "已完成考试";
+                            btnClass = "is-pass";
+                            btnDisable = "disabled";
+                            showTip = "gray";
+                        }
+
+                    }
+                    if(btnText == "缺考" || btnClass == "no-pass")
+                    {
+                        status = "icon-weitongguo1";
+                    }else if (item.IsPass)
+                    {
+                        status = "icon-yitongguo1";
+                    }
+                    //@item.GradeCount
+                    <div class="exam-list-view">
+                        <div class="view-notice clearfix">
+                            <div class="start-time pull-left">
+                                @examTimeText
+                                <span class="green">@ExamTaskCreateTimeFormat(item.BeginTime)</span>
+                            </div>
+                            @if (item.BeginTime.HasValue && item.BeginTime > DateTime.Now)
+                            {
+                                var ts = item.BeginTime.Value - DateTime.Now;
+                                <div class="count-down pull-left">
+                                    倒计时：
+                                    <span class="red">@TsFormat(ts)</span>
+                                </div>
+                            }
+                            else if (item.EndTime.HasValue && item.EndTime.Value > DateTime.Now)
+                            {
+                                <div class="count-down pull-left">
+                                    剩余时间：
+                                    <span class="red">@ExamEndTimeFormat(item.EndTime.Value)</span>
+                                </div>
+                            }
+                        </div>
+                        <div class="view border_all fillet_5">
+                            <span class="iconfont @status status"></span>
+                            <div class="view-top">
+                                <div class="view-header clearfix">
+                                    <div class="title">
+                                        <h3 class="pull-left">
+                                            <a href="javascript:" @doExam>
+                                                @item.Title
+                                            </a>
+                                        </h3>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="/ExamTask/Ranking/@item.Id?examId=@item.ExamId">
+                                            <span class="iconfont icon-paihangbang text-right @showTip" title="排行榜" data-toggle="tooltip" data-placement="top"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="view-middle">
+                                <div class="tips clearfix">
+                                    <span class="tip exam-time col-lg-4 col-md-4">
+                                        考试时长：
+                                        <span class="strong">@(item.ExamTime / 60)分钟</span>
+                                    </span>
+                                    <span class="tip has-counts col-lg-4 col-md-4">
+                                        题数：
+                                        <span class="strong">@item.QuestionNum</span>
+                                    </span>
+                                    <span class="tip all-score col-lg-4 col-md-4">
+                                        满分：
+                                        <span class="strong">@item.TotalScore</span>
+                                    </span>
+                                    <span class="tip through col-lg-4 col-md-4">
+                                        通过分：
+                                        <span class="strong">@item.PassGradeScore.ToString("#0.00")</span>
+                                    </span>
+                                    <span class="tip through col-lg-4 col-md-4">
+                                        是否通过：
+                                        @if (item.IsPass)
+                                        {
+                                            <span class="strong">是</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="strong">否</span>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="view-bottom clearfix">
+                                @if (item.ExamGradeId != Guid.Empty)
+                                {
+                                    var scoreClass = item.IsPass ? "class=\"gray\"" : "";
+                                    <div class="exam-score pull-left">
+                                        分数：
+                                        @if (item.IsCompiled)
+                                        {
+                                            <span @scoreClass>@item.GradeScore.ToString("#0.00")</span>
+                                        }
+                                        else
+                                        {
+                                            <span @scoreClass>等待评分</span>
+                                        }
+                                    </div>
+
+                                }
+
+                                <a href="javascript:" class="start-btn btn btn-default pull-right @btnClass" @doExam @btnDisable>@btnText</a>
+
+                                @if (item.ExamGradeId != Guid.Empty && item.IsCompiled)
+                                {
+                                    <a href="/ExamTask/ExamGrade/@item.ExamId?taskId=@item.Id" class="start-btn btn btn-default pull-right" style="margin-right: 10px">成绩详细</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="no-data-tip iconfont icon-nodata"></div>
+    }
+    <div class="page-nav">
+        <div class="pagination"></div>
+    </div>
+</div>
+
+@functions
+{
+    //考试发布时间
+    string ExamTaskCreateTimeFormat(DateTime? dateTime)
+    {
+        if (!dateTime.HasValue)
+        {
+            return "不限";
+        }
+        var d = dateTime.Value;
+        var ampm = d.Hour >= 12 ? "下午" : "上午";
+        var cultureInfo =  CultureInfo.CreateSpecificCulture("zh-CN");
+        var str = d.ToString("D", cultureInfo) + "(" + d.ToString("dddd", cultureInfo) + ") " + ampm + d.ToString("h:mm");
+        return str;
+    }
+
+    //距离考试结束时间
+    string ExamEndTimeFormat(DateTime d)
+    {
+        var ts = d - DateTime.Now;
+        return TsFormat(ts);
+    }
+
+    string TsFormat(TimeSpan ts)
+    {
+        var s = ts.Minutes + "分";
+
+        if (ts.Hours > 0)
+        {
+            s = ts.Hours + "时" + s;
+        }
+
+        if (ts.Days > 0)
+        {
+            s = ts.Days + "天" + s;
+        }
+
+        return s;
+    }
+
+}
+
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/css/exam.css">
+}
+
+@section scripts{
+    <script src="~/Scripts/jqpaginator.min.js"></script>
+    <script src="~/js/common/common.js"></script>
+    <script>
+        var userId = "@cookie.Id";
+
+        function doExam(examUid) {
+            if (!checkLogin()) {
+                window.location.href = "/Account/Login?skipUrl=" + window.location.href;
+                return;
+            }
+
+            var w = screen.availWidth;
+            var h = screen.availHeight;
+            var guid = ""; //唯一登陆用，未完善
+            var url = "/Scripts/exam/index.html?userUid=" +
+                userId +
+                "&examUid=" +
+                examUid +
+                "&examArrangeUid=&guid=" +
+                guid;
+            var examWin = window.open(url,
+                "_blank",
+                "toolbar=no, menubar=no, scrollbars=no,resizable=yes,location=no, status=no,width=" +
+                w +
+                ",height=" +
+                h +
+                ",left=0,top=0");
+            examWin.onunload = function() {
+                parent.location.reload();
+            };
+        }
+    </script>
+    @if (Model.rows.Count > 0)
+    {
+        <script>
+            (function() {
+                var currentPage = @ViewBag.currentPage;
+                var total = @Model.total;
+                var lastPage = Math.ceil(total / 10);
+                $('.pagination').jqPaginator({
+                    totalPages: lastPage,
+                    visiblePages: 5,
+                    currentPage: currentPage,
+                    first: '<li class="first"><a href="javascript:void(0);" class="glyphicon glyphicon-backward"></a></li>',
+                    prev: '<li class="prev"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-left"></a></li>',
+                    next: '<li class="next"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-right"></a></li>',
+                    last: '<li class="last"><a href="javascript:void(0);" class="glyphicon glyphicon-forward"></a></li>',
+                    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+                    onPageChange: function (num, type) {
+                        if (type === "change") {
+                            window.location.href = "/ExamTask?page=" + num;
+                        }
+                    }
+                });
+
+            })()
+        </script>
+    }
+}

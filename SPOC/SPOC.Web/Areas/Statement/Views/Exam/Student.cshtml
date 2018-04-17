@@ -1,0 +1,311 @@
+﻿
+@{
+    ViewBag.Title = "Student";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-6">
+            <div class="form-group">
+                <label class="form-label">教学班级：</label>
+                <input id="classIds" class="easyui-combotree" style="width: 400px;" data-options="
+                        valueField:'id',
+                        textField:'text',
+                        multiple:true,
+                        panelHeight:'auto'" />
+            </div>
+            <div style="clear: right;"></div>
+            <div class="form-group">
+                <label class="form-label" for="userFullName">姓名：</label>
+                <input id="userFullName" name="userFullName" class="easyui-textbox" style="width: 200px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="userLoginName">用户名：</label>
+                <input id="userLoginName" name="userLoginName" class="easyui-textbox" style="width: 200px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="passState">通过情况：</label>
+                <select id="passState" name="passState" class="easyui-combobox" style="width: 200px;">
+                    <option value="0">全部</option>
+                    <option value="1">已通过</option>
+                    <option value="2">未通过</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="joinState">参加情况：</label>
+                <select id="joinState" name="joinState" class="easyui-combobox" style="width: 200px;">
+                    <option value="0">全部</option>
+                    <option value="1">已参加</option>
+                    <option value="2">未参加</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="submitState">提交情况：</label>
+                <select id="submitState" name="submitState" class="easyui-combobox" style="width: 200px;">
+                    <option value="0">全部</option>
+                    <option value="1">已提交</option>
+                    <option value="2">未提交</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="compileState">评分情况：</label>
+                <select id="compileState" name="compileState" class="easyui-combobox" style="width: 200px;">
+                    <option value="0">全部</option>
+                    <option value="1">已出成绩</option>
+                    <option value="2">等待评分</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="studentStatement.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="$('#query-form').form('reset')">重置</a>
+            </div>
+        </form>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-page_white_excel" onclick="studentStatement.export()">导出</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="true" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+                <th field="userFullName" sortable="true">姓名</th>
+                <th field="userLoginName" sortable="true">用户名</th>
+                <th field="score" sortable="true" formatter="scoreFormatter">分数</th>
+                <th field="className" sortable="true">教学班级</th>
+                <th field="passState" formatter="passStateFormatter" sortable="true">通过情况</th>
+                <th field="joinState" formatter="joinStateFormatter" sortable="true">参加情况</th>
+                <th field="submitState" formatter="submitStateFormatter" sortable="true">提交情况</th>
+                <th field="compileState" formatter="compileStateFormatter" sortable="true">评分情况</th>
+                <th field="opt" formatter="optFormatter">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section scripts
+{
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script>
+        var request = GetRequest();
+
+        function scoreFormatter(val, row, index) {
+            if (stringIsEmpty(val)) {
+                return "-";
+            }
+            return val.toFixed(2);
+        }
+
+        function passStateFormatter(val, row, index) {
+            return val === 1 ? "已通过" : "未通过";
+        }
+
+        function joinStateFormatter(val, row, index) {
+            return val === 1 ? "已参加" : "未参加";
+        }
+
+        function submitStateFormatter(val, row, index) {
+            if (val === 0) {
+                return "";
+            }
+            return val === 1 ? "已提交": "未提交";
+        }
+
+        function compileStateFormatter(val, row, index) {
+            if (val === 0) {
+                return "";
+            }
+            return val === 1 ? "已出成绩": "等待评分";
+        }
+
+        function optFormatter(val, row, index) {
+            if (row.compileState !== 1) {
+                return "";
+            }
+
+            return linkbtn(index,
+                {
+                    option: [
+                        {
+                            title: "详情",
+                            text: "详情",
+                            icon: "icon-application_view_list",
+                            onclick: "studentStatement.showInfo({0})".format(index),
+                            hasParams: "true"
+                        }
+                    ]
+                });
+        }
+
+        var StudentStatement = (function() {
+            function init(taskId) {
+                var self = this;
+                var classIdList;
+                var examClassData;
+                var queryParam = { examTaskId: taskId, skip: 0, pageSize: 30 };
+                var tabHelper = new TabHelper("tabs");
+
+                this.query = function() {
+                    queryParam.skip = 0;
+                    setParam();
+                    loadData(queryParam);
+                };
+
+                this.showInfo = function (index) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var row = $("#dg").datagrid("getRows")[index];
+                    var url = "/Statement/Exam/UserExamInfo?id=" + taskId + "&userId=" + row.id;
+                    var title = "[{0}]考试详情".format(row.userFullName);
+                    tabHelper.openTab(title, url, "icon-application_view_list");
+                };
+
+                this.export = function() {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var newWindow = window.open("");
+                    setParam();
+                    $("#dg").datagrid("loading");
+                    var url = "/Statement/Exam/ExportStudentExamInfo";
+                    nv.post(url,
+                        queryParam,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            newWindow.location.href = "/Statement/Exam/Download/" + data.result.id + "?fileName=考试成绩排名";
+                        });
+                };
+
+                this.setClassIds = function (idList) {
+                    classIdList = idList;
+                    if (idList.length > 0) {
+                        filterClassIdList();
+                    }
+                    self.query();
+                };
+
+                this.initCombotree = function () {
+                    var url = "/api/services/app/ExamTaskStatement/GetExamTaskClassTree?id=" + queryParam.examTaskId;
+                    nv.get(url,
+                        function (data) {
+                            if (data.success) {
+                                examClassData = data.result;
+                                $("#classIds").combotree("loadData", data.result);
+                                evtBus.dispatchEvt("statement_pageinit", { statement: studentStatement });
+                            }
+                        });
+                };
+
+                this.initPagination = function () {
+                    $("#dg").datagrid({
+                            onSortColumn: function (sort, order) {
+                                queryParam.sort = sort;
+                                queryParam.order = order;
+                                loadData(queryParam);
+                            }
+                        })
+                        .datagrid("getPager")
+                        .pagination({
+                            onSelectPage: function (pageNumber, pageSize) {
+                                queryParam.pageNumber = pageNumber;
+                                queryParam.skip = (pageNumber - 1) * pageSize;
+                                if (queryParam.skip < 0) {
+                                    queryParam.skip = 0;
+                                }
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            },
+                            onChangePageSize: function (pageSize) {
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            }
+                        });
+                };
+                
+                function setParam() {
+                    var nodes = $('#classIds').combotree("tree").tree('getChecked');
+                    var classIds = [];
+                    $.each(nodes,
+                        function (k, v) {
+                            if (!v.children || v.children.length === 0) {
+                                classIds.push(v.id);
+                            }
+                        });
+                    queryParam.classIdList = classIds;
+                    queryParam.userLoginName = $("#userLoginName").textbox("getValue");
+                    queryParam.userFullName = $("#userFullName").textbox("getValue");
+                    queryParam.passState = $("#passState").combobox("getValue");
+                    queryParam.joinState = $("#joinState").combobox("getValue");
+                    queryParam.submitState = $("#submitState").combobox("getValue");
+                    queryParam.compileState = $("#compileState").combobox("getValue");
+                }
+
+                function loadData(param) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "ExamTaskStatement/GetStudentPagination";
+                    nv.post(url,
+                        param,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            if (data.success) {
+                                $("#dg")
+                                    .datagrid("loadData", data.result.rows)
+                                    .datagrid("getPager")
+                                    .pagination({
+                                        pageNumber: param.pageNumber,
+                                        total: data.result.total
+                                    });
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }
+
+                function filterClassIdList() {
+                    var ids = [];
+
+                    function getId(node) {
+                        ids.push(node.id);
+                        if (node.children && node.children.length > 0) {
+                            $.each(node.children, function (k, v) { getId(v); });
+                        }
+                    }
+
+                    $.each(examClassData, function (k, v) { getId(v); });
+                    var classIds = [];
+                    $.each(ids,
+                        function (k, v) {
+                            if (classIdList.indexOf(v) !== -1) {
+                                classIds.push(v);
+                            }
+                        });
+                    classIdList = classIds;
+                    $("#classIds").combotree("setValues", classIdList);
+                }
+            }
+
+            return init;
+        })();
+
+        var studentStatement = new StudentStatement(request.id);
+
+        $(function() {
+            if (request.passState) {
+                $("#passState").combobox("setValue", request.passState);
+            } else if (request.joinState) {
+                $("#joinState").combobox("setValue", request.joinState);
+            } else if (request.submitState) {
+                $("#submitState").combobox("setValue", request.submitState);
+            } else if (request.compileState) {
+                $("#compileState").combobox("setValue", request.compileState);
+            }
+            studentStatement.initCombotree();
+            studentStatement.initPagination();
+        });
+    </script>
+}

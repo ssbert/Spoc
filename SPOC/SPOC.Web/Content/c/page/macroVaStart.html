@@ -1,0 +1,79 @@
+<div class="macroVaStart-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库宏 - <span class="green">va_start()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdargH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdarg.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库宏 <b>void va_start(va_list ap, last_arg)</b> 初始化 <b>ap</b> 变量，它与 <b>va_arg</b> 和 <b>va_end</b> 宏是一起使用的。<b>last_arg</b> 是最后一个传递给函数的已知的固定参数，即省略号之前的参数。</p>
+		<p>这个宏必须在使用 <b>va_arg</b> 和 <b>va_end</b> 之前被调用。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 va_start() 宏的声明。</p>
+		<pre>void va_start(va_list ap, last_arg);</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>ap</b> --  这是一个 <b>va_list</b> 类型的对象，它用来存储通过 <b>va_arg</b> 获取额外参数时所必需的信息。
+			</li>
+			<li>
+				<b>last_arg</b> --  最后一个传递给函数的已知的固定参数。
+			</li>		
+		</ul>	
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>NA</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 va_start() 宏的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdarg.h&gt;
+#include &lt;stdio.h&gt;
+
+int sum(int, ...);
+
+int main(void)
+{
+   printf("10、20 和 30 的和 = %d\n",  sum(3, 10, 20, 30) );
+   printf("4、20、25 和 30 的和 = %d\n",  sum(4, 4, 20, 25, 30) );
+
+   return 0;
+}
+
+int sum(int num_args, ...)
+{
+   int val = 0;
+   va_list ap;
+   int i;
+
+   va_start(ap, num_args);
+   for(i = 0; i < num_args; i++)
+   {
+      val += va_arg(ap, int);
+   }
+   va_end(ap);
+ 
+   return val;
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>10、20 和 30 的和 = 60
+4、20、25 和 30 的和 = 79</pre>
+		<p>
+			<a href="#standardLibStdargH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdarg.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

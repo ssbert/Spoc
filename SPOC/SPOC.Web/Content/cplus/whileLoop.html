@@ -1,0 +1,72 @@
+<div class="while-loop-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">while 循环</span>
+		</h1>
+		<p>
+			<a href="#loop" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 循环
+			</a>
+		</p>
+		<p>只要给定的条件为真，while 循环语句会重复执行一个目标语句。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			语法
+		</h2>
+		<p>C++ 中 while 循环的语法：</p>
+		<pre>while(condition)
+{
+   statement(s);
+}</pre>
+		<p>在这里，<b>statement(s)</b> 可以是一个单独的语句，也可以是几个语句组成的代码块。<b>condition</b> 可以是任意的表达式，当为任意非零值时都为真。当条件为真时执行循环。</p>
+		<p>当条件为假时，程序流将继续执行紧接着循环的下一条语句。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			流程图
+		</h2>
+		<p>
+			<img src="/Content/cplus/images/cpp_while_loop.png">
+		</p>
+		<p>在这里，<i>while</i> 循环的关键点是循环可能一次都不会执行。当条件被测试且结果为假时，会跳过循环主体，直接执行紧接着 while 循环的下一条语句。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<pre>#include &lt;iostream&gt;
+using namespace std;
+ 
+int main ()
+{
+   // 局部变量声明
+   int a = 10;
+
+   // while 循环执行
+   while( a < 20 )
+   {
+       cout << "a 的值：" << a << endl;
+       a++;
+   }
+ 
+   return 0;
+}</pre>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre>a 的值： 10
+a 的值： 11
+a 的值： 12
+a 的值： 13
+a 的值： 14
+a 的值： 15
+a 的值： 16
+a 的值： 17
+a 的值： 18
+a 的值： 19</pre>
+		<p>
+			<a href="#loop" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 循环
+			</a>
+		</p>
+	</div>
+</div>

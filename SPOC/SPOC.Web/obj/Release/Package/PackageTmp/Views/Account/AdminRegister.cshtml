@@ -1,0 +1,112 @@
+﻿@{
+    Layout = null;
+}
+@using System.Web.Optimization
+@model SPOC.Web.Models.AdminRegisterModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>管理员注册</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/rsa")
+    <link href="~/Areas/Assets/css/Site.css" rel="stylesheet" />
+    <link href="~/css/main-blue-light.css" rel="stylesheet" />
+    <script type="text/javascript">
+
+        var url = "@Model.returnUrl";
+    </script>
+</head>
+<body>
+
+    <div id="content-container">
+
+        <div class="es-section login-section">
+
+            <div class="logon-tab clearfix">
+                
+                <a class="active">管理员注册</a>
+            </div>
+
+            <div class="login-main" id="loginForm">
+
+               
+                <form id="register-form" method="post" action="/Account/AdminRegister" novalidate="novalidate" data-widget-cid="widget-1">
+                    <input type="hidden" id="regMsg" value="@Model.msg" />
+                    @if (Model.registerStatu == "ok")
+                    {
+                        <br /><br />
+                        <div style="font-size:20px" id="ok_div">@Model.msg</div><br /><br />
+
+                    }
+                    else
+                    {
+                    
+                        if (Model.registerStatu == "error")
+                        {
+                            <div class="alert alert-danger" id="error_divs"> @Model.msg </div>
+                        }
+
+                        <div>
+                            <label class="control-label" for="RegisterMobile">手机 </label>
+                            @Html.TextBoxFor(a => a.RegisterMobile, new { @class = "form-control input-lg" })
+                            <p class="help-block">@Html.ValidationMessageFor(a => a.RegisterMobile)</p>
+
+                        </div>
+
+                        <div class="form-group mbl">
+                            <label class="control-label" for="register_nickname">用户名</label>
+                            <div class="controls">
+
+                                @Html.TextBoxFor(a => a.UserName, new { @class = "form-control input-lg" })
+                                <p class="help-block">@Html.ValidationMessageFor(a => a.UserName)</p>
+                            </div>
+                        </div>
+                        <div class="form-group mbl">
+                            <label class="control-label" for="register_password">密码</label>
+                            <div class="controls">
+
+                                @Html.PasswordFor(a => a.PassWord, new { @class = "form-control input-lg" })
+                                <p class="help-block">@Html.ValidationMessageFor(a => a.PassWord)</p>
+                            </div>
+                        </div>
+               
+                        <div class="form-group mbl">
+                            <div class="controls">
+                                <label>
+                                    <input type="checkbox" id="user_terms" checked="checked" data-widget-cid="widget-6" data-explain=""> 我已阅读并同意<a href="" target="_blank">《服务协议》</a>
+                                </label>
+                                <div class="help-block" style="display:none;"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mbl">
+                            <div class="controls">
+                                <button type="submit" id="register-btn" data-submiting-text="正在提交" class="btn btn-primary btn-lg btn-block">注册</button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="usernameContainEN" id="usernameContainEN" value="@ViewBag.usernameContainEN">
+                        <input type="hidden" name="captcha_enabled" value="0">
+                        <input type="hidden" name="_csrf_token" value="c110a79138bd95f935e1e5c7937b71c76ef2e151">
+                        @Html.HiddenFor(a => a.EncucriptPassWord);
+                        @Html.HiddenFor(a => a.EncucriptUserName);
+                        @Html.HiddenFor(a => a.EncucriptEmail);
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="excryptKey" />
+    <input type="hidden" id="excryptModulusKey" />
+
+</body>
+</html>
+
+
+
+<script src="~/js/account/register.js?v=@L("version")"></script>

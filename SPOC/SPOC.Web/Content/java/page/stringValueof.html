@@ -1,0 +1,91 @@
+<div class="stringValueof-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">trim() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>valueOf() 方法有以下几种不同形式：</p>
+		<ul>
+			<li><p><b>valueOf(boolean b):</b> 返回 boolean 参数的字符串表示形式。.</p></li>
+			<li><p><b>valueOf(char c):</b> 返回 char 参数的字符串表示形式。</p></li>
+			<li><p><b>valueOf(char[] data):</b> 返回 char 数组参数的字符串表示形式。</p></li>
+			<li><p><b>valueOf(char[] data, int offset, int count):</b>  返回 char 数组参数的特定子数组的字符串表示形式。</p></li>
+			<li><p><b>valueOf(double d):</b> 返回 double 参数的字符串表示形式。</p></li>
+			<li><p><b>valueOf(float f):</b>  返回 float 参数的字符串表示形式。</p></li>
+			<li><p><b>valueOf(int i):</b> 返回 int 参数的字符串表示形式。</p></li>
+			<li><p><b>valueOf(long l):</b> 返回 long 参数的字符串表示形式。</p></li>
+			<li><p><b>valueOf(Object obj):</b> 返回 Object 参数的字符串表示形式。</p></li>
+		</ul>
+		<h3 class="n-h3">语法</h3>
+		<pre>static String valueOf(boolean b) 
+
+或 
+
+static String valueOf(char c) 
+
+或
+
+static String valueOf(char[] data) 
+
+或
+
+static String valueOf(char[] data, int offset, int count) 
+
+或
+
+static String valueOf(double d) 
+
+或
+
+static String valueOf(float f) 
+
+或
+
+static String valueOf(int i)
+
+或
+
+static String valueOf(long l)
+
+或
+
+static String valueOf(Object obj) </pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p>指定类型参数。</p></li> 
+		<h3 class="n-h3">返回值</h3>
+		<p>删除头尾空白符的字符串。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test {
+    public static void main(String args[]) {
+        double d = 1100.00;
+        boolean b = true;
+        long l = 1234567890;
+        char[] arr = {'r', 'u', 'n', 'o', 'o', 'b' };
+
+        System.out.println("返回值 : " + String.valueOf(d) );
+        System.out.println("返回值 : " + String.valueOf(b) );
+        System.out.println("返回值 : " + String.valueOf(l) );
+        System.out.println("返回值 : " + String.valueOf(arr) );
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>返回值 : 1100.0
+返回值 : true
+返回值 : 1234567890
+返回值 : runoob</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

@@ -1,0 +1,61 @@
+<div class="functionStrtod-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">strtod()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>double strtod(const char *str, char **endptr)</b> 把参数 <b>str</b> 所指向的字符串转换为一个浮点数（类型为 double 型）。如果 <b>endptr</b> 不为空，则指向转换中最后一个字符后的字符的指针会存储在 endptr 引用的位置。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 strtod() 函数的声明。</p>
+		<pre>double strtod(const char *str, char **endptr)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b> --  要转换为双精度浮点数的字符串。</li>
+			<li><b>endptr</b> --  对类型为 char* 的对象的引用，其值由函数设置为 <b>str</b> 中数值后的下一个字符。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回转换后的双精度浮点数，如果没有执行有效的转换，则返回零（0.0）。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 strtod() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main()
+{
+  char str[30] = "20.30300 This is test";
+   char *ptr;
+   double ret;
+
+   ret = strtod(str, &ptr);
+   printf("数字（double）是 %lf\n", ret);
+   printf("字符串部分是 |%s|", ptr);
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>数字（无符号长整数）是 2030300
+字符串部分是 | This is test|</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

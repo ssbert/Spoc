@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewBag.Title = "ExerciseRecord";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="true" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+                <th field="beginTime" sortable="true">开始时间</th>
+                <th field="endTime" sortable="true">结束时间</th>
+                <th field="timespan" formatter="timespanFormatter" sortable="true">耗时</th>
+                <th field="isPass" formatter="isPassFormatter" sortable="true">是否通过</th>
+                <th field="opt" formatter="optFormatter">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script>
+        var request = GetRequest();
+
+        function timespanFormatter(val, row, index) {
+            var beginTime = getTimeByTimeStr(row.beginTime);
+            var endTime = getTimeByTimeStr(row.endTime);
+            var timespan = parseInt(endTime - beginTime) / 1000;
+            var str = "";
+            if (timespan >= 86400) {
+                var d = Math.floor(timespan / 86400);
+                str += d + "天";
+                timespan -= d * 86400;
+            }
+
+            if (timespan >= 3600) {
+                var h = Math.floor(timespan / 3600);
+                str += h + "时";
+                timespan -= h * 3600;
+            }
+
+            if (timespan >= 60) {
+                var m = Math.floor(timespan / 60);
+                str += m + "分";
+                timespan -= m * 60;
+            }
+
+            str += timespan + "秒";
+            return str;
+        }
+
+        function isPassFormatter(val, row, index) {
+            return val ? "是" : "否";
+        }
+
+        function optFormatter(val, row, index) {
+            return linkbtn(index, {
+                option: [
+                    {
+                        title: "查看代码",
+                        text: "查看代码",
+                        icon: "icon-application_view_detail",
+                        onclick: "exerciseRecord.showAnswer({0})".format(index),
+                        hasParams: "true"
+                    }
+                ] });
+        }
+
+        function getTimeByTimeStr(timeStr) {
+            var d = timeStr.replace(/\-/g, "/");
+            return new Date(d);
+        }
+
+        var ExerciseRecord = (function() {
+            function init(exerciseId, userId) {
+                var queryParam = { exerciseId: exerciseId, userId:userId, skip: 0, pageSize: 30 };
+                var tabHelper = new TabHelper("tabs");
+
+                this.initPagination = function () {
+                    $("#dg").datagrid({
+                        onSortColumn: function (sort, order) {
+                            queryParam.sort = sort;
+                            queryParam.order = order;
+                            loadData(queryParam);
+                        }
+                    })
+                        .datagrid("getPager")
+                        .pagination({
+                            onSelectPage: function (pageNumber, pageSize) {
+                                queryParam.pageNumber = pageNumber;
+                                queryParam.skip = (pageNumber - 1) * pageSize;
+                                if (queryParam.skip < 0) {
+                                    queryParam.skip = 0;
+                                }
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            },
+                            onChangePageSize: function (pageSize) {
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            }
+                        });
+                    loadData(queryParam);
+                };
+
+                this.showAnswer = function(index) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var row = $("#dg").datagrid("getRows")[index];
+                    var url = "/Statement/Exercise/ExerciseAnswer?id=" + row.id;
+                    var title = "查看代码";
+                    tabHelper.openTab(title, url, "icon-application_view_detail");
+                };
+
+                function loadData(param) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "ExerciseStatement/GetExerciseRecordPagination";
+                    nv.post(url,
+                        param,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            if (data.success) {
+                                $("#dg")
+                                    .datagrid("loadData", data.result.rows)
+                                    .datagrid("getPager")
+                                    .pagination({
+                                        pageNumber: param.pageNumber,
+                                        total: data.result.total
+                                    });
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }
+            }
+
+            return init;
+        })();
+
+        var exerciseRecord = new ExerciseRecord(request.id, request.userId);
+        $(function() {
+            exerciseRecord.initPagination();
+        });
+    </script>
+}

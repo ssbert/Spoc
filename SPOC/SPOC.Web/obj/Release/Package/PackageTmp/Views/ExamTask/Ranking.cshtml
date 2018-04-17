@@ -1,0 +1,227 @@
+﻿@model SPOC.Web.Models.ExamTask.RankingViewModel
+@{
+    ViewBag.Title = "考试排行榜";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var retestExamId = Model.Base.TargetExamId;
+    var hasRetest = Model.Base.RetestList.Any();
+    var isRetest = Model.ExamTypeCode == "exam_retest";
+}
+
+<div class="detail-page exam-rank-page container-box center">
+    <div class="detail-header">
+        <h2 class="header-title">@Model.Base.Title</h2>
+        <div class="author">
+            <img src="@Model.Base.UserImg" class="fillet_5">
+            <span>
+                by
+                <a href="javascript:;" class="name">@Model.Base.CreatorName</a>
+            </span>
+        </div>
+    </div>
+    <div class="detail-content">
+        @if (hasRetest)
+        {
+            var normalActive = "";
+            var retestActive = "";
+            if (!isRetest)
+            {
+                normalActive = "active";
+            }
+            else
+            {
+                retestActive = "active";
+            }
+            if (Model.Base.MainExamId == Model.Base.TargetExamId)
+            {
+                retestExamId = Model.Base.RetestList[0].ExamId;
+            }
+
+            <div class="nav-tab">
+                <ul class="clearfix">
+                    <li class="item @normalActive"><a href="/ExamTask/Ranking/@Model.Base.Id?examId=@Model.Base.MainExamId">正考排行榜</a></li>
+                    <li class="item @retestActive"><a href="/ExamTask/Ranking/@Model.Base.Id?examId=@retestExamId&examTypeCode=exam_retest">补考排行榜</a></li>
+                </ul>
+            </div>
+        }
+        <div class="tab-content">
+
+            <div class="leaderboard-content content-box active" id="eta-leaderboard">
+                @if (isRetest)
+                {
+                    <select class="selectpicker singleSelect" onchange="onRetestChange(this)">
+                        @foreach (var item in Model.Base.RetestList)
+                        {
+                            var selected = item.ExamId == retestExamId ? "selected" : "";
+                            <option value="@item.ExamId" @selected>@item.Title</option>
+                        }
+                    </select>
+                }
+                
+                <div class="exam-leaderboard">
+                    @if (Model.Pagination.rows.Count != 0)
+                    {
+                        <div class="leaderboard-table">
+                            <div class="table-header clearfix">
+                                <div class="table-header-colum rank">
+                                    排名
+                                </div>
+                                <div class="table-header-colum hacker">
+                                    学生
+                                </div>
+                                <div class="table-header-colum counts">
+                                    分数
+                                </div>
+                                <div class="table-header-colum results">
+                                    是否通过
+                                </div>
+                            </div>
+                            <div class="table-body">
+                                @foreach (var item in Model.Pagination.rows)
+                                {
+                                    <div class="table-row clearfix">
+                                        <div class="table-row-colum rank">
+                                            @item.Ranking
+                                        </div>
+                                        <div class="table-row-colum hacker">
+                                            @item.UserName
+                                        </div>
+                                        <div class="table-row-colum counts">
+                                            @ScoreFormat(item.GradeScore)
+                                        </div>
+                                        <div class="table-row-colum results">
+                                            @if (item.IsPass)
+                                            {
+                                                <span class="glyphicon glyphicon-ok green"></span>
+                                            }
+                                            else
+                                            {
+                                                <span class="glyphicon glyphicon-remove red"></span>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="iconfont icon-nodata"></div>
+                    }
+
+                    @if (Model.SelfRanking != null)
+                    {
+                        <div class="leaderboard-table self">
+                            <div class="table-body">
+                                <div class="table-row clearfix">
+                                    <div class="table-row-colum rank">
+                                        @Model.SelfRanking.Ranking
+                                    </div>
+                                    <div class="table-row-colum hacker">
+                                        @Model.SelfRanking.UserName
+                                    </div>
+                                    <div class="table-row-colum counts">
+                                        @ScoreFormat(Model.SelfRanking.GradeScore)
+                                    </div>
+                                    <div class="table-row-colum results">
+                                        @if (Model.SelfRanking.IsPass)
+                                        {
+                                            <span class="glyphicon glyphicon-ok green"></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="glyphicon glyphicon-remove red"></span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- 分页导航-S -->
+                <div class="page-nav">
+                    <div class="pagination"></div>
+                </div>
+                <!-- 分页导航-E -->
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@functions
+{
+
+    string ScoreFormat(decimal? score)
+    {
+        if (score.HasValue)
+        {
+            return score.Value.ToString("#0.00");
+        }
+        return "-";
+    }
+
+}
+
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/Scripts/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" type="text/css" href="~/css/detail.css">
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jqpaginator.min.js"></script>
+    <script src="~/Scripts/bootstrap-select/bootstrap-select.js"></script>
+    <script src="~/Scripts/bootstrap-select/select.js"></script>
+    <script src="~/js/common/common.js"></script>
+    <script>
+        LoadSelect()
+    </script>
+    @if (isRetest)
+    {
+        var url = "/ExamTask/Ranking/" + Model.Base.Id + "?examId=";
+        <script>
+            function onRetestChange(obj) {
+                var examId = $(obj).val();
+                window.location.href = "@url" + examId + "&examTypeCode=exam_retest";
+            }
+        </script>
+    }
+
+    @if (Model.Pagination.rows.Count > 0)
+    {
+        var url = "/ExamTask/Ranking/" + Model.Base.Id + "?examId=" + Model.Base.TargetExamId;
+        if (Model.ExamTypeCode == "exam_retest")
+        {
+            url += "&examTypeCode=exam_retest&";
+        }
+
+        <script>
+            (function() {
+                var currentPage = @ViewBag.currentPage;
+                var total = @Model.Pagination.total;
+                var lastPage = Math.ceil(total / 10);
+                if (total > 10) {
+                    $('.pagination').jqPaginator({
+                        totalPages: lastPage,
+                        visiblePages: 5,
+                        currentPage: currentPage,
+                        first: '<li class="first"><a href="javascript:void(0);" class="glyphicon glyphicon-backward"></a></li>',
+                        prev: '<li class="prev"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-left"></a></li>',
+                        next: '<li class="next"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-right"></a></li>',
+                        last: '<li class="last"><a href="javascript:void(0);" class="glyphicon glyphicon-forward"></a></li>',
+                        page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+                        onPageChange: function (num, type) {
+                            if (type === "change") {
+                                window.location.href = "@url" + "&page=" + num;
+                            }
+                        }
+                    });
+                }
+
+            })()
+        </script>
+    }
+}

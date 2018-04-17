@@ -1,0 +1,60 @@
+<div class="functionStrchr-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">strchr()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>char *strchr(const char *str, int c)</b> 在参数 <b>str</b> 所指向的字符串中搜索第一次出现字符 <b>c</b>（一个无符号字符）的位置。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 strchr() 函数的声明。</p>
+		<pre>char *strchr(const char *str, int c)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b> -- 要被检索的 C 字符串。</li>
+			<li><b>c</b> -- 在 str 中要搜索的字符。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回在字符串 str 中第一次出现字符 c 的位置，如果未找到该字符则返回 NULL。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 strchr() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main ()
+{
+   const char str[] = "http://www.baidu.com";
+   const char ch = '.';
+   char *ret;
+
+   ret = strchr(str, ch);
+
+   printf("|%c| 之后的字符串是 - |%s|\n", ch, ret);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>|.| 之后的字符串是 - |.baidu.com|</pre>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

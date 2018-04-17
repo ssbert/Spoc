@@ -1,0 +1,243 @@
+.answer-records-page {
+	padding-top: 30px;
+}
+
+.answer-records-page .records-header .title{
+	font-size: 30px;
+}
+
+.answer-records-page .records-header .screen-btn {
+	margin-top: 12px;
+    margin-left: 15px;
+    line-height: 30px;
+}
+
+.answer-records-page .records-header .screen-btn > a{
+	padding: 10px;
+    border: 1px solid transparent;
+    border-bottom-left-radius: 0!important;
+    border-bottom-right-radius: 0!important;
+}
+
+.answer-records-page .records-header .screen-btn > a .glyphicon {
+	font-size: 18px;
+    color: #2ec866;
+}
+
+.answer-records-page .records-header .screen-btn .dropdown-menu {
+	width: 134px;
+    min-width: inherit;
+}
+
+.answer-records-page .screen-btn .dropdown-menu:before {
+    position: absolute;
+    content: "";
+    height: 3px;
+    width: 38px;
+    background-color: #fff;
+    top: -2px;
+}
+
+.answer-records-page .screen-btn .dropdown-menu > div {
+    padding: 15px 15px 0px 15px;
+}
+
+.answer-records-page .screen-btn .dropdown-menu h4 {
+    font-size: 16px;
+    color: #979faf;
+    padding-bottom: 10px;
+}
+
+.answer-records-page .select-input {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.answer-records-page .select-input input[type="radio"] {
+    position: absolute;
+    z-index: 1;
+    left: -19999px;
+}
+
+.answer-records-page .select-input input[type="radio"]:checked+label span {
+    background-color: #2ec866;
+}
+
+.answer-records-page .select-input input[type="radio"]:checked+label span:before {
+    background-color: #fff;
+}
+
+.answer-records-page .select-input label span {
+    position: relative;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #c2c7d0;
+    vertical-align: text-bottom;
+    margin-right: 5px;
+    background-color: #fff;
+    z-index: 10;
+}
+
+.answer-records-page .select-input label span:before {
+    position: absolute;
+    content: "";
+    width: 7px;
+    height: 7px;
+    background-color: transparent;
+    border-radius: 50%;
+    left: 3px;
+    top: 3px;
+}
+
+.answer-records-page .records-header .screen-btn.open > a {
+	border: 1px solid #c2c7d0;
+}
+
+.answer-records-page .screen .stem-screen,
+.answer-records-page .screen .title-screen,
+.answer-records-page .screen .no-pass-select{
+	position: relative;
+	margin-top: 12px;
+    margin-left: 15px;
+}
+
+.answer-records-page .screen .stem-screen .dropdown-menu,
+.answer-records-page .screen .title-screen .dropdown-menu {
+	padding: 0 10px;
+	min-width: 220px;
+	/*left: 170px;*/
+}
+
+.answer-records-page .screen-con {
+	padding-top: 10px;
+    padding-left: 20px;
+}
+
+.answer-records-page .screen-con .screen-item {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    background: #EFF1F3;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.answer-records-page .screen-con .screen-item a.glyphicon {
+    margin-left: 5px;
+}
+
+.answer-records-page .screen .stem-screen .iconfont,
+.answer-records-page .screen .title-screen .iconfont {
+	font-size: 18px;
+    color: #2ec866;
+    margin-left: -8px;
+}
+
+.answer-records-page .screen .stem-screen .dropdown-menu > p,
+.answer-records-page .screen .title-screen .dropdown-menu > p{
+	line-height: 29px;
+    padding-top: 10px;
+}
+
+.answer-records-page .screen .no-pass-select {
+    line-height:25px;
+}
+
+.answer-records-page .screen .no-pass-select input[type="checkbox"] {
+    display: none;
+}
+
+.answer-records-page .screen .no-pass-select input[type="checkbox"]:checked + label {
+    background-color: #29b35b;
+}
+
+.answer-records-page .screen .no-pass-select input[type="checkbox"]:checked + label:before {
+    transform: translateX(14px);
+}
+
+.answer-records-page .screen .no-pass-select span,
+.answer-records-page .screen .no-pass-select label {
+    vertical-align: middle;
+}
+
+.answer-records-page .screen .no-pass-select label {
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    margin: 0;
+}
+
+.answer-records-page .screen .no-pass-select label:before {
+    content: "";
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    background: #efefef;
+    border-radius: 50%;
+    left: 1px;
+    top: 1px;
+    transition:all .5s ease;
+}
+
+.answer-records-page .recommend-btn {
+	padding-top: 8px;
+}
+
+.answer-records-page .recommend-btn span.glyphicon {
+	/*font-size: 18px;*/
+}
+
+.answer-records-page .records-lists {
+	padding: 20px 0;
+}
+
+.answer-records-page .challenge-list-view {
+	padding: 20px;
+    margin-bottom: 20px;
+    transform: none;
+    position: relative;
+}
+
+.answer-records-page .challenge-list-view .status.iconfont {
+    position: absolute;
+    top: 0px;
+    left: 40%;
+    font-size: 70px;
+    color: rgba(243, 78, 78, 0.8);
+}
+
+.answer-records-page .challenge-list-view h3 {
+	font-size: 20px;
+    margin: 0;
+}
+
+.answer-records-page .challenge-list-view h3 a {
+	color: #2ec866;
+}
+
+.answer-records-page .challenge-list-view .view-middle {
+	padding: 10px 0;
+}
+
+.answer-records-page .challenge-list-view .view-middle .content {
+	line-height: 26px;
+	color: #979faf;
+	height: 52px;
+    overflow: hidden;
+}
+
+.answer-records-page .challenge-list-view .view-bottom .tips {
+	margin-top: 16px;
+    font-weight: 600;
+}
+
+.answer-records-page .challenge-list-view .view-bottom .tips .tip {
+	margin-right: 10px;
+    color: #979faf;
+}

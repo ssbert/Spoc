@@ -1,0 +1,175 @@
+﻿@using System.Text
+@using System.Text.RegularExpressions
+@using SPOC.Exam
+@{
+    ViewBag.Title = "UserAnswerQuestion";
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ExerciseResult</title>
+    <link rel="stylesheet" type="text/css" href="~/css/default.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
+    <script src="~/Scripts/jquery-easyui-1.5.4.4/jquery.min.js"></script>
+    @*<script src="~/Scripts/highlight/highlight.pack.js"></script>*@
+    @*<script>
+        $(function () {
+            hljs.initHighlightingOnLoad();
+        });
+    </script>*@
+    <style>
+        p {
+            line-height: 24px;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            vertical-align: text-bottom;
+        }
+    </style>
+</head>
+
+<body class="container">
+<div class="row">
+    <h3 style="font-size: 28px; padding-bottom: 10px">@Model.Title</h3>
+    <p>@Html.Raw(ChangeImgUrl(Model.QuestionText, Model.QuestionId))</p>
+    @if (Model.QuestionBaseTypeCode == EnumQuestionBaseTypeCode.Program || Model.QuestionBaseTypeCode == EnumQuestionBaseTypeCode.ProgramFill)
+    {
+        <p style="font-size: 18px; font-weight: 600; padding: 20px 0 10px">作答：</p>
+        <pre><code id="code">@Model.UserAnswer</code></pre>
+        <p style="font-size: 18px; font-weight: 600; padding: 20px 0 10px">运行结果：</p>
+        <pre>@Model.Result</pre>
+    }
+    else
+    {
+        if (Model.QuestionBaseTypeCode == EnumQuestionBaseTypeCode.Single || Model.QuestionBaseTypeCode == EnumQuestionBaseTypeCode.Multi)
+        {
+            var inputType = Model.QuestionBaseTypeCode == EnumQuestionBaseTypeCode.Single ? "radio" : "checkbox";
+            var selectAnswers = Model.SelectAnswer.Split('|');
+            var userAnswers = Model.UserAnswer.Split('|');
+            var userAnswerText = Model.UserAnswer.Replace('|', '、');
+            var answerIndexList = new List<int>();
+            foreach (var indexCode in userAnswers)
+            {
+                answerIndexList.Add(LatterToIndex(indexCode));
+            }
+            for (int i = 0; i < selectAnswers.Length; i++)
+            {
+                var checkedStr = answerIndexList.Contains(i) ? "checked" : "";
+                <p>
+                    <label class="choice-label">@IndexToLetter(i + 65)</label>
+                    <label>
+                        <input class="answer-checkbox" name="answer" type="@inputType" @checkedStr>
+                        @Html.Raw(RemovePTag(ChangeImgUrl(selectAnswers[i], Model.QuestionId)))
+                    </label>
+                </p>
+            }
+            <br/>
+            <p style="font-size: 18px; font-weight: 600; padding: 20px 0 10px">作答：</p>
+            <p>@userAnswerText.Replace("<", "&lt;").Replace(">", "&gt;")</p>
+        }
+        else if (Model.QuestionBaseTypeCode == EnumQuestionBaseTypeCode.Judge)
+        {
+            var userAnswerText = Model.UserAnswer == "Y" ? "正确" : "错误";
+            <p>
+                <label>
+                    <input name="uncertain" value="Y" type="radio" @(Model.UserAnswer == "Y" ? "checked" : "")>
+                    正确
+                </label>
+                <label>
+                    <input name="uncertain" value="N" type="radio" @(Model.UserAnswer == "Y" ? "" : "checked")>
+                    错误
+                </label>
+            </p>
+            <br/>
+            <p style="font-size: 18px; font-weight: 600; padding: 20px 0 10px">作答：</p>
+            <p>@userAnswerText</p>
+        }
+        else if (Model.QuestionBaseTypeCode == EnumQuestionBaseTypeCode.Fill)
+        {
+            <p style="font-size: 18px; font-weight: 600; padding: 20px 0 10px">作答：</p>
+            <p>@Model.UserAnswer.Replace('|', '、')</p>
+        }
+    }
+</div>
+<div class="row">
+    
+        <p>是否通过：@(Model.IsPass ? "是" : "否")</p>
+    
+</div>
+</body>
+
+@functions
+{
+
+    string IndexToLetter(int index)
+    {
+        var bytes = new byte[1];
+        bytes[0] = (byte) Convert.ToInt32(index);
+        return Convert.ToString(Encoding.ASCII.GetString(bytes));
+    }
+
+    int LatterToIndex(string latter)
+    {
+        var bytes = Encoding.ASCII.GetBytes(latter);
+        return bytes[0] - 65;
+    }
+
+    string ChangeImgUrl(string html, Guid questionId)
+    {
+        var reg = new Regex(@"<img*.+?>", RegexOptions.IgnoreCase);
+        var srcReg = new Regex("src=\"\\./[0-9a-zA-Z\\-]{36}\\.[a-zA-z].+?\"");
+        if (!reg.IsMatch(html))
+        {
+            return html;
+        }
+        var matchs = reg.Matches(html);
+        var host = @"http://" + HttpContext.Current.Request.ServerVariables["LOCAL_ADDR"] + @":" +
+                   HttpContext.Current.Request.ServerVariables["SERVER_PORT"];
+        foreach (Match match in matchs)
+        {
+            if (!srcReg.IsMatch(match.Value))
+            {
+                continue;
+            }
+            var srcMatch = srcReg.Match(match.Value);
+            var srcStr = srcMatch.Value;
+            srcStr = srcStr.Remove(0, 7);
+            srcStr = srcStr.Remove(srcStr.Length - 1);
+            srcStr = host + @"/fileroot/question/" + questionId + @"/" + srcStr;
+            var imgStr = match.Value.Replace(srcMatch.Value, "src=\"" + srcStr + "\"");
+            html = html.Replace(match.Value, imgStr);
+        }
+        return html;
+    }
+
+    string RemovePTag(string html)
+    {
+        var reg = new Regex("^<p>.*</p>$");
+        if (!reg.IsMatch(html))
+        {
+            return html;
+        }
+
+        html = html.Remove(0, 3);
+        html = html.Remove(html.Length - 4);
+        return html;
+    }
+
+}
+</html>
+
+
+    
+    @if (Model.QuestionBaseTypeCode == EnumQuestionBaseTypeCode.Program || Model.QuestionBaseTypeCode == EnumQuestionBaseTypeCode.ProgramFill)
+    {
+        <script src="~/Scripts/highlight/highlight.pack.js"></script>
+        <script>
+            hljs.initHighlightingOnLoad();
+        </script>
+    }
+
+

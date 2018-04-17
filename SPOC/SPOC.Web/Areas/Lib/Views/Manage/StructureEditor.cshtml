@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "StructureEditor";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="editor" style="width:100%;height:100%"></div>
+</div>
+<div id="tagDlg" class="easyui-dialog" style="width: 600px; height: 400px;"
+     data-options="title:'知识点选择',collapsible:false, modal:true, closed:true">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-6">
+            <div class="form-group">
+                <label class="form-label" for="paperCode">编号：</label>
+                <input id="code" name="code" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="paperName">知识点：</label>
+                <input id="title" name="title" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="userLoginName">创建者用户名：</label>
+                <input id="userLoginName" name="userLoginName" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="userFullName">创建者姓名：</label>
+                <input id="userFullName" name="userFullName" class="easyui-textbox" style="width:150px;">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="editor.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="$('#query-form').form('reset')">重置</a>
+            </div>
+        </form>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="true" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+                <th field="title">知识点</th>
+                <th field="userLoginName">创建者用户名</th>
+                <th field="userFullName">创建者姓名</th>
+                <th field="opt" formatter="optFormatter">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div id="titleDlg" class="easyui-dialog" title="修改知识图谱名称" style="width:300px;height:150px; padding: 6px;" draggable="false" modal="true" buttons="#btns" closed="true">
+    <form id="titleForm">
+        <input id="mapTitle" name="mapTitle" label="知识图谱名称：" labelPosition="top" class="easyui-textbox" validtype="length[1, 128]" style="width: 200px" required />
+    </form>
+    <div id="btns">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-disk" onclick="editor.changeTitle()">确定</a>
+    </div>
+</div>
+@section scripts
+{
+    <link rel="stylesheet" type="text/css" href="~/Scripts/GooFlow/fonts/iconflow.css" />
+    <link rel="stylesheet" type="text/css" href="~/Scripts/GooFlow/GooFlow.css" />
+
+    <script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+    <script type="text/javascript" src="~/Scripts/GooFlow/GooFunc.js"></script>
+    <script type="text/javascript" src="~/Scripts/json2.js"></script>
+    <script type="text/javascript" src="~/Scripts/GooFlow/GooFlow.js"></script>
+    <script type="text/javascript" src="~/Scripts/GooFlow/GooFlow.color.js"></script>
+    <script type="text/javascript" src="~/Areas/Assets/js/lib/structureEditor.js?v=@L("version")"></script>
+    <script>
+
+        window.language = "@ViewBag.language";
+        var request = GetRequest();
+
+        function optFormatter(val, row, index) {
+            return linkbtn(index, {
+                option: [
+                    {
+                        title: "选择",
+                        text: "选择",
+                        icon: "icon-ok",
+                        onclick: "editor.selectLabel"
+                    }
+                ]});
+        }
+
+        var editor = new StructureEditor(request.id);
+        $(function() {
+            editor.initDataGrid();
+            editor.initEditor();
+        });
+    </script>
+}

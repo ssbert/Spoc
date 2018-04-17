@@ -1,0 +1,53 @@
+<div class="stringStartswith-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">startsWith() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>startsWith() 方法用于检测字符串是否以指定的前缀开始。</p>
+		<h3 class="n-h3">语法</h3>
+		<pre>public boolean startsWith(String prefix, int toffset)
+
+或
+
+public boolean startsWith(String prefix)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>prefix</b> -- 前缀。</p></li> 
+			<li><p><b>toffset</b> -- 字符串中开始查找的位置。</p></li> 
+		<h3 class="n-h3">返回值</h3>
+		<p>如果字符串以指定的前缀开始，则返回 true；否则返回 false。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test {
+    public static void main(String args[]) {
+        String Str = new String("www.runoob.com");
+
+        System.out.print("返回值 :" );
+        System.out.println(Str.startsWith("www") );
+
+        System.out.print("返回值 :" );
+        System.out.println(Str.startsWith("runoob") );
+
+        System.out.print("返回值 :" );
+        System.out.println(Str.startsWith("runoob", 4) );
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>返回值 :true
+返回值 :false
+返回值 :true</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

@@ -1,0 +1,305 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-6">
+            <div class="form-group">
+                <label class="form-label">教学班级：</label>
+                <input id="classIds" class="easyui-combotree" style="width: 400px" data-options="
+                        url:'/api/services/app/Department/GetDepartmentTree',
+                        method:'post',
+                        valueField:'id',
+                        textField:'text',
+                        multiple:true,
+                        panelHeight:'auto'" />
+            </div>
+            <div style="clear: right;"></div>
+            <div class="form-group">
+                <label class="form-label" for="title">练习名称：</label>
+                <input id="title" name="title" class="easyui-textbox" style="width: 200px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="userFullName">创建者姓名：</label>
+                <input id="userFullName" name="userFullName" class="easyui-textbox" style="width: 200px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="userLoginName">创建者用户名：</label>
+                <input id="userLoginName" name="userLoginName" class="easyui-textbox" style="width: 200px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label">创建时间：</label>
+                <input id="createBeginTime" name="createBeginTime" class="easyui-datetimebox" style="width: 200px;" />
+                至
+                <input id="createEndTime" name="createEndTime" class="easyui-datetimebox" style="width: 200px;" />
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="exerciseStatement.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="$('#query-form').form('reset')">重置</a>
+            </div>
+        </form>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-page_white_excel" onclick="exerciseStatement.export()">导出</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="true" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+                <th field="title" sortable="true">练习名称</th>
+                <th field="passRate" formatter="rateFormatter" sortable="true">通过率</th>
+                <th field="passNum" formatter="passNumFormatter" sortable="true">已通过人数</th>
+                <th field="failNum" formatter="failNumFormatter" sortable="true">未通过人数</th>
+
+                <th field="joinRate" formatter="rateFormatter" sortable="true">参考率</th>
+                <th field="joinNum" formatter="joinNumFormatter" sortable="true">已参加人数</th>
+                <th field="withoutNum" formatter="withoutNumFormatter" sortable="true">未参加人数</th>
+
+                <th field="studentNum" formatter="studentNumFormatter" sortable="true">学生总数</th>
+
+                <th field="createTime" sortable="true">创建时间</th>
+                <th field="userFullName" sortable="true">创建者姓名</th>
+                <th field="userLoginName" sortable="true">创建者用户名</th>
+                <th field="detail" formatter="detailFormatter">详细报表</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script>
+        var exerciseStudentUrl = "/Statement/Exercise/Student?id=";
+        var htmlTemp = '<a href="javascript:" onclick="exerciseStatement.openExerciseStudentStatement(\'{0}\',{1})">{2}</a>';
+
+        function rateFormatter(val) {
+            return val.toFixed(2) + "%";
+        }
+
+        function detailFormatter(val, row, index) {
+            var options = [
+                {
+                    title: "效率排行榜",
+                    text: "效率排行榜",
+                    icon: "icon-application_view_detail",
+                    onclick: "exerciseStatement.openEfficiencyRanking({0})".format(index),
+                    hasParams: "true"
+                }, {
+                    title: "积极性排行榜",
+                    text: "积极性排行榜",
+                    icon: "icon-application_view_detail",
+                    onclick: "exerciseStatement.openEnthusiasmRanking({0})".format(index),
+                    hasParams: "true"
+                }, {
+                    title: "按教学班",
+                    text: "按教学班",
+                    icon: "icon-application_view_detail",
+                    onclick: "exerciseStatement.openStatementByClasses({0})".format(index),
+                    hasParams: "true"
+                }
+            ];
+            
+            return linkbtn(index, { option: options });
+        }
+
+        function passNumFormatter(val, row, index) {
+            var url = exerciseStudentUrl + row.id + "&passState=" + 1;
+            return htmlTemp.format(url, index, val);
+        }
+
+        function failNumFormatter(val, row, index) {
+            var url = exerciseStudentUrl + row.id + "&passState=" + 2;
+            return htmlTemp.format(url, index, val);
+        }
+
+        function joinNumFormatter(val, row, index) {
+            var url = exerciseStudentUrl + row.id + "&joinState=" + 1;
+            return htmlTemp.format(url, index, val);
+        }
+
+        function withoutNumFormatter(val, row, index) {
+            var url = exerciseStudentUrl + row.id + "&joinState=" + 2;
+            return htmlTemp.format(url, index, val);
+        }
+        
+        function studentNumFormatter(val, row, index) {
+            var url = exerciseStudentUrl + row.id;
+            return htmlTemp.format(url, index, val);
+        }
+
+        var evtHandle = evtBus.addEvt("exercise_statement_pageinit",
+            function (evt) {
+                if (evt.statement && evt.statement.setClassIds) {
+                    var nodes = $("#classIds").combotree("tree").tree("getChecked");
+                    var classIds = [];
+                    $.each(nodes,
+                        function (k, v) {
+                            if (!v.children || v.children.length === 0) {
+                                classIds.push(v.id);
+                            }
+                        });
+                    evt.statement.setClassIds(classIds);
+                }
+            });
+
+        $(window).unload(function () {
+            evtBus.removeEvt(evtHandle);
+        });
+
+        var ExerciseStatement = (function() {
+            function init() {
+                var queryParam = { skip: 0, pageSize: 30 };
+                var tabHelper = new TabHelper("tabs");
+
+                this.query = function () {
+                    queryParam.skip = 0;
+                    setParam();
+                    loadData(queryParam);
+                };
+
+                this.initPagination = function () {
+                    $("#dg").datagrid({
+                        onSortColumn: function (sort, order) {
+                            queryParam.sort = sort;
+                            queryParam.order = order;
+                            loadData(queryParam);
+                        }
+                    })
+                        .datagrid("getPager")
+                        .pagination({
+                            onSelectPage: function (pageNumber, pageSize) {
+                                queryParam.pageNumber = pageNumber;
+                                queryParam.skip = (pageNumber - 1) * pageSize;
+                                if (queryParam.skip < 0) {
+                                    queryParam.skip = 0;
+                                }
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            },
+                            onChangePageSize: function (pageSize) {
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            }
+                        });
+                };
+
+                //效率排行榜
+                this.openEfficiencyRanking = function (index) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var row = $("#dg").datagrid("getRows")[index];
+                   
+                    var url = "/Statement/Exercise/EfficiencyRanking?id=" + row.id;
+                    var title = "[" + row.title + "]效率排行榜";
+                    tabHelper.openTab(title, url, "icon-application_view_detail");
+                };
+                //积极性排行榜
+                this.openEnthusiasmRanking = function (index) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var row = $("#dg").datagrid("getRows")[index];
+                    var url = "/Statement/Exercise/EnthusiasmRanking?id=" + row.id;
+                    var title = "[" + row.title + "]积极性排行榜";
+                    tabHelper.openTab(title, url, "icon-application_view_detail");
+                };
+                //按班级
+                this.openStatementByClasses = function (index) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var row = $("#dg").datagrid("getRows")[index];
+                    var examTitle = encodeURIComponent(row.title);
+                    var url = "/Statement/Exercise/ClassRanking?id=" + row.id;
+                    var title = "[" + row.title + "]班级排名";
+                    tabHelper.openTab(title, url, "icon-application_view_detail");
+                };
+                
+                this.openExerciseStudentStatement = function (url, index) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var row = $("#dg").datagrid("getRows")[index];
+                    var title = "[" + row.title + "]练习情况";
+                    tabHelper.openTab(title, url, "icon-application_view_detail");
+                };
+
+                this.export = function () {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var newWindow = window.open("");
+                    setParam();
+                    $("#dg").datagrid("loading");
+                    var url = "/Statement/Exercise/ExportExercise";
+                    nv.post(url,
+                        queryParam,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            newWindow.location.href = "/Statement/Exercise/Download/" + data.result.id + "?fileName=练习报表";
+                        });
+                }
+                
+
+                function setParam() {
+                    var nodes = $('#classIds').combotree("tree").tree('getChecked');
+                    var classIds = [];
+                    $.each(nodes,
+                        function (k, v) {
+                            if (!v.children || v.children.length === 0) {
+                                classIds.push(v.id);
+                            }
+                        });
+                    queryParam.classIdList = classIds;
+                    queryParam.title = $("#title").textbox("getValue");
+                    queryParam.userLoginName = $("#userLoginName").textbox("getValue");
+                    queryParam.userFullName = $("#userFullName").textbox("getValue");
+                    queryParam.createBeginTime = $("#createBeginTime").datetimebox("getValue");
+                    queryParam.createEndTime = $("#createEndTime").datetimebox("getValue");
+                }
+
+                function loadData(param) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "ExerciseStatement/GetPagination";
+                    nv.post(url,
+                        param,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            if (data.success) {
+                                $("#dg")
+                                    .datagrid("loadData", data.result.rows)
+                                    .datagrid("getPager")
+                                    .pagination({
+                                        pageNumber: param.pageNumber,
+                                        total: data.result.total
+                                    });
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }
+
+            }
+
+            return init;
+        })();
+
+        var exerciseStatement = new ExerciseStatement();
+        $(function() {
+            exerciseStatement.initPagination();
+            exerciseStatement.query();
+        });
+    </script>
+}

@@ -1,0 +1,412 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+ <style type="text/css">
+        .seach-ques p {
+            font-weight: 600;
+            padding-left: 15px;
+            line-height: 40px;
+            font-size: 16px;
+        }
+
+        .seach-ques .input-box {
+            padding-bottom: 30px;
+        }
+        .tab-content .content-top {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-content .content-top h3 {
+            display: inline-block;
+        }
+
+        .tab-content .content-top .back {
+            line-height: 44px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .tab-content .content-lists .list-item {
+            padding: 30px 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-content .content-lists .list-item .ques-con {
+            padding: 10px 0;
+        }
+
+        .tab-content .content-lists .list-item .ques-con p {
+            max-height: 58px;
+            overflow: hidden;
+            line-height: 26px;
+            color: #ababab;
+        }
+
+        .tab-content .content-lists .detailTitle {
+            line-height: 30px;
+            margin: 15px 0;
+        }
+
+        .tab-content .content-lists .detailContent p {
+            padding: 10px 0
+        }
+
+
+
+    </style>
+
+<div class="faq-page container-box center">
+    <div class="form-group seach-ques">
+        <p>搜索问题</p>
+        <div class="col-sm-12 input-box">
+            <input type="text" class="form-control" id="searchQues" placeholder="输入你要搜索的问题">
+        </div>
+    </div>
+    <!-- 左侧选项卡-S -->
+    <div class="slide col-slide col-lg-3 col-md-3 col-sm-3">
+
+    </div>
+    <!-- 左侧选项卡-E -->
+    <div class="tab-content col-lg-9 col-md-9 col-sm-9 col-xs-12">
+        <div class="content-top">
+            <h3>全部问题</h3>
+            <a href="javascript:;" class="back green pull-right" data-id="">返回列表</a>
+        </div>
+        <div class="content-lists">
+
+        </div>
+        <!-- 分页导航-S -->
+        <div class="page-nav">
+            <div class="pagination"></div>
+        </div>
+        <!-- 分页导航-E -->
+    </div>
+</div>
+<script type="text/html" id="listsTemplate">
+    <div class="flex-lists">
+        <ul class="first-ul">
+            {{each items}}
+            <li class="flex-li">
+                <div class="group-name group">
+                    <h3 class="green">{{$value.name}}</h3>
+                    <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+                </div>
+                <ul class="ques">
+                    {{include 'liTemplate1' $value.faqFolders}}
+                </ul>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+</script>
+<script type="text/html" id="liTemplate1">
+    {{each $data as value}}
+    {{if value.faqFolders.length > 0}}
+    <li data-id={{value.id}} class="flex-li">
+        <div class="item-name group">
+            <h3 class="">{{value.name}}</h3>
+            <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+        </div>
+        <ul class="ques">
+            {{include 'liTemplate1' value.faqFolders}}
+        </ul>
+    </li>
+    {{else if value.faqFolders.length == 0}}
+    <li data-id={{value.id}} class="item"><a href="javascript:;">{{value.name}}</a></li>
+    {{/if}}
+    {{/each}}
+</script>
+<script type="text/html" id="quesTemplate">
+    {{each items.rows}}
+    <div class="list-item">
+        <h2 class="ques-title">{{$value.title}}</h2>
+        <div class="ques-con">
+            <p>{{$value.content}}</p>
+        </div>
+        <a class="check-all" href="javascript:;" data-id={{$value.id}}>[查看详情]</a>
+    </div>
+    {{/each}}
+</script>
+<script type="text/html" id="contentTemplate">
+    <div class="faqDetail">
+        <h2 class="detailTitle">{{items.title}}</h2>
+        <div class="detailContent">{{items.content}}</div>
+    </div>
+</script>
+<script src="~/Scripts/artTemplate-4.12.1/template-web.js"></script>
+<script src="~/Scripts/jqPaginator-1.2.1/jqpaginator.min.js" defer></script>
+<script>
+    (function () {
+
+        var FaqObser = (function () {
+            var topics = {};
+            function addEvent(topic, object) {
+                if (!topics[topic]) {
+                    topics[topic] = []
+                }
+                topics[topic].push(object);
+            } 
+            function removeEvent(topic) {
+                if (!topics[topic]) {
+                    return false;
+                }
+                delete topics[topic];
+            }
+            function callEvent(topic, options) {
+                if (!topics[topic]) {
+                    return false
+                }
+                $.each(topics[topic], function (index, value) {
+                    var context = value.context || Window;
+                    if (options) {
+                        value.callback.call(value.context, options)
+                    } else {
+                        value.callback.call(value.context)
+                    }
+                    
+                })
+            }
+            return {
+                addEvent: addEvent,
+                removeEvent: removeEvent,
+                callEvent: callEvent
+            }
+        })()
+
+        var pageSize = 10,
+            itemId,
+            content,
+            skip;
+
+        getSliderData({}, renderLists)
+
+        getQuesData({ pageSize: 10 }, renderItemQues)
+
+        FaqObser.addEvent('itemClick', {
+            callback: function (options) {
+                var params = {
+                    folderId: [options.id],
+                    pageSize: 10,
+                }
+                getQuesData(params, renderItemQues)
+            }
+        })
+
+        FaqObser.addEvent('itemClick', {
+            callback: setItemLight
+        })
+
+        FaqObser.addEvent('itemClick', {
+            callback: setContentTitel
+        })
+
+        FaqObser.addEvent('flexLiClick', {
+            callback: clickFlexLi
+        })
+
+        FaqObser.addEvent('checkDetail', {
+            callback: renderContent
+        })
+
+        FaqObser.addEvent('checkDetail', {
+            callback: function (options) {
+                setBackBtn();
+            }
+        })
+
+        FaqObser.addEvent('clickBack', {
+            callback: function (options) {
+
+            }
+        })
+
+        $(document).on('click', '.flex-lists .item a', function (e) {
+            var targetLi = $(e.target).parent('li'),
+                targetLiId = targetLi.data('id');
+            itemId = targetLiId,
+            content = '';
+            FaqObser.callEvent('itemClick', { id: targetLiId, target: targetLi });
+        })
+
+        $(document).on("click", '.flex-lists .group', function (e) {
+            var target = e.target;
+            FaqObser.callEvent('flexLiClick', { target: target });
+        })
+
+        $(document).on("click", '.back', function (e) {
+            var params = {
+                pageSize: 10,
+                skip: skip
+            }
+            itemId ? params.folderId = itemId : params.content = content; 
+            getQuesData(params, renderItemQues)
+            setBackBtn('hiden')
+        })
+
+        $(document).on('click', '.check-all', function (e) {
+            var id = $(e.target).data('id');
+            getDetailData({ id: id }, function (data) {
+                FaqObser.callEvent('checkDetail', { data: data.result });
+            })
+            destroyPatination();
+        })
+
+        $('#searchQues').keypress(function (e) {
+            itemId = '',
+            content = $(this).val();
+            if (e.keyCode == 13) {
+                $('.content-top h3').text('搜索结果');
+                $('.flex-lists li').removeClass('active');
+                var params = {
+                    content: content,
+                    pageSize: 10,
+                }
+                getQuesData(params, renderItemQues)
+            }
+        })
+
+        function setBackBtn(str) {
+            str == 'hiden' ? $('.back').css('display', 'none') : $('.back').css('display', 'block');
+        }
+
+        function setContentTitel(options) {
+            var name = $(options.target).children('a').text()
+            $('.content-top h3').text(name);
+        }
+
+        function setItemLight(options) {
+            $('.flex-lists li').removeClass('active');
+            options.target.addClass('active');
+        }
+
+        function clickFlexLi(options) {
+            $(options.target).toggleClass('active');
+        }
+
+        function pagination(data) {
+            if (data.total <= 10) {
+                skip = 0;
+                return false;
+            }
+            var currentPage = 1;
+            var total = data.total;
+            var lastPage = Math.ceil(total / 10);
+            $('.pagination').jqPaginator({
+                totalPages: lastPage,
+                visiblePages: 5,
+                currentPage: currentPage,
+                first: '<li class="first"><a href="javascript:void(0);" class="glyphicon glyphicon-backward"></a></li>',
+                prev: '<li class="prev"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-left"></a></li>',
+                next: '<li class="next"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-right"></a></li>',
+                last: '<li class="last"><a href="javascript:void(0);" class="glyphicon glyphicon-forward"></a></li>',
+                page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+                onPageChange: function (num, type) {
+                    if (type === "change") {
+                        skip = 10 * (num - 1);
+                        var params = {
+                            skip: skip,
+                            pageSize: 10,
+                        }
+                        getQuesData(params, function (data) {
+                            renderTemplate($('.content-lists'), "quesTemplate", data.result);
+                            scrollTop();
+                        })
+                    }
+                }
+            });
+            if (skip > pageSize -10) {
+                $('.pagination').jqPaginator('option', {
+                    currentPage: Math.ceil(skip / pageSize + 1)
+                });
+            }
+        }
+
+        function renderLists(lists) {
+            var result = lists.result.slice(1);
+            renderTemplate($(".slide"), "listsTemplate", result);
+            scrollTop();
+        }
+
+        function renderItemQues(ques) {
+            var data = ques.result;
+            renderTemplate($('.content-lists'), "quesTemplate", data);
+            destroyPatination();
+            pagination(data);
+            setBackBtn('hiden');
+            scrollTop();
+        }
+
+        function renderContent(options) {
+            renderTemplate($(".content-lists"), "contentTemplate", options.data);
+            scrollTop();
+        }
+
+        function scrollTop() {
+            $('html').animate({ scrollTop: 0 }, 100)
+        }
+
+        function destroyPatination() {
+            if (!$('.pagination').html()) {
+                return false
+            }
+            $('.pagination').jqPaginator('destroy');
+        }
+
+        function renderTemplate(obj, templateId, data) {
+            template.config("escape", false); 
+            var str = template(templateId, { items: data });
+            obj.html(str);
+        }
+
+        function getSliderData(params, callback) {
+            getData({
+                url: "/api/services/app/faqApp/GetFaqFolder",
+                params: params,
+                callback: callback
+            })
+        }
+
+        function getQuesData(params, callback) {
+            getData({
+                url: "/api/services/app/faqApp/GetPagination",
+                params: params,
+                callback: callback
+            })
+        }
+
+        function getDetailData(params, callback) {
+            getData({
+                url: "/api/services/app/faqApp/GetFaqById",
+                params: params,
+                callback: callback
+            })
+        }
+
+        function getData(options) {
+            if (!options.url) {
+                throw "请输入请求地址";
+                return false
+            }
+            var params = options.params || {},
+                url = options.url,
+                fn = options.callback || function () { };
+            $.ajax({
+                url: url,
+                method: "POST",
+                data: params,
+                success: function (lists) {
+                    if (!lists.success) {
+                        throw "获取数据失败"
+                        return false
+                    }
+                    fn(lists)
+                }
+            })
+        }
+
+    })()
+</script>
+

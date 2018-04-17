@@ -1,0 +1,66 @@
+<div class="functionWcstombs-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">wcstombs()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>size_t wcstombs(char *str, const wchar_t *pwcs, size_t n)</b> 把宽字符字符串 <b>pwcs</b> 转换为一个 <b>str</b> 开始的多字节字符串。最多会有 <b>n</b> 个字节被写入 <b>str</b> 中。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 wcstombs() 函数的声明。</p>
+		<pre>size_t wcstombs(char *str, const wchar_t *pwcs, size_t n)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b>  -- 指向一个 char 元素的数组，至少有 n 字节长。</li>
+			<li><b>pwcs</b>  -- 要被转换的宽字符字符串。</li>
+			<li><b>n</b>  -- 要被写入到 str 中的最大字节数。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回转换和写入到 str 中的字节数，不包括结尾的空字符。如果遇到一个无效的多字节字符，则返回 -1 值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 wcstombs() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define BUFFER_SIZE 50
+
+int main()
+{
+   size_t ret;
+   char *MB = (char *)malloc( BUFFER_SIZE );
+   wchar_t *WC = L"http://www.w3cschool.cc";
+
+   /* 转换宽字符字符串 */
+   ret = wcstombs(MB, WC, BUFFER_SIZE);
+   
+   printf("要转换的字符数 = %u\n", ret);
+   printf("多字节字符 = %s\n\n", MB);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>要转换的字符数 = 23
+多字节字符 = http://www.w3cschool.cc</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

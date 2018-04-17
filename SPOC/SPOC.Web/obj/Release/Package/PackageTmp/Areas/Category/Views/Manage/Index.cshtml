@@ -1,0 +1,450 @@
+﻿@{
+    ViewBag.Title = "分类管理";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-easyui-1.5.2/extension/treegrid-dnd.js"></script>
+    <script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+    <script>
+        var isTreeGridInit = false;
+        var folderTypeCode = "@ViewBag.code";
+        var isEditMode = false;
+        var dataDic = {};
+        var dataArray = [];
+        var editId = emptyGuid;
+
+        function onChangeCodeMode(checked) {
+            var isCustomCode = !checked;
+            $("#folderCode")
+                .textbox("readonly", !isCustomCode)
+                .textbox({ required: isCustomCode });
+            var row = $("#tg").datagrid("getSelected");
+            if (!isCustomCode && row && isEditMode) {
+                $("#folderCode").textbox("setValue", stringIsEmpty(row.folderCode) ? "" : row.folderCode);
+            }
+        };
+
+        function onTgLoadSuccess(row) {
+            $(".easyui-linkbutton.tg-btn").linkbutton();
+            var $tg = $("#tg");
+            $tg.treegrid("fixRowHeight");
+            $tg.treegrid("enableDnd", row ? row.id : null);
+        }
+
+        function onTgRowBeforeDrag(row) {
+            if (guidIsEmpty(row.parentUid)) {
+                return false;
+            }
+            return true;
+        }
+
+        function onTgRowDragOver(targetRow) {
+            if (!targetRow) {
+                return false;
+            }
+            return true;
+        }
+
+        function onTgRowDrop(targetRow, srcRow, point) {
+            if (!targetRow) {
+                return;
+            }
+
+            var data = {
+                id: srcRow.id,
+                parentUid: srcRow.parentUid,
+                folderCode: srcRow.folderCode,
+                folderTypeCode: folderTypeCode,
+                folderName: srcRow.folderName,
+                remarks: srcRow.remarks,
+                folderLevel: srcRow.folderLevel,
+                listOrder: srcRow.listOrder
+            };
+
+            if (point === "append") {
+                data.parentUid = targetRow.id;
+                data.folderLevel = targetRow.folderLevel + 1;
+                data.listOrder = 0;
+            } else {
+                if (guidIsEmpty(targetRow.parentUid)) {
+                    $.messager.alert("提示", "只能有一个根分类", "info");
+                    return;
+                }
+                data.parentUid = targetRow.parentUid;
+                data.folderLevel = targetRow.folderLevel;
+                if (point === "top") {
+                    data.listOrder = targetRow.listOrder; //将原有的挤下去，所以不减1
+                } else if (point === "bottom") {
+                    data.listOrder = targetRow.listOrder + 1;
+                }
+            }
+
+            updateCategory(data);
+        }
+
+        function remarksFormatter(value) {
+            var str = "";
+            if (value.length < 60) {
+                str = value;
+            } else {
+                str = value.substr(0, 60) + "...";
+            }
+            return '<a href="javascript:void(0)"  title="' + value + '">' + str + '</a>';
+        }
+
+        function operationFormatter(value, row) {
+            if (guidIsEmpty(row.id) || guidIsEmpty(row.parentUid)) {
+                return "";
+            }
+            var html =
+                '<a href="javascript:void(0)" class="easyui-linkbutton tg-btn" iconcls="icon-busy" plain="true" onclick="questionCategoryDelete(\'{0}\')">删除</a>';
+            return html.format(row.id);
+        }
+
+        function onTgSelect(row) {
+            if (!isEditMode) {
+                $("#parent-category").textbox("setValue", row.folderName);
+                if (guidIsEmpty(row.parentUid)) { //根节点
+                    $(".easyui-linkbutton.add.same-level").hide();
+                } else {
+                    $(".easyui-linkbutton.add.same-level").show();
+                }
+            } else {
+                questionCategoryEdit(row.id);
+            }
+        }
+
+        function toEditMode() {
+            $(".easyui-linkbutton.add").hide();
+            $(".easyui-linkbutton.edit").show();
+            isEditMode = true;
+
+            var data = $("#tg").treegrid("getSelected");
+            if (data) {
+                questionCategoryEdit(data.id);
+            } else {
+                $("#parent-category").textbox({ required: false }).textbox("clear");
+                $("#folderName").textbox("clear");
+                $("#folderCode").textbox("clear");
+                $("#remarks").textbox("clear");
+            }
+        }
+
+        function toAddMode() {
+            $(".easyui-linkbutton.add").show();
+            $(".easyui-linkbutton.edit").hide();
+            isEditMode = false;
+
+            var row = $("#tg").treegrid("getSelected");
+            $("#parent-category").textbox({ required: true }).textbox("setValue", row.folderName);
+            $("#folderName").textbox("clear");
+            $("#folderCode").textbox("clear");
+            $("#remarks").textbox("clear");
+
+            if (guidIsEmpty(row.parentUid)) { //根节点
+                $(".easyui-linkbutton.add.same-level").hide();
+            } else {
+                $(".easyui-linkbutton.add.same-level").show();
+            }
+        }
+
+        function cancelEdit() {
+            var data = $("#tg").treegrid("getSelected");
+            if (isEditMode) {
+                questionCategoryEdit(data.id);
+            } else {
+                $("#folderName").textbox("clear");
+                $("#folderCode").textbox("clear");
+                $("#remarks").textbox("clear");
+            }
+        }
+
+        function questionCategoryEdit(id) {
+            var row = dataDic[id];
+            var funcText = row.isCustomCode ? "uncheck" : "check";
+            $("#isCustomCode").switchbutton(funcText);
+            $("#parent-category").textbox({ required: false }).textbox("setValue", row.folderName);
+            $("#folderName").textbox("setValue", row.folderName);
+            $("#folderCode").textbox("setValue", row.folderCode);
+            $("#remarks").textbox("setValue", row.remarks);
+        }
+
+        function saveEdit() {
+            var $form = $("#edit-form");
+            var validate = $form.form("validate");
+            if (!validate) {
+                return;
+            }
+
+            var data = $("#tg").treegrid("getSelected");
+            if (!data) {
+                $.messager.alert("提示", "请先选择一个节点再进行操作！", "info");
+                return;
+            }
+            editId = data.id;
+            updateCategory({
+                id: data.id,
+                parentUid: data.parentUid,
+                folderCode: $("#folderCode").textbox("getValue"),
+                isCustomCode: !($("#isCustomCode").switchbutton("options").checked),
+                folderTypeCode: folderTypeCode,
+                folderName: $("#folderName").textbox("getValue"),
+                remarks: $("#remarks").textbox("getValue"),
+                folderLevel: data.folderLevel,
+                listOrder: data.listOrder
+            });
+        }
+
+        function updateCategory(param) {
+            if (!checkLogin()) {
+                evtBus.dispatchEvt("show_login");
+                return;
+            }
+            VE.Mask("");
+            var url = "/api/services/app/NvFolder/Update";
+            nv.post(url, param, function(data) {
+                VE.UnMask();
+                if (data.success) {
+                    $.messager.show({ title: "提示", msg: "修改成功！" });
+                    getData();
+                } else {
+                    $.messager.alert("提示", data.error.message, "info");
+                }
+            });
+        }
+
+        function questionCategoryDelete(id) {
+
+            $.messager.confirm("删除确认",
+                "确定要删除该分类吗？",
+                function(b) {
+                    if (!b) {
+                        return;
+                    }
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    VE.Mask("");
+                    var url = "/api/services/app/NvFolder/Delete?ids=" + id;
+                    nv.get(url, function(data) {
+                        VE.UnMask();
+                        if (data.success) {
+                            $.messager.show({ title: "提示", msg: "删除成功！" });
+                            getData();
+                            $("#edit-form").form("clear");
+                        } else {
+                            $.messager.alert("提示", data.error.message, "info");
+                        }
+                    });
+                });
+        }
+
+        function addNewCategory(addType) {
+            var data = $("#tg").treegrid("getSelected");
+            if (data == null) {
+                $.messager.alert("提示", "请先选择一个分类节点再进行操作！", "info");
+                return;
+            }
+            var $form = $("#edit-form");
+            var validate = $form.form("validate");
+            if (!validate) {
+                return;
+            }
+            if (!checkLogin()) {
+                evtBus.dispatchEvt("show_login");
+                return;
+            }
+            var formData = {
+                id: emptyGuid,
+                parentUid: emptyGuid,
+                folderCode: $("#folderCode").textbox("getValue"),
+                isCustomCode: !($("#isCustomCode").switchbutton("options").checked),
+                folderTypeCode: folderTypeCode,
+                folderName: $("#folderName").textbox("getValue"),
+                remarks: $("#remarks").textbox("getValue"),
+                folderLevel: 1,
+                listOrder: 1
+            };
+
+            if (addType === "child") {
+                formData.parentUid = data.id;
+                formData.folderLevel = data.folderLevel + 1;
+                formData.listOrder = data.children.length + 1;
+            } else {
+                formData.parentUid = data.parentUid;
+                formData.folderLevel = data.folderLevel;
+                if (addType === "forward") {
+                    formData.listOrder = data.listOrder;
+                } else if (addType === "back") {
+                    formData.listOrder = data.listOrder + 1;
+                }
+            }
+            VE.Mask("");
+            var url = "/api/services/app/NvFolder/Create";
+            nv.post(url, formData, function(data) {
+                VE.UnMask();
+                if (data.success) {
+                    $.messager.show({ title: "提示", msg: "创建成功！" });
+                    $form.form("clear");
+                    $("#isCustomCode").switchbutton("check");
+                    var selectRow = $("#tg").treegrid("getSelected");
+                    $("#parent-category").textbox("setValue", selectRow.folderName);
+                    getData();
+                } else {
+                    $.messager.alert("提示", data.error.message, "info");
+                }
+            });
+        }
+
+        function sortNode(nodeArray) {
+            nodeArray.sort(function(a, b) {
+                return a.listOrder - b.listOrder;
+            });
+            $.each(nodeArray,
+                function(i, v) {
+                    if (v.children.length > 0) {
+                        sortNode(v.children);
+                    }
+                });
+        }
+
+        function dataFormat(dataArray) {
+            $.each(dataArray,
+                function(i, v) {
+                    v.text = v.folderName;
+                    v.children = [];
+                    dataDic[v.id] = v;
+                });
+
+            var data = [];
+            $.each(dataDic,
+                function(k, v) {
+                    if (guidIsEmpty(v.parentUid)) {
+                        data.push(v);
+                    } else {
+                        var parentNode = dataDic[v.parentUid];
+                        if (parentNode != undefined) {
+                            parentNode.children.push(v);
+                        }
+                    }
+                });
+
+            sortNode(data);
+            return data;
+        }
+
+        function initTreeGrid(data) {
+            var $dg = $("#tg");
+            $dg.treegrid({
+                data: data,
+                lines:true,
+                onLoadSuccess: onTgLoadSuccess,
+                onSelect: onTgSelect,
+                onDrop: onTgRowDrop,
+                onDragOver: onTgRowDragOver
+            });
+            isTreeGridInit = true;
+        }
+
+        function getData() {
+            dataDic = {};
+            var url = "/api/services/app/NvFolder/Get?folderTypeCode=" + folderTypeCode;
+
+            VE.Mask("");
+            nv.get(url,
+                function(data) {
+                    VE.UnMask();
+                    if (data.success) {
+                        dataArray = dataFormat(data.result);
+                        if (isTreeGridInit) {
+                            $("#tg").treegrid("loadData", dataArray);
+                        } else {
+                            initTreeGrid(dataArray);
+                        }
+
+                        if (!stringIsEmpty(editId)) {
+                            $("#tg").treegrid("select", editId);
+                            editId = emptyGuid;
+                        }
+                    } else {
+                        $.messager.alert("提示", data.error.message, "info");
+                    }
+                });
+        }
+
+        $(function() {
+            $("#mode")
+                .switchbutton({
+                    onChange: function(checked) {
+                        if (checked) { //编辑模式
+                            toEditMode();
+                        } else { //添加模式
+                            toAddMode();
+                        }
+                    }
+                });
+            getData();
+
+        });
+    </script>
+}
+<div region="center">
+
+    <table id="tg" class="easyui-treegrid" idfield="id" treefield="folderName" rownumbers="true" footer="#footer" fit="true">
+        <thead>
+        <tr>
+            <th field="folderName">名称</th>
+            <th field="folderCode">编码</th>
+            <th field="folderLevel">层级</th>
+            <th field="listOrder">排序</th>
+            <th field="remarks" formatter="remarksFormatter">说明</th>
+            <th field="opt" formatter="operationFormatter" width="64">操作</th>
+        </tr>
+        </thead>
+    </table>
+    <div id="footer">
+        <form id="edit-form" method="post" class="form-inline label label-length-4">
+            <div class="form-group">
+                <label class="form-label">操作模式：</label>
+                <input id="mode" class="easyui-switchbutton" ontext="编辑模式" offtext="添加模式" style="width: 100px;">
+            </div>
+            <div style="clear: right;"></div>
+            <div class="form-group">
+                <label class="form-label">选中路径：</label>
+                <input id="parent-category" class="easyui-textbox" style="width: 200px;" required readonly>
+            </div>
+            <div class="form-group">
+                <label class="form-label">分类名称：</label>
+                <input id="folderName" class="easyui-textbox" name="folderName" required validtype="length[1,64]" style="width: 200px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label">分类编码：</label>
+                <input id="folderCode" class="easyui-textbox" name="folderCode" style="width: 116px;" data-options="validType:['length[0, 64]', 'codeCheck']" readonly>
+                <input id="isCustomCode" name="isCustomCode" class="easyui-switchbutton" data-options="onChange: onChangeCodeMode"
+                            style="width:80px;" onText="自动编号" offText="手动编号" checked>
+            </div>
+
+
+            <div style="clear: right;"></div>
+            <div class="form-group">
+                <label class="form-label">说明：</label>
+                <input id="remarks" class="easyui-textbox" name="remarks" multiline="true" validtype="length[0,2000]" style="width: 768px; height: 64px;">
+            </div>
+            <div style="clear: right;"></div>
+
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-clear" onclick="cancelEdit()">重置</a>
+
+                <a href="javascript:void(0)" class="easyui-linkbutton add" iconcls="icon-add" onclick="addNewCategory('child')">新增子分类</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton add same-level" iconcls="icon-arrow_up" onclick="addNewCategory('forward')">向前插入分类</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton add same-level" iconcls="icon-arrow_down" onclick="addNewCategory('back')">向后插入分类</a>
+
+                <a href="javascript:void(0)" class="easyui-linkbutton edit" iconcls="icon-save" onclick="saveEdit()" style="display: none">保存修改</a>
+            </div>
+        </form>
+    </div>
+</div>

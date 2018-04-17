@@ -1,0 +1,35 @@
+<div class="member-operator-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">成员运算符</span>
+		</h1>
+		<p>
+			<a href="#operator" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 运算符
+			</a>
+		</p>
+		<p>.（点）运算符和 ->（箭头）运算符用于引用类、结构和共用体的成员。</p>
+		<p>点运算符应用于实际的对象。箭头运算符与一个指向对象的指针一起使用。例如，假设有下面的结构：</p>
+		<pre>struct Employee {
+  char first_name[16];
+  int  age;
+} emp;</pre>
+		<h2 class="n-h2">
+			（.）点运算符
+		</h2>
+		<p>下面的代码把值 "zara" 赋给对象 emp 的 <b>first_name</b> 成员：</p>
+		<pre>strcpy(emp.first_name, "zara");</pre>
+		<h2 class="n-h2">
+			（->）箭头运算符
+		</h2>
+		<p>如果 p_emp 是一个指针，指向类型为 Employee 的对象，则要把值 "zara" 赋给对象 emp 的 <b>first_name</b> 成员，需要编写如下代码：</p>
+		<pre>strcpy(p_emp->first_name, "zara");</pre>
+		<p>-> 称为箭头运算符，它是由一个减号加上一个大于号组成。</p>
+		<p>简而言之，访问结构的成员时使用点运算符，而通过指针访问结构的成员时，则使用箭头运算符。</p>
+		<p>
+			<a href="#operator" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 运算符
+			</a>
+		</p>
+	</div>
+</div>

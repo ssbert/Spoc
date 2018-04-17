@@ -1,0 +1,44 @@
+<div class="attDictionaryPopitem-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">字典 popitem() 方法</span>
+		</h1>
+		<p>
+			<a href="#dictionary" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 字典
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>	
+		<p>Python 字典 popitem() 方法随机返回并删除字典中的一对键和值(一般删除末尾对)。</p>
+		<p>如果字典已经为空，却调用了此方法，就报出KeyError异常。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>popitem()方法语法：</p>
+		<pre>popitem()</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>无</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回一个键值对(key,value)形式。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 popitem() 方法的使用方法：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+site= {'name': '菜鸟教程', 'alexa': 10000, 'url': 'www.runoob.com'}
+pop_obj=site.popitem()
+print(pop_obj)   
+print(site)</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>('url', 'www.runoob.com')
+{'name': '菜鸟教程', 'alexa': 10000}</pre>
+		<p>
+			<a href="#dictionary" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 字典
+			</a>
+		</p>
+	</div>
+</div>

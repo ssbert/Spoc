@@ -1,0 +1,73 @@
+<div class="do-while-loop">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">do...while 循环</span>
+		</h1>
+		<p>
+			<a href="#loop" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 循环
+			</a>
+		</p>
+		<p>不像 for 和 while 循环，它们是在循环头部测试循环条件。do...while 循环是在循环的尾部检查它的条件。</p>
+		<p>do...while 循环与 while 循环类似，但是 do...while 循环会确保至少执行一次循环。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			语法
+		</h2>
+		<p>C++ 中 <b>do...while</b> 循环的语法：</p>
+		<pre>do
+{
+   statement(s);
+
+}while( condition );</pre>
+		<p>请注意，条件表达式出现在循环的尾部，所以循环中的 statement(s) 会在条件被测试之前至少执行一次。</p>
+		<p>如果条件为真，控制流会跳转回上面的 do，然后重新执行循环中的 statement(s)。这个过程会不断重复，直到给定条件变为假为止。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			流程图
+		</h2>
+		<p>
+			<img src="/Content/cplus/images/cpp_do_while_loop.jpg">
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<pre>#include &lt;iostream&gt;
+using namespace std;
+ 
+int main ()
+{
+   // 局部变量声明
+   int a = 10;
+
+   // do 循环执行
+   do
+   {
+       cout << "a 的值：" << a << endl;
+       a = a + 1;
+   }while( a < 20 );
+ 
+   return 0;
+}</pre>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre>a 的值： 10
+a 的值： 11
+a 的值： 12
+a 的值： 13
+a 的值： 14
+a 的值： 15
+a 的值： 16
+a 的值： 17
+a 的值： 18
+a 的值： 19</pre>
+	<p>
+		<a href="#loop" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/cplus/images/up.gif"> C++ 循环
+		</a>
+	</p>
+	</div>
+</div>

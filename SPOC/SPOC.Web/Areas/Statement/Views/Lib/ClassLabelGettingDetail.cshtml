@@ -1,0 +1,274 @@
+﻿
+@{
+    ViewBag.Title = "Class";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-4">
+            <div class="form-group">
+                <label class="form-label">教学班级：</label>
+                <input id="classIds" class="easyui-combotree" style="width: 400px;" data-options="
+                        valueField:'id',
+                        textField:'text',
+                        multiple:true,
+                        panelHeight:'auto'" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">姓名：</label>
+                <input id="userFullName" name="userFullName" class="easyui-textbox" style="width: 200px;" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">用户名：</label>
+                <input id="userLoginName" name="userLoginName" class="easyui-textbox" style="width: 200px;" />
+            </div>
+            <div style="clear: right;"></div>
+            <div class="form-group">
+                <label class="form-label">掌握情况：</label>
+                <select id="proficiency" name="proficiency" class="easyui-combobox" style="width: 200px;">
+                    <option value="0">全部</option>
+                    <option value="-1">无反馈</option>
+                    <option value="1">未掌握</option>
+                    <option value="2">不稳定</option>
+                    <option value="3">已掌握</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="classStatement.query()">查询</a>
+            </div>
+        </form>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-page_white_excel" onclick="classStatement.export()">导出</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="true" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+
+                <th field="userFullName" sortable="true">姓名</th>
+                <th field="userLoginName" sortable="true" >用户名</th>
+                <th field="className" sortable="true" >教学班级</th>
+                <th field="status" sortable="true"  formatter="formatter">掌握情况</th>
+                <th field="opt" formatter="optFormatter">操作</th>
+
+            </tr>
+        </thead>
+    </table>
+
+</div>
+
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script>
+        function optFormatter(val, row, index) {
+            if (row.status === -1)
+                return "";
+            return linkbtn(index,
+                {
+                    option: [
+                        {
+                            title: "作答记录",
+                            text: "作答记录",
+                            icon: "icon-06",
+                            onclick: "classStatement.showUserAnswerRecords"
+                        }
+                    ]
+                });
+        }
+
+        function formatter(val) {
+            if (val===-1) {
+                return "无反馈";
+            }
+            if (val ===1) {
+                return "未掌握";
+            }
+            if (val===2) {
+                return "不稳定";
+            }
+            if (val === 3) {
+                return "已掌握";
+            }
+            return "";
+        }
+        var request = GetRequest();
+       
+        var ClassStatement = (function() {
+
+            function init(labelId) {
+                var classIdList;
+                var classData;
+                var queryParam = { labelId: labelId,skip: 0, pageSize: 30 };
+                var tabHelper = new TabHelper("tabs");             
+                this.query = function() {
+                    setParam();
+                    loadData(queryParam);
+                };
+
+                this.reset = function() {
+                    $("#query-form").form("reset");
+                    if (classIdList.length > 0) {
+                        filterClassIdList();
+                    }
+                };
+
+                this.initPagination = function() {
+                    $("#dg").datagrid({
+                            striped: true,
+                            loadMsg: "数据正在加载...",     
+                            onSortColumn: function(sort, order) {
+                                queryParam.sort = sort;
+                                queryParam.order = order;
+                                loadData(queryParam);
+                            },
+                            onSelect: function(index) {
+                                $(this).datagrid('unselectRow', index);
+                            }
+
+                        })
+                        .datagrid("getPager")
+                        .pagination({
+                            onSelectPage: function(pageNumber, pageSize) {
+                                queryParam.pageNumber = pageNumber;
+                                queryParam.skip = (pageNumber - 1) * pageSize;
+                                if (queryParam.skip < 0) {
+                                    queryParam.skip = 0;
+                                }
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            },
+                            onChangePageSize: function(pageSize) {
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            }
+                        });
+
+                };
+
+                this.export = function() {
+                    setParam();
+                    $.ajax({
+                        url: "/Statement/lib/SetStudentsExportParms",
+                        type: "post",
+                        data: queryParam,
+                        async: false,
+                        success: function(data) {
+                            window.location.href = "/Statement/lib/ExportStudentsData";
+                        }
+                    });
+
+                }
+
+                this.initCombotree = function() {
+                    var url = "/api/services/app/Department/GetAllDepartmentTree";
+                    nv.post(url,
+                        null,
+                        function(data) {
+                            if (data.success) {
+                                classData = data.result;
+                                $("#classIds").combotree("loadData", data.result);
+                                evtBus.dispatchEvt("statement_pageinit", { statement: classStatement });
+                            }
+                        });
+
+                };
+                this.showUserAnswerRecords = function(index) {
+                    var row = $("#dg").datagrid("getRows")[index];
+                    var url = "/Statement/Lib/UserAnswerRecords?labelId={0}&userId={1}".format(queryParam.labelId, row.userId);
+                    tabHelper.openTab("作答记录", url, "");
+                };
+
+                this.setClassIds = function(idList) {
+                    classIdList = idList;
+                    if (idList.length > 0) {
+                        filterClassIdList();
+                    }
+                    this.query();
+                };
+
+                function filterClassIdList() {
+                    var ids = [];
+
+                    function getId(node) {
+                        ids.push(node.id);
+                        if (node.children && node.children.length > 0) {
+                            $.each(node.children, function (k, v) { getId(v); });
+                        }
+                    }
+
+                    $.each(classData, function (k, v) { getId(v); });
+                    var classIds = [];
+                    $.each(ids,
+                        function (k, v) {
+                            if (classIdList.indexOf(v) !== -1) {
+                                classIds.push(v);
+                            }
+                        });
+                    classIdList = classIds;
+                    $("#classIds").combotree("setValues", classIdList);
+                }
+  
+                function setParam() {
+                    var nodes = $("#classIds").combotree("tree").tree("getChecked");
+                    var classIds = [];
+                    $.each(nodes,
+                        function(k, v) {
+                            if (!v.children || v.children.length === 0) {
+                                classIds.push(v.id);
+                            }
+                        });
+
+                    queryParam.classIdList = classIds;
+                    queryParam.skip = 0;
+                    queryParam.userFullName = $("#userFullName").textbox("getValue");
+                    queryParam.userLoginName = $("#userLoginName").textbox("getValue");
+                    queryParam.status = $("#proficiency").combobox("getValue");
+                }
+
+                function loadData(param) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+           
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "LibLabelStatement/UserLabelGettingList";
+                    nv.post(url,
+                        param,
+                        function(data) {
+                            $("#dg").datagrid("loaded");
+                            if (data.success) {
+
+                                $("#dg")
+                                    .datagrid("loadData", data.result.rows)
+                                    .datagrid("getPager")
+                                    .pagination({
+                                        pageNumber: param.pageNumber,
+                                        total: data.result.total
+                                    });
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }
+
+
+            }
+
+
+            return init;
+        })();
+
+        var classStatement = new ClassStatement(request.labelId);
+
+        $(function () {
+            if (request.type) {
+                $("#proficiency").combobox("setValue", request.type);
+            }
+            classStatement.initCombotree();
+            classStatement.initPagination();
+            //classStatement.query();
+        });
+    </script>
+}

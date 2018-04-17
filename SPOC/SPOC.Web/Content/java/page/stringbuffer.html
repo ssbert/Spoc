@@ -1,0 +1,200 @@
+<div class="stringbuffer-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#string" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Java String 类
+		</a>
+		<a href="#array" class="pull-right green">
+			Java 数组
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">StringBuffer 和 StringBuilder 类</span>
+		</h1>
+		<p>当对字符串进行修改的时候，需要使用 StringBuffer 和 StringBuilder 类。 </p>
+		<p>和 String 类不同的是，StringBuffer 和 StringBuilder 类的对象能够被多次的修改，并且不产生新的未使用对象。 </p>
+		<p>StringBuilder 类在 Java 5 中被提出，它和 StringBuffer 之间的最大不同在于 StringBuilder 的方法不是线程安全的（不能同步访问）。 </p>
+		<p>由于 StringBuilder 相较于 StringBuffer 有速度优势，所以多数情况下建议使用 StringBuilder 类。然而在应用程序要求线程安全的情况下，则必须使用 StringBuffer 类。 </p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">Test.java 文件代码：</h2>
+			<pre><code>public class Test{
+  public static void main(String args[]){
+    StringBuffer sBuffer = new StringBuffer("新浪新闻官网：");
+    sBuffer.append("www");
+    sBuffer.append(".sina");
+    sBuffer.append(".com");
+    System.out.println(sBuffer);  
+  }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下：</p>
+		<pre>新浪新闻官网：www.sina.com</pre>
+		<h2 class="n-h2">StringBuffer 方法</h2>
+		<p>以下是 StringBuffer 类支持的主要方法：</p>
+		<table>
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>方法描述</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>public StringBuffer append(String s)<br>
+					将指定的字符串追加到此字符序列。</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>public StringBuffer reverse()<br>
+					&nbsp;将此字符序列用其反转形式取代。</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td>public delete(int start, int end)<br>
+					移除此序列的子字符串中的字符。</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td>public insert(int offset, int i)<br>
+						将 <code>int</code> 参数的字符串表示形式插入此序列中。</td>
+				</tr>
+				<tr>
+					<td>
+					5</td>
+					<td>
+						replace(int start, int end, String str)<br>
+						使用给定 <code>String</code> 中的字符替换此序列的子字符串中的字符。</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>下面的列表里的方法和 String 类的方法类似： </p>
+		<table>
+			<thead>
+				<tr>
+					<th>
+					序号</th>
+					<th>
+					方法描述</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td">1</td>
+					<td>int capacity()<br>
+					返回当前容量。</td>
+				</tr>
+				<tr>
+					<td>
+					2</td>
+					<td>
+						char charAt(int index)<br>
+						返回此序列中指定索引处的 <code>char</code> 值。</td>
+				</tr>
+				<tr>
+					<td>
+					3</td>
+					<td>
+						void ensureCapacity(int minimumCapacity)<br>
+					确保容量至少等于指定的最小值。</td>
+				</tr>
+				<tr>
+					<td>
+					4</td>
+					<td>
+						void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin)<br>
+						将字符从此序列复制到目标字符数组 <code>dst</code>。</td>
+				</tr>
+				<tr>
+					<td>
+					5</td>
+					<td>
+						int indexOf(String str)<br>
+					返回第一次出现的指定子字符串在该字符串中的索引。</td>
+				</tr>
+				<tr>
+					<td>
+					6</td>
+					<td>
+						int indexOf(String str, int fromIndex)<br>
+					从指定的索引处开始，返回第一次出现的指定子字符串在该字符串中的索引。</td>
+				</tr>
+				<tr>
+					<td>
+					7</td>
+					<td>
+						int lastIndexOf(String str)<br>
+					返回最右边出现的指定子字符串在此字符串中的索引。</td>
+				</tr>
+				<tr>
+					<td>
+					8</td>
+					<td>
+						int lastIndexOf(String str, int fromIndex)<br>
+					返回 String 对象中子字符串最后出现的位置。</td>
+				</tr>
+				<tr>
+					<td>
+					9</td>
+					<td>
+						int length()<br>
+					&nbsp;返回长度（字符数）。</td>
+				</tr>
+				<tr>
+					<td>
+					10</td>
+					<td>
+						void setCharAt(int index, char ch)<br>
+						将给定索引处的字符设置为 <code>ch</code>。</td>
+				</tr>
+				<tr>
+					<td>
+					11</td>
+					<td>
+						void setLength(int newLength)<br>
+					设置字符序列的长度。</td>
+				</tr>
+				<tr>
+					<td>
+					12</td>
+					<td>
+						CharSequence subSequence(int start, int end)<br>
+					返回一个新的字符序列，该字符序列是此序列的子序列。</td>
+				</tr>
+				<tr>
+					<td>
+					13</td>
+					<td>
+						String substring(int start)<br>
+						返回一个新的 <code>String</code>，它包含此字符序列当前所包含的字符子序列。</td>
+				</tr>
+				<tr>
+					<td>
+					14</td>
+					<td>
+						String substring(int start, int end)<br>
+						返回一个新的 <code>String</code>，它包含此序列当前所包含的字符子序列。</td>
+				</tr>
+				<tr>
+					<td>
+					15</td>
+					<td>
+						String toString()<br>
+					返回此序列中数据的字符串表示形式。</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#string" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Java String 类
+		</a>
+		<a href="#array" class="pull-right green">
+			Java 数组
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+</div>

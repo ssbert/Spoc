@@ -1,0 +1,83 @@
+<div class="functionSetlocale-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">setlocale()</span>
+		</h1>
+		<p>
+			<a href="#standardLibLocaleH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;locale.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>char *setlocale(int category, const char *locale)</b> 设置或读取地域化信息。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 setlocale() 函数的声明。</p>
+		<pre>char *setlocale(int category, const char *locale)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>category</b> -- 这是一个已命名的常量，指定了受区域设置影响的函数类别。 
+				<ul>
+					<li><b>LC_ALL</b> 包括下面的所有选项。</li>
+					<li><b>LC_COLLATE</b> 字符串比较。参见 strcoll()。</li>
+					<li><b>LC_CTYPE</b> 字符分类和转换。例如 strtoupper()。</li>
+					<li><b>LC_MONETARY</b> 货币格式，针对 localeconv()。</li>
+					<li><b>LC_NUMERIC</b> 小数点分隔符，针对 localeconv()。</li>
+					<li><b>LC_TIME</b> 日期和时间格式，针对 strftime()。</li>
+					<li><b>LC_MESSAGES</b> 系统响应。</li>
+				</ul>
+			</li>
+			<li><b>locale</b> -- 如果 locale 是 NULL 或空字符串 ""，则区域名称将根据环境变量值来设置，其名称与上述的类别名称相同。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>如果成功调用 setlocale()，则返回一个对应于区域设置的不透明的字符串。如果请求无效，则返回值是 NULL。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 setlocale() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;locale.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;time.h&gt;
+
+int main ()
+{
+   time_t currtime;
+   struct tm *timer;
+   char buffer[80];
+
+   time( &currtime );
+   timer = localtime( &currtime );
+
+   printf("Locale is: %s\n", setlocale(LC_ALL, "en_GB"));
+   strftime(buffer,80,"%c", timer );
+   printf("Date is: %s\n", buffer);
+
+  
+   printf("Locale is: %s\n", setlocale(LC_ALL, "de_DE"));
+   strftime(buffer,80,"%c", timer );
+   printf("Date is: %s\n", buffer);
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>Locale is: en_GB
+Date is: Thu 23 Aug 2012 06:39:32 MST
+Locale is: de_DE
+Date is: Do 23 Aug 2012 06:39:32 MST</pre>
+		<p>
+			<a href="#standardLibLocaleH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;locale.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

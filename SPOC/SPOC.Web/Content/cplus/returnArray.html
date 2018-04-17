@@ -1,0 +1,92 @@
+<div class="return-array">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">从函数返回数组</span>
+		</h1>
+		<p>
+			<a href="#array" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 数组
+			</a>
+		</p>
+		<p>C++ 不允许返回一个完整的数组作为函数的参数。但是，您可以通过指定不带索引的数组名来返回一个指向数组的指针。</p>
+		<p>如果您想要从函数返回一个一维数组，您必须声明一个返回指针的函数，如下：</p>
+		<div class="n-example">
+			<pre><code>int * myFunction()
+{
+.
+.
+.
+}</code></pre>
+		</div>
+		<p>另外，C++ 不支持在函数外返回局部变量的地址，除非定义局部变量为 <b>static</b> 变量。</p>
+		<p>现在，让我们来看下面的函数，它会生成 10 个随机数，并使用数组来返回它们，具体如下：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">
+				实例
+			</h2>
+			<pre><code>#include &lt;iostream&gt;
+#include &lt;cstdlib&gt;
+#include &lt;ctime&gt;
+ 
+using namespace std;
+ 
+// 要生成和返回随机数的函数
+int * getRandom( )
+{
+  static int  r[10];
+ 
+  // 设置种子
+  srand( (unsigned)time( NULL ) );
+  for (int i = 0; i < 10; ++i)
+  {
+    r[i] = rand();
+    cout << r[i] << endl;
+  }
+ 
+  return r;
+}
+ 
+// 要调用上面定义函数的主函数
+int main ()
+{
+   // 一个指向整数的指针
+   int *p;
+ 
+   p = getRandom();
+   for ( int i = 0; i < 10; i++ )
+   {
+       cout << "*(p + " << i << ") : ";
+       cout << *(p + i) << endl;
+   }
+ 
+   return 0;
+}</code></pre>
+		</div>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre>624723190
+1468735695
+807113585
+976495677
+613357504
+1377296355
+1530315259
+1778906708
+1820354158
+667126415
+*(p + 0) : 624723190
+*(p + 1) : 1468735695
+*(p + 2) : 807113585
+*(p + 3) : 976495677
+*(p + 4) : 613357504
+*(p + 5) : 1377296355
+*(p + 6) : 1530315259
+*(p + 7) : 1778906708
+*(p + 8) : 1820354158
+*(p + 9) : 667126415</pre>
+		<p>
+			<a href="#array" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 数组
+			</a>
+		</p>
+	</div>
+</div>

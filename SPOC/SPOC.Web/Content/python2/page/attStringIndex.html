@@ -1,0 +1,54 @@
+<div class="attStringIndex-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">index() 方法</span>
+		</h1>
+		<p>
+			<a href="#strings" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 字符串
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>Python index() 方法检测字符串中是否包含子字符串 str ，如果指定 beg（开始） 和 end（结束） 范围，则检查是否包含在指定范围内，该方法与 python find()方法一样，只不过如果str不在 string中会报一个异常。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>index()方法语法：</p>
+		<pre>str.index(str, beg=0, end=len(string))</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>str -- 指定检索的字符串</li>
+			<li>beg -- 开始索引，默认为0。</li>
+			<li>end -- 结束索引，默认为字符串的长度。</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>如果包含子字符串返回开始的索引值，否则抛出异常。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了index()方法的实例：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+ 
+str1 = "this is string example....wow!!!";
+str2 = "exam";
+ 
+print str1.index(str2);
+print str1.index(str2, 10);
+print str1.index(str2, 40);</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>15
+15
+Traceback (most recent call last):
+  File "test.py", line 8, in 
+  print str1.index(str2, 40);
+ValueError: substring not found
+
+shell returned 1</pre>
+		<p><strong>注意：</strong>在接下来的几个章节中，我们会详细介绍Python Exception的使用。</p>
+		<p>
+			<a href="#strings" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 字符串
+			</a>
+		</p>
+	</div>
+</div>

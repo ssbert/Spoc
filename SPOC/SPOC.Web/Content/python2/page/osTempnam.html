@@ -1,0 +1,48 @@
+<div class="osTempnam-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">os.tempnam() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>
+		<p>os.tempnam() 方法用于返回唯一的路径名用于创建临时文件。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>tempnam()方法语法格式如下：</p>
+		<pre>os.tempnam(dir, prefix)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>dir</b> -- 要创建的临时文件路径。</p></li>
+			<li><p><b>prefix</b> -- 临时文件前缀</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法返回唯一路径。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 tempnam() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os, sys
+
+# 前缀为 runoob 的文件
+tmpfn = os.tempnam('/tmp/runoob,'runoob')
+
+print "这是一个唯一路径:"
+print tmpfn</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>这是一个唯一路径:
+/tmp/runoob/runoobIbAco8</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

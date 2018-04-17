@@ -1,0 +1,99 @@
+<div class="functionFopen-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">fopen()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>FILE *fopen(const char *filename, const char *mode)</b> 使用给定的模式 <b>mode</b> 打开 <b>filename</b> 所指向的文件。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 fopen() 函数的声明。</p>
+		<pre>FILE *fopen(const char *filename, const char *mode)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>filename</b> -- 这是 C 字符串，包含了要打开的文件名称。
+			</li>
+			<li>
+				<b>mode</b> -- 这是 C 字符串，包含了文件访问模式，模式如下：
+			</li>	
+		</ul>
+		<table>
+			<thead>
+				<tr><th style="width:5%">模式</th><th>描述</th></tr>
+			</thead>
+			<tbody>
+				<tr><td> "r" </td><td>打开一个用于读取的文件。该文件必须存在。</td></tr>
+				<tr><td> "w" </td><td>创建一个用于写入的空文件。如果文件名称与已存在的文件相同，则会删除已有文件的内容，文件被视为一个新的空文件。</td></tr>
+				<tr><td> "a" </td><td>追加到一个文件。写操作向文件末尾追加数据。如果文件不存在，则创建文件。</td></tr>
+				<tr><td> "r+" </td><td>打开一个用于更新的文件，可读取也可写入。该文件必须存在。</td></tr>
+				<tr><td> "w+" </td><td>创建一个用于读写的空文件。</td></tr>
+				<tr><td> "a+" </td><td>打开一个用于读取和追加的文件。</td></tr>
+			</tbody>
+		</table>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回一个 FILE 指针。否则返回 NULL，且设置全局变量 errno 来标识错误。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 fopen() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main()
+{
+   FILE * fp;
+
+   fp = fopen ("file.txt", "w+");
+   fprintf(fp, "%s %s %s %d", "We", "are", "in", 2014);
+   
+   fclose(fp);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将创建一个带有一下内容的文件 <b>file.txt</b>：</p>
+		<pre>We are in 2014</pre>
+		<p>现在让我们使用下面的程序查看上面文件的内容：</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main ()
+{
+   FILE *fp;
+   int c;
+  
+   fp = fopen("file.txt","r");
+   while(1)
+   {
+      c = fgetc(fp);
+      if( feof(fp) )
+      { 
+          break ;
+      }
+      printf("%c", c);
+   }
+   fclose(fp);
+   return(0);
+}</code></pre>
+		</div>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

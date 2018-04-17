@@ -1,0 +1,251 @@
+<div class="envir-setting-block">
+    <div class="n-nav-strip clearfix">
+        <a href="#abstract" class="pull-left green">
+            <span class="glyphicon glyphicon-arrow-left gray"></span>
+            C++ 简介
+        </a>
+        <a href="#basicSyntax" class="pull-right green">
+            C++ 基本语法
+            <span class="glyphicon glyphicon-arrow-right gray"></span>
+        </a>
+    </div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">环境设置</span>
+		</h1>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			本地环境设置
+		</h2>
+		<p>如果您想要设置 C++ 语言环境，您需要确保电脑上有以下两款可用的软件，文本编辑器和 C++ 编译器。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			文本编辑器
+		</h2>
+		<p>这将用于输入您的程序。文本编辑器包括 Windows Notepad、OS Edit command、Brief、Epsilon、EMACS 和 vim/vi。</p>
+		<p>文本编辑器的名称和版本在不同的操作系统上可能会有所不同。例如，Notepad 通常用于 Windows 操作系统上，vim/vi 可用于 Windows 和 Linux/UNIX 操作系统上。</p>
+		<p>通过编辑器创建的文件通常称为源文件，源文件包含程序源代码。C++ 程序的源文件通常使用扩展名 .cpp、.cp 或 .c。</p>
+		<p>在开始编程之前，请确保您有一个文本编辑器，且有足够的经验来编写一个计算机程序，然后把它保存在一个文件中，编译并执行它。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			C++ 编译器
+		</h2>
+		<p>写在源文件中的源代码是人类可读的源。它需要"编译"，转为机器语言，这样 CPU 可以按给定指令执行程序。</p>
+		<p>C++ 编译器用于把源代码编译成最终的可执行程序。</p>
+		<p>大多数的 C++ 编译器并不在乎源文件的扩展名，但是如果您未指定扩展名，则默认使用 .cpp。</p>
+		<p>最常用的免费可用的编译器是 GNU 的 C/C++ 编译器，如果您使用的是 HP 或 Solaris，则可以使用各自操作系统上的编译器。</p>
+		<p>以下部分将指导您如何在不同的操作系统上安装 GNU 的 C/C++ 编译器。这里同时提到 C/C++，主要是因为 GNU 的 gcc 编译器适合于 C 和 C++ 编程语言。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			安装 GNU 的 C/C++ 编译器
+		</h2>
+		<h3 class="n-h3">
+			UNIX/Linux 上的安装
+		</h3>
+		<p>如果您使用的是 <b>Linux</b> 或 <b>UNIX</b>，请在命令行使用下面的命令来检查您的系统上是否安装了 GCC：</p>
+		<pre>$ g++ -v</pre>
+		<p>如果您的计算机上已经安装了 GNU 编译器，则会显示如下消息：</p>
+		<pre>Using built-in specs.
+Target: i386-redhat-linux
+Configured with: ../configure --prefix=/usr .......
+Thread model: posix
+gcc version 4.1.2 20080704 (Red Hat 4.1.2-46)</pre>
+		<p>如果未安装 GCC，那么请按照 <a href="http://gcc.gnu.org/install/" class="green n-text-line">http://gcc.gnu.org/install/</a> 上的详细说明安装 GCC。</p>
+		<h3 class="n-h3">Mac OS X 上的安装</h3>
+		<p>如果您使用的是 Mac OS X，最快捷的获取 GCC 的方法是从苹果的网站上下载 Xcode 开发环境，并按照安装说明进行安装。一旦安装上 Xcode，您就能使用 GNU 编译器。</p>
+		<p>Xcode 目前可从 <a href="developer.apple.com/technologies/tools/" class="green n-text-line">developer.apple.com/technologies/tools/</a> 上下载。</p>
+		<h3 class="n-h3">
+			Windows 上的安装
+		</h3>
+		<p>为了在 Windows 上安装 GCC，您需要安装 MinGW。为了安装 MinGW，请访问 MinGW 的主页 <a href="www.mingw.org" class="green n-text-line">www.mingw.org</a>，进入 MinGW 下载页面，下载最新版本的 MinGW 安装程序，命名格式为 MinGW-&lt;version&gt;.exe。</p>
+		<p>当安装 MinGW 时，您至少要安装 gcc-core、gcc-g++、binutils 和 MinGW runtime，但是一般情况下都会安装更多其他的项。
+添加您安装的 MinGW 的 bin 子目录到您的 PATH 环境变量中，这样您就可以在命令行中通过简单的名称来指定这些工具。
+当完成安装时，您可以从 Windows 命令行上运行 gcc、g++、ar、ranlib、dlltool 和其他一些 GNU 工具。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			使用 Visual Studio (Graphical Interface) 编译
+		</h2>
+		<p>1、下载及安装 <a href="https://www.visualstudio.com/">Visual Studio Community 2015。</a></p>
+		<p>2、打开 Visual Studio Community</p>
+		<p>3、点击 File -> New -> Project</p>
+		<p>
+			<img src="/Content/cplus/images/1491460649-6165-bFNzb.png">
+		</p>
+		<p>4、左侧列表选择 Templates -> Visual C++ -> Win32 Console Application，并设置项目名为 MyFirstProgram。</p>
+		<p>
+			<img src="/Content/cplus/images/1491460652-2077-kYTy1.png">
+		</p>
+		<p>5、点击 OK。</p>
+		<p>6、在以下窗口中点击 Next</p>
+		<p>
+			<img src="/Content/cplus/images/1491460649-3834-Rebpz.png">
+		</p>
+		<p>7、在弹出的窗口中选择 Empty project 选项后，点击 Finish 按钮：</p>
+		<p>8、右击文件夹 Source File 并点击 Add --> New Item... :</p>
+		<p>
+			<img src="/Content/cplus/images/1491460652-4373-DLwEd.png">
+		</p>
+		<p>9、选择 C++ File 然后设置文件名为 main.cpp，然后点击 Add：</p>
+		<p>
+			<img src="/Content/cplus/images/zQaws.png">
+		</p>
+		<p>10、拷贝以下代码到 main.cpp 中：</p>
+		<pre>#include <span class="green">&lt;iostream&gt;</span>
+
+int main()
+{
+    std::cout << <span class="green">"Hello World!\n"</span>;
+    return 0;
+}</pre>
+		<p>界面如下所示：</p>
+		<p>
+			<img src="/Content/cplus/images/1491460652-4849-vTBkv.png">
+		</p>
+		<p>11、点击菜单上的 Debug -> Start Without Debugging (或按下 ctrl + F5) :</p>
+		<p>
+			<img src="/Content/cplus/images/1491460653-6088-B3twO.png">
+		</p>
+		<p>12、完成以上操作后，你可以看到以下输出：</p>
+		<p>
+			<img src="/Content/cplus/images/1491460652-1492-1AwnS.png">
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			g++ 应用说明
+		</h2>
+		<p>程序 g++ 是将 gcc 默认语言设为 C++ 的一个特殊的版本，链接时它自动使用 C++ 标准库而不用 C 标准库。通过遵循源码的命名规范并指定对应库的名字，用 gcc 来编译链接 C++ 程序是可行的，如下例所示：</p>
+		<pre>$ gcc main.cpp -lstdc++ -o main</pre>
+		<p>下面是一个保存在文件 helloworld.cpp 中一个简单的 C++ 程序的代码：</p>
+		<pre><span class="red">#include</span> <span class="green">&lt;iostream&gt;</span>
+using namespace std;
+int main()
+{
+    cout << <span class="green">"Hello, world!"</span> << endl;
+    return 0;
+}</pre>
+		<p>最简单的编译方式：</p>
+		<pre>$ g++ helloworld.cpp</pre>
+		<p>由于命令行中未指定可执行程序的文件名，编译器采用默认的 a.out。程序可以这样来运行：</p>
+		<pre>$ ./a.out
+Hello, world!</pre>
+		<p>通常我们使用 -o 选项指定可执行程序的文件名，以下实例生成一个 helloworld 的可执行文件：</p>
+		<pre>$ g++ helloworld.cpp -o helloworld</pre>
+		<p>执行 helloworld:</p>
+		<pre>$ ./helloworld
+Hello, world!</pre>
+		<p>如果是多个 C++ 代码文件，如 runoob1.cpp、runoob2.cpp，编译命令如下：</p>
+		<pre>$ g++ runoob1.cpp cpp、runoob2.cpp -o runoob</pre>
+		<p>生成一个 runoob 可执行文件。</p>
+		<p>g++ 有些系统默认是使用 C++98，我们可以指定使用 C++11 来编译 main.cpp 文件：</p>
+		<pre>g++ -g -Wall -std=c++11 main.cpp</pre>
+		<h3 class="n-hg3">
+			g++ 常用命令选项
+		</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>选项</th>
+					<th>解释</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>-ansi</td>
+					<td>只支持 ANSI 标准的 C 语法。这一选项将禁止 GNU C 的某些特色， 例如 asm 或 typeof 关键词。</td>
+				</tr>
+				<tr>
+					<td>-c</td>
+					<td>只编译并生成目标文件。</td>
+				</tr>
+				<tr>
+					<td>-DMACRO</td>
+					<td>以字符串"1"定义 MACRO 宏。</td>
+				</tr>
+				<tr>
+					<td>-DMACRO=DEFN</td>
+					<td>以字符串"DEFN"定义 MACRO 宏。</td>
+				</tr>
+				<tr>
+					<td>-E</td>
+					<td>只运行 C 预编译器。</td>
+				</tr>
+				<tr>
+					<td>-g</td>
+					<td>生成调试信息。GNU 调试器可利用该信息。</td>
+				</tr>
+				<tr>
+					<td>-IDIRECTORY</td>
+					<td>指定额外的头文件搜索路径DIRECTORY。</td>
+				</tr>
+				<tr>
+					<td>-LDIRECTORY</td>
+					<td>指定额外的函数库搜索路径DIRECTORY。</td>
+				</tr>
+				<tr>
+					<td>-lLIBRARY</td>
+					<td>连接时搜索指定的函数库LIBRARY。</td>
+				</tr>
+				<tr>
+					<td>-m486</td>
+					<td>针对 486 进行代码优化。</td>
+				</tr>
+				<tr>
+					<td>-o</td>
+					<td>FILE 生成指定的输出文件。用在生成可执行文件时。</td>
+				</tr>
+				<tr>
+					<td>-O0</td>
+					<td>不进行优化处理。</td>
+				</tr>
+				<tr>
+					<td>-O</td>	
+					<td>或 -O1 优化生成代码。</td>
+				</tr>
+				<tr>
+					<td>-O2</td>
+					<td>进一步优化。</td>
+				</tr>
+				<tr>
+					<td>-O3</td>
+					<td>比 -O2 更进一步优化，包括 inline 函数。</td>
+				</tr>
+				<tr>
+					<td>-shared</td>
+					<td>生成共享目标文件。通常用在建立共享库时。</td>
+				</tr>
+				<tr>
+					<td>-static</td>
+					<td>禁止使用共享连接。</td>
+				</tr>
+				<tr>
+					<td>-UMACRO</td>
+					<td>取消对 MACRO 宏的定义。</td>
+				</tr>
+				<tr>
+					<td>-w</td>
+					<td>不生成任何警告信息。</td>
+				</tr>
+				<tr>
+					<td>-Wall</td>
+					<td>生成所有警告信息。</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+    <div class="n-nav-strip clearfix">
+        <a href="#abstract" class="pull-left green">
+            <span class="glyphicon glyphicon-arrow-left gray"></span>
+            C++ 简介
+        </a>
+        <a href="#basicSyntax" class="pull-right green">
+            C++ 基本语法
+            <span class="glyphicon glyphicon-arrow-right gray"></span>
+        </a>
+    </div>
+</div>

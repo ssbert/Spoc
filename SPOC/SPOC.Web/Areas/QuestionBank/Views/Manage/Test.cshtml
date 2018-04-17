@@ -1,0 +1,162 @@
+﻿@*@model SPOC.Core.Dto.Challenge.ProblemViewDto*@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test</title>
+    <link rel="stylesheet" type="text/css" href="~/css/base.css">
+    <link rel="stylesheet" type="text/css" href="~/css/detail.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.css">
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/monaco-editor/min_paste_on/vs/loader.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/js/common/common.js"></script>
+    <script src="~/Scripts/angular-1.2.19/angular.js"></script>
+</head>
+<body>
+<div class="challenge-detail-page detail-page container-box center">
+    <div class="detail-content">
+        <div class="tab-content" ng-app="problem-app" ng-controller="problem-ctrl">
+            <div class="problem-content" id="problem" style="padding-top: 0;padding-bottom: 0 ">
+
+                <div class="code-editor" style="padding-top: 0;padding-bottom: 0 ">
+                    <div class="editor-header" style="padding-top: 0;padding-bottom: 0 ">
+                        <h3>程序面板</h3>
+                    </div>
+                    <div class="editor-panel" id="container">
+
+                    </div>
+                    <div id="progressBar" class="progress" style="display: none;">
+                        <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                            服务器响应中...
+                        </div>
+                    </div>
+                    <div class="editor-footer clearfix">
+                        <div class="code-input input-group pull-left">
+
+
+                            <span>Main函数参数：</span>
+                            <input type="text" id="Param" class="form-control fillet_5"  ng-model="param" style="width: 400px">
+
+
+
+                        </div>
+                        <div class="code-input input-group pull-left">
+
+
+                            <span>输 入 流 参 数：</span>
+                            <input type="text" id="InputParam" class="form-control fillet_5" ng-model="inputParam" style="width: 400px">
+
+
+                        </div>
+                        <div class="editor-btn text-right pull-right">
+                            <button class="run-code btn" ng-click="doRunCode()">测试</button>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- 运行结果 -->
+                <div class="run-results" ng-show="runResult" style="display: none">
+                    <!-- 通过 -->
+                    <div class="results" ng-show="runResult.code==0">
+                        <div class="results-con">
+
+                            <div class="result-item">
+                                <p>Main函数参数</p>
+                                <pre class="item-box"><code>{{param}}</code></pre>
+                            </div>
+
+                            <div class="result-item">
+                                <p>输入流参数</p>
+                                <pre class="item-box"><code>{{inputParam}}</code></pre>
+                            </div>
+
+                            <div class="result-item">
+                                <p>输出结果</p>
+                                <pre class="item-box"><code>{{runResult.result}}</code></pre>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- 编译错误 -->
+                    <div class="error-results" ng-show="runResult.code!=0">
+                        <div class="results-con">
+                            <h3 class="red">编译错误</h3>
+                            <div class="result-item">
+                                <p>编译信息</p>
+                                <pre class="item-box"><code>{{runResult.msg}}</code></pre>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+  
+    var app = angular.module('problem-app', []).controller('problem-ctrl', controller);
+
+    function controller($scope, $http) {
+        var editor;
+        require.config({ paths: { 'vs': '/Scripts/monaco-editor/min/vs' } });
+        require(['vs/editor/editor.main'],
+            function() {
+                editor = monaco.editor.create(document.getElementById('container'),
+                    {
+                        language: '@L("Language")'
+                    });
+            });
+ 
+        //运行代码
+        $scope.doRunCode = function () {
+           
+            $(".run-results").show();
+            $scope.submitResult = null;
+            $("#progressBar").show();
+            var code = editor.getValue();
+            nv.post("/api/services/app/codecomplie/compile",
+                {
+                    language: '@L("Language")',
+                    param: $("#Param").val(),
+                    inputParam: $("#InputParam").val(),
+                    code: code
+                },
+                function(data) {
+                    $("#progressBar").hide();
+                   
+                    if (data.success) {
+                        $scope.runResult = data.result;
+                        $scope.$apply();
+                    } else {
+                      
+                        layer.msg('编译出错!' + data.error.message);
+                    }
+                    scrollOffset($(".run-results").offset());
+                });
+
+        }
+        //定位到元素
+        function scrollOffset(scrollOffset) {
+            $("body,html").animate({
+                    scrollTop: scrollOffset.top
+                },
+                0);
+        }
+    }
+
+</script>

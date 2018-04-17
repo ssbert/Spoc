@@ -1,0 +1,321 @@
+﻿@model SPOC.Core.Dto.Challenge.ChallengeQuestionViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int pageSize = 0;
+    if (Model.Total % 10 > 0)
+    {
+        pageSize = Model.Total / 10 + 1;
+    }
+    else
+    {
+        pageSize = Model.Total / 10;
+    }
+    //难度
+    var hard = ViewBag.hard;
+    //是否通过
+    var isPass = ViewBag.isPass;
+}
+@section styles{
+    <link rel="stylesheet" type="text/css" href="~/css/challenge.css">
+    <link href="~/Scripts/select2-4.0.5/css/select2.css" rel="stylesheet" />
+   }
+
+<div class="challenge-page container-box center">
+<div class="row">
+<div class="col-lg-3 col-md-3">
+    <div class="challenge-slide ">
+        <h2>导航</h2>
+        <div class="slide-lists">
+            <ul>
+            @{
+                foreach (var item in Model.folderList)
+                {
+                    <li class="@(ViewBag.categoryId.Equals(item.id.ToString())?"active":"")">
+                        <a href="/challenges/?categoryId=@item.id&hard=@ViewBag.hard&isPass=@ViewBag.isPass"  >
+                            @item.name
+                        </a>
+                    </li>
+                }
+            }
+               
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="col-lg-9 col-md-9">
+<div class="challenge-content">
+<div class="content-title clearfix">
+    <h2 class="pull-left">挑战</h2>
+    <div class="dropdown screen-btn pull-left">
+        <a href="#" class="dropdown-toggle fillet_5" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <span class="glyphicon glyphicon-list"></span>
+        </a>
+        <div class="dropdown-menu">
+            <div class="difficulty-screen">
+                <h4>难度</h4>
+                <div class="content">
+                    
+                    <div class="select-input">
+                        <input type="radio"name="hard"  id="all"  value="" data-text="">
+                        <label for="all">
+                            <span class="fillet"></span>
+                            所有
+                        </label>
+                    </div>
+                    <div class="select-input">                   
+                        <input type="radio" name="hard" value="1"  id="easy"  data-text="容易">                
+                        <label for="easy">
+                            <span class="fillet"></span>
+                            容易
+                        </label>
+                    </div>
+                    <div class="select-input">                   
+                        <input type="radio" name="hard" value="2"  id="medium"  data-text="中等">                
+                        <label for="medium">
+                            <span class="fillet"></span>
+                            中等
+                        </label>
+                    </div>
+                    <div class="select-input">                   
+                        <input type="radio" name="hard" value="3"  id="difficulty"  data-text="困难">                
+                        <label for="difficulty">
+                            <span class="fillet"></span>
+                            困难
+                        </label>
+                    </div>
+                
+                </div>
+            </div>
+            <div class="status-screen">
+                <h4>状态</h4>
+                <div class="content">
+                    <div class="select-input">
+                        <input type="radio" name="isPass" value=""  id="allStatus">
+                        <label for="allStatus">
+                            <span class="fillet"></span>
+                            所有
+                        </label>
+                    </div>
+                    <div class="select-input">
+                        <input type="radio" name="isPass" id="solved"  value="1" data-text="已解决">
+                        <label for="solved">
+                            <span class="fillet"></span>
+                            已解决
+                        </label>
+                    </div>
+                    <div class="select-input">
+                        <input type="radio" name="isPass" value="0" id="unsolved" data-text="未解决">
+                       
+                        <label for="unsolved">
+                            <span class="fillet"></span>
+                            未解决
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="screen-con pull-left" id="divHard" style="display: none">
+        <div class="screen-item">
+            <span id="spanHard"></span> <a class="glyphicon glyphicon-remove" href="/challenges/?categoryId=@ViewBag.categoryId&label=@ViewBag.label&hard=&isPass=@ViewBag.isPass"></a>
+        </div>
+    </div>
+    <div class="screen-con pull-left" id="divPass" style="display: none">
+        <div class="screen-item">
+            <span id="spanPass"></span>  <a class="glyphicon glyphicon-remove" href="/challenges/?categoryId=@ViewBag.categoryId&label=@ViewBag.label&hard=@ViewBag.hard&isPass="></a>
+        </div>
+    </div>
+    <div class="screen-con pull-left">
+        <div style=" margin-left: 5px;">
+            <select class="selectlabel" id="selectlabel" multiple="multiple" style="width: 200px;height: 30px"></select>
+        </div>
+    </div>
+    <div class="info pull-right">
+        <div class="score">
+            总分：
+            <span> @Model.PointsRank.points </span>
+        </div>
+        <div class="rank">
+            排名：
+            <span>@Model.PointsRank.rank</span>
+        </div>
+    </div>
+</div>
+<div class="challenge-lists active">
+    @{
+        if (Model.ChallengeList.Count != 0 && Model.ChallengeList != null)
+        {
+            foreach (var challenge in Model.ChallengeList)
+            {
+                var status = "";
+                if (challenge.status == 1)
+                {
+                    status = "icon-yitongguo1";
+                }else if(challenge.status == 0)
+                {
+                    status = "icon-weitongguo1";
+                }
+                <div class="challenge-list-view border_all fillet_5">
+                    <span class="iconfont @status status"></span>
+                    <div class="view-top">
+                        <div class="view-header clearfix">
+                            <div class="title" href="javascript:;">
+                                <h3 class="pull-left">
+                                    <a href="/challenges/problem/@challenge.id" class="@(challenge.status==0?"red":(challenge.status==1?"gray":""))">
+                                        @challenge.title
+                                    </a>
+                                </h3>
+                            </div>
+                            <div class="pull-right">
+                                <a href="/challenges/problem/@challenge.id?tab=rank"><span class="iconfont icon-paihangbang text-right" title="排行榜" data-toggle="tooltip" data-placement="top"></span></a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="view-bottom clearfix">
+                        <div class="tips pull-left">
+                            <span class="tip success">
+                                通过率：<span class="strong">@challenge.passRate%</span>
+                            </span>
+                            <span class="tip max-score">
+                                最高分：<span class="strong">@challenge.score</span>
+                            </span>
+                            <span class="tip difficulty">
+                                难易程度：<span class="strong">@challenge.hard</span>
+                            </span>
+                        </div>
+                        @if (challenge.status == 1)
+                    {
+                            <a href="/challenges/problem/@challenge.id" class="start-btn btn btn-default pull-right is-pass2">再次挑战</a>
+                        }
+                        else if (challenge.status == 0)
+                        {
+                            <a href="/challenges/problem/@challenge.id" class="start-btn btn btn-default pull-right no-pass">挑战失败</a>
+                        }
+                        else
+                        {<a href="/challenges/problem/@challenge.id" class="start-btn btn btn-default pull-right">开始挑战</a> }
+
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="no-data-tip iconfont icon-nodata"></div>
+        }
+    }
+
+    
+</div>
+
+</div>
+</div>
+</div>
+<!--路徑導航-->
+<nav class="page-nav" aria-label="Page navigation"><div class="pagination"></div></nav>
+</div>
+@section scripts{
+    <script src="~/Scripts/jqPaginator-1.2.1/jqpaginator.min.js"></script>
+    <script src="~/Scripts/select2-4.0.5/js/select2.js"></script>
+    <script src="~/Scripts/select2-4.0.5/js/i18n/zh-CN.js"></script>
+    <script type="text/javascript">
+        var current = @Model.CurrentPage;
+        var totalPage = @pageSize;
+        var selectHard = '@hard';
+        var selectIsPass = '@isPass';
+        $(function() {
+            var htmlText;
+            if (selectHard !== "") {
+                $("input:radio[name='hard'][value='@hard']").attr("checked", true);
+                $("#divHard").show();
+                htmlText = selectHard === "1" ? "容易" : (selectHard === "2" ? "中等" : "困难");
+                $("#spanHard").html(htmlText);
+            } else {
+                $("input:radio[name='hard'][id='all']").attr("checked", true);
+            }
+            if (selectIsPass !== "") {
+                $("input:radio[name='isPass'][value='@isPass']").attr("checked", true);
+                $("#divPass").show();
+                htmlText = selectIsPass === "1" ? "已解决" : "未解决";
+                $("#spanPass").html(htmlText);
+            } else {
+                $("input:radio[name='isPass'][id='allStatus']").attr("checked", true);
+            }
+            
+            $("input:radio[name='hard']")
+                .on("change",
+                    function() {
+                        var hardValue = $("input[name='hard']:checked").val();
+                        var url =
+                            "/challenges/?categoryId=@ViewBag.categoryId&label=@ViewBag.label&hard=" +
+                                hardValue +
+                            "&isPass=" + selectIsPass;
+                        location.href = url;
+                    });
+            $("input:radio[name='isPass']")
+                .on("change",
+                    function() {
+                        var passValue = $("input[name='isPass']:checked").val();
+                        var url =
+                            "/challenges/?categoryId=@ViewBag.categoryId&label=@ViewBag.label&hard=" +
+                                selectHard +
+                                "&isPass=" +
+                                passValue ;
+                        location.href = url;
+                });
+
+                //分页
+                if (@Model.ChallengeList.Count > 0) {
+                    $('.pagination').jqPaginator({
+                        totalPages: totalPage,
+                        visiblePages: 5,
+                        currentPage: current,
+                        first: '<li class="first"><a href="javascript:void(0);" class="glyphicon glyphicon-backward"></a></li>',
+                        prev: '<li class="prev"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-left"></a></li>',
+                        next: '<li class="next"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-right"></a></li>',
+                        last: '<li class="last"><a href="javascript:void(0);" class="glyphicon glyphicon-forward"></a></li>',
+                        page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+                        onPageChange: function (num, type) {
+                            if (type === "change") {
+                                var url =
+                                    "/challenges/?categoryId=@ViewBag.categoryId&hard=@ViewBag.hard&isPass=@ViewBag.isPass&label=@ViewBag.label&currentPage=" + num;
+                                location.href = url;
+                            }
+                        }
+                    });
+                }
+
+            //标签选择初始化
+                $('#selectlabel').select2({
+                    placeholder: " 选择知识点过滤", language: "zh-CN", maximumSelectionLength: 1
+            }).on("select2:select",
+                function (e) {
+                    var url =
+                        "/challenges/?categoryId=@ViewBag.categoryId&hard=@ViewBag.hard&isPass=@ViewBag.isPass&label=" + e.params.data.id;
+                    location.href = url;
+
+                }).on("select2:unselect",
+                function (e) {
+                    var url =
+                        "/challenges/?categoryId=@ViewBag.categoryId&hard=@ViewBag.hard&isPass=@ViewBag.isPass";
+                    location.href = url;
+                });
+            //加载标签
+            $.getJSON("/api/services/app/liblabel/LoadLabelForChoose",
+                function (data) {
+                    $('#selectlabel').empty(); //清空下拉框
+                    $.each(data.result,
+                        function (i, item) {
+                            $('#selectlabel').append("<option value='" + item.id + "'>" + item.title + "</option>");
+
+                        });
+
+                    $("#selectlabel").val('@ViewBag.label').trigger("change");
+                });
+        });
+
+
+    </script>
+}
+

@@ -1,0 +1,82 @@
+<div class="stringSplit-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">split() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>split() 方法根据匹配给定的正则表达式来拆分字符串。</p>
+		<p><b>注意：</b> <b>.</b> 、 <b>|</b> 和 <b>*</b> 等转义字符，必须得加 <b>\\</b>。</p>
+		<p><b>注意：</b>多个分隔符，可以用 <b>|</b> 作为连字符。</p>
+		<h3 class="n-h3">语法</h3>
+		<pre>public String[] split(String regex, int limit)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>regex</b> -- 正则表达式分隔符。</p></li> 
+			<li><p><b>limit</b> -- 分割的份数。</p></li> 
+		<h3 class="n-h3">返回值</h3>
+		<p> 字符串数组。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test {
+    public static void main(String args[]) {
+        String str = new String("Welcome-to-Runoob");
+ 
+        System.out.println("- 分隔符返回值 :" );
+        for (String retval: str.split("-")){
+            System.out.println(retval);
+        }
+ 
+        System.out.println("");
+        System.out.println("- 分隔符设置分割份数返回值 :" );
+        for (String retval: str.split("-", 2)){
+            System.out.println(retval);
+        }
+ 
+        System.out.println("");
+        String str2 = new String("www.runoob.com");
+        System.out.println("转义字符返回值 :" );
+        for (String retval: str2.split("\\.", 3)){
+            System.out.println(retval);
+        }
+ 
+        System.out.println("");
+        String str3 = new String("acount=? and uu =? or n=?");
+        System.out.println("多个分隔符返回值 :" );
+        for (String retval: str3.split("and|or")){
+            System.out.println(retval);
+        }
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>- 分隔符返回值 :
+Welcome
+to
+Runoob
+
+- 分隔符设置分割份数返回值 :
+Welcome
+to-Runoob
+
+转义字符返回值 :
+www
+runoob
+com
+
+多个分隔符返回值 :
+acount=? 
+ uu =? 
+ n=?</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

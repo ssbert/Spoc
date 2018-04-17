@@ -1,0 +1,70 @@
+<div class="functionIscntrl-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">iscntrl()</span>
+		</h1>
+		<p>
+			<a href="#standardLibCtypeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;ctype.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>void iscntrl(int c)</b> 检查所传的字符是否是控制字符。</p>
+		<p>根据标准 ASCII 字符集，控制字符的 ASCII 编码介于 0x00 (NUL) 和 0x1f (US) 之间，以及 0x7f (DEL)，某些平台的特定编译器实现还可以在扩展字符集（0x7f 以上）中定义额外的控制字符。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 iscntrl() 函数的声明。</p>
+		<pre>int iscntrl(int c);</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>c --</b> 这是要检查的字符。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>如果 c 是一个控制字符，则该函数返回非零值，否则返回 0。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 iscntrl() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;ctype.h&gt;
+
+int main ()
+{
+   int i = 0, j = 0;
+   char str1[] = "all \a about \t programming";
+   char str2[] = "Runoob \n tutorials";
+  
+   /* 输出字符串直到控制字符 \a */
+   while( !iscntrl(str1[i]) ) 
+   {
+      putchar(str1[i]);
+      i++;
+   }
+  
+   /* 输出字符串直到控制字符 \n */
+   while( !iscntrl(str2[j]) ) 
+   {
+      putchar(str2[j]);
+      j++;
+   }
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>all Runoob </pre>
+		<p>
+			<a href="#standardLibCtypeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;ctype.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

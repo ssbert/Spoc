@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/index.css" rel="stylesheet" />
+<style>
+    .title h2 {
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+</style>
+<div class="Annoutcement-page container-box center">
+    <div class="title">
+        <h2>课程公告</h2>
+    </div>
+    <div class="notice-box notice-lists-box row clearfix" id="annoutcementContainer">
+        
+    </div>
+    <!-- 分页导航-S -->
+    <div class="page-nav">
+        <div class="pagination"></div>
+    </div>
+    <!-- 分页导航-E -->
+</div>
+<script type="text/template" id="announcementTemplate">
+
+    {{if items.length !== 0}}
+        {{each items}}
+        <div class="col-lg-12">
+            <div class="notice">
+                <a href="/home/announcementDetail/{{$value.id}}" class="fillet_5 border_all">
+                    <div class="notice-header clearfix">
+                        <div class="notice-hd-l pull-left">
+                            <h3>{{$value.title}}</h3>
+                            <small>发布时间： {{$value.createTime}}</small>
+                        </div>
+                        <div class="notice-hd-r pull-right">
+                            <img src={{$value.userHeadImg}}>
+                            <p>{{$value.createUser}}</p>
+                        </div>
+                    </div>
+                    <div class="notice-content">
+                        <p>{{$value.content}}</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {{/each}}
+    {{/if}}
+    
+</script>
+<script type="text/javascript" src="~/Scripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="~/Scripts/artTemplate-4.12.1/template-web.js"></script>
+<script type="text/javascript" src="~/Scripts/jqPaginator-1.2.1/jqpaginator.min.js"></script>
+<script type="text/javascript">
+    (function () {
+
+        function Announcement() {
+            this.url;
+            this.templateId;
+            this.container;
+            this.pageContainer;
+            this.singlePageNum;
+            //this.totalPage;
+            this.currentPage = 0;
+        }
+
+        Announcement.prototype = {
+
+            constructor: Announcement,
+
+            init: function (options) {
+                this.url = options.url;
+                this.templateId = options.templateId;
+                this.container = options.container;
+                this.pageContainer = options.pageContainer;
+                this.singlePageNum = options.singlePageNum || 5;
+                this.pageSize = options.pageSize || 6;
+                this.getData(this.url, { skip: this.currentPage, pageSize: this.pageSize });
+                this.initPagination();
+            },
+
+            getData: function (url, options) {
+                var that = this;
+                $.ajax({
+                    method: "POST",
+                    url: url,
+                    data: {
+                        pageSize: options.pageSize,
+                        skip: options.skip * that.pageSize
+                    },
+                    success: function (data) {
+                        var datas = data.result.myAnnouncementList;
+                        datas = that.subString(datas);
+                        //that.calcTotalPage(datas.total);
+                        that.setTotalPage(that.pageContainer, data.result.sumPage);
+                        that.applyAnnouncement(datas, that);
+                        that.isShowPaginator(data.result.sumPage, that);
+                    }
+                })
+            },
+
+            applyAnnouncement: function (data, that) {
+                var str = template(that.templateId, { items: data });
+                that.container.html(str);
+            },
+
+            initPagination: function () {
+                var that = this;
+                this.pageContainer.jqPaginator({
+                    totalPages: 1,
+                    visiblePages: 5,
+                    currentPage: 1,
+                    first: '<li class="first"><a href="javascript:void(0);" class="glyphicon glyphicon-backward"></a></li>',
+                    prev: '<li class="prev"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-left"></a></li>',
+                    next: '<li class="next"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-right"></a></li>',
+                    last: '<li class="last"><a href="javascript:void(0);" class="glyphicon glyphicon-forward"></a></li>',
+                    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+                    onPageChange: function (num, type) {
+                        if (type !== 'init') {
+                            that.getData(that.url, { skip: num - 1, pageSize: that.pageSize });
+                        }
+                    }
+                });
+                this.pageContainer.css('display', 'none');
+            },
+
+            setTotalPage: function (pageContainter, totalPage) {
+                pageContainter.jqPaginator('option', {
+                    totalPages: totalPage
+                });
+            },
+
+            calcTotalPage: function (total) {
+                var that = this;
+                if (total > that.singlePageNum) {
+                    that.totalPage = datas.total / that.singlePageNum + 1;
+                    that.pageContainer.css('display', 'inline-block');
+                } else {
+                    that.totalPage = 1;
+                }
+            },
+
+            isShowPaginator: function (sumPage,that) {
+                if (sumPage > 1) {
+                    that.pageContainer.css('display', 'inline-block');
+                }
+            },
+
+            subString: function (data) {
+                $(data).each(function(index, value) {
+                    if (value.content.length < 330) {
+                        return true;
+                    }
+                    value.content = $(value.content).subString(0, 330) + "...";
+                });
+                return data;
+            }
+
+        }
+
+
+        var announcement = new Announcement();
+
+        // 初始化
+        announcement.init({
+            url: '/api/services/app/announcement/GetMyAnnouncement',
+            templateId: 'announcementTemplate',
+            container: $('#annoutcementContainer'),
+            pageContainer: $('.pagination'),
+            singlePageNum: 5,
+            pageSize: 10
+        });
+
+    })();
+</script>
+

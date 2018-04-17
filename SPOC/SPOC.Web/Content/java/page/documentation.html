@@ -1,0 +1,280 @@
+<div class="documentation-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#appletBasics" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Java Applet 基础
+		</a>
+		<a href="#java8NewFeatures" class="pull-right green">
+			Java 8 新特性
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">文档注释</span>
+		</h1>
+		<p>Java 支持三种注释方式。前两种分别是 // 和 /* */，第三种被称作说明注释，它以 /** 开始，以 */结束。</p>
+		<p>说明注释允许你在程序中嵌入关于程序的信息。你可以使用 javadoc 工具软件来生成信息，并输出到HTML文件中。</p>
+		<p>说明注释，使你更加方便的记录你的程序信息。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">javadoc 标签</h2>
+		<p>javadoc 工具软件识别以下标签： </p>
+		<table>
+			<tbody>
+				<tr>
+					<th>
+						<strong>标签</strong></th>
+					<th style="text-align: center;">
+						<strong>描述</strong></th>
+					<th style="text-align: center;">
+						<strong>示例</strong></th>
+				</tr>
+				<tr>
+					<td>
+						@author</td>
+					<td>
+						标识一个类的作者</td>
+					<td>
+						@author description</td>
+				</tr>
+				<tr>
+					<td>
+						@deprecated</td>
+					<td>
+						指名一个过期的类或成员</td>
+					<td>
+						@deprecated description</td>
+				</tr>
+				<tr>
+					<td>
+						{@docRoot}</td>
+					<td>
+						指明当前文档根目录的路径</td>
+					<td>
+						Directory Path</td>
+				</tr>
+				<tr>
+					<td>
+						@exception</td>
+					<td>
+						标志一个类抛出的异常</td>
+					<td>
+						@exception exception-name explanation</td>
+				</tr>
+				<tr>
+					<td>
+						{@inheritDoc}</td>
+					<td>
+						从直接父类继承的注释</td>
+					<td>
+						Inherits a comment from the immediate surperclass.</td>
+				</tr>
+				<tr>
+					<td>
+						{@link}</td>
+					<td>
+						插入一个到另一个主题的链接</td>
+					<td>
+						{@link name text}</td>
+				</tr>
+				<tr>
+					<td>
+						{@linkplain}</td>
+					<td>
+						插入一个到另一个主题的链接，但是该链接显示纯文本字体</td>
+					<td>
+						Inserts an in-line link to another topic.</td>
+				</tr>
+				<tr>
+					<td>
+						@param</td>
+					<td>
+						说明一个方法的参数</td>
+					<td>
+						@param parameter-name explanation</td>
+				</tr>
+				<tr>
+					<td>
+						@return</td>
+					<td>
+						说明返回值类型</td>
+					<td>
+						@return explanation</td>
+				</tr>
+				<tr>
+					<td>
+						@see</td>
+					<td>
+						指定一个到另一个主题的链接</td>
+					<td>
+						@see anchor</td>
+				</tr>
+				<tr>
+					<td>
+						@serial</td>
+					<td>
+						说明一个序列化属性</td>
+					<td>
+						@serial description</td>
+				</tr>
+				<tr>
+					<td>
+						@serialData</td>
+					<td>
+						说明通过writeObject( ) 和&nbsp;writeExternal( )方法写的数据</td>
+					<td>
+						@serialData description</td>
+				</tr>
+				<tr>
+					<td>
+						@serialField</td>
+					<td>
+						说明一个ObjectStreamField组件</td>
+					<td>
+						@serialField name type description</td>
+				</tr>
+				<tr>
+					<td>
+						@since</td>
+					<td>
+						标记当引入一个特定的变化时</td>
+					<td>
+						@since release</td>
+				</tr>
+				<tr>
+					<td>
+						@throws</td>
+					<td>
+						和 @exception标签一样.</td>
+					<td>
+						The @throws tag has the same meaning as the @exception tag.</td>
+				</tr>
+				<tr>
+					<td>
+						{@value}</td>
+					<td>
+						显示常量的值，该常量必须是static属性。</td>
+					<td>
+						Displays the value of a constant, which must be a static field.</td>
+				</tr>
+				<tr>
+					<td>
+						@version</td>
+					<td>
+						指定类的版本</td>
+					<td>
+						@version info</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">文档注释</h2>
+		<p>在开始的 /** 之后，第一行或几行是关于类、变量和方法的主要描述。</p>
+		<p>之后，你可以包含一个或多个何种各样的 @ 标签。每一个 @ 标签必须在一个新行的开始或者在一行的开始紧跟星号(*)。</p>
+		<p>多个相同类型的标签应该放成一组。例如，如果你有三个 <b>@see</b> 标签，可以将它们一个接一个的放在一起。</p>
+		<p>下面是一个类的说明注释的实例：</p>
+		<div class="n-example">
+			<pre><code>/*** 这个类绘制一个条形图
+* @author runoob
+* @version 1.2
+*/</code></pre>
+		</div>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">javadoc 输出什么</h2>
+		<p>javadoc 工具将你 Java 程序的源代码作为输入，输出一些包含你程序注释的HTML文件。</p>
+		<p>每一个类的信息将在独自的HTML文件里。javadoc 也可以输出继承的树形结构和索引。</p>
+		<p>由于 javadoc 的实现不同，工作也可能不同，你需要检查你的 Java 开发系统的版本等细节，选择合适的 Javadoc 版本。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>下面是一个使用说明注释的简单实例。注意每一个注释都在它描述的项目的前面。</p>
+		<p>在经过 javadoc 处理之后，SquareNum 类的注释将在 SquareNum.html 中找到。</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">SquareNum.java 文件代码：</h2>
+			<pre><code>import java.io.*;
+ 
+/**
+* 这个类演示了文档注释
+* @author Ayan Amhed
+* @version 1.2
+*/
+public class SquareNum {
+   /**
+   * This method returns the square of num.
+   * This is a multiline description. You can use
+   * as many lines as you like.
+   * @param num The value to be squared.
+   * @return num squared.
+   */
+   public double square(double num) {
+      return num * num;
+   }
+   /**
+   * This method inputs a number from the user.
+   * @return The value input as a double.
+   * @exception IOException On input error.
+   * @see IOException
+   */
+   public double getNumber() throws IOException {
+      InputStreamReader isr = new InputStreamReader(System.in);
+      BufferedReader inData = new BufferedReader(isr);
+      String str;
+      str = inData.readLine();
+      return (new Double(str)).doubleValue();
+   }
+   /**
+   * This method demonstrates square().
+   * @param args Unused.
+   * @return Nothing.
+   * @exception IOException On input error.
+   * @see IOException
+   */
+   public static void main(String args[]) throws IOException
+   {
+      SquareNum ob = new SquareNum();
+      double val;
+      System.out.println("Enter value to be squared: ");
+      val = ob.getNumber();
+      val = ob.square(val);
+      System.out.println("Squared value is " + val);
+   }
+}</code></pre>
+		</div>
+		<p>如下，使用 javadoc 工具处理 SquareNum.java 文件： </p>
+		<pre>$ javadoc SquareNum.java
+Loading source file SquareNum.java...
+Constructing Javadoc information...
+Standard Doclet version 1.5.0_13
+Building tree for all the packages and classes...
+Generating SquareNum.html...
+SquareNum.java:39: warning - @return tag cannot be used\
+                      in method with void return type.
+Generating package-frame.html...
+Generating package-summary.html...
+Generating package-tree.html...
+Generating constant-values.html...
+Building index for all the packages and classes...
+Generating overview-tree.html...
+Generating index-all.html...
+Generating deprecated-list.html...
+Building index for all classes...
+Generating allclasses-frame.html...
+Generating allclasses-noframe.html...
+Generating index.html...
+Generating help-doc.html...
+Generating stylesheet.css...
+1 warning
+$</pre>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#appletBasics" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Java Applet 基础
+		</a>
+		<a href="#java8NewFeatures" class="pull-right green">
+			Java 新特性
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+</div>

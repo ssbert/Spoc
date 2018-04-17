@@ -1,0 +1,191 @@
+﻿
+@{
+    ViewBag.Title = "UserAnswerRecords";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-3">
+            <div class="form-group">
+                <label class="form-label">题目：</label>
+                <input id="title" name="title" class="easyui-textbox" style="width: 200px;" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">题干：</label>
+                <input id="questionText" name="questionText" class="easyui-textbox" style="width: 200px;" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">题型：</label>
+                <select id="questionBaseTypeCode" name="questionBaseTypeCode" class="easyui-combobox" style="width: 200px;">
+                    <option value="" selected>-全部-</option>
+                    <option value="single">单选题</option>
+                    <option value="multi">多选题</option>
+                    <option value="judge">判断题</option>
+                    <option value="fill">填空题</option>
+                    <option value="program">编程题</option>
+                    <option value="program_fill">编程填空题</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">来源：</label>
+                <select id="source" name="source" class="easyui-combobox" style="width: 200px;">
+                    <option value="">全部</option>
+                    <option value="challenge">挑战</option>
+                    <option value="exercise">练习</option>
+                    <option value="exam">考试</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="records.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="$('#query-form').form('reset')">重置</a>
+            </div>
+        </form>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="true" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+                <th field="title">标题</th>
+                <th field="questionText" formatter="questionTextFormatter">题干</th>
+                <th field="source" formatter="sourceFormatter">来源</th>
+                <th field="questionBaseTypeCode" formatter="codeFormatter">题型</th>
+                <th field="createTime">作答时间</th>
+                <th field="score" formatter="scoreFormatter">是否通过</th>
+                <th field="opt" formatter="optFormatter">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script>
+        var request = GetRequest();
+
+        function questionTextFormatter(val, row, index) {
+            if (val.length > 16) {
+                val = val.substr(0, 16) + "...";
+            }
+            return val;
+        }
+        function sourceFormatter(val, row, index) {
+            if (val === "challenge") { return "挑战"; }
+            if (val === "exam") { return "考试"; }
+            if (val === "exercise") {  return "练习"; }
+            return val;
+        }
+        function codeFormatter(val, row, index) {
+            if (val === "single") { return "单选题"; }
+            if (val === "multi") { return "多选题"; }
+            if (val === "judge") { return "判断题"; }
+            if (val === "fill") { return "填空题"; }
+            if (val === "program") { return "编程题"; }
+            if (val === "program_fill") { return "编程填空题"; }
+            return val;
+        }
+        function scoreFormatter(val, row, index) {
+            if (val > 0) { return "是"; }
+            if (val < 0) { return "否"; }
+            return val;
+        }
+        function optFormatter(val, row, index) {
+            return linkbtn(index,
+                {
+                    option: [
+                        {
+                            title: "查看作答",
+                            text: "查看作答",
+                            icon: "icon-06",
+                            onclick: "records.showUserAnswerQuestion"
+                        }
+                    ]
+                });
+        }
+
+        var UserAnswerRecordes = (function() {
+            function init(labelId, userId) {
+                var queryParam = { labelId: labelId, userId: userId, skip: 0, pageSize: 30 };
+                var tabHelper = new TabHelper("tabs");
+                
+                this.query = function () {
+                    queryParam.skip = 0;
+                    setParam();
+                    loadData(queryParam);
+                };
+
+                this.initPagination = function () {
+                    $("#dg").datagrid({
+                            onSortColumn: function(sort, order) {
+                                queryParam.sort = sort;
+                                queryParam.order = order;
+                                loadData(queryParam);
+                            }
+                        })
+                        .datagrid("getPager")
+                        .pagination({
+                            onSelectPage: function(pageNumber, pageSize) {
+                                queryParam.pageNumber = pageNumber;
+                                queryParam.skip = (pageNumber - 1) * pageSize;
+                                if (queryParam.skip < 0) {
+                                    queryParam.skip = 0;
+                                }
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            },
+                            onChangePageSize: function(pageSize) {
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            }
+                        });
+                };
+
+                this.showUserAnswerQuestion = function(index) {
+                    var row = $("#dg").datagrid("getRows")[index];
+                    var url = "/Statement/Lib/UserAnswerQuestion?id=" + row.id;
+                    tabHelper.openTab("查看作答", url, "icon-06");
+                };
+
+                function setParam() {
+                    queryParam.title = $("#title").textbox("getValue");
+                    queryParam.questionText = $("#questionText").textbox("getValue");
+                    queryParam.source = $("#source").combobox("getValue");
+                    queryParam.questionBaseTypeCode = $("#questionBaseTypeCode").combobox("getValue");
+                }
+
+                function loadData(param) {
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "LibLabelView/GetUserAnswerRecordsPagination";
+                    nv.post(url,
+                        param,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            if (data.success) {
+                                $("#dg")
+                                    .datagrid("loadData", data.result.rows)
+                                    .datagrid("getPager")
+                                    .pagination({
+                                        pageNumber: param.pageNumber,
+                                        total: data.result.total
+                                    });
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }               
+            }
+
+            return init;
+        })();
+
+        var records = new UserAnswerRecordes(request.labelId, request.userId);
+
+        $(function () {
+            records.initPagination();
+            records.query();
+        });
+
+    </script>
+}

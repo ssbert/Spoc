@@ -1,0 +1,185 @@
+<div class="list-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#string" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python3 字符串
+		</a>
+		<a href="#tuple" class="pull-right green">
+			Python3 元组
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">列表</span>
+		</h1>
+		<p>序列是Python中最基本的数据结构。序列中的每个元素都分配一个数字 - 它的位置，或索引，第一个索引是0，第二个索引是1，依此类推。</p>
+		<p>Python有6个序列的内置类型，但最常见的是列表和元组。</p>
+		<p>序列都可以进行的操作包括索引，切片，加，乘，检查成员。</p>
+		<p>此外，Python已经内置确定序列的长度以及确定最大和最小的元素的方法。</p>
+		<p>列表是最常用的Python数据类型，它可以作为一个方括号内的逗号分隔值出现。</p>
+		<p>列表的数据项不需要具有相同的类型</p>
+		<p>创建一个列表，只要把逗号分隔的不同的数据项使用方括号括起来即可。如下所示：</p>
+		<div class="n-example">
+			<pre><code>list1 = ['Google', 'Runoob', 1997, 2000];
+list2 = [1, 2, 3, 4, 5 ];
+list3 = ["a", "b", "c", "d"];</code></pre>
+		</div>
+		<p>与字符串的索引一样，列表索引从0开始。列表可以进行截取、组合等。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">访问列表中的值</h2>
+		<p>使用下标索引来访问列表中的值，同样你也可以使用方括号的形式截取字符，如下所示：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例(Python 3.0+)</h2>
+			<pre><code>#!/usr/bin/python3
+ 
+list1 = ['Google', 'Runoob', 1997, 2000];
+list2 = [1, 2, 3, 4, 5, 6, 7 ];
+ 
+print ("list1[0]: ", list1[0])
+print ("list2[1:5]: ", list2[1:5])</code></pre>
+		</div>
+		<p>以上实例输出结果：</p>
+		<pre>list1[0]:  Google
+list2[1:5]:  [2, 3, 4, 5]</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">更新列表</h2>
+		<p>你可以对列表的数据项进行修改或更新，你也可以使用append()方法来添加列表项，如下所示： </p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例(Python 3.0+)</h2>
+			<pre><code>#!/usr/bin/python3
+ 
+list = ['Google', 'Runoob', 1997, 2000]
+ 
+print ("第三个元素为 : ", list[2])
+list[2] = 2001
+print ("更新后的第三个元素为 : ", list[2])</code></pre>
+		</div>
+		<p><b>注意：</b>我们会在接下来的章节讨论append()方法的使用</p>
+		<p>以上实例输出结果：</p>
+		<pre>第三个元素为 :  1997
+更新后的第三个元素为 :  2001</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">删除列表元素</h2>
+		<p>可以使用 del 语句来删除列表的的元素，如下实例：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例(Python 3.0+)</h2>
+			<pre><code>#!/usr/bin/python3
+ 
+list = ['Google', 'Runoob', 1997, 2000]
+ 
+print (list)
+del list[2]
+print ("删除第三个元素 : ", list)</code></pre>
+		</div>
+		<p>以上实例输出结果：</p>
+		<pre>删除第三个元素 : ['Google', 'Runoob', 2000] </pre>
+		<p>注意：我们会在接下来的章节讨论remove()方法的使用</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Python列表脚本操作符</h2>
+		<p>列表对 + 和 * 的操作符与字符串相似。+ 号用于组合列表，* 号用于重复列表。</p>
+		<p>如下所示：</p>
+		<table>
+			<tbody>
+				<tr><th>Python 表达式</th><th>结果 </th><th> 描述</th></tr>
+				<tr><td>len([1, 2, 3])</td><td>3</td><td>长度</td></tr>
+				<tr><td>[1, 2, 3] + [4, 5, 6]</td><td>[1, 2, 3, 4, 5, 6]</td><td>组合</td></tr>
+				<tr><td>['Hi!'] * 4</td><td>['Hi!', 'Hi!', 'Hi!', 'Hi!']</td><td>重复</td></tr>
+				<tr><td>3 in [1, 2, 3]</td><td>True</td><td>元素是否存在于列表中</td></tr>
+				<tr><td>for x in [1, 2, 3]: print(x, end=" ")</td><td>1 2 3</td><td>迭代</td></tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Python列表截取与拼接</h2>
+		<p>Python的列表截取与字符串操作类型，如下所示：</p>
+		<div class="n-example">
+			<pre><code>L=['Google', 'Runoob', 'Taobao']</code></pre>
+		</div>
+		<p>操作：</p>
+		<table>
+			<tbody>
+				<tr><th style="width:33%">Python 表达式</th><th style="width:33%">结果 </th><th style="width:33%"> 描述</th></tr>
+				<tr><td>L[2]</td><td>'Taobao'</td><td>读取第三个元素</td></tr>
+				<tr><td>L[-2]</td><td>'Runoob'</td><td>从右侧开始读取倒数第二个元素: count from the right</td></tr>
+				<tr><td>L[1:]</td><td>['Runoob', 'Taobao']</td><td>输出从第二个元素开始后的所有元素</td></tr>
+			</tbody>
+		</table>
+		<div class="n-example">
+			<pre><code>>>>L=['Google', 'Runoob', 'Taobao']
+>>> L[2]
+'Taobao'
+>>> L[-2]
+'Runoob'
+>>> L[1:]
+['Runoob', 'Taobao']
+>>></code></pre>
+		</div>
+		<p>列表还支持拼接操作：</p>
+		<div class="n-example">
+			<pre><code>>>>squares = [1, 4, 9, 16, 25]
+>>> squares + [36, 49, 64, 81, 100]
+[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]</code></pre>
+		</div>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">嵌套列表</h2>
+		<p>使用嵌套列表即在列表里创建其它列表，例如：</p>
+		<div class="n-example">
+			<pre><code>>>>a = ['a', 'b', 'c']
+>>> n = [1, 2, 3]
+>>> x = [a, n]
+>>> x
+[['a', 'b', 'c'], [1, 2, 3]]
+>>> x[0]
+['a', 'b', 'c']
+>>> x[0][1]
+'b'</code></pre>
+		</div>	
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Python列表函数&方法</h2>
+		<p>Python包含以下函数:</p>
+		<table>
+			<tbody>
+				<tr><th style="width:5%">序号</th><th style="width:95%">函数</th></tr>
+
+				<tr><td>1</td><td><a class="n-text-line green" href="#attListLen">len(list)</a><br>列表元素个数</td></tr>
+				<tr><td>2</td><td><a class="n-text-line green" href="#attListMax">max(list)</a><br>返回列表元素最大值</td></tr>
+				<tr><td>3</td><td><a class="n-text-line green" href="#attListMin">min(list)</a><br>返回列表元素最小值</td></tr>
+				<tr><td>4</td><td><a class="n-text-line green" href="#attListList">list(seq)</a><br>将元组转换为列表</td></tr>
+			</tbody>
+		</table>
+		<p>Python包含以下方法:</p>
+		<table>
+			<tbody>
+				<tr><th style="width:5%">序号</th><th style="width:95%">方法</th></tr>
+				<tr><td>1</td><td><a class="n-text-line green" href="#attListAppend">list.append(obj)</a><br>在列表末尾添加新的对象</td></tr>
+				<tr><td>2</td><td><a class="n-text-line green" href="#attListCount">list.count(obj)</a><br>统计某个元素在列表中出现的次数</td></tr>
+				<tr><td>3</td><td><a class="n-text-line green" href="#attListExtend">list.extend(seq)</a><br>在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表）</td></tr>
+				<tr><td>4</td><td><a class="n-text-line green" href="#attListIndex">list.index(obj)</a><br>从列表中找出某个值第一个匹配项的索引位置</td></tr>
+				<tr><td>5</td><td><a class="n-text-line green" href="#attListInsert">list.insert(index, obj)</a><br>将对象插入列表</td></tr>
+				<tr><td>6</td><td><a class="n-text-line green" href="#attListPop">list.pop(obj=list[-1])</a><br>移除列表中的一个元素（默认最后一个元素），并且返回该元素的值</td></tr>
+				<tr><td>7</td><td><a class="n-text-line green" href="#attListRemove">list.remove(obj)</a><br>移除列表中某个值的第一个匹配项</td></tr>
+				<tr><td>8</td><td><a class="n-text-line green" href="#attListReverse">list.reverse()</a><br>反向列表中元素</td></tr>
+				<tr><td>9</td><td><a class="n-text-line green" href="#attListSort">list.sort([func])</a><br>对原列表进行排序</td></tr>
+				<tr><td>10</td><td><a class="n-text-line green" href="#attListClear">list.clear()</a><br>清空列表</td></tr>
+				<tr><td>11</td><td><a class="n-text-line green" href="#attListCopy">list.copy()</a><br>复制列表</td></tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#string" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python3 字符串
+		</a>
+		<a href="#tuple" class="pull-right green">
+			Python3 元组
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+</div>

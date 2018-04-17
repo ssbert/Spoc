@@ -1,0 +1,73 @@
+﻿body {
+    font-family:'Microsoft YaHei'
+}
+.ftitle
+{
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+.fitem
+{
+    margin-bottom: 5px;
+}
+.fitem label
+{
+    display: inline-block;
+    width: 110px;
+    text-align:right;
+}
+.fitem input
+{
+    width: 300px;
+}
+#fm
+{
+    padding: 10px 30px;
+}
+.m-l-15{
+    margin-left:15px;
+}
+.t-a-r {
+    text-align:right
+}
+
+
+.form-horizontal .form-group {
+    margin: 10px;
+}
+
+.form-inline .form-group{
+    display: inline-block;
+    margin: 5px 10px;
+}
+
+.form-label {
+    display:inline-block;
+    text-align:right;
+    vertical-align:top;
+    line-height:22px;
+}
+
+.label-length-2 .form-label{
+    width: 36px;
+}
+.label-length-3 .form-label{
+    width: 48px;
+}
+.label-length-4 .form-label{
+    width: 60px;
+}
+.label-length-5 .form-label{
+    width: 72px;
+}
+.label-length-6 .form-label{
+    width: 84px;
+}
+
+
+
+.hidden {
+    display: none;
+}

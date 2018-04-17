@@ -1,0 +1,61 @@
+<div class="functionMemcpy-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">memcpy()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>void *memcpy(void *str1, const void *str2, size_t n)</b> 从存储区 <b>str2</b> 复制 <b>n</b> 个字符到存储区 <b>str1</b>。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 memcpy() 函数的声明。</p>
+		<pre>void *memcpy(void *str1, const void *str2, size_t n)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>str1</b> -- 指向用于存储复制内容的目标数组，类型强制转换为 void* 指针。</li>
+			<li><b>str2</b> -- 指向要复制的数据源，类型强制转换为 void* 指针。</li>
+			<li><b>n</b> -- 要被复制的字节数。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回一个指向目标存储区 str1 的指针。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 memcpy() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main ()
+{
+   const char src[50] = "http://www.w3cschool.cc";
+   char dest[50];
+
+   printf("Before memcpy dest = %s\n", dest);
+   memcpy(dest, src, strlen(src)+1);
+   printf("After memcpy dest = %s\n", dest);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>Before memcpy dest =
+After memcpy dest = http://www.w3cschool.cc</pre>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

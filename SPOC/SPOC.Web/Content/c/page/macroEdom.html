@@ -1,0 +1,77 @@
+<div class="macroEdom-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库宏 - <span class="green">EDOM</span>
+		</h1>
+		<p>
+			<a href="#standardLibErrnoH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;errno.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库宏 <b>EDOM</b> 表示一个域错误，它在输入参数超出数学函数定义的域时发生，errno 被设置为 EDOM。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 EDOM 宏的声明。</p>
+		<pre>#define EDOM some_value</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>NA</b></li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p><b>NA</b></p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 EDOM 宏的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;math.h&gt;
+
+int main()
+{
+   double val;
+
+   errno = 0;
+   val = sqrt(-10);
+   if(errno == EDOM) 
+   {
+      printf("Invalid value \n");
+   }
+   else 
+   {
+      printf("Valid value\n");
+   }
+   
+   errno = 0;
+   val = sqrt(10);
+   if(errno == EDOM) 
+   {
+      printf("Invalid value\n");
+   }
+   else 
+   {
+      printf("Valid value\n");
+   }
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>Invalid value
+Valid value</pre>
+		<p>
+			<a href="#standardLibErrnoH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;errno.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

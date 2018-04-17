@@ -1,0 +1,194 @@
+﻿
+@{
+    ViewBag.Title = "UserAnswer";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-3">
+            <div class="form-group">
+                <label class="form-label">标题：</label>
+                <input id="title" name="title" class="easyui-textbox" style="width: 200px;" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">题干：</label>
+                <input id="questionText" name="questionText" class="easyui-textbox" style="width: 200px;" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">难度：</label>
+                <select id="hardGrade" name="hardGrade" class="easyui-combobox" editable="false" style="width: 150px;">
+                    <option value="">-全部-</option>
+                    <option value="1">容易</option>
+                    <option value="2">中等</option>
+                    <option value="3">困难</option>
+
+                </select>
+            </div>
+           
+
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="records.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="$('#query-form').form('reset')">重置</a>
+            </div>
+        </form>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="true" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+        <tr>
+            <th field="title">标题</th>
+            <th field="questionText" formatter="questionTextFormatter">题干</th>
+            <th field="hardGrade" formatter="levelFormatter">难度</th>
+            <th field="score" formatter="scoreFormatter">试题分数</th>
+            <th field="createTime">积分日期</th>
+            <th field="userScore" formatter="scoreFormatter">得分</th>
+            <th field="isPass" formatter="passFormatter">是否通过</th>
+            <th field="opt" formatter="optFormatter">操作</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script>
+        var request = GetRequest();
+       
+        function scoreFormatter(val) {
+            if (stringIsEmpty(val)) {
+                return "-";
+            }
+            return val.toFixed(2);
+        }
+
+        function passFormatter(val) {
+            if (val === 1) { return "是"; }
+            else { return "否"; }
+        }
+
+        function questionTextFormatter(value, row, index) {
+            value = value.replace(/<[^>]+>/g, "");
+            if (value.length > 60) {
+                value = value.substr(0, 60) + "...";
+            }
+            return value;
+        }
+
+        function levelFormatter(val, row, index) {
+            if (val === "1") {
+                return "容易";
+            } else if (val === "2") {
+                return "中等";
+            } else if (val === "3") {
+                return "困难";
+            } else if (stringIsEmpty(val)) {
+                return "缺省";
+            }
+            return val;
+        }
+
+        function optFormatter(val, row, index) {
+            return linkbtn(index,
+                {
+                    option: [
+                        {
+                            title: "查看作答",
+                            text: "查看作答",
+                            icon: "icon-06",
+                            onclick: "records.showUserAnswerQuestion"
+                        }
+                    ]
+                });
+        }
+
+        var UserAnswerRecordes = (function() {
+            function init(userId) {
+                var queryParam = { userId: userId, skip: 0, pageSize: 30 };
+                var tabHelper = new TabHelper("tabs");
+
+                this.query = function() {
+                    queryParam.skip = 0;
+                    setParam();
+                    loadData(queryParam);
+                };
+
+                this.initPagination = function() {
+                    $("#dg").datagrid({
+                            onSortColumn: function(sort, order) {
+                                queryParam.sort = sort;
+                                queryParam.order = order;
+                                loadData(queryParam);
+                            }
+                        })
+                        .datagrid("getPager")
+                        .pagination({
+                            onSelectPage: function(pageNumber, pageSize) {
+                                queryParam.pageNumber = pageNumber;
+                                queryParam.skip = (pageNumber - 1) * pageSize;
+                                if (queryParam.skip < 0) {
+                                    queryParam.skip = 0;
+                                }
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            },
+                            onChangePageSize: function(pageSize) {
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            }
+                        });
+                };
+
+                this.showUserAnswerQuestion = function(index) {
+                    var row = $("#dg").datagrid("getRows")[index];
+                    var url = "/Statement/Lib/UserAnswerQuestion?id=" + row.gradeId+"&viewType=challenge";
+                    tabHelper.openTab("查看作答", url, "icon-06");
+                };
+
+                function setParam() {
+                    queryParam.title = $("#title").textbox("getValue");
+                    queryParam.questionText = $("#questionText").textbox("getValue");
+                    queryParam.hardGrade = $("#hardGrade").combobox("getValue");
+
+                }
+
+                function loadData(param) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "challengequestion/getuseranswerrecord";
+                    nv.post(url,
+                        param,
+                        function(data) {
+                            $("#dg").datagrid("loaded");
+                            if (data.success) {
+                                $("#dg")
+                                    .datagrid("loadData", data.result.rows)
+                                    .datagrid("getPager")
+                                    .pagination({
+                                        pageNumber: param.pageNumber,
+                                        total: data.result.total
+                                    });
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }
+            }
+
+            return init;
+        })();
+
+        var records = new UserAnswerRecordes(request.userId);
+
+        $(function() {
+            records.initPagination();
+            records.query();
+        });
+
+    </script>
+}
+

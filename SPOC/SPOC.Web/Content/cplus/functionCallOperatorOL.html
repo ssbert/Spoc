@@ -1,0 +1,72 @@
+<div class="functionCallOperatorOL-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">函数调用运算符 () 重载</span>
+		</h1>
+		<p>
+			<a href="#overloading" class="green n-text-line">
+				<img src="/Content/cplus/images/up.gif"> C++ 重载运算符和重载函数
+			</a>
+		</p>
+		<p>函数调用运算符 () 可以被重载用于类的对象。当重载 () 时，您不是创造了一种新的调用函数的方式，相反地，这是创建一个可以传递任意数目参数的运算符函数。</p>
+		<p>下面的实例演示了如何重载函数调用运算符 ()。</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>#include &lt;iostream&gt;
+using namespace std;
+ 
+class Distance
+{
+   private:
+      int feet;             // 0 到无穷
+      int inches;           // 0 到 12
+   public:
+      // 所需的构造函数
+      Distance(){
+         feet = 0;
+         inches = 0;
+      }
+      Distance(int f, int i){
+         feet = f;
+         inches = i;
+      }
+      // 重载函数调用运算符
+      Distance operator()(int a, int b, int c)
+      {
+         Distance D;
+         // 进行随机计算
+         D.feet = a + c + 10;
+         D.inches = b + c + 100 ;
+         return D;
+      }
+      // 显示距离的方法
+      void displayDistance()
+      {
+         cout << "F: " << feet <<  " I:" <<  inches << endl;
+      }
+      
+};
+int main()
+{
+   Distance D1(11, 10), D2;
+
+   cout << "First Distance : "; 
+   D1.displayDistance();
+
+   D2 = D1(10, 10, 10); // invoke operator()
+   cout << "Second Distance :"; 
+   D2.displayDistance();
+
+   return 0;
+}</code></pre>
+		</div>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre>First Distance : F: 11 I:10
+Second Distance :F: 30 I:120</pre>
+		<p>
+			<a href="#overloading" class="green n-text-line">
+				<img src="/Content/cplus/images/up.gif"> C++ 重载运算符和重载函数
+			</a>
+		</p>
+	</div>
+</div>

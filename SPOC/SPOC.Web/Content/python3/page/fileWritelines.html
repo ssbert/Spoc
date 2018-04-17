@@ -1,0 +1,52 @@
+<div class="fileWritelines-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">File writelines() 方法</span>
+		</h1>
+		<p>
+			<a href="#fileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 File(文件) 方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>	
+		<p>writelines() 方法用于向文件中写入一序列的字符串。</p>
+		<p>这一序列字符串可以是由迭代对象产生的，如一个字符串列表。</p>
+		<p>换行需要制定换行符 \n。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>writelines() 方法语法如下：</p>
+		<pre>fileObject.writelines( [ str ])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>str</b> -- 要写入文件的字符串序列。  </p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该方法没有返回值。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 writelines() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+# 打开文件
+fo = open("test.txt", "w")
+print ("文件名为: ", fo.name)
+seq = ["菜鸟教程 1\n", "菜鸟教程 2"]
+fo.writelines( seq )
+
+# 关闭文件
+fo.close()</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>文件名为:  test.txt</pre>
+		<p>查看文件内容：</p>
+		<pre>$ cat test.txt 
+菜鸟教程 1
+菜鸟教程 2</pre>
+		<p>
+			<a href="#fileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 File(文件) 方法
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,93 @@
+<div class="macroErange-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库宏 - <span class="green">ERANGE</span>
+		</h1>
+		<p>
+			<a href="#standardLibErrnoH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;errno.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库宏 <b>ERANGE</b> 表示一个范围错误，它在输入参数超出数学函数定义的范围时发生，errno 被设置为 ERANGE。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 ERANGE 宏的声明。</p>
+		<pre>#define ERANGE some_value</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>NA</b></li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p><b>NA</b></p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 ERANGE 宏的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;math.h&gt;
+ 
+int main()
+{
+   double x;
+   double value;
+ 
+   x = 2.000000;
+   value = log(x);
+   
+   if( errno == ERANGE ) 
+   {
+      printf("Log(%f) is out of range\n", x);
+   }
+   else 
+   {
+      printf("Log(%f) = %f\n", x, value);
+   }
+ 
+   x = 1.000000;
+   value = log(x);
+   
+   if( errno == ERANGE ) 
+   {
+      printf("Log(%f) is out of range\n", x);
+   }
+   else 
+   {
+      printf("Log(%f) = %f\n", x, value);
+   }
+   
+   x = 0.000000;
+   value = log(x);
+   
+   if( errno == ERANGE ) 
+   {
+      printf("Log(%f) is out of range\n", x);
+   }
+   else 
+   {
+      printf("Log(%f) = %f\n", x, value);
+   }
+   
+   return 0;
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>Log(2.000000) = 0.693147
+Log(1.000000) = 0.000000
+Log(0.000000) = -inf</pre>
+		<p>
+			<a href="#standardLibErrnoH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;errno.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

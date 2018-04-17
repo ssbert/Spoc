@@ -1,0 +1,452 @@
+﻿@model SPOC.Web.Models.UserInfoUpdateModel
+@{
+    ViewBag.Title = "Center";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var email = Model.CurrentEmail;
+    var operation = Model.operation;
+    var code = Model.code;
+    var msg = Model.msg;
+}
+@section styles{
+    <link rel="stylesheet" type="text/css" href="~/css/myCenter.css">
+
+}
+
+<!-- 导航-E -->
+<div class="my-center-page container-box center">
+<div class="row">
+<div class="col-lg-3 col-md-3">
+    <!-- 用户头像-S -->
+    <div class="my-photo">
+        <div class="image fillet_5">
+            <img src="@Model.AcatarImg">
+        </div>
+        <h3 class="user-name">@Model.UserFullName</h3>
+    </div>
+    <!-- 用户头像-E -->
+    <!-- 左侧选项卡-S -->
+    <div class="slide ">
+        <div class="slide-lists">
+            <ul>
+                <li class="active">
+                    <a href="#personalData" data-toggle="tab">
+                        个人资料
+                    </a>
+                </li>
+                <li>
+                    <a href="#changePassword" data-toggle="tab">
+                        修改密码
+                    </a>
+                </li>
+                <li id="liEmail">
+                    <a href="#changeEmail" data-toggle="tab">
+                        邮箱设置
+                    </a>
+                </li>
+                <li id="liAvatar">
+                    <a href="#changeUserPic" data-toggle="tab">
+                        头像设置
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 左侧选项卡-E -->
+    @*<div class="save-changes">
+                <button class="save-changes-btn btn green-btn">保存修改</button>
+            </div>*@
+</div>
+<div class="col-lg-9 col-md-9">
+<!-- 右侧内容 -->
+<div class="tab-content">
+
+<div class="content-item personal-data active" id="personalData">
+    <form action="/Account/BaseSetting" id="user-profile-form" method="post">
+        <div class="content-item-header">
+            <h2>个人资料</h2>
+            <p>这些信息将出现在排行榜及公共档案中</p>
+        </div>
+        <div class="content-item-con">
+            <div class="info-item">
+                <label for="accountName">用户名</label>
+
+                @Html.TextBoxFor(a => a.UserName, new {@class = "form-control"})
+                <div class="help-block">
+                    @Html.ValidationMessageFor(a => a.UserName)
+                </div>
+            </div>
+            <div class="info-item">
+                <label for="name">姓名</label>
+                @Html.TextBoxFor(a => a.UserFullName, new {@class = "form-control"})
+
+            </div>
+            <div class="info-item">
+                <label>邮箱</label>
+                <div class="email">
+                    <span class="email-account">@Model.CurrentEmail</span>
+                    @*<span class="small-tip">已绑定</span>*@
+                </div>
+            </div>
+            <div class="info-item">
+                <label>手机号</label>
+                <div class="phone">
+                    <span class="phone-num">@Model.Mobile</span>
+                    @*<span class="small-tip">已绑定</span>*@
+                </div>
+            </div>
+            <div class="info-item">
+                <label>学院</label>
+                <div class="school">
+                    <span class="your-school">@Model.FacultyName</span>
+                </div>
+            </div>
+            <div class="info-item">
+                <label>专业</label>
+                <div class="major">
+                    <span class="your-major">@Model.MajorName</span>
+                </div>
+            </div>
+            <div class="info-item">
+                <label>教学班级</label>
+                <div class="classroom">
+                    <span class="your-classroom">@Model.ClassName</span>
+                </div>
+            </div>
+            <div class="save-password">
+                <button id="btnBaseSet" type="button" class="save-password-btn btn green-btn">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="content-item change-password" id="changePassword">
+    <form action="/Account/PassWordSet" id="user-password-form" method="post">
+        <div class="content-item-header">
+            <h2>修改密码</h2>
+            <p>输入您当前的密码，并使用新的密码来更换它</p>
+        </div>
+        <div class="content-item-con">
+            <div class="info-item row">
+                <label for="currentPassword" class="col-lg-3 col-md-3">当前密码</label>
+                <div class="col-lg-9 col-md-9">
+                    @Html.TextBoxFor(a => a.PassWord, new {@class = "form-control", type = "password"})
+                    <div class="help-block">
+                        @Html.ValidationMessageFor(a => a.PassWord)
+                    </div>
+                    <p>输入你当前使用的密码</p>
+
+
+                </div>
+            </div>
+            <div class="info-item row">
+                <label for="newPassword" class="col-lg-3 col-md-3">新密码</label>
+                <div class="col-lg-9 col-md-9">
+                    @Html.TextBoxFor(a => a.NewPwd, new {@class = "form-control", type = "password"})
+                    <div class="help-block">
+                        @Html.ValidationMessageFor(a => a.NewPwd)
+                    </div>
+                    <p>输入你要更换的新密码</p>
+
+
+                </div>
+            </div>
+            <div class="info-item row">
+                <label for="newPassword" class="col-lg-3 col-md-3">确认密码</label>
+                <div class="col-lg-9 col-md-9">
+                    @Html.TextBoxFor(a => a.ConfirmPwd, new {@class = "form-control", type = "password"})
+                    <div class="help-block">
+                        @Html.ValidationMessageFor(a => a.ConfirmPwd)
+                    </div>
+                    <p>输入你要更换的新密码</p>
+
+
+                </div>
+            </div>
+            <div class="save-password">
+                <button type="button" id="btnPassWordSet" class="save-password-btn btn green-btn">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="content-item change-email" id="changeEmail">
+    <form action="/Account/EmailSet" id="user-email-form" method="post">
+        <div class="content-item-header">
+            <h2>邮箱设置</h2>
+            <p id="emailMsg">输入一个新的邮箱来代替当前邮箱</p>
+        </div>
+        <div class="content-item-con">
+            <div class="info-item row">
+                <label class="col-lg-3 col-md-3">当前邮箱</label>
+                <div class="email" class="col-lg-9 col-md-9">
+                    <span class="email-account">@Model.CurrentEmail</span>
+                    @*<span class="small-tip">已绑定</span>*@
+                </div>
+            </div>
+            <div class="info-item row">
+                <label for="newPassword" class="col-lg-3 col-md-3">新邮箱</label>
+                <div class="col-lg-9 col-md-9">
+                    @{
+                        if (!Model.AllowEditEmail)
+                        {
+                            @Html.TextBoxFor(a => a.Email, new {@class = "form-control", disabled = "disabled"})
+                            <p>暂不支持变更邮箱，请联系管理员开启邮箱设置！</p>
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(a => a.Email, new {@class = "form-control"})
+                            <div class="help-block">
+                                @Html.ValidationMessageFor(a => a.Email)
+                            </div>
+                            <p>输入你要更换的新邮箱</p>
+                        }
+                    }
+
+
+
+                </div>
+            </div>
+            <div class="info-item row">
+                <label for="currentPassword" class="col-lg-3 col-md-3">登录密码</label>
+                <div class="col-lg-9 col-md-9">
+                    @Html.TextBoxFor(a => a.PassWord, new {@class = "form-control", type = "password"})
+                    <div class="help-block">
+                        @Html.ValidationMessageFor(a => a.PassWord)
+                    </div>
+                    <p>输入你当前系统使用的密码</p>
+
+
+                </div>
+            </div>
+            <div class="save-email">
+                <button type="button" id="btnEmailSet" class="save-email-btn btn green-btn">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="content-item change-user-pic" id="changeUserPic">
+    <form action="/Account/AvatarSetting" id="settings-avatar-form" method="post">
+    <div class="content-item-header">
+        <h2>头像设置</h2>
+        @{
+            if (Model.AllowSetAvtar)
+            {
+                <p>上传一张头像可替换当前头像</p>
+            }
+            else
+            {
+                <p class="error">当前系统不允许修改用户头像</p>
+            }
+        }
+</div>
+                <div class="content-item-con">
+                    <div class="row">
+                        <span class="col-lg-2 col-md-2">当前头像</span>
+                        <div class="user-pic col-lg-10 col-md-10">
+                            <div class="pic fillet_5" id="divPic">
+                                <img src="@Model.AcatarImg" id="AcatarImg" alt="userPic">
+                            </div>
+                            <div id="imgTailor_div" class="container demo" style="display: none">
+                                @* <div style="float: left; width: 30%;">*@
+                                <div id="selectImg_div" style="float: left; width: 30%;">
+
+
+                                    <div class="frame" style="margin: 0 0.3em; width: 274px; height: 274px;">
+                                        <img id="photo" src="@ViewBag.avatar "/>
+                                    </div>
+                                    <p class="instructions">
+                                        提示：请选择图片裁剪区域。
+                                    </p>
+                                </div>
+
+                                @*     <div style="float: left; width: 50%;">*@
+                                <div style="float: left;">
+                                    <p style="font-size: 110%; font-weight: bold; padding-left: 0.1em;">
+                                        预览：
+                                    </p>
+
+                                    <div class="frame"
+                                         style="margin: 0 1em; width: 100px; height: 100px;">
+                                        <div id="preview" style="width: 100px; height: 100px; overflow: hidden;">
+                                            <img src="@ViewBag.avatar " style="width: 100px; height: 100px;"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>你可以上传JPG、GIF或PNG格式的文件，文件大小不能超过2M</p>
+                            <div class="upload-pic" id="AvatarNewUpload_div">
+                                
+                                @{
+                                    if (Model.AllowSetAvtar)
+                                    {
+                                        <button id="upload-picture-btn" type="button"
+                                                class="upload-pic-btn btn green-btn">上传新头像</button>
+                                    }
+                                    else
+                                    {
+                                        <button id="upload-picture-btn" type="button" disabled="disabled"
+                                                class="upload-pic-btn btn green-btn">上传新头像</button>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form name="upload_big" id="AvatarUpload_form" class="uploaderForm" style="display:none" method="post" enctype="multipart/form-data" action="/Account/UserAvatarUpload/" target="upload_target">
+                <input name="photo" id="AvatarFileUpload" type="file">
+          
+            </form>
+        </div>
+       
+    </div>
+</div>
+</div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/jquery.form.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <link href="~/Scripts/jquery_upload_crop/imgareaselect-default.css" rel="stylesheet"/>
+    <link href="~/Scripts/jquery_upload_crop/prettify.css" rel="stylesheet"/>
+    <script src="~/Scripts/jquery_upload_crop/jquery.imgareaselect.pack.js"></script>
+    <script src="~/js/account/avatarSet.js?v=@L("version")"></script>
+
+    <script>
+
+        $(function() {
+            //确认邮箱操作
+            if ('@operation' === "CheckEmail") {
+                $("#liEmail").addClass("active").siblings().removeClass("active");
+                $("#personalData").removeClass("active");
+                $("#changeEmail").addClass("active");
+
+                if ('@code' === "-2") //修改邮箱链接超时
+                {
+                    layer.msg("修改邮箱失败!激活链接超时", { icon: 5 });
+                    $("#emailMsg").addClass("error").text("修改邮箱失败!激活链接超时");
+                }
+                else if ('@code' === "-1") //修改邮箱失败
+                {
+                    layer.msg('@msg', { icon: 5 });
+                    $("#emailMsg").addClass("error").text('@msg');
+                }
+                else if ('@code' === "1") {
+                    layer.msg("邮箱已经变更！", { icon: 1 });
+                    // $("#emailMsg").addClass("error").text('邮箱已变更！');
+                }
+            }
+            //图像上传后回调页面
+            else if ('@operation' === "AvatarSetting") {
+                $("#liAvatar").addClass("active").siblings().removeClass("active");
+                $("#personalData").removeClass("active");
+                $("#changeUserPic").addClass("active");
+                if ('@code' === "-1") //上传图像失败
+                {
+                    layer.msg('@msg', { icon: 5 });
+                }
+                else if ('@code' === "1") {
+                    layer.msg("头像已修改！", { icon: 1 });
+                }
+            }
+
+
+            //基础资料修改
+            $("#btnBaseSet").click(function() {
+                if (!$("#user-profile-form").valid()) {
+                    return false;
+                }
+                $("#btnBaseSet").disabled = true;
+                $('#user-profile-form').ajaxSubmit({
+                    dataType: "json",
+                    success: function(data) {
+                        $("#btnBaseSet").disabled = false;
+                        if (data.statu === "ok") {
+                            layer.msg("信息保存成功！", { icon: 1 });
+
+                        } else {
+
+                            layer.msg(data.msg, { icon: 5 });
+                        }
+                    },
+                    error: function(XmlHttpRequest, textStatus, errorThrown) {
+                        alert(errorThrown.toString());
+                    }
+                });
+            });
+            //密码修改
+            $("#btnPassWordSet").click(function() {
+                if (!$("#user-password-form").valid()) {
+                    return false;
+                }
+                $("#btnPassWordSet").disabled = true;
+                $('#user-password-form').ajaxSubmit({
+                    dataType: "json",
+                    success: function(data) {
+                        $("#btnPassWordSet").disabled = false;
+                        if (data.statu === "ok") {
+                            layer.msg("密码修改成功！", { icon: 1 });
+                            $('#user-password-form')[0].reset();
+                        } else {
+
+                            layer.msg(data.msg, { icon: 5 });
+                        }
+                    },
+                    error: function(XmlHttpRequest, textStatus, errorThrown) {
+                        alert(errorThrown.toString());
+                    }
+                });
+            });
+            //邮箱修改
+            $("#btnEmailSet").click(function() {
+                if ($("#Email").val() === "") {
+                    layer.msg("请填写新邮箱地址", { icon: 5 });
+                    return false;
+                }
+                if ($("#Email").val() === '@email') {
+                    layer.msg("新邮箱不能与当前邮箱相同", { icon: 5 });
+                    return false;
+                }
+                if (!$("#user-email-form").valid()) {
+                    return false;
+                }
+                $("#btnEmailSet").disabled = true;
+                $('#user-email-form').ajaxSubmit({
+                    dataType: "json",
+                    success: function(data) {
+                        $("#btnEmailSet").disabled = false;
+                        if (data.statu === "ok") {
+                            layer.alert('系统给您的新邮箱发送了一封激活邮件,请尽快登录激活新邮箱！', { icon: 1 });
+                            $('#user-email-form')[0].reset();
+                        } else {
+
+                            layer.msg(data.msg, { icon: 5 });
+                        }
+                    },
+                    error: function(XmlHttpRequest, textStatus, errorThrown) {
+                        alert(errorThrown.toString());
+                    }
+                });
+            });
+
+            //修改图像
+            var avatar = new avatarSet();
+            avatar.defalutLenSet(274, 100);
+
+            avatar.AvatarImgSet();
+            $("#upload-picture-btn").click(function() {
+                avatar.btnInit(this);
+                avatar.uploadPictureBtnClick();
+            });
+            $("#AvatarFileUpload").change(function () {
+                avatar.AvatarFileUploadChange()
+            });
+        });
+    </script>
+}

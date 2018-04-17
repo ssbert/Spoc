@@ -1,0 +1,417 @@
+﻿
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<div data-options="region:'center',border:false" style="padding:1px;">
+    <div id="toolbar">
+        <div class="easyui-panel">
+            <a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'" onclick="Refresh()">刷新</a>
+            <a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="RoleConfig().add()">新增</a>
+            <a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-busy'" onclick="RoleConfig().del()">删除</a>
+        </div>
+        <div class="easyui-panel" style="margin-top:1px;padding:5px;">
+            <form id="query-form" class="form-inline label label-length-4">
+                <div class="form-group">
+                    <label class="form-label">角色名称：</label>
+                    <input id="searchName" name="searchName" type="text" class="easyui-textbox" style="width: 150px;">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">角色分组：</label>
+                    <select id="roleGroup" name="roleGroup" class="easyui-combobox" style="width: 150px;" data-options="editable:false">
+                        <option value=""> &nbsp;</option>
+                        <option value="admin">管理员</option>
+                        <option value="teacher">教师</option>
+                        <option value="agents">代理商</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label"></label>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="query()">搜索</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="RoleConfig().rest()">重置</a>
+                </div>
+                </form>
+
+</div>
+    </div>
+    <div id="RoleConfig_panel" class="easyui-panel" data-options="border:false" style="margin-top:1px;">
+        <table id="dg" class="easyui-datagrid"></table>
+
+        <div id="RoleConfig_dialog" class="easyui-dialog" data-options="width:'580px',height:'460px',closed:true,buttons:'#RoleConfig_buttons'" style="padding:1px;">
+            <div class="ftitle">
+                角色编辑
+            </div>
+            <form id="fm" method="post">
+                <input id="id" name="id" type="hidden" />
+                <div class="fitem">
+                    <label>
+                        角色名称:
+                    </label>
+                    <input id="roleName" name="roleName" class="easyui-textbox" data-options="required:true,validType:'length[1,30]'">
+                </div>
+                <div class="fitem">
+                    <label>
+                        角色分组:
+                    </label>
+                    <select id="roleGroup" name="roleGroup" class="easyui-combobox" data-options="required:true,width:304,editable:false">
+                        <option value="admin">管理员</option>
+                        <option value="teacher">教师</option>
+                        <option value="agents">代理商</option>
+                    </select>
+                </div>
+                <div class="fitem">
+                    <label>
+                        描述:
+                    </label>
+                    <input id="description" name="description" class="easyui-textbox" data-options="multiline:true,height:'100'">
+                </div>
+                <div class="fitem">
+                    <label>
+                        权限:
+                    </label>
+                   
+                    <select id="permissionTree" name="permissionTree" class="easyui-combotree" style="width: 300px;"
+                            data-options="url:'/SystemSetting/SystemSetting/GetPermissionTree',required:true" multiple="true"></select>
+                    <input id="permissionId" name="permissionId" type="hidden">
+                </div>
+            </form>
+        </div>
+        <div id="RoleConfig_buttons">
+            <a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-save',width:'90px'" onclick="RoleConfig().save()">保存</a>
+            <a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',width:'90px'" onclick="RoleConfig().cancel(0)">取消</a>
+        </div>
+    </div>
+    <div id="view_panel" class="easyui-panel" data-options="border:false" style="margin-top:1px;">
+        <table id="dg" class="easyui-datagrid"></table>
+
+        <div id="view_dialog" class="easyui-dialog" data-options="width:'580px',height:'460px',closed:true,buttons:'#view_buttons'" style="padding:1px;">
+          
+            <ul id="roleMenu" class="easyui-tree"></ul>
+        </div>
+        <div id="view_buttons">
+            <a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',width:'90px'" onclick="RoleConfig().cancel(1)">取消</a>
+        </div>
+    </div>
+    </div>
+
+    <script src="~/Scripts/jquery-easyui-extension/datagrid-ext.js?@L("version")"></script>
+    <script src="~/Areas/Assets/js/tabHelper.js?@L("version")"></script>
+    <script type="text/javascript">
+
+        var datagrid;
+        var dialog;
+        var isSave = false; // 当保存时isSave为True，不需要判断当前Form值是否更新，否则都会进行对比
+        var isTrue = true; //新增时为True,grid重新加载，修改时为False，grid为reload
+        var id = 0;
+        var isEdit = false;
+        var tabHelper = new TabHelper("tabs");
+        var iframeHtml = '<iframe name="{title}" scrolling="auto" frameborder="0"  src="{url}" style="width:100%;height:100%;line-height:0;display:block;margin:0;padding:0;"></iframe>';
+
+        $(function () {
+            //初始化回车事件
+            VE.Enter("Filter");
+            GridInit();
+           // $("#permissionTree").combotree({
+                //子节点选中自动选中父节点
+                //onCheck: function (node, checked) {
+                //    if(checked){
+                //        checkNode($('#permissionId').combotree("tree").tree('getParent', node.target));
+                //    }
+                //}
+          
+           // });
+        });
+        function Refresh() {
+            $('#dg').datagrid('reload');
+        }
+        function checkNode(node) {
+            if(!node){
+                return;
+            }else{
+                checkNode($('#permissionTree').combotree("tree").tree('getParent', node.target));
+                $('#permissionTree').combotree("tree").tree('check', node.target);
+            }
+      }
+        function GridInit() {
+            //VE.LoodToolbar(); //加载权限
+            var toorBarH = $("#toolbar").height();
+            var fullHeight = $(window).height() - toorBarH - 1;
+            datagrid = $("#dg").datagrid({
+                url: VE.AppPath + '/SystemSetting/SystemSetting/GetAllRoleManage',
+                title: '菜单',
+                rownumbers: true,
+                pagination: true,
+                iconCls: VE.DatagridIconCls,
+                height: fullHeight,
+                pageSize: VE.PageSize,
+                pageList: VE.PageList,
+                ctrlSelect: false,
+                fitColumns: true,
+                nowrap: false,
+                border: true,
+                idField: 'id',
+                sortName: 'roleName',
+                sortOrder: 'desc',
+                columns: [
+                    [
+                        { field: 'ck', checkbox: true },
+                        { field: 'id', title: 'id', width: 80, sortable: true, hidden: true },
+                        {
+                            field: 'roleName', title: '角色名', width: 60, sortable: true, formatter: function (value, row) {
+                                if (row.isDefault) {
+                                    var imageFile = "";
+                                    switch (row.roleGroup) {
+                                        case "admin":
+                                            imageFile = '<img class="item-img" title="默认管理员角色" src="../../Scripts/jquery-easyui-icon-extension/IconsExtension/user_key.png"/>';
+                                            break;
+                                        case "teacher":
+                                            imageFile = '<img class="item-img" title="默认教师角色" src="../../Scripts/jquery-easyui-icon-extension/IconsExtension/user_earth.png"/>';
+                                            break;
+                                        case "agents":
+                                            imageFile = '<img class="item-img" title="默认代理商角色" src="../../Scripts/jquery-easyui-icon-extension/IconsExtension/user_gray_cool.png"/>';
+                                            break;
+                                        default:
+                                            imageFile= "";
+
+                                    }
+                                    return imageFile + '<span class="item-text">' + value + '</span>';
+                                   
+                                }
+                                else{ return value;}
+                            }},
+                        { field: 'roleGroup', title: '角色分组', width: 60, sortable: true,formatter:function(value) {
+                            switch(value)
+                            {
+                                case "admin":
+                                    return "管理员";
+                                case "teacher":
+                                    return "教师";
+                                case "agents":
+                                    return "代理商";
+                                default:
+                                    return "";
+                            }
+                        } },
+                        { field: 'description', title: '描述', width: 100, sortable: true },
+                        { field: 'menuNames', title: '权限信息', width: 200, sortable: true },
+                        { field: 'menuCodes', title: '权限编码', width: 80, sortable: true,hidden:true },
+                        { field: 'option', title: '操作', width: 110, sortable: true, formatter: RoleConfig().formatOpt }
+                    ]
+                ]
+
+            });
+        }
+
+        function RoleConfig() {
+            return new RoleConfig.prototype.init();
+        }
+
+        function query() {
+            $("#dg").datagrid({
+                url: VE.AppPath + '/SystemSetting/SystemSetting/GetAllRoleManage',
+                queryParams: { roleName: $("#searchName").textbox("getValue").replace(/(^\s*)|(\s*$)/g, ''), roleGroup: $("#roleGroup").combobox("getValue").replace(/(^\s*)|(\s*$)/g, '') }
+            });
+        }
+
+        RoleConfig.prototype = {
+            //constructor: RoleConfig,
+            init: function () {
+
+            },
+            formatOpt: function (val, row, index) {
+                var option = {
+                    option: [
+                        {
+                            text: '编辑',
+                            icon: 'icon-edit',
+                            title: '编辑',
+                            onclick: 'RoleConfig().edit("' + row.id + '",' + index + ')',
+                            hasParams: 'true'
+                        },
+                         {
+                             text: '查看菜单',
+                             icon: 'icon-search',
+                             title: '查看菜单',
+                             onclick: 'RoleConfig().view("' + row.id + '",' + index + ')',
+                             hasParams: 'true'
+                         }
+                         ,
+                         {
+                             text: '用户信息',
+                             icon: 'icon-user_edit',
+                             title: '用户信息',
+                             onclick: 'RoleConfig().editUser("' + row.id + '",' + index + ')',
+                             hasParams: 'true'
+                         }
+                    ]
+                };
+                return linkbtn(row.id, option);
+            },
+            add: function () {
+                isEdit = false;
+                $('#RoleConfig_dialog').dialog('open').dialog('setTitle', '新增');
+                $('#fm').form('clear');
+            },
+            edit: function (id, index) {
+                $('#dg').datagrid('clearSelections'); //取消之前选中行
+                VE.Mask();
+                $('#dg').datagrid('selectRow', index); // 关键在这里
+                var row = $('#dg').datagrid('getSelected');
+                isEdit = true;
+                $('#RoleConfig_dialog').dialog('open').dialog('setTitle', '编辑');
+                //this.initEditData(id); //即时查询加载编辑数据
+                $('#fm').form('load', row); //直接读取行加载编辑数据
+                //$('#permissionTree').combotree('setValues', row.menusCodes.split(","));
+                $('#permissionTree').combotree('setValues', "");
+                var array = row.menusCodes.split(",");
+                var nodes = $('#permissionTree').combotree("tree").tree('getRoots');
+                RoleConfig().editPermissionTree(array, nodes); //编辑权限树 不选中父节点
+                VE.UnMask();
+            },
+            editUser: function (id, index) {
+                $('#dg').datagrid('clearSelections'); //取消之前选中行
+              
+                $('#dg').datagrid('selectRow', index); // 关键在这里
+                var row = $('#dg').datagrid('getSelected'); //选择的行
+                var identity = 2; //教师
+                if (row.roleGroup == "admin")
+                    identity = 3; //管理员
+                if (row.roleGroup == "agents")
+                    identity = 4; //代理商
+                var url = "/systemSetting/systemSetting/RoleUserConfig?identity=" + identity + "&roleId=" + id;
+                tabHelper.openTab("角色用户设置", url, "icon-user_edit");
+
+            },
+            editPermissionTree: function (array, nodes) {
+                for (var i = 0; i < nodes.length; i++) {
+                    var children = $('#permissionTree').combotree('tree').tree('getChildren', nodes[i].target); //子节点
+                    for (var j = 0; j < children.length; j++) {
+                        var children2 = $('#permissionTree').combotree('tree').tree('getChildren', children[j].target); //判断子节点下是否还有子节点
+                        if (children2.length > 0) {
+                            RoleConfig().editPermissionTree(array, children2);
+                        } else
+                        {
+                                if ($.inArray(children[j].id, array)>-1)
+                                   {
+                                      $("#permissionTree").combotree("tree").tree("check", children[j].target);
+                                   }
+                              
+                        }
+                    }
+                }
+            },
+           
+            view: function (id, index) {
+                $('#dg').datagrid('selectRow', index); // 关键在这里
+                $('#view_dialog').dialog('open').dialog('setTitle', '预览授权菜单');
+                this.loadPermissionTree(id);
+            },
+            cancel: function (obj) {
+                if (obj == 0) {
+                    $('#RoleConfig_dialog').dialog('close');
+                } else {
+                    $('#view_dialog').dialog('close');
+                }
+            },
+            task: function () {
+
+            },
+            del: function (obj) {
+                var rows = $('#dg').datagrid('getSelections'); // 选择的行关键在这里;
+                var checkData = 0; //检查数据是否包含默认初始化角色项
+                rows.forEach(function (val,index) {
+                    if (val.isDefault) {
+                       
+                        checkData = 1;
+                    }
+                });
+                if (checkData == 1)
+                {
+                    $.messager.alert("提示", "选择的数据中包含默认初始化角色无法进行删除", "info");
+                    return;
+                 }
+                if (!rows.length && !obj) {
+                    $.messager.alert("提示", "请选择一行数据", "info");
+                }
+                else {
+                    VE.Delete("/api/services/app/RoleManage/DeleteRoleManage", "dg", false, VE.GridType_DataGrid);
+                }
+            },
+            save: function () {
+               
+                if (!$("#fm").form("validate")) {
+                    return false;
+                }
+                var nodeId="";
+                var checknodes = $('#permissionTree').combotree('tree').tree('getChecked');
+                $.each(checknodes, function (index, domEle) {
+                    nodeId += domEle.id + ',';
+                });
+                //获取半选状态的值
+                checknodes = $('#permissionTree').combotree('tree').tree('getChecked',['indeterminate']);
+                $.each(checknodes, function (index, domEle) {
+                    nodeId += domEle.id + ',';
+                });
+             
+                $("#permissionId").val(nodeId.replace(/,$/gi, ""));
+              
+                if (!isEdit) {
+                    $.ajax({
+                        type: "post",
+                        url: VE.AppPath + '/SystemSetting/SystemSetting/InsertRoleManage',
+                        data: $("#fm").serialize(),
+                        success: function (data) {
+                            if (data == "ok") {
+                                Refresh();
+                                RoleConfig().cancel(0);
+                            }
+                        }
+                    });
+                }
+                else {
+                    $.ajax({
+                        type: "post",
+                        url: VE.AppPath + '/SystemSetting/SystemSetting/ModifyRoleManage',
+                        data: $("#fm").serialize(),
+                        success: function (data) {
+                            if (data == "ok") {
+                                Refresh();
+                                RoleConfig().cancel(0);
+                            }
+                        }
+                    });
+                }
+            },
+            initEditData: function (id) {
+                $.ajax({
+                    type: "post",
+                    url: "/api/services/app/RoleManage/GetRoleManageById?id=" + id,
+                    //data: {id : id},
+                    success: function(data) {
+                        var model = data.result;
+                        $("#id").val(model.id);
+                        $("#roleName").textbox("setValue", model.roleName);
+                        $("#description").textbox("setValue", model.description);
+                       
+                    }
+                });
+            },
+            loadPermissionTree: function (id) {
+                $('#roleMenu').tree({
+                    url: VE.AppPath + '/SystemSetting/SystemSetting/GetPermissionTree?id=' + id,
+                    lines: true
+                  
+                });
+            },
+          
+            rest: function () {
+                $("#searchName").textbox("clear", "none");
+            }
+        };
+        
+        RoleConfig.prototype.init.prototype = RoleConfig.prototype;
+    </script>
+
+
+
+

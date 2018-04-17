@@ -1,0 +1,66 @@
+<div class="functionRename-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">rename()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int rename(const char *old_filename, const char *new_filename)</b> 把 <b>old_filename</b> 所指向的文件名改为 <b>new_filename</b>。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 rename() 函数的声明。</p>
+		<pre>int rename(const char *old_filename, const char *new_filename)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>old_filename</b> -- 这是 C 字符串，包含了要被重命名/移动的文件名称。</li>
+			<li><b>new_filename</b> -- 这是 C 字符串，包含了文件的新名称。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果成功，则返回零。如果错误，则返回 -1，并设置 errno。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 rename() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main ()
+{
+   int ret;
+   char oldname[] = "file.txt";
+   char newname[] = "newfile.txt";
+   
+   ret = rename(oldname, newname);
+
+   if(ret == 0) 
+   {
+      printf("文件重命名成功");
+   }
+   else 
+   {
+      printf("错误：不能重命名该文件");
+   }
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>假设我们有一个文本文件 <b>file.txt</b>，它的内容如下。我们将使用上面的程序来重命名该文件。让我们编译并运行上面的程序，这将生成下面的消息，且文件被重命名为 <b>newfile.txt</b> 文件。</p>
+		<pre>文件重命名成功</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

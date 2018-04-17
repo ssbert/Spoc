@@ -1,0 +1,57 @@
+<div class="functionSetbuf-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">setbuf()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>void setbuf(FILE *stream, char *buffer)</b> 定义流 stream 应如何缓冲。该函数应在与流 stream 相关的文件被打开时，且还未发生任何输入或输出操作之前被调用一次。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 setbuf() 函数的声明。</p>
+		<pre>void setbuf(FILE *stream, char *buffer)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>stream</b> -- 这是指向 FILE 对象的指针，该 FILE 对象标识了一个打开的流。</li>
+			<li><b>buffer</b> -- 这是分配给用户的缓冲，它的长度至少为 BUFSIZ 字节，BUFSIZ 是一个宏常量，表示数组的长度。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数不返回任何值</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 setbuf() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+   char buf[BUFSIZ];
+
+   setbuf(stdout, buf);
+   puts("This is baidu");
+
+   fflush(stdout);
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果。在这里，程序在即将输出的时候，发送输出到 STDOUT，否则它将缓冲输出。您也可以使用 fflush() 函数来 to 刷新输出。</p>
+		<pre>This is baidu</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

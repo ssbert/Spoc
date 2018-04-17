@@ -1,0 +1,66 @@
+<div class="stringRegionmatches-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">regionMatches() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>regionMatches() 方法用于检测两个字符串在一个区域内是否相等。</p>
+		<h3 class="n-h3">语法</h3>
+		<pre>public boolean regionMatches(int toffset,
+                             String other,
+                             int ooffset,
+                             int len)
+
+或
+
+public boolean regionMatches(boolean ignoreCase,
+                             int toffset,
+                             String other,
+                             int ooffset,
+                             int len)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>ignoreCase</b> -- 如果为 true，则比较字符时忽略大小写。</p></li> 
+			<li><p><b>toffset</b> -- 此字符串中子区域的起始偏移量。</p></li> 
+			<li><p><b>other</b> -- 字符串参数。</p></li> 
+			<li><p><b>ooffset</b> -- 字符串参数中子区域的起始偏移量。</p></li> 
+			<li><p><b>len</b> -- 要比较的字符数。</p></li> 
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>如果字符串的指定子区域匹配字符串参数的指定子区域，则返回 true；否则返回 false。是否完全匹配或考虑大小写取决于 ignoreCase 参数。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test {
+    public static void main(String args[]) {
+        String Str1 = new String("www.runoob.com");
+        String Str2 = new String("runoob");
+        String Str3 = new String("RUNOOB");
+
+        System.out.print("返回值 :" );
+        System.out.println(Str1.regionMatches(4, Str2, 0, 5));
+
+        System.out.print("返回值 :" );
+        System.out.println(Str1.regionMatches(4, Str3, 0, 5));
+
+        System.out.print("返回值 :" );
+        System.out.println(Str1.regionMatches(true, 4, Str3, 0, 5));
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>返回值 :true
+返回值 :false
+返回值 :true</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

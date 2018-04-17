@@ -1,0 +1,217 @@
+﻿
+@{
+    ViewBag.Title = "Leaderboard";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-4">
+            <div class="form-group">
+                <label class="form-label">教学班级：</label>
+                <input id="classIds" class="easyui-combotree" style="width: 400px;" data-options="
+                        valueField:'id',
+                        textField:'text',
+                        multiple:true,
+                        panelHeight:'auto'" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">姓名：</label>
+                <input id="userFullName" name="userFullName" class="easyui-textbox" style="width: 200px;"/>
+            </div>
+            <div class="form-group">
+                <label class="form-label">用户名：</label>
+                <input id="loginName" name="loginName" class="easyui-textbox" style="width: 200px;"/>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="leaderboard.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="leaderboard.reset()">重置</a>
+            </div>
+        </form>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-page_white_excel" onclick="leaderboard.export()">导出</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="true" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+        <tr>
+            <th field="rank" sortable="true">排名</th>
+            <th field="userName" sortable="true">姓名</th>
+            <th field="loginName" sortable="true">用户名</th>
+            <th field="score" formatter="scoreFormatter" sortable="true">总分</th>
+            <th field="className" formatter="classFormatter" sortable="true">教学班级</th>
+
+
+        </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script>
+        var classIds = @Html.Raw(Json.Encode(ViewBag.classIds));
+
+        function classFormatter(val, row) {
+            if (val === null)
+                return "";
+            return row.facultyName + "/" + row.majorName + "/" + val;
+        }
+
+        var linkTemp = '<a href="javascript:void(0)" onclick="leaderboard.showUserAnswer(\'{0}\',\'{2}\')">{1}</a>';
+
+        function scoreFormatter(val, row) {
+            return linkTemp.format(row.userId, val.toFixed(2), row.userName.trim()==='' ? row.loginName : row.userName);
+        }
+
+        var Leaderboard = (function() {
+            var tabHelper = new TabHelper("tabs");
+            function init() {
+                var queryParam = { skip: 0, pageSize: 30 };
+
+                this.query = function() {
+                    setParam();
+                    loadData(queryParam);
+                };
+
+                this.reset = function() {
+                    $("#query-form").form("reset");
+
+                };
+
+                this.initPagination = function() {
+                    $("#dg").datagrid({
+                            onSortColumn: function(sort, order) {
+                                queryParam.sort = sort;
+                                queryParam.order = order;
+                                loadData(queryParam);
+                            },
+                            onSelect: function(index) {
+                               // $(this).datagrid('unselectRow', index);
+                            }
+                            //toolbar: [
+                            //    {
+                            //        iconCls: 'icon-page_white_excel',
+                            //        text: '导出',
+                            //        handler: function () {
+                            //            window.location.href = "/Statement/Challenge/ExportData";
+                            //        }
+                            //    }]
+                        })
+                        .datagrid("getPager")
+                        .pagination({
+                            onSelectPage: function(pageNumber, pageSize) {
+                                queryParam.pageNumber = pageNumber;
+                                queryParam.skip = (pageNumber - 1) * pageSize;
+                                if (queryParam.skip < 0) {
+                                    queryParam.skip = 0;
+                                }
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            },
+                            onChangePageSize: function(pageSize) {
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            }
+                        })
+
+                };
+                //教师关联班级学生排名需要颜色区分
+                this.initRowStyler = function() {
+                    $('#dg').datagrid({
+                        rowStyler: function(index, row) {
+                            if ($.inArray(row.classId, classIds) >= 0) {
+                                return 'background-color:pink;color:blue;font-weight:bold;';
+                            }
+                        }
+                    });
+                }
+                this.export = function() {
+                    setParam();
+                    $.ajax({
+                        url: "/Statement/Challenge/SetExportParms",
+                        type: "post",
+                        data: queryParam,
+                        async: false,
+                        success: function(data) {
+                            window.location.href = "/Statement/Challenge/ExportData";
+                        }
+                    });
+
+                }
+
+                this.initCombotree = function() {
+                    var url = "/api/services/app/Department/GetAllDepartmentTree";
+                    nv.post(url,
+                        null,
+                        function(data) {
+                            if (data.success) {
+                                $("#classIds").combotree("loadData", data.result);
+                            }
+                        });
+
+                };
+                this.showUserAnswer = function(userId,userName) {
+                    var url = "/Statement/challenge/useranswer?userId={0}"
+                        .format(userId);
+                    tabHelper.openTab("(" + userName + ")" + "挑战记录"  , url, "icon-06");
+                }
+
+                function setParam() {
+                    var nodes = $("#classIds").combotree("tree").tree("getChecked");
+                    var classIds = [];
+                    $.each(nodes,
+                        function(k, v) {
+                            if (!v.children || v.children.length === 0) {
+                                classIds.push(v.id);
+                            }
+                        });
+                    queryParam.classId = classIds.toString();
+                    queryParam.skip = 0;
+                    queryParam.userName = $("#userFullName").textbox("getValue");
+                    queryParam.loginName = $("#loginName").textbox("getValue");
+                }
+
+                function loadData(param) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "ChallengeQuestion/ChallengeLeaderboard";
+                    nv.post(url,
+                        param,
+                        function(data) {
+                            $("#dg").datagrid("loaded");
+                            if (data.success) {
+                                $("#dg")
+                                    .datagrid("loadData", data.result.rankList)
+                                    .datagrid("getPager")
+                                    .pagination({
+                                        pageNumber: param.pageNumber,
+                                        total: data.result.total
+                                    });
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }
+
+
+            }
+
+            return init;
+        })();
+
+        var leaderboard = new Leaderboard();
+
+        $(function() {
+            leaderboard.initCombotree();
+            leaderboard.initPagination();
+            leaderboard.initRowStyler();
+            leaderboard.query();
+        });
+    </script>
+}

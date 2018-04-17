@@ -1,0 +1,164 @@
+﻿@using SPOC.Common.Helper
+@model SPOC.Core.Dto.Challenge.SubmissionListViewDto
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var id = ViewBag.id;
+    int pageSize = 0;
+    if (Model.Total % 10 > 0)
+    {
+        pageSize = Model.Total / 10 + 1;
+    }
+    else
+    {
+        pageSize = Model.Total / 10;
+    }
+}
+@section styles{
+    <link rel="stylesheet" type="text/css" href="~/css/detail.css">
+    <link rel="stylesheet" type="text/css" href="~/css/default.css">
+    }
+
+<!-- 详情-S -->
+<div class="challenge-detail-page detail-page container-box center">
+    <div class="detail-header">
+        <h2 class="header-title">@ViewBag.title</h2>
+
+    </div>
+    <div class="detail-content">
+        <div class="nav-tab">
+
+            <ul class="clearfix">
+                <li class="item"><a href="/challenges/problem/@id">程序</a></li>
+                <li class="item"><a href="/challenges/rank/@id" >单题排行榜</a></li>
+                <li class="item active" ><a href="#">提交记录</a></li>
+
+            </ul>
+        </div>
+        <div class="tab-content">
+          
+            <div class="submissions-content content-box active" id="submissions">
+                <div class="record-lists">
+                    @if(Model.SubmissionList.Count > 0 && Model.SubmissionList != null)
+                    {
+                        <div class="record-table">
+                            <div class="table-header clearfix">
+                          
+                                <div class="table-header-colum submit-time">
+                                    提交时间
+                                </div>
+                                <div class="table-header-colum results">
+                                    结果
+                                </div>
+                                <div class="table-header-colum score">
+                                    得分
+                                </div>
+                                <div class="table-header-colum time">
+                                    耗时
+                                </div>
+                                <div class="table-header-colum handle">
+									
+                                </div>
+                            </div>
+                            <div class="table-body">
+                                @{
+                                    foreach (var submissions in Model.SubmissionList)
+                                    {
+                                        <div class="table-row clearfix">
+
+                                            <div class="table-row-colum submit-time">
+                                                @DateTimeUtil.TimeFormat(submissions.submiTime)
+                                           
+                                            </div>
+                                            <div class="table-row-colum results">
+                                                <span class="glyphicon @(submissions.isPass==1?"glyphicon-ok green":"glyphicon-remove red") "></span>
+                                            </div>
+                                            <div class="table-row-colum score">
+                                                @submissions.score.ToString("f2")
+                                            </div>
+                                            <div class="table-row-colum time">
+                                                @DateTimeUtil.ConvertTimeStrFromSecond(submissions.challengeTime)
+                                            </div>
+                                            <div id="@submissions.id" hidden="hidden">@submissions.code</div>
+                                            <div class="table-row-colum results">
+                                                <button class="btn default-btn"  onclick="ViewCode(this,'@submissions.id')">查看代码</button>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="iconfont icon-nodata"></div>
+                    }
+                    
+                </div>
+                <!-- 分页导航-S -->
+                <div class="page-nav">
+                    <div class="pagination"></div>
+                </div>
+                <!-- 分页导航-E -->
+                <div class="results-detail" style="display: none">
+                    <div class="problem-con">
+                        <h3>提交的代码</h3>
+                        <div class="code">
+                            <pre><code id="code"></code></pre>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+           
+        </div>
+    </div>
+
+
+   
+</div>
+
+<!-- 详情-E -->
+@section Scripts{
+    <script src="~/Scripts/jqPaginator-1.2.1/jqpaginator.min.js"></script>
+    <script src="~/Scripts/highlight/highlight.pack.js" ></script>
+    <script>
+       
+        function ViewCode(obj,id) {
+            $(".results-detail").show();
+            $("#code").html($("#" + id).html());
+            resultsBtn.each(function(index, value) {
+                $(value).removeClass('green-btn').addClass('default-btn');
+            });
+            $(obj).removeClass('default-btn').addClass('green-btn');
+             hljs.initHighlighting.called = false;
+             hljs.initHighlighting();
+        }
+        var current = @Model.CurrentPage;
+
+        var resultsBtn = $('.record-table .results .btn');
+
+        (function() {
+            if (@Model.Total > 10) {
+                $('.pagination').jqPaginator({
+                    totalPages: @pageSize,
+                    visiblePages: 5,
+                    currentPage: current,
+                    first: '<li class="first"><a href="javascript:void(0);" class="glyphicon glyphicon-backward"></a></li>',
+                    prev:
+                        '<li class="prev"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-left"></a></li>',
+                    next:
+                        '<li class="next"><a href="javascript:void(0);" class="glyphicon glyphicon-triangle-right"></a></li>',
+                    last: '<li class="last"><a href="javascript:void(0);" class="glyphicon glyphicon-forward"></a></li>',
+                    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+                    onPageChange: function(num, type) {
+                        if (type === "change") {
+                            window.location.href = "/challenges/submissions?id=@id&currentPage=" + num;
+                        }
+                    }
+                });
+            }
+        })();
+    </script>
+}
+

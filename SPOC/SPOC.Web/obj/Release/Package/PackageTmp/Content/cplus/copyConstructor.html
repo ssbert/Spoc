@@ -1,0 +1,172 @@
+<div class="copyConstructor-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">拷贝构造函数</span>
+		</h1>
+		<p>
+			<a href="#classesObjects" class="green n-text-line">
+				<img src="/Content/cplus/images/up.gif"> C++ 类 & 对象
+			</a>
+		</p>
+		<p><b>拷贝构造函数</b>是一种特殊的构造函数，它在创建对象时，是使用同一类中之前创建的对象来初始化新创建的对象。拷贝构造函数通常用于：</p>
+		<ul>
+			<li>通过使用另一个同类型的对象来初始化新创建的对象。</li>
+			<li>复制对象把它作为参数传递给函数。</li>
+			<li>复制对象，并从函数返回这个对象。</li>
+		</ul>
+		<p>如果在类中没有定义拷贝构造函数，编译器会自行定义一个。如果类带有指针变量，并有动态内存分配，则它必须有一个拷贝构造函数。拷贝构造函数的最常见形式如下：</p>
+		<div class="n-example">
+			<pre><code>classname (const classname &obj) {
+   // 构造函数的主体
+}
+</code></pre>
+		</div>
+		<p>在这里，<b>obj</b> 是一个对象引用，该对象是用于初始化另一个对象的。</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>#include &lt;iostream&gt;
+ 
+using namespace std;
+ 
+class Line
+{
+   public:
+      int getLength( void );
+      Line( int len );             // 简单的构造函数
+      Line( const Line &obj);      // 拷贝构造函数
+      ~Line();                     // 析构函数
+ 
+   private:
+      int *ptr;
+};
+ 
+// 成员函数定义，包括构造函数
+Line::Line(int len)
+{
+    cout << "调用构造函数" << endl;
+    // 为指针分配内存
+    ptr = new int;
+    *ptr = len;
+}
+ 
+Line::Line(const Line &obj)
+{
+    cout << "调用拷贝构造函数并为指针 ptr 分配内存" << endl;
+    ptr = new int;
+    *ptr = *obj.ptr; // 拷贝值
+}
+ 
+Line::~Line(void)
+{
+    cout << "释放内存" << endl;
+    delete ptr;
+}
+int Line::getLength( void )
+{
+    return *ptr;
+}
+ 
+void display(Line obj)
+{
+   cout << "line 大小 : " << obj.getLength() << endl;
+}
+ 
+// 程序的主函数
+int main( )
+{
+   Line line(10);
+ 
+   display(line);
+ 
+   return 0;
+}
+</code></pre>
+		</div>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre>调用构造函数
+调用拷贝构造函数并为指针 ptr 分配内存
+line 大小 : 10
+释放内存
+释放内存</pre>
+		<p>下面的实例对上面的实例稍作修改，通过使用已有的同类型的对象来初始化新创建的对象：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>#include &lt;iostream&gt;
+ 
+using namespace std;
+ 
+class Line
+{
+   public:
+      int getLength( void );
+      Line( int len );             // 简单的构造函数
+      Line( const Line &obj);      // 拷贝构造函数
+      ~Line();                     // 析构函数
+ 
+   private:
+      int *ptr;
+};
+ 
+// 成员函数定义，包括构造函数
+Line::Line(int len)
+{
+    cout << "调用构造函数" << endl;
+    // 为指针分配内存
+    ptr = new int;
+    *ptr = len;
+}
+ 
+Line::Line(const Line &obj)
+{
+    cout << "调用拷贝构造函数并为指针 ptr 分配内存" << endl;
+    ptr = new int;
+    *ptr = *obj.ptr; // 拷贝值
+}
+ 
+Line::~Line(void)
+{
+    cout << "释放内存" << endl;
+    delete ptr;
+}
+int Line::getLength( void )
+{
+    return *ptr;
+}
+ 
+void display(Line obj)
+{
+   cout << "line 大小 : " << obj.getLength() << endl;
+}
+ 
+// 程序的主函数
+int main( )
+{
+   Line line1(10);
+ 
+   Line line2 = line1; // 这里也调用了拷贝构造函数
+ 
+   display(line1);
+   display(line2);
+ 
+   return 0;
+}
+</code></pre>
+		</div>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<p>调用构造函数
+调用拷贝构造函数并为指针 ptr 分配内存
+调用拷贝构造函数并为指针 ptr 分配内存
+line 大小 : 10
+释放内存
+调用拷贝构造函数并为指针 ptr 分配内存
+line 大小 : 10
+释放内存
+释放内存
+释放内存</p>
+		<p>
+			<a href="#classesObjects" class="green n-text-line">
+				<img src="/Content/cplus/images/up.gif"> C++ 类 & 对象
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,164 @@
+<div class="mapInterface-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">Map 接口</span>
+		</h1>
+		<p>
+			<a href="#dictionaryClass" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java Dictionary 类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>Map接口中键和值一一映射. 可以通过键来获取值。</p>
+		<ul>
+			<li>
+				给定一个键和一个值，你可以将该值存储在一个Map对象. 之后，你可以通过键来访问对应的值。</li>
+			<li>
+				当访问的值不存在的时候，方法就会抛出一个NoSuchElementException异常.</li>
+			<li>
+				当对象的类型和Map里元素类型不兼容的时候，就会抛出一个 ClassCastException异常。</li>
+			<li>
+				当在不允许使用Null对象的Map中使用Null对象，会抛出一个NullPointerException 异常。</li>
+			<li>
+				当尝试修改一个只读的Map时，会抛出一个UnsupportedOperationException异常。</li>
+		</ul>
+		<table>
+			<tbody>
+				<tr>
+					<th>
+						序号</th>
+					<th>
+						方法描述</th>
+				</tr>
+				<tr>
+					<td>
+						1</td>
+					<td>
+						void clear( )<br>
+						&nbsp;从此映射中移除所有映射关系（可选操作）。</td>
+				</tr>
+				<tr>
+					<td>
+						2</td>
+					<td>
+						boolean containsKey(Object k)<br>
+						如果此映射包含指定键的映射关系，则返回&nbsp;true。</td>
+				</tr>
+				<tr>
+					<td>
+						3</td>
+					<td>
+						boolean containsValue(Object v)<br>
+						如果此映射将一个或多个键映射到指定值，则返回&nbsp;true。</td>
+				</tr>
+				<tr>
+					<td>
+						4</td>
+					<td>
+						Set entrySet( )<br>
+						返回此映射中包含的映射关系的&nbsp;Set 视图。</td>
+				</tr>
+				<tr>
+					<td>
+						5</td>
+					<td>
+						boolean equals(Object obj)<br>
+						比较指定的对象与此映射是否相等。</td>
+				</tr>
+				<tr>
+					<td>
+						6</td>
+					<td>
+						Object get(Object k)<br>
+						返回指定键所映射的值；如果此映射不包含该键的映射关系，则返回&nbsp;null。</td>
+				</tr>
+				<tr>
+					<td>
+						7</td>
+					<td>
+						int hashCode( )<br>
+						返回此映射的哈希码值。</td>
+				</tr>
+				<tr>
+					<td>
+						8</td>
+					<td>
+						boolean isEmpty( )<br>
+						如果此映射未包含键-值映射关系，则返回&nbsp;true。</td>
+				</tr>
+				<tr>
+					<td>
+						9</td>
+					<td>
+						Set keySet( )<br>
+						返回此映射中包含的键的&nbsp;Set 视图。</td>
+				</tr>
+				<tr>
+					<td>
+						10</td>
+					<td>
+						Object put(Object k, Object v)<br>
+						将指定的值与此映射中的指定键关联（可选操作）。</td>
+				</tr>
+				<tr>
+					<td>
+						11</td>
+					<td>
+						void putAll(Map m)<br>
+						从指定映射中将所有映射关系复制到此映射中（可选操作）。</td>
+				</tr>
+				<tr>
+					<td>
+						12</td>
+					<td>
+						Object remove(Object k)<br>
+						如果存在一个键的映射关系，则将其从此映射中移除（可选操作）。</td>
+				</tr>
+				<tr>
+					<td>
+						13</td>
+					<td>
+						int size( )<br>
+						返回此映射中的键-值映射关系数。</td>
+				</tr>
+				<tr>
+					<td>
+						14</td>
+					<td>
+						Collection values( )<br>
+						返回此映射中包含的值的 Collection 视图。</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">
+			实例
+		</h3>
+		<p>下面的例子来解释Map的功能</p>
+		<div class="n-example">
+			<pre><code>import java.util.*;
+
+public class CollectionsDemo {
+
+   public static void main(String[] args) {
+      Map m1 = new HashMap(); 
+      m1.put("Zara", "8");
+      m1.put("Mahnaz", "31");
+      m1.put("Ayan", "12");
+      m1.put("Daisy", "14");
+      System.out.println();
+      System.out.println(" Map Elements");
+      System.out.print("\t" + m1);
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下： </p>
+		<pre>Map Elements
+        {Mahnaz=31, Ayan=12, Daisy=14, Zara=8}</pre>
+	</div>
+	<p>
+		<a href="#dictionaryClass" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java Dictionary 类
+		</a>
+	</p>
+</div>

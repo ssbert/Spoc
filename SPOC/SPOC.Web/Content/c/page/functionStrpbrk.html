@@ -1,0 +1,66 @@
+<div class="functionStrpbrk-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">strpbrk()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>char *strpbrk(const char *str1, const char *str2) </b> 检索字符串 <b>str1</b> 中第一个匹配字符串 <b>str2</b> 中字符的字符，不包含空结束字符。也就是说，依次检验字符串 str1 中的字符，当被检验字符在字符串 str2 中也包含时，则停止检验，并返回该字符位置。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 strpbrk() 函数的声明。</p>
+		<pre>char *strpbrk(const char *str1, const char *str2)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>str1</b> -- 要被检索的 C 字符串。</li>
+			<li><b>str2</b> -- 该字符串包含了要在 str1 中进行匹配的字符列表。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回 str1 中第一个匹配字符串 str2 中字符的字符数，如果未找到字符则返回 NULL。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 strpbrk() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main ()
+{
+   const char str1[] = "abcde2fghi3jk4l";
+   const char str2[] = "34";
+   char *ret;
+
+   ret = strpbrk(str1, str2);
+   if(ret) 
+   {
+      printf("第一个匹配的字符是： %c\n", *ret);
+   }
+   else 
+   {
+      printf("未找到字符");
+   }
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>第一个匹配的字符是： 3</pre>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

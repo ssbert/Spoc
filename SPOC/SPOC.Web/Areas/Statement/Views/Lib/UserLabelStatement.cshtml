@@ -1,0 +1,188 @@
+﻿
+@{
+    ViewBag.Title = "UserLabelStatement";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-5">
+            <div class="form-group">
+                <label class="form-label">知识点分类：</label>
+                <input id="folderId" name="folderId" class="easyui-combotree" multiple="true" style="width:200px;" data-options="lines:true">
+            </div>
+            <div class="form-group">
+                <label class="form-label">知识点：</label>
+                <input id="labelTitle" name="labelTitle" class="easyui-textbox" style="width: 200px;"/>
+
+            </div>
+            <div class="form-group">
+                <label class="form-label">掌握情况：</label>
+                <select id="proficiency" name="proficiency" class="easyui-combobox" style="width: 200px;">
+                    <option value="0">全部</option>
+                    <option value="-1">无反馈</option>
+                    <option value="1">未掌握</option>
+                    <option value="2">不稳定</option>
+                    <option value="3">已掌握</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="statement.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="$('#query-form').form('reset')">重置</a>
+            </div>
+        </form>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-page_white_excel" onclick="statement.export()">导出</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="true" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+                <th field="labelTitle">知识点</th>
+                <th field="score" formatter="scoreFormatter">掌握情况</th>
+                <th field="opt" formatter="optFormatter">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script>
+        var request = GetRequest();
+        var labelDeductPoint = @ViewBag.labelDeductPoint;
+        var category = new nv.category.CombotreeDataClass("folderId", "lib_label");
+        function scoreFormatter(val) {
+            if (stringIsEmpty(val)) {
+                return "无反馈";
+            }
+            if (val > 0) {
+                return "已掌握";
+            }
+            if (val <= 0 && val > labelDeductPoint) {
+                return "不稳定";
+            }
+            if (val <= labelDeductPoint) {
+                return "未掌握";
+            }
+            return val;
+        }
+
+        function optFormatter(val, row, index) {
+            if (stringIsEmpty(row.score)) {
+                return "";
+            }
+            return linkbtn(index,
+                {
+                    option: [
+                        {
+                            title: "作答记录",
+                            text: "作答记录",
+                            icon: "icon-06",
+                            onclick: "statement.showUserAnswerRecords"
+                        }
+                    ]
+                });
+        }
+
+        var UserLabelStatement = (function() {
+            function init(id) {
+                var queryParam = { userId: id, skip: 0, pageSize: 30 };
+                var tabHelper = new TabHelper("tabs");
+
+                this.query = function() {
+                    queryParam.skip = 0;
+                    setParam();
+                    loadData(queryParam);
+                };
+
+                this.export = function() {
+                    var newWindow = window.open("");
+                    setParam();
+                    $("#dg").datagrid("loading");
+                    var url = "/Statement/Lib/ExportUserLabelStatement";
+                    nv.post(url,
+                        queryParam,
+                        function(data) {
+                            $("#dg").datagrid("loaded");
+                            newWindow.location.href = "/Statement/Lib/Download/" + data.result.id + "?fileName=知识点掌握情况";
+                        });
+                };
+
+                this.initPagination = function() {
+                    $("#dg").datagrid({
+                            onSortColumn: function(sort, order) {
+                                queryParam.sort = sort;
+                                queryParam.order = order;
+                                loadData(queryParam);
+                            }
+                        })
+                        .datagrid("getPager")
+                        .pagination({
+                            onSelectPage: function(pageNumber, pageSize) {
+                                queryParam.pageNumber = pageNumber;
+                                queryParam.skip = (pageNumber - 1) * pageSize;
+                                if (queryParam.skip < 0) {
+                                    queryParam.skip = 0;
+                                }
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            },
+                            onChangePageSize: function(pageSize) {
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            }
+                        });
+                };
+
+                this.showUserAnswerRecords = function(index) {
+                    var row = $("#dg").datagrid("getRows")[index];
+                    var url = "/Statement/Lib/UserAnswerRecords?labelId={0}&userId={1}".format(row.labelId, queryParam.userId);
+                    tabHelper.openTab("作答记录", url, "icon-06");
+                };
+
+                function setParam() {
+                    queryParam.proficiency = $("#proficiency").combobox("getValue");
+                    queryParam.labelTitle = $("#labelTitle").textbox("getValue");
+                    queryParam.folderId = $("#folderId").combotree("getValues");
+                }
+
+                function loadData(param) {
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "LibLabelStatement/StudentLabelStatementPagination";
+                    nv.post(url,
+                        param,
+                        function(data) {
+                            $("#dg").datagrid("loaded");
+                            if (data.success) {
+                                $("#dg")
+                                    .datagrid("loadData", data.result.rows)
+                                    .datagrid("getPager")
+                                    .pagination({
+                                        pageNumber: param.pageNumber,
+                                        total: data.result.total
+                                    });
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }
+            }
+
+            return init;
+        })();
+
+        var statement = new UserLabelStatement(request.userId);
+
+        $(function() {
+            if (request.proficiency) {
+                $("#proficiency").combobox("setValue", request.proficiency);
+            }
+            category.getCategory();
+            statement.initPagination();
+            statement.query();
+        });
+    </script>
+}

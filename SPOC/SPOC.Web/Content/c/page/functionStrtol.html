@@ -1,0 +1,62 @@
+<div class="functionStrtol-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">strtol()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>long int strtol(const char *str, char **endptr, int base)</b> 把参数 <b>str</b> 所指向的字符串根据给定的 <b>base</b> 转换为一个长整数（类型为 long int 型），base 必须介于 2 和 36（包含）之间，或者是特殊值 0。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 strtol() 函数的声明。</p>
+		<pre>long int strtol(const char *str, char **endptr, int base)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b> -- 要转换为长整数的字符串。</li>
+			<li><b>endptr</b> -- 对类型为 char* 的对象的引用，其值由函数设置为 <b>str</b> 中数值后的下一个字符。</li>
+			<li><b>base</b> -- 基数，必须介于 2 和 36（包含）之间，或者是特殊值 0。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回转换后的长整数，如果没有执行有效的转换，则返回一个零值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 strtol() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main()
+{
+   char str[30] = "2030300 This is test";
+   char *ptr;
+   long ret;
+
+   ret = strtol(str, &ptr, 10);
+   printf("数字（无符号长整数）是 %ld\n", ret);
+   printf("字符串部分是 |%s|", ptr);
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>数字（double）是 20.303000
+字符串部分是 | This is test|</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

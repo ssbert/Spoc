@@ -1,0 +1,243 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+    var id = @ViewBag.id;
+}
+
+<body>
+    <div id="div_add_info" region="center" border="false" style="padding:10px;">
+        <div class="ftitle">
+            FAQ信息
+        </div>
+        <form id="fm" class="form-horizontal label label-length-5" method="post">
+            <input type="hidden" id="id" />
+            <div class="form-group">
+                <label class="form-label">
+                    FAQ标题:
+                </label>
+                <input id="catitle" name="catitle" class="easyui-textbox" style="width:600px;" data-options="type:'text',validType:['length[1,50]'],required:true">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    FAQ内容:
+                </label>
+                <script id="content" type="text/plain" style="display:inline-block;">
+                </script>
+
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    FAQ分类
+                </label>
+                <select class="easyui-combotree" id="classify" name="classify" style="width:600px;" data-options="valueField:'id',textField:'text',width:250,multiple:true,lines:true"></select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">排序号：</label>
+                <input id="seq" class="easyui-numberbox" value="0" style="width:600px;" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">状态：</label>
+                <select id="isActive" class="easyui-combobox" editable="false" style="width:600px;"  required>
+                    <option value="1" selected>发布</option> 
+                    <option value="0">草稿</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton save-btn" data-options="iconCls:'icon-save',width:'90px'">保存</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton cancel-btn" data-options="iconCls:'icon-cancel',width:'90px'">取消</a>
+            </div>
+            <input id="fileId" name="fileId" type="hidden" />
+            <input id="tempFileId" name="tempFileId" type="hidden" />
+        </form>
+    </div>
+    <script src="@Url.Content("~/Scripts/ueditor1_4_3_2-utf8-net/utf8-net/ueditor.config.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/ueditor1_4_3_2-utf8-net/utf8-net/ueditor.all.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/ueditor1_4_3_2-utf8-net/utf8-net/lang/zh-cn/zh-cn.js")" type="text/javascript"></script>
+    <script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+    <script src="/Scripts/jquery-easyui-extension/Validate.js"></script>
+    <script>
+        (function () {
+
+            var editFaq = (function () {
+
+                var ueEditor,
+                    id = getId();
+                    params = {
+                        title: "",
+                        content: "",
+                        folderId: ""
+                    };
+
+                function init() {
+                    initUE();
+                    selectModel();
+                    initEvent();
+                }
+
+                function initClassify() {
+                    var category1 = new nv.category.CombotreeDataClass("classify", "faq", false);
+                    category1.getCategory();
+                }
+
+                function initUE() {
+                    ueEditor = UE.getEditor('content', {
+                        toolbars: [
+                            [
+                                "source",
+                                'insertcode',
+                                'bold',
+                                'italic',
+                                'underline',
+                                'insertimage',
+                                'link',
+                                'unlink',
+                                "fontfamily",
+                                "fontsize",
+                                'insertunorderedlist',
+                                'insertorderedlist',
+                                'blockquote',
+                                'redo',
+                                'undo',
+                                'preview',
+                                "fullscreen"
+                            ]
+                        ], autoHeightEnabled: false,
+                        autoFloatEnabled: true,
+                        initialFrameWidth: 600,
+                        initialFrameHeight: 300,
+                        elementPathEnabled: false //元素路径
+                    })
+
+                }
+
+                function initEvent() {
+                    $(document).on("click", ".save-btn", function (e) {
+                        updateFaq();
+                    })
+                    $(document).on("click", ".cancel-btn", function (e) {
+                        cancel();
+                    })
+                }
+
+                function updateFaq() {
+                    getFormData();
+                    sendRequest("/api/services/app/faqApp/CreateOrUpdateFaq", params, detailUpdata)
+                }
+
+                function detailUpdata(data) {
+                    if (data.success) {
+                        parent.$('#tabs').tabs('close', "Faq帮助手册");
+                        openTab("Faq帮助手册",
+                            "/SystemSetting/Faq/",
+                            '');
+                        cancel();
+                    } else {
+                        VE.MessageShow(data.error.message);
+                    }
+                }
+
+                function openTab(title, url, icon) {
+                    parent.$('#tabs').tabs('close', title);
+                    parent.$("#tabs").tabs("add", {
+                        title: title,
+                        content: '<iframe id="' + title + '" scrolling="auto" src="' + url + '" frameborder="0" style="width:100%;height:100%;line-height:0;display: block;margin:0;padding:0"></iframe>',
+                        closable: true,
+                        fit: true,
+                        icon: icon
+                    });
+                }
+
+                function cancel() {
+                    if (!id) {
+                        parent.$('#tabs').tabs('close', "FAQ添加");
+                    } else {
+                        parent.$('#tabs').tabs('close', "FAQ编辑");
+                    }
+                }
+
+                function getFormData() {
+                    if (id) {
+                        params.id = id;
+                    }
+                    params.isActive = $("#isActive").combobox("getValue")==="0"?false:true;
+                    params.seq = $("#seq").numberbox('getValue');
+                    params.title = $("#catitle").textbox('getValue');
+                    params.content = UE.getEditor('content').getContent();
+                    params.folderId = getFolderId() || "96e0537e-33ea-11e8-905f-7824af8c98ea";
+                }
+
+                function getFolderId() {
+                    var nodes = $('#classify').combotree("tree").tree('getChecked');
+                    var arrays = [];
+                    var id;
+                    $(nodes).each(function (index, value) {
+                        if (!(value.children && value.children != 0)) {
+                            id = value.id;
+                            arrays.push(id);
+                        }
+                    });
+                    return arrays.join(",");
+                }
+
+                function selectModel() {
+                    if (!id) {
+                        initClassify();
+                        return false;
+                    }
+                    getData();
+                }
+
+                function getData() {
+                    sendRequest("/api/services/app/faqApp/GetFaqById", {id: id}, renderData)
+                }
+
+                function renderData(data) {
+                    var model = data.result,
+                        folderId = model.folderId.split(",");
+                    $("#catitle").textbox('setValue', model.title);
+                    $("#seq").numberbox('setValue', model.seq);
+                    $("#isActive").combobox('setValue', model.isActive);
+                    ueEditor.ready(function () {
+                        this.setContent(model.content);
+                    });
+                    initClassify();
+                    $('#classify').combotree('setValues', folderId);
+                }
+
+                function getId() {
+                    var iframe = $('#div_add_info').parent('iframe'),
+                        search = iframe.context.location.search,
+                        index = search.indexOf("id");
+                    return search.slice(index + 3);
+                }
+
+                function sendRequest(url, param, callback) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    $.ajax({
+                        method: "post",
+                        url: url,
+                        data: param,
+                        success: function (data) {
+                            callback(data);
+                        }
+                    });
+                }
+
+                return {
+                    init: init,
+                }
+
+            })();
+
+            editFaq.init()
+
+        })()
+    </script>
+</body>
+

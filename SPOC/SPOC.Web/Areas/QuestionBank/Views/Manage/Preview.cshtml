@@ -1,0 +1,372 @@
+﻿@using System.Text.RegularExpressions
+@model SPOC.Web.Areas.QuestionBank.Models.QuestionPreviewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html>
+<!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>试题预览</title>
+    <link rel="stylesheet" href="~/Areas/Assets/css/simpletable.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/default.css">
+    <script src="~/Scripts/highlight/highlight.pack.js"></script>
+</head>
+<body>
+<span style="color: green; font-weight: bold">基础信息:</span>
+<table id="tabDataView" class="simple-table">
+
+    <tbody>
+    <tr class="simple-table-tr">
+        <th width="120" class="simple-table-th">试题题型</th>
+        <td width="" class="simple-table-td">
+            @Model.QuestionType
+        </td>
+        <th width="120" class="simple-table-th">试题分数</th>
+        <td width="" class="simple-table-td">
+            @Model.Score
+        </td>
+    </tr>
+    <tr class="simple-table-tr">
+        <th width="120" class="simple-table-th">答题时限</th>
+        <td width="" class="simple-table-td">
+            @Model.ExamTime
+        </td>
+        <th width="120" class="simple-table-th">试题状态</th>
+        <td width="" class="simple-table-td">
+            @Model.Status
+        </td>
+    </tr>
+    <tr class="simple-table-tr">
+        <th width="120" class="simple-table-th">试题编号</th>
+        <td class="simple-table-td">
+            @Model.QuestionCode
+        </td>
+        <th width="120" class="simple-table-th">试题难度</th>
+        <td width="" class="simple-table-td">
+            @HardGradeFormatter(Model.HardGrade)
+        </td>
+    </tr>
+    @if (Model.QuestionType == "操作题")
+    {
+        <tr class="simple-table-tr">
+            <th width="120" class="simple-table-th">操作题类型</th>
+            <td colspan="3" class="simple-table-td">
+                @Model.OperateType
+            </td>
+        </tr>
+    }
+    <tr class="simple-table-tr">
+        <th width="120" class="simple-table-th">试题内容</th>
+        <td colspan="3" class="simple-table-td">
+            @Html.Raw(ChangeImgUrl(Model.QuestionText, Model.Id))
+        </td>
+    </tr>
+    @if (Model.QuestionType == "编程题")
+    {
+        if (!string.IsNullOrEmpty(Model.Param))
+        {
+            <tr class="simple-table-tr">
+                <th width="120" class="simple-table-th">传入参数</th>
+                <td colspan="3" class="simple-table-td">
+                    @Model.Param
+                </td>
+            </tr>
+        }
+
+        if (!string.IsNullOrEmpty(Model.InputParam))
+        {
+            <tr class="simple-table-tr">
+                <th width="120" class="simple-table-th">输入流参数</th>
+                <td class="simple-table-td">
+                    @{
+                        var inputParams = Model.InputParam.Split('|');
+                    }
+                    @for (var i = 1; i <= inputParams.Length; i++)
+                    {
+                        <p>第 @i 组: @inputParams[i - 1]</p>
+                    }
+                </td>
+                <th width="120" class="simple-table-th">多次测试</th>
+                @if (Model.MultiTest)
+                {
+                    <td class="simple-table-td">是</td>
+                }
+                else
+                {
+                    <td class="simple-table-td">否</td>
+                }
+                
+            </tr>
+        }
+    }
+    @if (Model.QuestionType == "填空题" || Model.QuestionType == "打字题" || Model.QuestionType == "问答题" || Model.QuestionType == "语音题" || Model.QuestionType=="操作题"
+         || Model.QuestionType == "编程题" || (Model.QuestionType=="判断改错题" && Model.StandardAnswer != "Y"))
+    {
+        <tr class="simple-table-tr">
+            <th width="120" class="simple-table-th">标准答案</th>
+            <td colspan="3" class="simple-table-td">
+                @Html.Raw(ChangeImgUrl(Model.StandardAnswer, Model.Id))
+            </td>
+        </tr>
+    }
+
+    @if (Model.QuestionType == "判断题" || Model.QuestionType == "判断改错题" || Model.QuestionType == "单选题" || Model.QuestionType == "多选题") 
+    {
+        <tr class="simple-table-tr">
+            <th width="120" class="simple-table-th">候选项</th>
+            <td colspan="3" class="simple-table-td">
+                @if (Model.QuestionType == "判断题" || Model.QuestionType == "判断改错题")
+                {
+                    <div>
+                        <label>
+                            <input name="uncertain" value="Y" type="radio" ng-model="question.standard_answer" @(Model.StandardAnswer == "Y" ? "checked" : "")>
+                            正确
+                        </label>
+                        <label>
+                            <input name="uncertain" value="N" type="radio" ng-model="question.standard_answer" @(Model.StandardAnswer == "Y" ? "" : "checked")>
+                            错误
+                        </label>
+                    </div>
+                }
+                    
+                @if (Model.QuestionType == "单选题" || Model.QuestionType == "多选题")
+                {
+                    var answerIndexList = new List<int>();
+                    foreach (var indexCode in Model.StandardAnswers)
+                    {
+                        answerIndexList.Add(Model.LatterToIndex(indexCode) - 65);
+                    }
+                    <table style="width: 100%; border: 0;">
+                        @for (var index = 0; index < Model.SelectAnswers.Length; index++)
+                        {
+                            var inputType = Model.QuestionType == "单选题" ? "radio" : "checkbox";
+                            var checkedStr = answerIndexList.Contains(index) ? "checked" : "";
+                            <tr>
+                                <td style="width: 33px;">
+                                    <label class="choice-label">@Model.IndexToLetter(index + 65)</label>
+                                    <label>
+                                        <input class="answer-checkbox" name="answer" type="@inputType" @checkedStr disabled="disabled">
+                                    </label>
+                                </td>
+                                <td>
+                                    @Html.Raw(ChangeImgUrl(Model.SelectAnswers[index], Model.Id))
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </td>
+        </tr>
+    }
+        
+    <tr class="simple-table-tr">
+        <th width="120" class="simple-table-th">试题分析</th>
+        <td colspan="3" class="simple-table-td">
+            @Html.Raw(ChangeImgUrl(Model.QuestionAnalysis, Model.Id))
+        </td>
+    </tr>
+    @if (Model.QuestionType == "编程题" || Model.QuestionType == "编程填空题")
+    {
+        <tr class="simple-table-tr">
+            <th width="120" class="simple-table-th">参考代码</th>
+            <td colspan="3" class="simple-table-td">
+                 <pre><code id="code">@Model.StandardCode</code></pre>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@if (Model.Children.Count > 0)
+{
+    <span id="spanChild" style="color: red; font-weight: bold">子试题列表:</span><br/>
+    var i = 1;
+    foreach (var question in Model.Children)
+    {
+        <span style="color: red; font-weight: bold">(@i)</span>
+        <table id="tabChild" class="simple-table">
+
+            <tbody>
+            <tr class="simple-table-tr">
+                <th width="120" class="simple-table-th">试题题型</th>
+                <td width="" class="simple-table-td">
+                    @question.QuestionType
+                </td>
+                <th width="120" class="simple-table-th">试题分数</th>
+                <td width="" class="simple-table-td">
+                    @question.Score
+                </td>
+            </tr>
+            <tr class="simple-table-tr">
+                <th width="120" class="simple-table-th">答题时限</th>
+                <td width="" class="simple-table-td">
+                    @question.ExamTime
+                </td>
+                <th width="120" class="simple-table-th">试题状态</th>
+                <td width="" class="simple-table-td">
+                    @question.Status
+                </td>
+            </tr>
+            <tr class="simple-table-tr">
+                <th width="120" class="simple-table-th">试题编号</th>
+                <td class="simple-table-td">
+                    @question.QuestionCode
+                </td>
+                <th width="120" class="simple-table-th">试题难度</th>
+                <td width="" class="simple-table-td">
+                    @HardGradeFormatter(question.HardGrade)
+                </td>
+            </tr>
+            @if (question.QuestionType == "操作题")
+            {
+                <tr class="simple-table-tr">
+                    <th width="120" class="simple-table-th">操作题类型</th>
+                    <td colspan="3" class="simple-table-td">
+                        @question.OperateType
+                    </td> 
+                </tr>
+            }
+                
+            <tr class="simple-table-tr">
+                <th width="120" class="simple-table-th">试题内容</th>
+                <td colspan="3" class="simple-table-td">
+                    @Html.Raw(ChangeImgUrl(question.QuestionText, question.Id))
+                </td>
+            </tr>
+            @if (question.QuestionType == "填空题" || question.QuestionType == "打字题" || question.QuestionType == "问答题" || question.QuestionType == "语音题" || question.QuestionType == "操作题"
+                 || Model.QuestionType == "编程题" || (Model.QuestionType == "判断改错题" && Model.StandardAnswer != "Y"))
+            {
+                <tr class="simple-table-tr">
+                    <th width="120" class="simple-table-th">标准答案</th>
+                    <td colspan="3" class="simple-table-td">
+                        @Html.Raw(ChangeImgUrl(question.StandardAnswer, question.Id))
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr class="simple-table-tr">
+                    <th width="120" class="simple-table-th">候选项</th>
+                    <td colspan="3" class="simple-table-td">
+                        @if (question.QuestionType == "判断题")
+                        {
+                            <div style="width: 100%;">
+                                <label>
+                                    <input name="uncertain" value="Y" type="radio" ng-model="question.standard_answer" @(question.StandardAnswer == "Y" ? "checked" : "")>
+                                    正确
+                                </label>
+                                <label>
+                                    <input name="uncertain" value="N" type="radio" ng-model="question.standard_answer" @(question.StandardAnswer == "Y" ? "" : "checked")>
+                                    错误
+                                </label>
+                            </div>
+                        }
+                            
+                        @if (question.QuestionType == "单选题" || question.QuestionType == "多选题")
+                        {
+                            var answerIndexList = new List<int>();
+                            foreach (var indexCode in question.StandardAnswers)
+                            {
+                                answerIndexList.Add(question.LatterToIndex(indexCode) - 65);
+                            }
+                                
+                            <table style="width: 100%; border: 0;">
+                                @for (var index = 0; index < question.SelectAnswers.Length; index++)
+                                {
+                                    var inputType = question.QuestionType == "单选题" ? "radio" : "checkbox";
+                                    var checkedStr = answerIndexList.Contains(index) ? "checked" : "";
+                                    <tr>
+                                        <td style="width: 34px;">
+                                            <label class="choice-label">@question.IndexToLetter(index + 65)</label>
+                                            <label>
+                                                <input class="answer-checkbox" name="answer" type="@inputType" @checkedStr disabled="disabled">
+                                            </label>
+                                        </td>
+                                        <td>
+                                            @Html.Raw(ChangeImgUrl(question.SelectAnswers[index], question.Id))
+                                        </td>
+                                    </tr> 
+                                }
+                            </table>
+                        }
+                    </td>
+                </tr>
+                   
+            }
+            <tr class="simple-table-tr">
+                <th width="120" class="simple-table-th">试题分析</th>
+                <td colspan="3" class="simple-table-td">
+                    @Html.Raw(ChangeImgUrl(question.QuestionAnalysis, question.Id))
+                </td>
+            </tr>
+            
+            </tbody>
+        </table>
+        i++;
+    }
+}
+    
+</body>
+</html>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+@functions
+{
+
+    string ChangeImgUrl(string html, Guid questionId)
+    {
+        var reg = new Regex(@"<img*.+?>", RegexOptions.IgnoreCase);
+        var srcReg = new Regex("src=\"\\./[0-9a-zA-Z\\-]{36}\\.[a-zA-z].+?\"");
+        if (!reg.IsMatch(html))
+        {
+            return html;
+        }
+        var matchs = reg.Matches(html);
+        var host = @"http://" + HttpContext.Current.Request.ServerVariables["LOCAL_ADDR"] + @":" +
+                   HttpContext.Current.Request.ServerVariables["SERVER_PORT"];
+        foreach (Match match in matchs)
+        {
+            if (!srcReg.IsMatch(match.Value))
+            {
+                continue;
+            }
+            var srcMatch = srcReg.Match(match.Value);
+            var srcStr = srcMatch.Value;
+            srcStr = srcStr.Remove(0, 7);
+            srcStr = srcStr.Remove(srcStr.Length - 1);
+            srcStr = host + @"/fileroot/question/" + questionId + @"/" + srcStr;
+            var imgStr = match.Value.Replace(srcMatch.Value, "src=\"" + srcStr + "\"");
+            html = html.Replace(match.Value, imgStr);
+        }
+        return html;
+    }
+
+    string HardGradeFormatter(string hardGrade)
+    {
+        if (hardGrade == "1")
+        {
+            return "容易";
+        }
+
+        if (hardGrade == "2")
+        {
+            return "中等";
+        }
+
+        if (hardGrade == "3")
+        {
+            return "困难";
+        }
+        return hardGrade;
+    }
+}

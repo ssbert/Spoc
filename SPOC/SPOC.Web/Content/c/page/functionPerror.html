@@ -1,0 +1,63 @@
+<div class="functionPerror-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">perror()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>void perror(const char *str)</b> 把一个描述性错误消息输出到标准错误 stderr。首先输出字符串 <b>str</b>，后跟一个冒号，然后是一个空格。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 perror() 函数的声明。</p>
+		<pre>void perror(const char *str)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b> -- 这是 C 字符串，包含了一个自定义消息，将显示在原本的错误消息之前。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数不返回任何值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 perror() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main ()
+{
+   FILE *fp;
+
+   /* 首先重命名文件 */
+   rename("file.txt", "newfile.txt");
+
+   /* 现在让我们尝试打开相同的文件 */
+   fp = fopen("file.txt", "r");
+   if( fp == NULL ) {
+      perror("Error: ");
+      return(-1);
+   }
+   fclose(fp);
+      
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果，因为我们尝试打开一个不存在的文件：</p>
+		<pre>Error: : No such file or directory</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

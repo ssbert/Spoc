@@ -1,0 +1,58 @@
+<div class="osTtyname-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">os.ttyname() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>
+		<p>os.ttyname() 方法用于返回一个字符串，它表示与文件描述符fd 关联的终端设备。如果fd 没有与终端设备关联，则引发一个异常。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>ttyname()方法语法格式如下：</p>
+		<pre>os.ttyname(fd)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>fd</b> -- 文件描述符</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回一个字符串，它表示与文件描述符fd 关联的终端设备。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 ttyname() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os, sys
+
+# 显示当前目录
+print "当前目录 :%s" %os.getcwd()
+
+# 修改目录为 /dev/tty
+fd = os.open("/dev/tty",os.O_RDONLY)
+
+p = os.ttyname(fd)
+print "关联的终端为: "
+print p
+print "done!!"
+
+os.close(fd)
+print "关闭文件成功!!"</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>当前目录 :/tmp
+关联的终端为:
+/dev/tty
+done!!
+关闭文件成功!!</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

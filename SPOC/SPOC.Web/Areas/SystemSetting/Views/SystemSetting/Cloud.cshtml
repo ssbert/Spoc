@@ -1,0 +1,166 @@
+﻿@using Microsoft.Ajax.Utilities
+@model SPOC.SysSetting.CloudDTO.CloudDto
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<div data-options="region:'center',border:false" style="padding:1px;">
+
+    <style>
+        .fitem label {
+            width: 120px;
+        }
+
+        .fitem table {
+            color: #404040;
+            font-size: 12px;
+        }
+    </style>
+
+    <div class="ftitle">
+        授权信息
+    </div>
+
+    <div class="easyui-panel" data-options="border:false" style="margin-top:10px;">
+        <form id="cloudData">
+            <input name="id" id="id" class="hidden" type="text" value="@Model.Id" />
+            <div class="fitem">
+                <label>
+                    域名：
+                </label>
+                @Html.TextBox("Host", Model.Host, new { @class = "easyui-textbox", @prompt = "当前站点域名", @data_options = "required:true,validType:'length[1,128]'" })
+            </div>
+            <div class="fitem">
+                <label>
+                    院校代码：
+                </label>
+                @Html.TextBox("PartnerCode", Model.PartnerCode, new { @class = "easyui-textbox", @prompt = "建议输入院校代码,无院系代码可为空", @data_options = "validType:'length[3,32]'" })
+            </div>
+            <div class="fitem">
+                <label>
+                    院校名称：
+                </label>
+
+                @Html.TextBox("PartnerName", Model.PartnerName, new { @class = "easyui-textbox", @data_options = "required:true,validType:'length[1,64]'" })
+            </div>
+            <div class="fitem">
+                <label>
+                    省份：
+                </label>
+                <input class="easyui-combobox" name="Province" id="Province">
+            </div>
+
+            <div class="fitem">
+                <label>
+                    城市：
+                </label>
+                <input class="easyui-combobox" name="City" id="City" data-options="
+                    method:'get',
+                    valueField:'id',
+                    textField:'City',
+                    onSelect:function(item){
+
+                    }
+            ">
+            </div>
+            <div class="fitem">
+                <label>
+                    授权状态：
+                </label>
+                @if (string.IsNullOrWhiteSpace(@Model.AccessKey))
+                {
+                    <span class="l-btn-left l-btn-icon-left"><span class="l-btn-text" style="color: crimson" id="spanStatus">待授权</span><span id="spanIconStatus" class="l-btn-icon icon-busy">&nbsp;</span></span>
+
+                }
+                else
+                {
+                    <span class="l-btn-left l-btn-icon-left"><span class="l-btn-text" style="color: darkcyan" id="spanStatus">已授权</span><span id="spanIconStatus" class="l-btn-icon icon-active_true">&nbsp;</span></span>
+                }
+            </div>
+
+            @*<div class="fitem">
+                    <label>
+                        AccessKey：
+                    </label>
+
+                    @Html.TextBox("AccessKey", Model.AccessKey, new { @class = "easyui-textbox", @readonly = "readonly" })
+                </div>
+                <div class="fitem">
+                    <label>
+                        SecretKey：
+                    </label>
+
+                    @Html.TextBox("SecretKey", Model.SecretKey, new { @class = "easyui-textbox", @readonly = "readonly" })
+                </div>*@
+            <div style="text-align: center;margin: 0 auto;">
+                @{
+                    var htmlstr = "更新授权";
+                    if (string.IsNullOrEmpty(@Model.AccessKey))
+                    {
+                        htmlstr = "授权";
+                    }
+                }
+                <a href="javascript:;" class="easyui-linkbutton" id="btn" data-options="iconCls:'icon-save',width:'100px'" onclick=" save() ">
+                    @htmlstr
+                </a>
+
+            </div>
+        </form>
+    </div>
+
+</div>
+<link href="~/Areas/Assets/css/web.css" rel="stylesheet" />
+<script type="text/javascript">
+   
+    $("#Province").combobox({
+        url: "/SystemSetting/SystemSetting/GetProvince", //获取所有省份
+        valueField: "id",
+        textField: "City",
+        panelHeight: 200,
+        editable: false, //不允许手动输入
+        onLoadSuccess: function () { //数据加载完毕事件
+            var province = '@Model.Province';
+            var city = '@Model.City';
+            if (province.toString() != "0") {
+                $('#Province').combobox("setValue", province);
+                $('#Province').combobox("options").onSelect({ 'id': province });
+                $('#City').combobox("setValue", city);
+            }
+
+        },
+        onSelect: function(item) {
+            var url = '/SystemSetting/SystemSetting/GetCity?id=' + item.id;
+            $('#City').combobox('clear');
+            $('#City').combobox('reload', url);
+
+        }
+    });
+
+    function save() {
+        if (!checkLogin()) {
+            evtBus.dispatchEvt("show_login");
+            return;
+        }
+        $("#AccessKey").textbox('setValue', "");
+        $("#SecretKey").textbox('setValue', "");
+        $.ajax({
+            type: "post",
+            url: "/SystemSetting/SystemSetting/CloudRegister",
+            data: $("#cloudData").serialize(),
+            success: function(data) {
+                if (data.isSuccess) {
+                    //$("#AccessKey").textbox('setValue', data.AccessKey);
+                    //$("#SecretKey").textbox('setValue', data.SecretKey);
+
+                    VE.MessageShow("云端授权成功");
+                    location.reload();
+                } else {
+                    $.messager.alert('提示', "云端授权失败", "error");
+                }
+            }
+        });
+    }
+
+    
+
+</script>

@@ -1,0 +1,156 @@
+﻿@model SPOC.Web.Models.Exercises.RecordViewModel
+@{
+    ViewBag.Title = "Record";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="detail-page exercise-detail-page container-box center">
+    <div class="detail-header">
+        <h2 class="header-title">@Model.Base.Title</h2>
+        <div class="author">
+            <img src="@Model.Base.UserImg" class="fillet_5">
+            <span>
+                by
+                <a href="javascript:;" class="name">@Model.Base.UserName</a>
+            </span>
+        </div>
+    </div>
+    <div class="detail-content">
+        <div class="nav-tab">
+            <ul class="clearfix">
+                <li class="item"><a href="/ExerciseTask/EnthusiasmRanking/@Model.Base.Id">积极性排行榜</a></li>
+                <li class="item"><a href="/ExerciseTask/EfficiencyRanking/@Model.Base.Id">效率排行榜</a></li>
+                <li class="item active"><a href="javascript:;" data-toggle="tab">提交记录</a></li>
+                @if (Model.Base.ShowAnswer && (Model.Base.ShowAnswerType == 1 || Model.Base.EndTime.HasValue && Model.Base.EndTime < DateTime.Now))
+                {
+                    <li class="item"><a href="/ExerciseTask/Answer/@Model.Base.Id">参考代码</a></li>
+                }
+            </ul>
+        </div>
+        <div class="tab-content">
+
+            <div class="submissions-content content-box active" id="submissions">
+                <div class="record-lists">
+                    @if (Model.RecordList.Count > 0 && Model.RecordList != null)
+                    {
+                        <div class="record-table">
+                            <div class="table-header clearfix">
+                                <div class="table-header-colum start-time">
+                                    作答时间
+                                </div>
+                                <div class="table-header-colum end-time">
+                                    提交时间
+                                </div>
+                                <div class="table-header-colum time">
+                                    耗时
+                                </div>
+                                <div class="table-header-colum results">
+                                    是否通过
+                                </div>
+                                <div class="table-header-colum handle">
+                                </div>
+                            </div>
+                            <div class="table-body">
+                                @foreach (var item in Model.RecordList)
+                                {
+                                    <div class="table-row clearfix">
+                                        <div class="table-row-colum start-time">
+                                            @TimeFormat(item.BeginTime)
+                                        </div>
+                                        <div class="table-row-colum end-time">
+                                            @TimeFormat(item.EndTime)
+                                        </div>
+                                        <div class="table-row-colum time">
+                                            @TimeSpanFormat(item.EndTime - item.BeginTime)
+                                        </div>
+                                        <div class="table-row-colum results">
+                                            @if (item.IsPass)
+                                            {
+                                                <span class="glyphicon glyphicon-ok green"></span>
+                                            }
+                                            else
+                                            {
+                                                <span class="glyphicon glyphicon-remove red"></span>
+                                            }
+                                        </div>
+                                        <div class="table-row-colum handle">
+                                            <button class="btn default-btn" onclick="showAnswer('@item.Id')">查看代码</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="iconfont icon-nodata"></div>
+                    }
+                    
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Answer))
+                {
+                    <div class="results-detail">
+                        <div class="problem-con">
+                            <h3>提交的代码</h3>
+                            <div class="code">
+                                <pre><code>@Model.Answer</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@functions
+{
+    //时间格式化
+    string TimeFormat(DateTime d)
+    {
+        var ampm = d.Hour >= 12 ? "下午" : "上午";
+        var str = d.ToString("D") + "(" + d.ToString("dddd") + ") " + ampm + d.ToString("h:mm:ss");
+        return str;
+    }
+
+    //时间格式化
+    string TimeSpanFormat(TimeSpan ts)
+    {
+        var s = ts.Seconds + "秒";
+
+        if (ts.Minutes > 0)
+        {
+            s = ts.Minutes + "分" + s;
+        }
+
+        if (ts.Hours > 0)
+        {
+            s = ts.Hours + "时" + s;
+        }
+
+        if (ts.Days > 0)
+        {
+            s = ts.Days + "天" + s;
+        }
+
+        return s;
+    }
+}
+
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/css/detail.css">
+    <link rel="stylesheet" type="text/css" href="~/css/default.css">
+}
+
+@section scripts
+{
+    <script src="~/Scripts/highlight/highlight.pack.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad();
+        function showAnswer(id) {
+            window.location.href = "/ExerciseTask/Record/@Model.Base.Id?recordId=" + id;
+        }
+    </script>
+}

@@ -1,0 +1,63 @@
+<div class="attTimeTzset-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">time tzset()方法</span>
+		</h1>
+		<p>
+			<a href="#dateTime" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 日期和时间
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>	
+		<p>Python time tzset() 根据环境变量TZ重新初始化时间相关设置。 </p>
+		<p>标准TZ环境变量格式：</p>
+		<pre>std offset [dst [offset [,start[/time], end[/time]]]]</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><b>std 和 dst:</b>三个或者多个时间的缩写字母。传递给 time.tzname.</li>
+			<li><b>offset:</b> 距UTC的偏移，格式： [+|-]hh[:mm[:ss]] {h=0-23, m/s=0-59}。</li>
+			<li><b>start[/time], end[/time]:</b> DST 开始生效时的日期。格式为 m.w.d — 代表日期的月份、周数和日期。w=1 指月份中的第一周，而 w=5 指月份的最后一周。'start' 和 'end' 可以是以下格式之一：
+				<ul>
+					<li><b>Jn:</b> 儒略日 n (1 &lt;= n &lt;= 365)。闰年日（2月29）不计算在内。</li>
+					<li><b>n:</b> 儒略日 (0 &lt;= n &lt;= 365)。 闰年日（2月29）计算在内</li>
+					<li><b>Mm.n.d:</b> 日期的月份、周数和日期。w=1 指月份中的第一周，而 w=5 指月份的最后一周。</li>
+					<li><b>time:</b>（可选）DST 开始生效时的时间（24 小时制）。默认值为 02:00（指定时区的本地时间）。</li>
+				</ul>
+			</li>
+		</ul>
+		<h3 class="n-h3">语法</h3>
+		<p>tzset()方法语法：</p>
+		<pre>time.tzset()</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>NA</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>该函数没有返回值。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 tzset() 函数的使用方法：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+import time
+import os
+ 
+os.environ['TZ'] = 'EST+05EDT,M4.1.0,M10.5.0'
+time.tzset()
+print (time.strftime('%X %x %Z'))
+ 
+os.environ['TZ'] = 'AEST-10AEDT-11,M10.5.0,M3.5.0'
+time.tzset()
+print (time.strftime('%X %x %Z'))</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>23:25:45 04/06/16 EDT
+13:25:45 04/07/16 AEST</pre>
+		<p>
+			<a href="#dateTime" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 日期和时间
+			</a>
+		</p>
+	</div>
+</div>

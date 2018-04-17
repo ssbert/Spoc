@@ -1,0 +1,65 @@
+<div class="functionAtexit-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">atexit()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int atexit(void (*func)(void))</b> 当程序正常终止时，调用指定的函数 <b>func</b>。您可以在任何地方注册你的终止函数，但它会在程序终止的时候被调用。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 atexit() 函数的声明。</p>
+		<pre>int atexit(void (*func)(void))</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>func</b> -- 在程序终止时被调用的函数。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果函数成功注册，则该函数返回零，否则返回一个非零值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 atexit() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void functionA ()
+{
+   printf("这是函数A\n");
+}
+
+int main ()
+{
+   /* 注册终止函数 */
+   atexit(functionA );
+   
+   printf("启动主程序...\n");
+
+   printf("退出主程序...\n");
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>启动主程序...
+退出主程序...
+这是函数A</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

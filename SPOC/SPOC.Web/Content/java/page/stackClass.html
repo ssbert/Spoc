@@ -1,0 +1,120 @@
+<div class="stackClass-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">Stack 类</span>
+		</h1>
+		<p>
+			<a href="#dataStructures" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java 数据结构
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>栈是Vector的一个子类，它实现了一个标准的后进先出的栈。</p>
+		<p>堆栈只定义了默认构造函数，用来创建一个空栈。 堆栈除了包括由Vector定义的所有方法，也定义了自己的一些方法。</p>
+		<pre>Stack()</pre>
+		<p>除了由Vector定义的所有方法，自己也定义了一些方法： </p>
+		<table>
+			<tbody>
+				<tr>
+					<th>
+						序号</th>
+					<th>
+						方法描述</th>
+				</tr>
+				<tr>
+					<td>
+						1</td>
+					<td>
+						boolean empty()&nbsp;<br>
+						测试堆栈是否为空。</td>
+				</tr>
+				<tr>
+					<td>
+						2</td>
+					<td>
+						Object peek( )<br>
+						查看堆栈顶部的对象，但不从堆栈中移除它。</td>
+				</tr>
+				<tr>
+					<td>
+						3</td>
+					<td>
+						Object pop( )<br>
+						移除堆栈顶部的对象，并作为此函数的值返回该对象。</td>
+				</tr>
+				<tr>
+					<td>
+						4</td>
+					<td>
+						Object push(Object element)<br>
+						把项压入堆栈顶部。</td>
+				</tr>
+				<tr>
+					<td>
+						5</td>
+					<td>
+						int search(Object element)<br>
+						返回对象在堆栈中的位置，以 1 为基数。</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">实例</h3>
+		<p>下面的程序说明这个集合所支持的几种方法</p>
+		<div class="n-example">
+			<pre><code>import java.util.*;
+ 
+public class StackDemo {
+ 
+    static void showpush(Stack&lt;Integer&gt; st, int a) {
+        st.push(new Integer(a));
+        System.out.println("push(" + a + ")");
+        System.out.println("stack: " + st);
+    }
+ 
+    static void showpop(Stack&lt;Integer&gt; st) {
+        System.out.print("pop -> ");
+        Integer a = (Integer) st.pop();
+        System.out.println(a);
+        System.out.println("stack: " + st);
+    }
+ 
+    public static void main(String args[]) {
+        Stack&lt;Integer&gt; st = new Stack&lt;Integer&gt;();
+        System.out.println("stack: " + st);
+        showpush(st, 42);
+        showpush(st, 66);
+        showpush(st, 99);
+        showpop(st);
+        showpop(st);
+        showpop(st);
+        try {
+            showpop(st);
+        } catch (EmptyStackException e) {
+            System.out.println("empty stack");
+        }
+    }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下： </p>
+		<pre>stack: [ ]
+push(42)
+stack: [42]
+push(66)
+stack: [42, 66]
+push(99)
+stack: [42, 66, 99]
+pop -> 99
+stack: [42, 66]
+pop -> 66
+stack: [42]
+pop -> 42
+stack: [ ]
+pop -> empty stack</pre>
+	</div>
+	<p>
+		<a href="#dataStructures" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java 数据结构
+		</a>
+	</p>
+</div>

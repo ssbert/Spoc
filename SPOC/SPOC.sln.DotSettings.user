@@ -1,0 +1,16 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
+  &lt;Assembly Path="C:\Windows\Microsoft.NET\Framework\v4.0.30319\System.Web.dll" /&gt;&#xD;
+  &lt;Assembly Path="E:\SPOC\tfs\SPOC\SPOC\packages\Aspose.Words.dll" /&gt;&#xD;
+  &lt;Assembly Path="E:\SPOC\tfs\SPOC\SPOC\packages\Abp.3.2.4\lib\netstandard2.0\Abp.dll" /&gt;&#xD;
+  &lt;Assembly Path="E:\SPOC\tfs\SPOC\SPOC\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll" /&gt;&#xD;
+  &lt;Assembly Path="E:\SPOC\tfs\SPOC\SPOC\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorlib.dll" /&gt;&#xD;
+  &lt;Assembly Path="d:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\ref\System.Net.Http.dll" /&gt;&#xD;
+  &lt;Assembly Path="E:\SPOC\tfs\SPOC\SPOC\packages\Nito.AsyncEx.Context.1.1.0\lib\net46\Nito.AsyncEx.Context.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Windows\Microsoft.NET\Framework\v4.0.30319\System.Core.dll" /&gt;&#xD;
+  &lt;Assembly Path="E:\SPOC\tfs\SPOC\SPOC\packages\newv.common.htmlparser.dll" /&gt;&#xD;
+  &lt;Assembly Path="E:\SPOC\tfs\SPOC\SPOC\packages\NPOI.2.3.0\lib\net40\NPOI.dll" /&gt;&#xD;
+  &lt;Assembly Path="E:\SPOC\tfs\SPOC\SPOC\packages\Abp.Web.3.2.4\lib\net461\Abp.Web.dll" /&gt;&#xD;
+  &lt;Assembly Path="E:\SPOC\tfs\SPOC\SPOC\packages\Castle.Windsor.4.1.0\lib\net45\Castle.Windsor.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>

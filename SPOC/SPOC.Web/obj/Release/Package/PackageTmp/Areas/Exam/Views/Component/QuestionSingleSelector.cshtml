@@ -1,0 +1,152 @@
+﻿
+@{
+    ViewBag.Title = "QuestionSingleSelector";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+<div id="container" region="center">
+    <div id="question-dg-toolbar">
+        <form id="query-form" class="form-inline label label-length-4">
+            <div class="form-group">
+                <label class="form-label">题型：</label>
+                <label id="questionBaseType" style="display: inline-block; width: 150px;"></label>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">题干：</label>
+                <input id="questionText" name="questionText" type="text" class="easyui-textbox" style="width: 150px">
+            </div>
+            <div class="form-group">
+                <label class="form-label">编号：</label>
+                <input id="questionCode" name="questionCode" type="text" class="easyui-textbox" style="width: 150px">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">试题分类：</label>
+                <input id="folderUid" name="folderUid" class="easyui-combotree" multiple="true" lines="true" editable="false" style="width: 150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label">状态：</label>
+                <select id="questionStatusCode" name="questionStatusCode" class="easyui-combobox" editable="false" style="width: 150px;">
+                    <option value="" selected>-全部-</option>
+                    <option value="normal">正常</option>
+                    <option value="disabled">禁用</option>
+                    <option value="outdated">已过期</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">难度：</label>
+                <select id="hardGrade" name="hardGrade" class="easyui-combobox" editable="false" style="width: 150px;">
+                    <option value="">-全部-</option>
+                    <option value="1">容易</option>
+                    <option value="2">中等</option>
+                    <option value="3">困难</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">试题分析：</label>
+                <select id="hasAnalysis" name="hasAnalysis" class="easyui-combobox" editable="false" style="width: 150px;">
+                    <option value="">-全部-</option>
+                    <option value="N">不包含试题分析</option>
+                    <option value="Y">包含试题分析</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="component.query()">搜索</a>
+                <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="$('#query-form').form('reset')">重置</a>
+            </div>
+        </form>
+    </div>
+    <table id="question-dg" class="easyui-datagrid" pagination="true" rownumbers="true" title="候选栏" border="false"
+           toolbar="#question-dg-toolbar" pagenumber="1" pagesize="30" fit="true">
+        <thead>
+            <tr>
+                <th field="questionCode" sortable="true">编号</th>
+                <th field="questionTypeName" sortable="true">题型</th>
+                <th field="questionPureText" formatter="dgFormatter.questionText" sortable="true">题干</th>
+                <th field="score" sortable="true">分数</th>
+                <th field="questionStatusCode" formatter="dgFormatter.questionStatusCode" sortable="true">状态</th>
+                <th field="hardGrade" formatter="dgFormatter.hardGrade" sortable="true">难度</th>
+                <th field="outdatedDate" formartter="dgFormatter.outdateDate" sortable="true">过期时间</th>
+                <th field="listOrder" sortable="true">排序号</th>
+                <th field="opt" formatter="dgFormatter.opt">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/exam/component.js?v=@L("version")"></script>
+    <script>
+        var request = GetRequest();
+        var questionTypeDic = {
+            "single": "单选题",
+            "multi": "多选题",
+            "judge": "判断题",
+            "fill": "填空题",
+            "program": "编程题"
+        };
+        var dgFormatter = {
+            outdatedDate: function(value, row, index) {
+                if (value === 0) {
+                    return "不限";
+                }
+                return new Date(value * 1000).format("yyyy-MM-dd hh:mm:ss");
+            },
+            questionStatusCode: function(value, row, index) {
+                switch (value) {
+                case "normal":
+                    return "正常";
+                case "outdated":
+                    return "已过期";
+                case "disabled":
+                    return "禁用";
+                case "draft":
+                    return "草稿";
+                default:
+                    return "正常";
+                }
+            },
+            questionText: function(value, row, index) {
+                if (value.length > 60) {
+                    value = value.substr(0, 60) + "...";
+                }
+                return value;
+            },
+            opt: function(val, row, index) {
+                var options = [
+                    {
+                        title: "选择",
+                        text: "选择",
+                        icon: "icon-ok",
+                        onclick: "component.choose"
+                    }];
+                return linkbtn(index, { option: options });
+            },
+            hardGrade: function (val) {
+                if (val === "1") {
+                    return "容易";
+                } else if (val === "2") {
+                    return "中等";
+                } else if (val === "3") {
+                    return "困难";
+                } else if (stringIsEmpty(val)) {
+                    return "缺省";
+                }
+                return val;
+            }
+        };
+        var questionBaseType = questionTypeDic[request.type];
+        var component = new nv.components.QuestionSingleSelectorClass(request.type, request.handle, request.tabContainerId);
+        $(function() {
+            $("#questionBaseType").text(questionBaseType);
+            var category = new nv.category.CombotreeDataClass("folderUid", "question_bank");
+            category.getCategory();
+            component.initPagination();
+            component.query();
+        });
+    </script>
+}

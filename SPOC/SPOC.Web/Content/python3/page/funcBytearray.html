@@ -1,0 +1,45 @@
+<div class="funcBytearray-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">bytearray() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>bytearray() 方法返回一个新字节数组。这个数组里的元素是可变的，并且每个元素的值范围: 0 <= x < 256。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>bytearray()方法语法：</p>
+		<pre>class bytearray([source[, encoding[, errors]]])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>如果 source 为整数，则返回一个长度为 source 的初始化数组；</li>
+			<li>如果 source 为字符串，则按照指定的 encoding 将字符串转换为字节序列；</li>
+			<li>如果 source 为可迭代类型，则元素必须为[0 ,255] 中的整数；</li>
+			<li>如果 source 为与 buffer 接口一致的对象，则此对象也可以被用于初始化 bytearray。</li>
+			<li>如果没有输入任何参数，默认就是初始化数组为0个元素。</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回新字节数组。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 bytearray() 的使用方法：</p>
+		<div class="n-example">
+			<pre><code>>>>bytearray()
+bytearray(b'')
+>>> bytearray([1,2,3])
+bytearray(b'\x01\x02\x03')
+>>> bytearray('runoob', 'utf-8')
+bytearray(b'runoob')
+>>></code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+</div>

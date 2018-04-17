@@ -1,0 +1,66 @@
+<div class="breakStatement-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#nestedLoops" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python 循环嵌套
+		</a>
+		<a href="#continueStatement" class="pull-right green">
+			Python continue 语句
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">break 语句</span>
+		</h1>
+		<p>Python break语句，就像在C语言中，打破了最小封闭for或while循环。</p>
+		<p>break语句用来终止循环语句，即循环条件没有False条件或者序列还没被完全递归完，也会停止执行循环语句。</p>
+		<p>break语句用在while和for循环中。</p>
+		<p>如果您使用嵌套循环，break语句将停止执行最深层的循环，并开始执行下一行代码。 </p>
+		<h3 class="n-h3">Python语言 break 语句语法：</h3>
+		<pre>break</pre>
+		<h3 class="n-h3">流程图：</h3>
+		<p>
+			<img src="/Content/python2/images/cpp_break_statement.jpg">
+		</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例(Python 2.0+)</h2>
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+for letter in 'Python':     # 第一个实例
+   if letter == 'h':
+      break
+   print '当前字母 :', letter
+  
+var = 10                    # 第二个实例
+while var > 0:              
+   print '当前变量值 :', var
+   var = var -1
+   if var == 5:   # 当变量 var 等于 5 时退出循环
+      break
+ 
+print "Good bye!"</code></pre>
+		</div>
+		<p>以上实例执行结果：</p>
+		<pre>当前字母 : P
+当前字母 : y
+当前字母 : t
+当前变量值 : 10
+当前变量值 : 9
+当前变量值 : 8
+当前变量值 : 7
+当前变量值 : 6
+Good bye!</pre>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#nestedLoops" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python 循环嵌套
+		</a>
+		<a href="#continueStatement" class="pull-right green">
+			Python continue 语句
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+</div>

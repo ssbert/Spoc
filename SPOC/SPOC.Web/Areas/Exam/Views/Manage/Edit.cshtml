@@ -1,0 +1,214 @@
+﻿
+@{
+    ViewBag.Title = "考试编辑";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+    <script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script src="~/Areas/Assets/js/notificationHelper.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/exam/exam.js?v=@L("version")"></script>
+    <script>
+        var request = GetRequest();
+        var examInfo = new ExamInfoClass(request["id"], request["taskId"]);
+        $(function() {
+            $("#edit-form input[name='autoSaveToServer']").change(function() {
+                if ($("#edit-form input[name='autoSaveToServer']:checked").val() === "Y") {
+                    $("#autoSaveSecondRow").show();
+                } else {
+                    $("#autoSaveSecondRow").hide();
+                }
+            });
+
+            if (!stringIsEmpty(request.examName)) {
+                var examName = decodeURIComponent(request.examName);
+                $("#examName").textbox("setValue", examName);
+            }
+        });
+    </script>
+}
+
+<div region="center">
+    <form id="edit-form" class="form-horizontal label label-length-6">
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">考试编号：</label>
+                <input id="examCode" name="examCode" class="easyui-textbox" style="width:196px;" data-options="validType:['length[0, 64]', 'codeCheck']" readonly>
+                <input id="isCustomCode" name="isCustomCode" class="easyui-switchbutton" data-options="onChange:examInfo.onChangeExamCodeMode"
+                       style="width:100px;" onText="自动编号" offText="手动编号" checked>
+            </div>
+            <div class="form-group">
+                <label class="form-label">考试用卷：</label>
+                <input id="paperName" class="easyui-textbox" style="width:242px;" required readonly>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="examInfo.showExamPaperSelector()">选择</a>
+                <input id="paperUid" name="paperUid" type="hidden" required>
+                <input id="paperTypeCode" name="paperTypeCode" type="hidden" required>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-page_find" onclick="examInfo.preview()">预览</a>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">考试名称：</label>
+                <input id="examName" name="examName" class="easyui-textbox" validType="length[1,256]" style="width:300px;" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">答题模式：</label>
+                <label style="margin-left:10px;">
+                    <input name="examDoModeCode" type="radio" value="question" checked>
+                    一屏一题
+                </label>
+                <label>
+                    <input name="examDoModeCode" type="radio" value="paper">
+                    整卷模式
+                </label>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">开始时间：</label>
+                <input id="beginTime" name="beginTime" class="easyui-datetimebox" style="width:300px"
+                       data-options="validType:['dateCheck', 'dateLessThanCompare[\'endTime\', \'开始时间需要比结束时间小\']']">
+            </div>
+            <div class="form-group">
+                <label class="form-label">结束时间：</label>
+                <input id="endTime" name="endTime" class="easyui-datetimebox" style="width:300px"
+                       data-options="validType:['dateCheck', 'dateGreaterThanCompare[\'beginTime\', \'结束时间需要比开始时间大\']']">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">考试时长：</label>
+                <input id="examTime" name="examTime" class="easyui-numberspinner" value="60" suffix="分钟" style="width:300px;" min="0" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">考试次数：</label>
+                <input id="maxExamNum" name="maxExamNum" class="easyui-numberspinner" value="1" style="width:300px;" min="0" requird>
+                (0代表不限次数)
+            </div>
+        </div>
+
+        <div id="bufferPaperNumRow" class="form-group" style="display: none;">
+            <label class="form-label">随机生成：</label>
+            <input id="bufferPaperNum" name="bufferPaperNum" class="easyui-numberspinner" value="10" min="1" suffix="份" style="width:300px;">
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">试题乱序：</label>
+                <div style="display: inline-block; width: 300px;">
+                    <label style="margin-left:10px;">
+                        <input name="isMixOrder" type="radio" value="Y" checked>
+                        是
+                    </label>
+                    <label>
+                        <input name="isMixOrder" type="radio" value="N">
+                        否
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">自动保存答卷：</label>
+                <label style="margin-left:10px;">
+                    <input name="autoSaveToServer" type="radio" value="Y" checked>
+                    是
+                </label>
+                <label>
+                    <input name="autoSaveToServer" type="radio" value="N">
+                    否
+                </label>
+                <div id="autoSaveSecondRow" style="display: inline-block; margin-left: 10px;">
+                    <label>保存间隔：</label>
+                    <input id="autoSaveSecond" name="autoSaveSecond" class="easyui-numberspinner" value="5" suffix="分钟" min="5" style="width: 100px;">
+                </div>
+            </div>
+        </div>
+
+            @*<div class="form-group">
+                <label class="form-label">考生权限：</label>
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <label>
+                    <input id="isAllowSeeGrade" name="isAllowSeeGrade" type="checkbox" checked>
+                    允许考生查看成绩
+                </label>
+                <input id="allowSeeGradeDays" name="allowSeeGradeDays" class="easyui-numberspinner" value="0" suffix="天" min="0" style="width: 100px;">
+                (0代表永久)
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <label>
+                    <input id="isOpenBook" name="isOpenBook" type="checkbox" checked>
+                    允许考生查看本机资料（开卷考试）
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <label>
+                    <input id="isAllowSeePaper" name="isAllowSeePaper" type="checkbox" checked>
+                    允许考生查看答卷
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <label>
+                    <input id="isAllowSeeAnswer" name="isAllowSeeAnswer" type="checkbox" checked>
+                    允许考生查看标准答案
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="form-label">评卷策略：</label>
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <label>
+                    <input id="isAllowModifyUserAnswer" name="isAllowModifyUserAnswer" type="checkbox" checked>
+                    允许评卷人修改考生答案
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <label>
+                    <input id="isAllowObjectJudge" name="isAllowObjectJudge" type="checkbox">
+                    手工评卷是否显示客观题
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <label>
+                    <input id="isAllowModifyObjectAnswer" name="isAllowModifyObjectAnswer" type="checkbox">
+                    不允许修改考生客观题答案及其评分结果(客观题指单选题、多选题、判断题)
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <input id="isDisplayResult" name="isDisplayResult" type="checkbox">
+                自动评定是否及格
+            </div>*@
+
+            <div class="form-group">
+                <label class="form-label">通过条件：</label>
+
+                <label style="margin-left:10px;">
+                    <input name="passGradeType" type="radio" value="passGradeRate" checked>
+                    得分率不低于
+                </label>
+                <input id="passGradeRate" name="passGradeRate" class="easyui-numberspinner" value="60" suffix="%" min="0" style="width: 70px;">
+
+                <label style="margin-left: 10px;">
+                    <input name="passGradeType" type="radio" value="passGradeScore">
+                    成绩不低于
+                </label>
+                <input id="passGradeScore" name="passGradeScore" class="easyui-numberspinner" value="60" suffix="分" min="0" style="width: 70px;">
+
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-disk" onclick="examInfo.save()">保存</a>
+            </div>
+    </form>
+</div>
+

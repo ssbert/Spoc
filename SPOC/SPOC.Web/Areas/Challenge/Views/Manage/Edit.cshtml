@@ -1,0 +1,244 @@
+﻿@{
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+
+    <script src="~/Scripts/select2-4.0.5/js/select2.full.js"></script>
+    <script src="~/Scripts/ueditor1_4_3_2-utf8-net/utf8-net/ueditor.config.js" type="text/javascript"></script>
+    <script src="~/Scripts/ueditor1_4_3_2-utf8-net/utf8-net/ueditor.all.js" type="text/javascript"></script>
+    <script src="~/Scripts/ueditor1_4_3_2-utf8-net/utf8-net/lang/zh-cn/zh-cn.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+    <script src="~/Areas/Assets/js/tabHelper.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/challenge/edit.js?v=@L("version")"></script>
+    <script src="~/Scripts/layer/layer.js?v=@L("version")"></script>
+    <script src="~/Scripts/monaco-editor/min_paste_on/vs/loader.js"></script>
+    <link href="~/Scripts/select2-4.0.5/css/select2.css" rel="stylesheet"/>
+    @*<script src="~/Scripts/jquery-3.2.1.js"  ></script>*@
+
+    <script>
+        var editor;
+        require.config({ paths: { 'vs': '/Scripts/monaco-editor/min_paste_on/vs' } });
+        require(['vs/editor/editor.main'],
+            function() {
+                editor = monaco.editor.create(document.getElementById('container'),
+                    {
+                        language: '@L("Language")'
+                    });
+                editor.onDidBlurEditor(function() {
+                    edit.matchLabel();
+
+                });
+
+            });
+        var request = GetRequest();
+        var edit = new NormalQuestion(request["id"], request["parentId"]);
+
+    </script>
+}
+<div region="center">
+    <form id="edit-form" class="form-horizontal label label-length-5">
+        <div class="form-group">
+            <label class="form-label">试题题型：</label>
+            <select id="questionBaseTypeCode" class="easyui-combobox" editable="false" style="width:700px;" required>
+                <option value="program" selected>编程题</option>
+                @*<option value="program_fill">编程填空题</option>*@
+            </select>
+        </div>
+    
+        <div class="form-group">
+            <label class="form-label">标题：</label>
+            <input id="title" class="easyui-textbox"  style="width:700px;" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">试题编号：</label>
+            <input id="questionCode" class="easyui-textbox" style="width:616px;" data-options="validType:['length[0, 64]', 'codeCheck']" readonly>
+            <input id="isCustomCode" name="isCustomCode" class="easyui-switchbutton" data-options="onChange:edit.onChangeCodeMode"
+                   style="width:80px;" ontext="自动编号" offtext="手动编号" checked>
+        </div>
+  
+        <div class="form-group">
+            <label class="form-label">试题分数：</label>
+            <input id="score" class="easyui-numberbox" precision="1" style="width:700px;" min="0" value="0" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">试题分类：</label>
+            <input id="folderUid" class="easyui-combotree" editable="false" style="width:700px;" required data-options="lines:true">
+        </div>
+        <div class="form-group">
+            <label class="form-label">答题时限：</label>
+            <input id="examTime" class="easyui-timespinner" showseconds="true" style="width:700px;" value="0" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">试题状态：</label>
+            <select id="questionStatusCode" class="easyui-combobox" editable="false" style="width:700px;" required>
+                <option value="normal" selected>正常</option>
+                <option value="disabled">禁用</option>
+                <option value="outdated">已过期</option>
+                <option value="draft">草稿</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">试题难度：</label>
+            <select id="hardGrade" class="easyui-combobox" editable="false" style="width:700px;" required>
+                <option value="1" selected>容易</option>
+                <option value="2">中等</option>
+                <option value="3">困难</option>
+               
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">排序号：</label>
+            <input id="listOrder" class="easyui-numberbox" value="0" style="width:700px;" required>
+        </div>
+
+        <div class="form-group dynamic fill">
+            <label class="form-label" style="color:red;font-weight:bold;">出题须知：</label>
+            <span style="display:inline-block;color:darkgreen;font-weight:bold;line-height:22px;">
+                <p>1.在需要填空的地方，用英文输入法输入三根下划线表示，即“___”。</p>
+                <p>2.多个答案应该用“|”隔开</p>
+                <p>3.如果一个空有多个标准答案请用“&”隔开</p>
+            </span>
+        </div>
+
+        <div class="form-group dynamic typing">
+            <label class="form-label" style="color:red;font-weight:bold;">出题须知：</label>
+            <span style="color:darkgreen;font-weight:bold;line-height:22px;">
+                请在[标准答案]栏内填写评分规则，以便于手工评分。
+            </span>
+        </div>
+
+        @*操作题题型*@
+        <div class="form-group dynamic operate">
+            <label class="form-label">操作题型：</label>
+            <select id="operateTypeCode" class="easyui-combobox" editable="false" style="width:700px;">
+                <option value="word" checked>Word</option>
+                <option value="excel">Excel</option>
+                <option value="powerpoint">PowerPoint</option>
+                <option value="html">网页</option>
+            </select>
+        </div>
+        @*操作题题型*@
+
+        <div class="form-group">
+            <label class="form-label">题干：</label>
+            <script id="questionText" type="text/plain" style="display:inline-block;">
+            </script>
+        </div>
+        
+        <div class="form-group dynamic program">
+            <label class="form-label">程序参数：</label>
+            <input id="param" class="easyui-textbox" style="width: 700px;" />
+        </div>
+        <div class="form-group dynamic program">
+            <label class="form-label">&nbsp;</label>
+            <span style="color:darkgreen;font-weight:bold;line-height:22px;">
+                指Main函数参数,请用“|”分隔参数
+            </span>
+        </div>
+
+        <div class="form-group dynamic program">
+            <label class="form-label">输入流参数：</label>
+            <input id="inputParam" class="easyui-textbox" multiline="true" style="width: 630px; height: 100px;" />
+            <label>
+                <input type="checkbox" id="multiTest" name="multiTest" />
+                多次测试
+            </label>
+        </div>
+        <div class="form-group dynamic program">
+            <label class="form-label">&nbsp;</label>
+            <div style="color:darkgreen;font-weight:bold;line-height:22px; display: inline-block;">
+                程序题输入流参数，用空格分隔单次测试的输入参数，用“|”分隔每次测试的参数。<br />
+                例：一共2次测试，第1次测试参数为 “1 2 3”，第2次测试参数为“4 5 6”<br />
+                实际填写：1 2 3|4 5 6
+            </div>
+        </div>
+        @*单选题|多选题选项组*@
+        <div id="option-group" class="dynamic single multi">
+            <div id="option-add" class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" onclick="edit.onAddOption()">新增选项</a>
+            </div>
+        </div>
+        @*单选题|多选题选项组*@
+
+        @*填空题|语音题|操作题|打字题答案|问答题|(判断改错题答案为错误时)|编程题*@
+        <div class="form-group dynamic fill voice operate typing answer judge-correct-wrong program">
+            <label class="form-label">标准答案：</label>
+            @*<script id="standardAnswer" type="text/plain" style="display:inline-block;">
+        </script>*@
+            <input id="standardAnswer" class="easyui-textbox" multiline="true" style="width: 700px; height: 100px;" />
+        </div>
+        @*填空题|语音题|操作题|打字题答案|(判断改错题答案为错误时)|编程题*@
+        <div class="form-group dynamic program">
+            <label class="form-label">&nbsp;</label>
+            <div style="color:darkgreen;font-weight:bold;line-height:22px; display: inline-block;">
+                当选择多次测试时，需要对应输入流参数设置答案，每次测试的答案用“|”分隔。<br/>
+                列：一共两次测试，第1次测试结果为10，第2次测试结果为20<br/>
+                实际填写：10|20
+            </div>
+        </div>
+        @*判断题|判断改错题答案*@
+        <div class="form-group dynamic judge judge-correct">
+            <label class="form-label">答案：</label>
+            <label><input type="radio" name="judge" value="Y" checked>正确</label>
+            <label><input type="radio" name="judge" value="N">错误</label>
+        </div>
+        @*判断题|判断改错题答案*@
+
+       
+        <div class="form-group dynamic program program_fill">
+            <label class="form-label">预设代码：</label>
+            <input id="preinstallCode" class="easyui-textbox" multiline="true" style="width: 700px; height: 200px;"/>
+        </div>
+        <div class="form-group">
+            <label class="form-label">试题分析：</label>
+            <script id="questionAnalysis" type="text/plain" style="display:inline-block;">
+            </script>
+        </div>
+        <div class="form-group">
+            <label class="form-label">
+                <div>参考代码：</div>
+                <div><a href="javascript:void(0)" style="display: none" class="easyui-linkbutton dynamic program program_fill" iconcls="icon-save" onclick="edit.testRun('@L("Language")')">调试</a></div>
+            </label>
+            <div class="editor-panel" id="container" style="display:inline-block;height: 300px; width: 700px;border: 1px solid #C2C7D0;">
+
+            </div>
+        </div>
+        <div class="form-group run-results" style="display: none">
+            <label class="form-label">调试结果：</label>
+            <input id="run-result" class="easyui-textbox" multiline="true" style="width: 700px; height: 100px;" />
+        </div>
+    <div class="form-group">
+        <label class="form-label">推荐标签：</label>
+        <select  multiple="multiple" class="multiSelect"  id="recommendlabel" style="width:700px"></select>    
+    </div>
+        <div class="form-group">
+            <label class="form-label">主标签：</label>
+            <select  multiple="multiple" class="multiSelect"  id="label" style="width:700px"></select>  
+            
+        </div>
+        <div class="form-group">
+            <label class="form-label">辅标签：</label>
+            <select multiple="multiple" class="multiSelect" id="seclabel" style="width: 700px">
+            </select>  
+            
+        </div>
+        @*问答题|操作题得分点*@
+        <div id="answer-item-group" class="dynamic answer operate program">
+            <div id="answer-item-add" class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" onclick="edit.onAddAnswerItem()">新增得分点</a>
+            </div>
+        </div>
+        @*问答题|操作题得分点*@
+        <div class="form-group">
+            <label class="form-label"></label>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-save" onclick="edit.onSaveOnly()">只保存</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-save" onclick="edit.onSaveAndClose()">保存并关闭</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-save" onclick="edit.onSaveAndNewlyAdd()">保存并新增</a>
+        </div>
+    </form>
+</div>
+
+

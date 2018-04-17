@@ -1,0 +1,226 @@
+﻿@{
+
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+@model SPOC.User.Dto.StudentInfo.CreateStudentInfoInputDto
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>StudentEdit</title>
+    <script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+
+    <script src="~/Scripts/kindeditor/4.1.10/kindeditor-min.js"></script>
+    <link href="~/Scripts/kindeditor/4.1.10/plugins/code/prettify.css" rel="stylesheet" />
+    <script type="text/javascript">
+    var stacherId = "@ViewBag.id";
+    var usernameContainEN = "@ViewBag.usernameContainEN";
+
+    </script>
+
+    <script src="~/Areas/Assets/js/userInfo/teacherEdit.js?v=@L("version")"></script>
+     
+</head>
+<body>
+    <div  region="center">
+        <div style="margin-left:50px; margin-top:20px;" id="teacherEdit_div" class="form-horizontal label label-length-4">
+
+            <form id="teacherEdit_form" method="post">
+
+                <input name="smallAvatar" id="smallAvatar" class="hidden" type="text" />
+                <input name="id" id="id" class="hidden" type="text" />
+                <input name="user_id" id="user_id" class="hidden" type="text" />
+                <input name="teacherFacultyid" id="teacherFacultyid" class="hidden" type="text" />
+                <input name="teacherInviteCode" id="teacherInviteCode" class="hidden" type="text" />
+                <input name="teacherIsRecommend" id="teacherIsRecommend" class="hidden" type="text" />
+
+                <div class="fitem">
+                    <label>
+                        用户名：
+                    </label>
+                    <input name="user_login_name" id="user_login_name" validate=true class="easyui-textbox" data-options="validType:['length[4,20]','userNameFormatCheck','nameCheckExit'],prompt:'可用于登录',required:true ">
+                </div>
+                <div class="fitem">
+                    <label>
+                        教师号：
+                    </label>
+                    <input name="teacherCode" id="teacherCode" class="easyui-textbox" data-options="validType:['length[6,24]'],required:true">
+                </div>
+                <div class="fitem">
+                    <label>
+                        姓名：
+                    </label>
+                    @*<input name="user_name" id="user_name" class="easyui-textbox" data-options="validType:['userFullName','length[0,20]'],prompt:'真实姓名'">*@
+                    <input name="user_name" id="user_name" class="easyui-textbox" data-options="validType:['length[0,20]'],prompt:'真实姓名'">
+                </div>
+                <div class="fitem">
+                    <label>
+                        密码：
+                    </label>
+                    <input name="user_password" id="user_password" class="easyui-textbox" data-options="type:'password',validType:['length[5,20]'],required:true ">
+                </div>
+                <div class="fitem">
+                    <label>
+                        手机号码：
+                    </label>
+                    <input name="user_mobile" id="user_mobile" class="easyui-textbox" data-options="validType:['newMobile','mobileCheckExist'],prompt:'可用于登录和找回密码'">
+                </div>
+                <div class="fitem">
+                    <label>
+                        邮箱：
+                    </label>
+                    <input name="user_email" id="user_email" class="easyui-textbox" data-options="validType:['email','emailCheckExist'],required:true,prompt:'可用于登录和找回密码'">
+                </div>
+                <div class="fitem">
+                    <label>教学班级：</label>
+                     @if (ViewBag.isAdmin)
+                     {
+                         <select class="easyui-combotree" id="classId" name="class" data-options="valueField:'id',textField:'text',width:304,multiple:true,lines:true"></select>
+                     }
+                     else
+                     {    //非管理员不可编辑
+                         <select class="easyui-combotree" id="classId" name="class" data-options="valueField:'id',textField:'text',width:304,multiple:true,lines:true,,onBeforeCheck:function (node) {return false; }"></select>
+                     }
+                </div>
+                <div class="fitem">
+                    <label>
+                        组织架构：
+                    </label>
+                    <select class="easyui-combotree" id="departmentId" name="departmentId" data-options="valueField:'id',textField:'text',cascadeCheck:false,width:304,multiple:true,validType:['checkGroupStructIsDel'],lines:true"></select>
+                </div>
+                <div class="fitem">
+                    <label>
+                        性别：
+                    </label>
+                    <select name="user_gender" id="user_gender" class="easyui-combobox" data-options="editable:false,required:false,panelHeight:'auto'" style="width:304px;">
+                        <option value="0">&nbsp;</option>
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                       
+                    </select>
+                </div>
+                <div class="fitem">
+                    <label>
+                        职称：
+                    </label>
+                    <select class="easyui-combobox" id="teacherTitleCreate" name="teacherTitleCreate" data-options="valueField:'id',textField:'text',editable:false,required:false,width:304,panelHeight:'auto',missingMessage:'该输入项为必选项' "></select>
+
+                </div>
+                <div class="fitem">
+                    <label>
+                        在职状态：
+                    </label>
+                    <select name="teacherJobStatusCode" id="teacherJobStatusCode" class="easyui-combobox" data-options="required:false,editable:false,panelHeight:'auto'" style="width:304px;">
+                        <option value="">&nbsp;</option>
+                        <option value="1">在职</option>
+                        <option value="2">停职</option>
+                        <option value="3">离职</option>
+                    </select>
+                </div>
+                <div class="fitem">
+                    <label>
+                        专业方向：
+                    </label>
+                    <input name="teacherProfessionalDirection" id="teacherProfessionalDirection" class="easyui-textbox" data-options="validType:['length[0,20]'],prompt:'专业方向'">
+                </div>
+                <div class="fitem">
+                    <label>
+                        出生日期：
+                    </label>
+                    <input name="teacherBirthday" id="teacherBirthday" class="easyui-datebox" data-options="onSelect:function(){$('#teacherBirthday').next('span').find('input').focus();}" style="width: 304px">
+                </div>
+                <div class="fitem">
+                    <label>
+                        身份证号：
+                    </label>
+                    <input name="teacherIdCode" id="teacherIdCode" class="easyui-textbox" data-options="validType:['idcard','idCardCheckExist']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        民族：
+                    </label>
+                    <input name="teacherNational" id="teacherNational" class="easyui-textbox" data-options="validType:['length[0,10]']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        政治面貌：
+                    </label>
+                    <input name="teacherPolitical" id="teacherPolitical" class="easyui-textbox" data-options="validType:['length[0,10]']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        任职日期：
+                    </label>
+                    <input name="teacherEntryDate" id="teacherEntryDate" data-options="validType:['dateCheck','dateGreaterThanCompare[&quot teacherBirthday &quot, &quot 任职日期必须大于出生日期 &quot]'],onSelect:function(){$('#teacherEntryDate').next('span').find('input').focus();}" class="easyui-datebox" style="width: 304px">
+                </div>
+                <div class="fitem">
+                    <label>
+                        参加工作日期：
+                    </label>
+                    <input name="teacherStartworkDate" id="teacherStartworkDate" data-options="validType:['dateCheck','dateGreaterThanCompare[&quot teacherBirthday &quot, &quot 参加工作日期必须大于出生日期 &quot]'],onSelect:function(){$('#teacherStartworkDate').next('span').find('input').focus();}" class="easyui-datebox" style="width: 304px">
+                </div>
+                <div class="fitem">
+                    <label>
+                        高校教龄：
+                    </label>
+                    <input name="teacherEduAge" id="teacherEduAge" class="easyui-numberbox" data-options="validType:['length[0,10]']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        学历：
+                    </label>
+                    <input name="teacherEducation" id="teacherEducation" class="easyui-textbox" data-options="validType:['length[0,20]']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        学位：
+                    </label>
+                    <input name="teacherAcademicDegree" id="teacherAcademicDegree" class="easyui-textbox" data-options="validType:['length[0,20]']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        毕业学校：
+                    </label>
+                    <input name="teacherGraduateSchool" id="teacherGraduateSchool" class="easyui-textbox" data-options="validType:['length[0,30]']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        毕业日期：
+                    </label>
+                    <input name="teacherGraduateDate" id="teacherGraduateDate" class="easyui-datebox" data-options="validType:['dateCheck','dateGreaterThanCompare[&quot teacherBirthday &quot, &quot 毕业日期必须大于出生日期 &quot]'],onSelect:function(){$('#teacherGraduateDate').next('span').find('input').focus();}" style="width: 304px">
+                </div>
+                <div class="fitem">
+                    <label>
+                        所学专业：
+                    </label>
+                    <input name="teacherStudyProfessional" id="teacherStudyProfessional" class="easyui-textbox" data-options="validType:['length[0,30]']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        个人简历：
+                    </label>
+                    <span style="display: inline-block; width: 360px; vertical-align: middle;">
+                        <textarea id="teacherPersonalResume" name="teacherPersonalResume" class="easyui-kindeditor" cols="40" rows="8"
+                                  style="width: 304px; height: 80px; visibility: hidden;"></textarea>
+
+                    </span>
+          
+                </div>
+
+            </form>
+        </div>
+        <div style="margin-left:50px; " class="form-group">
+            <label class="form-label"></label>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',width:'90px'"
+               onclick="obj.editSave()">保存</a>
+
+        </div>
+
+      
+       
+    </div>
+</body>
+</html>
+ 

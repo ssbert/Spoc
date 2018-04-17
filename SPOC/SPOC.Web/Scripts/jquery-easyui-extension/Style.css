@@ -1,0 +1,245 @@
+﻿.mainBody {
+    background: #b7e5fd url("masterbackground.jpg") repeat-x;
+}
+
+.hidden {
+    display: none;
+}
+
+.inputSelect {
+    width: 185px;
+}
+
+.filterDatagridLine {
+    height: 3px;
+}
+
+.filterMain {
+    margin: 5px;
+    width: 99%;
+}
+
+.filterLayout {
+    border: 0px;
+}
+
+    .filterLayout .right {
+        text-align: right;
+        font-size: 12px;
+        width: 80px;
+        white-space: nowrap;
+        line-height: 25px;
+    }
+
+.tableLayout {
+    border: 0px;
+    overflow: hidden;
+}
+
+    .tableLayout .right {
+        text-align: right;
+        width: 150px;
+        font-weight: bold;
+        font-size: 12px;
+        white-space: nowrap;
+        height: 20px;
+        line-height: 25px;
+    }
+
+.tableLayout1 {
+    text-align: right;
+    width: 800px;
+    font-weight: bold;
+    font-size: 12px;
+    white-space: nowrap;
+    height: 600px;
+    line-height: 25px;
+}
+
+.areabox {
+    height: 80px;
+    margin: 0;
+    padding: 0 2px;
+    box-sizing: content-box;
+    width: 180px;
+}
+
+.areabox1 {
+    height: 200px;
+    margin: 0;
+    padding: 0 2px;
+    box-sizing: content-box;
+    width: 400px;
+}
+
+.areabox2 {
+    height: 100px;
+    margin: 0;
+    padding: 0 2px;
+    box-sizing: content-box;
+    width: 400px;
+}
+
+.areabox3 {
+    height: 100px;
+    margin: 0;
+    padding: 0 2px;
+    box-sizing: content-box;
+    width: 99%;
+}
+
+.areabox4 {
+    height: 40px;
+    margin: 0;
+    padding: 0 2px;
+    box-sizing: content-box;
+    width: 180px;
+}
+
+.noborder {
+    border: 0;
+}
+
+.textbox {
+    height: 20px;
+    margin: 0;
+    padding: 0 2px;
+    box-sizing: content-box;
+    width: 180px;
+}
+
+.textbox1 {
+    height: 20px;
+    margin: 0;
+    padding: 0 2px;
+    box-sizing: content-box;
+    width: 150px;
+}
+
+.textbox2 {
+    height: 20px;
+    margin: 0;
+    padding: 0 2px;
+    box-sizing: content-box;
+    width: 90px;
+}
+
+.textbox3 {
+    height: 20px;
+    margin: 0;
+    padding: 0 2px;
+    box-sizing: content-box;
+    width: 260px;
+}
+
+.v-info {
+    background: #FFFEE6;
+    color: #8F5700;
+    padding: 6px;
+    font-size: 12px;
+}
+
+.v-tip {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    float: left;
+    font-size: 12px;
+}
+
+.width10 {
+    width: 100%;
+}
+
+.width9 {
+    width: 90%;
+}
+
+.width8 {
+    width: 80%;
+}
+
+.width7 {
+    width: 70%;
+}
+
+.width6 {
+    width: 60%;
+}
+
+.width5 {
+    width: 50%;
+}
+
+._072 {
+    color: #0072C6;
+}
+
+.l-case-title {
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body div {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.cs-north {
+    background: url('themes/pepper-grinder/images/ui-bg_fine-grain_15_ffffff_60x60.png') repeat-x;
+    height: 50px;
+}
+
+    .cs-north .left {
+        float: left;
+    }
+
+    .cs-north .right {
+        float: right;
+        padding-right: 20px;
+        padding-top: 12px;
+    }
+
+.cs-west {
+    width: 200px;
+    padding: 0px;
+}
+
+.cs-south {
+    height: 25px;
+    background: url('themes/pepper-grinder/images/ui-bg_fine-grain_15_ffffff_60x60.png') repeat-x;
+    padding: 0px;
+    text-align: center;
+}
+
+.cs-menu {
+    clear: both;
+    margin-top: 3px;
+    background-color: #CCC;
+}
+
+.cs-menu-icon {
+    padding-top: 2px;
+    width: 27px;
+    float: left;
+}
+
+.cs-menu-text {
+    float: left;
+}
+
+.cs-navi-tab {
+    padding-left: 3px;
+}
+
+    .cs-navi-tab span {
+        padding-left: 30px;
+    }

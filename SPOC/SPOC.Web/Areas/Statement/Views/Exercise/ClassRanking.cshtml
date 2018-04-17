@@ -1,0 +1,226 @@
+﻿
+@{
+    ViewBag.Title = "ClassRanking";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-6">
+            <div class="form-group">
+                <label class="form-label">教学班级：</label>
+                <input id="classIds" class="easyui-combotree" style="width: 400px;" data-options="
+                        valueField:'id',
+                        textField:'text',
+                        multiple:true,
+                        panelHeight:'auto'" />
+            </div>
+
+
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="rankingStatement.query()">查询</a>
+            </div>
+        </form>
+        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-page_white_excel" onclick="rankingStatement.export()">导出</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" rownumbers="true" singleSelect="true" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+                <th field="className" sortable="true">教学班级</th>
+                <th field="passRate" formatter="rateFormatter" sortable="true">通过率</th>
+                <th field="joinRate" formatter="rateFormatter" sortable="true">参加率</th>
+                <th field="passNum" formatter="passNumFormatter" sortable="true">通过人数</th>
+                <th field="joinNum" formatter="joinNumFormatter" sortable="true">参加人数</th>
+                <th field="studentNum" formatter="studentNumFormatter" sortable="true">班级人数</th>
+                <th field="ranking" formatter="rankingFormatter" sortable="true">排名</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script>
+        var clickClassId;
+        var exerciseStudentUrl = "/Statement/Exercise/Student?source=class_ranking&id=";
+        var htmlTemp = '<a href="javascript:" onclick="rankingStatement.openExerciseStudentStatement(\'{0}\',{1})">{2}</a>';
+        var request = GetRequest();
+
+        function rateFormatter(val) {
+            return val.toFixed(2) + "%";
+        }
+
+        function passNumFormatter(val, row, index) {
+            if (guidIsEmpty(row.classId)) {
+                return val;
+            }
+            var url = exerciseStudentUrl + request.id + "&passState=" + 1;
+            return htmlTemp.format(url, index, val);
+        }
+
+        function joinNumFormatter(val, row, index) {
+            if (guidIsEmpty(row.classId)) {
+                return val;
+            }
+            var url = exerciseStudentUrl + request.id + "&joinState=" + 1;
+            return htmlTemp.format(url, index, val);
+        }
+
+        function studentNumFormatter(val, row, index) {
+            if (guidIsEmpty(row.classId)) {
+                return val;
+            }
+            var url = exerciseStudentUrl + request.id;
+            return htmlTemp.format(url, index, val);
+        }
+
+        function rankingFormatter(val, row, index) {
+            if (guidIsEmpty(row.classId)) {
+                return "";
+            }
+            return val;
+        }
+
+        var evtHandle = evtBus.addEvt("exercise_class_ranking_pageinit",
+            function (evt) {
+                if (evt.statement && evt.statement.setClassIds) {
+                    var classIds = [clickClassId];
+                    evt.statement.setClassIds(classIds);
+                }
+            });
+
+        $(window).unload(function () {
+            evtBus.removeEvt(evtHandle);
+        });
+
+        var RankingStatement = (function () {
+            function init(exerciseId) {
+                var self = this;
+                var classIdList;
+                var exerciseClassData;
+                var queryParam = { exerciseId: exerciseId, skip: 0, pageSize: 30 };
+                var tabHelper = new TabHelper("tabs");
+
+                this.query = function () {
+                    queryParam.skip = 0;
+                    setParam();
+                    loadData(queryParam);
+                };
+
+                this.export = function () {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var newWindow = window.open("");
+                    setParam();
+                    $("#dg").datagrid("loading");
+                    var url = "/Statement/Exercise/ExportExerciseClassRanking";
+                    nv.post(url,
+                        queryParam,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            newWindow.location.href = "/Statement/Exercise/Download/" + data.result.id + "?fileName=练习班级排行榜报表";
+                        });
+                };
+
+                this.setClassIds = function (idList) {
+                    classIdList = idList;
+                    if (idList.length > 0) {
+                        filterClassIdList();
+                    }
+                    self.query();
+                };
+
+                this.initCombotree = function () {
+                    var url = "/api/services/app/ExerciseStatement/GetExerciseClassTree?id=" + queryParam.exerciseId;
+                    nv.get(url,
+                        function (data) {
+                            if (data.success) {
+                                exerciseClassData = data.result;
+                                $("#classIds").combotree("loadData", data.result);
+                                evtBus.dispatchEvt("exercise_statement_pageinit", { statement: rankingStatement });
+                            }
+                        });
+                };
+
+
+                this.openExerciseStudentStatement = function (url, index) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var row = $("#dg").datagrid("getRows")[index];
+                    clickClassId = row.classId;
+                    var title = "练习情况";
+                    tabHelper.openTab(title, url, "icon-application_view_detail");
+                };
+
+                function setParam() {
+                    var nodes = $('#classIds').combotree("tree").tree('getChecked');
+                    var classIds = [];
+                    $.each(nodes,
+                        function (k, v) {
+                            if (!v.children || v.children.length === 0) {
+                                classIds.push(v.id);
+                            }
+                        });
+                    queryParam.classIdList = classIds;
+                }
+
+                function loadData(param) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "ExerciseStatement/GetClassRankingList";
+                    nv.post(url,
+                        param,
+                        function (data) {
+                            $("#dg").datagrid("loaded");
+                            if (data.success) {
+                                $("#dg").datagrid("loadData", data.result);
+                            } else {
+                                $.messager.alert("提示", data.error.message, "info");
+                            }
+                        });
+                }
+
+                function filterClassIdList() {
+                    var ids = [];
+
+                    function getId(node) {
+                        ids.push(node.id);
+                        if (node.children && node.children.length > 0) {
+                            $.each(node.children, function (k, v) { getId(v); });
+                        }
+                    }
+
+                    $.each(exerciseClassData, function (k, v) { getId(v); });
+                    var classIds = [];
+                    $.each(ids,
+                        function (k, v) {
+                            if (classIdList.indexOf(v) !== -1) {
+                                classIds.push(v);
+                            }
+                        });
+                    classIdList = classIds;
+                    $("#classIds").combotree("setValues", classIdList);
+                }
+            }
+
+            return init;
+        })();
+
+        var rankingStatement = new RankingStatement(request.id);
+
+        $(function () {
+            rankingStatement.initCombotree();
+        });
+    </script>
+}
+
+

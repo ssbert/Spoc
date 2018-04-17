@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "知识点管理";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+@section scripts
+{
+<script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+<script src="~/Scripts/jquery-easyui-extension/datagrid-detailview.js"></script>
+<script src="~/Areas/Assets/js/lib/index.js?v=@L("version")"></script>
+    <script>
+        var view = new LibListView();
+        window.flush = function() {
+            view.flush();
+        }
+        function optFormatter(val, row, index) {
+            var options = [
+                {
+                    title: "编辑",
+                    text: "编辑",
+                    icon: "icon-edit",
+                    onclick: "view.edit"
+                }
+            ];
+            return linkbtn(index, {option: options});
+        }
+    </script>
+}
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-6">
+     
+            <div class="form-group">
+                <label class="form-label" for="paperName">知识点：</label>
+                <input id="title" name="title" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label">知识点分类：</label>
+                <input id="folderId" name="folderId" class="easyui-combotree" multiple="true" style="width:150px;" data-options="lines:true">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="userLoginName">创建者用户名：</label>
+                <input id="userLoginName" name="userLoginName" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="userFullName">创建者姓名：</label>
+                <input id="userFullName" name="userFullName" class="easyui-textbox" style="width:150px;">
+            </div>
+           
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="view.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="$('#query-form').form('clear')">重置</a>
+            </div>
+        </form>
+ 
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="view.create()">创建</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-busy'" onclick="view.del()">删除</a>
+       
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="false" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+                <th field="ck" checkbox="true"></th>
+                <th field="title" width="150">知识点</th>
+                <th field="folderName" width="150">所属分类</th>
+                <th field="describe" width="250">说明</th>
+                @*<th field="regExpressions">正则表达式</th>*@
+                <th field="userLoginName" width="100">创建者用户名</th>
+                <th field="userFullName" width="100">创建者姓名</th>
+                <th field="createTime" width="150">创建日期</th>
+              
+                <th field="opt" formatter="optFormatter">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+

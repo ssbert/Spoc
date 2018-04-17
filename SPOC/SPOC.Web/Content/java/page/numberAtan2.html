@@ -1,0 +1,42 @@
+<div class="numberAtan2-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">atan2() 方法</span>
+		</h1>
+		<p>
+			<a href="#number" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java Number & Math类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>atan2() 方法用于将矩形坐标 (x, y) 转换成极坐标 (r, theta)，返回所得角 theta。该方法通过计算 y/x 的反正切值来计算相角 theta，范围为从 -pi 到 pi。 </p>
+		<h3 class="n-h3">语法</h3>
+		<pre>double atan2(double y, double x)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>y</b> --  纵坐标。</p></li>
+			<li><p><b>x</b> --  横坐标。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>与笛卡儿坐标中点 (x, y) 对应的极坐标中点 (r, theta) 的 theta 组件。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test{ 
+    public static void main(String args[]){
+        double x = 45.0;
+        double y = 30.0;
+ 
+        System.out.println( Math.atan2(x, y) );
+    }
+}</code></pre>
+		</div>
+		<p>编译以上程序，输出结果为：</p>
+		<pre>0.982793723247329</pre>
+	</div>
+	<p>
+		<a href="#number" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java Number & Math类
+		</a>
+	</p>
+</div>

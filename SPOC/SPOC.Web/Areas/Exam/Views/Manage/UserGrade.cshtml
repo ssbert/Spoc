@@ -1,0 +1,198 @@
+﻿
+@{
+    ViewBag.Title = "UserGrade";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-6">
+            <div class="form-group">
+                <label class="form-label">教学班级：</label>
+                <input id="classIds" class="easyui-combotree" style="width: 400px" data-options="
+                        url:'/api/services/app/Department/GetAllClass',
+                        method:'get',
+                        valueField:'id',
+                        multiple:true,
+                        panelHeight:'auto',
+                        loadFilter:function(data){
+                            $.each(data.result, function(k, v){v.text = v.name;});
+                            return data.result;
+                        }" />
+            </div>
+            <div style="clear:right;"></div>
+            <div class="form-group">
+                <label class="form-label" for="examTypeCode">考试类型：</label>
+                <select id="examTypeCode" name="examTypeCode" class="easyui-combobox" style="width:150px;">
+                    <option value="" selected>全部</option>
+                    <option value="exam_normal">正考</option>
+                    <option value="exam_retest">补考</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="userFullName">学生姓名：</label>
+                <input id="userFullName" name="userFullName" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="userLoginName">学生用户名：</label>
+                <input id="userLoginName" name="userLoginName" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label">作答时间：</label>
+                <input id="beginTime" name="beginTime" class="easyui-datetimebox" style="width: 150px;" />
+                至
+                <input id="endTime" name="endTime" class="easyui-datetimebox" style="width: 150px;" />
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="gradeStatusCode">答卷状态：</label>
+                <select id="gradeStatusCode" name="gradeStatusCode" class="easyui-combobox" style="width:150px;">
+                    <option value="" selected>全部</option>
+                    <option value="release">已发布</option>
+                    <option value="submitted">已提交</option>
+                    <option value="judged">已评卷</option>
+                    <option value="pause">暂停中</option>
+                    <option value="examing">考试中</option>
+                    <option value="judging">评卷中</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">分数：</label>
+                <input id="minScore" name="minScore" class="easyui-numberbox" precision="2" style="width: 150px;" />
+                至
+                <input id="maxScore" name="maxScore" class="easyui-numberbox" precision="2" style="width: 150px;" />
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="manage.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="$('#query-form').form('clear')">重置</a>
+            </div>
+        </form>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-busy',plain:true" onclick="manage.del()">删除</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+                <th field="ck" checkbox="true"></th>
+                <th field="examName" formatter="examNameFormatter">考试</th>
+                <th field="userLoginName">学生用户名</th>
+                <th field="userFullName">学生姓名</th>
+                <th field="className">教学班级</th>
+                <th field="beginTime">作答开始时间</th>
+                <th field="endTime" formatter="emptyFormatter">作答结束时间</th>
+                <th field="score" formatter="scoreFormatter" data-options="editor:{type:'numberbox', options:{precision:2}}">分数</th>
+                <th field="totalScore" formatter="scoreFormatter">试卷总分</th>
+                <th field="isPass" formatter="isPassFormatter" data-options="editor:isPassEditor">是否通过</th>
+                <th field="gradeStatusCode" formatter="gradeStatusCodeFormatter" data-options="editor:gradeStatusCodeEditor">答卷状态</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section styles
+{
+    <style>
+        a.examName {
+            color: cornflowerblue;
+            font-weight: bold;
+        }
+    </style>
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-easyui-extension/datagrid-cellediting.js"></script>
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script src="~/Areas/Assets/js/exam/userGradeManage.js"></script>
+    <script>
+        var request = GetRequest();
+
+        function examNameFormatter(val, row, index) {
+            if (stringIsEmpty(row.endTime)) {
+                return val;
+            }
+
+            return '<a class="examName" href="javascript:" onclick="manage.showExamGrade(\'{1}\')">{0}</a>'.format(val, row.gradeId);
+        }
+
+        function emptyFormatter(val, row, index) {
+            if (stringIsEmpty(val)) {
+                return "-";
+            }
+            return val;
+        }
+
+        function scoreFormatter(val, row, index) {
+            if (stringIsEmpty(val)) {
+                return "-";
+            } else {
+                val = parseFloat(val);
+                return val.toFixed(2);
+            }
+        }
+
+        function isPassFormatter(val, row, index) {
+            if (val === "Y") {
+                return "是";
+            }
+            return "否";
+        }
+
+        function gradeStatusCodeFormatter(val, row, index) {
+            switch (val) {
+                case "release":
+                    return "已发布";
+                case "submitted":
+                    return "已提交";
+                case "judged":
+                    return "已评卷";
+                case "pause":
+                    return "暂停中";
+                case "examing":
+                    return "考试中";
+                case "judging":
+                    return "评卷中";
+            }
+            return val;
+        }
+
+        var isPassData = [
+            { value: "Y", text: "是" },
+            { value: "N", text: "否" },
+        ];
+
+        var gradeStatusCodeData = [
+            { value: "release", text: "已发布" },
+            { value: "submitted", text: "已提交" },
+            { value: "judged", text: "已评卷" },
+            { value: "pause", text: "暂停中" },
+            { value: "examing", text: "考试中" },
+            { value: "judging", text: "评卷中" }
+        ];
+
+        var isPassEditor = {
+            type: "combobox",
+            options: {
+                valueField: "value",
+                textField: "text",
+                required: true,
+                data: isPassData
+            }
+        };
+
+        var gradeStatusCodeEditor = {
+            type: "combobox",
+            options: {
+                valueField: "value",
+                textField: "text",
+                required: true,
+                data: gradeStatusCodeData
+            }
+        };
+
+        var manage = new UserGradeManage(request.taskId);
+
+        $(function () {
+            manage.initPagination();
+            manage.query();
+        });
+    </script>
+}

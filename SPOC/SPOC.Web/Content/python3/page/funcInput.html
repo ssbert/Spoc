@@ -1,0 +1,64 @@
+<div class="funcDivmod-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">input() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>Python3.x 中 input() 函数接受一个标准输入数据，返回为 string 类型。</p>
+		<p>Python2.x 中 input() 相等于 <b>eval(raw_input(prompt))</b> ，用来获取控制台的输入。</p>
+		<p>raw_input() 将所有输入作为字符串看待，返回字符串类型。而 input() 在对待纯数字输入时具有自己的特性，它返回所输入的数字的类型（ int, float ）。</p>
+		<p><b>注意：</b>input() 和 raw_input() 这两个函数均能接收 字符串 ，但 raw_input() 直接读取控制台的输入（任何类型的输入它都可以接收）。而对于 input() ，它希望能够读取一个合法的 python 表达式，即你输入字符串的时候必须使用引号将它括起来，否则它会引发一个 SyntaxError 。</p>
+		<p>除非对 input() 有特别需要，否则一般情况下我们都是推荐使用 raw_input() 来与用户交互。</p>
+		<p><b>注意：</b>python3 里 input() 默认接收到的是 str 类型。</p>
+		<h3 class="n-h3">函数语法</h3>
+		<pre>input([prompt])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>
+				<p>prompt: 提示信息</p>
+			</li>
+		</ul>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">input() 需要输入 python 表达式</h2>
+			<pre><code>>>>a = input("input:")
+input:123                  # 输入整数
+>>> type(a)
+&lt;type 'int'&gt;              # 整型
+>>> a = input("input:")    
+input:"runoob"           # 正确，字符串表达式
+>>> type(a)
+&lt;type 'str'&gt;             # 字符串
+>>> a = input("input:")
+input:runoob               # 报错，不是表达式
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  File "&lt;string&gt;", line 1, in &lt;module&gt;
+NameError: name 'runoob' is not defined
+&lt;type 'str'&gt;</code></pre>
+		</div>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">raw_input() 将所有输入作为字符串看待</h2>
+			<pre><code>>>>a = raw_input("input:")
+input:123
+>>> type(a)
+&lt;type 'str'&gt;              # 字符串
+>>> a = raw_input("input:")
+input:runoob
+>>> type(a)
+&lt;type 'str'&gt;              # 字符串
+>>></code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+</div>

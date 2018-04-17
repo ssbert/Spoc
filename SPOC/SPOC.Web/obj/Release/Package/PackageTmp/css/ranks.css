@@ -1,0 +1,277 @@
+.ranks-page {
+    padding-top: 30px;
+}
+
+.ranks-page .select-tab .btn {
+    padding: 10px 20px;
+    font-weight: 600;
+}
+
+.ranks-page .select-tab li {
+    float: left;
+}
+
+.ranks-page .select-tab li a.r-radius-none {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-right: -1px;
+}
+
+.ranks-page .select-tab li a.l-radius-none {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.ranks-page .ranks-content .charts-block .cut-btn-box .btn:focus,
+.ranks-page .select-tab .btn:focus {
+    outline: none;
+    background-color: inherit;
+    border-color: #ccc;
+}
+
+.ranks-page .select-tab li.active .btn {
+    background: #2ec866;
+    border-color: #548700;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1), 0 1px 2px rgba(255,255,255,0.75);
+    color: #fff;
+}
+
+/*排名模块*/
+.ranks-page .ranks-content {
+    padding: 30px 0;
+    position: relative;
+}
+
+.ranks-page .ranks-content .exam-select {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.ranks-page .ranks-content .exam-select .btn {
+    padding: 8px 15px;
+    font-size: 14px;
+}
+
+.ranks-page .ranks-content .charts-block {
+    position: relative;
+}
+
+.ranks-page .ranks-content .charts-block .cut-btn-box {
+    position: absolute;
+    right: 37px;
+    top: 68px;
+    z-index: 100;
+}
+
+.ranks-page .ranks-content .charts-block .cut-btn-box .iconfont {
+    font-size: 20px;
+    color: #666;
+}
+
+.ranks-page .ranks-content .charts-block .cut-btn-box .btn {
+    padding: 0 5px;
+    display: block;
+    margin-top: 20px;
+    border: none;
+    position: relative;
+}
+
+.ranks-page .ranks-content .charts-block .cut-btn-box .btn .i-text {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color:transparent;
+}
+
+.ranks-page .ranks-content .charts-block .cut-btn-box .iconfont:hover + .i-text {
+    color: #008acd;
+}
+
+.ranks-page .ranks-content .charts-block .cut-btn-box .btn:active {
+    box-shadow: none;
+}
+
+.ranks-page .ranks-content .charts-block .cut-btn-box .btn:hover {
+    background-color: transparent;
+}
+
+.ranks-page .ranks-content .charts-block .cut-btn-box .btn:hover .iconfont {
+    color: #008acd;
+}
+
+.ranks-page .ranks-content .charts {
+    padding: 40px 20px;
+    height: 600px;
+}
+
+.ranks-page .table-title {
+    text-align: center;
+    font-size: 22px;
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+.ranks-page .ranks-content .rank-table {
+    border: 1px solid #c2c7d0;
+    margin-bottom: 20px;
+}
+
+.ranks-page .ranks-content .table-header .iconfont {
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 2px;
+}
+
+.ranks-page .ranks-content .table-header-colum .dropdown-menu {
+    padding: 10px 15px;
+    top: 70%;
+    left: 20px;
+    font-weight: 400;
+}
+
+.ranks-page .btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
+    border-radius: 4px;
+}
+
+.ranks-page .ranks-content .dropdown-menu .select2-container--open .select2-dropdown {
+    left: -1px;
+    top: -1px;
+}
+
+ranks-page .select2-container--default.select2-container--focus,
+.ranks-page .select2-container {
+    min-width: 180px !important;
+}
+
+.ranks-page .select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+}
+
+.ranks-page .ranks-content .table-header-colum .dropdown-menu p {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.ranks-page .ranks-content .table-header-colum .dropdown-menu .form-group {
+    margin-bottom: 0;
+}
+
+.ranks-page .ranks-content .table-header,
+.ranks-page .ranks-content .table-row {
+    border-bottom: 1px solid #c2c7d0;
+    margin-bottom: -1px;
+}
+
+.ranks-page .ranks-content .table-header-colum,
+.ranks-page .ranks-content .table-row-colum {
+    float: left;
+    text-align: center;
+}
+
+.ranks-page .ranks-content .self,
+.ranks-page .ranks-content .self * {
+    color: #2ec866;
+    font-weight: 600;
+}
+
+.ranks-page .ranks-content .table-header-colum {
+    height: 46px;
+    line-height: 46px;
+    font-weight: 600;
+}
+
+.ranks-page .ranks-content .table-row-colum {
+    min-height: 42px;
+    line-height: 42px;
+}
+
+.ranks-page .ranks-content .exam-mes .self-info {
+    line-height: 30px;
+    font-weight: 600;
+    color: #979faf;
+    text-align: right;
+}
+
+.ranks-page .ranks-content .exam-mes .self-info span {
+    margin-right: 10px;
+}
+
+.ranks-page .challenge-rank .classes {
+    width: 40%;
+    position: relative;
+}
+
+.ranks-page .challenge-rank .hacker {
+    width: 25%;
+    text-align: left;
+    position: relative;
+}
+
+.ranks-page .challenge-rank .scores {
+    width: 20%;
+    text-align: left;
+}
+
+.ranks-page .challenge-rank .rank {
+    width: 15%;
+}
+
+.ranks-page .exam-rank .exam-pandect-table .rank {
+    width: 25%;
+}
+
+.ranks-page .exam-rank .exam-pandect-table .scores {
+    width: 14%;
+}
+
+.ranks-page .exam-rank .exam-pandect-table .num {
+    width: 15%;
+}
+
+.ranks-page .exam-rank .exam-detail-table .student {
+    width: 20%;
+    text-align: left;
+    padding-left: 5%;
+    position: relative;
+}
+
+.ranks-page .exam-rank .exam-detail-table .scores {
+    width: 14%;
+    text-align: left;
+}
+
+.ranks-page .exam-rank .exam-detail-table .classes {
+    width: 40%;
+    position: relative;
+}
+
+.ranks-page .exam-rank .exam-detail-table .class-rank {
+    width: 13%;
+}
+
+.ranks-page .exam-rank .exam-detail-table .all-rank {
+    width: 13%;
+}
+
+/*无数据时样式*/
+.no-data-tip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    font-size: 150px;
+    line-height: 600px;
+}
+
+@media (max-width: 1366px) {
+    .no-data-tip {
+        line-height: 450px;
+    }
+}

@@ -1,0 +1,54 @@
+<div class="numberParseInt-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">parseInt() 方法</span>
+		</h1>
+		<p>
+			<a href="#number" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java Number & Math类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>parseInt() 方法用于将字符串参数作为有符号的十进制整数进行解析。</p>
+		<p>如果方法有两个参数， 使用第二个参数指定的基数，将字符串参数解析为有符号的整数。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>所有 Number 派生类 parseInt 方法格式类似如下：</p>
+		<pre>static int parseInt(String s)
+
+static int parseInt(String s, int radix)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>s</b> -- 十进制表示的字符串。</p></li>
+			<li><p><b>radix</b> -- 指定的基数。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<ul>
+			<li><p><b>parseInt(String s):</b> 返回用十进制参数表示的整数值。</p></li>
+			<li><p><b>parseInt(int i):</b> 使用指定基数的字符串参数表示的整数 (基数可以是 10, 2, 8, 或 16 等进制数) 。 </p></li>
+		</ul>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test{
+    public static void main(String args[]){
+        int x =Integer.parseInt("9");
+        double c = Double.parseDouble("5");
+        int b = Integer.parseInt("444",16);
+
+        System.out.println(x);
+        System.out.println(c);
+        System.out.println(b);
+    }
+}</code></pre>
+		</div>
+		<p>编译以上程序，输出结果为：</p>
+		<pre>9
+5.0
+1092</pre>
+	</div>
+	<p>
+		<a href="#number" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java Number & Math类
+		</a>
+	</p>
+</div>

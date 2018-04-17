@@ -1,0 +1,75 @@
+<div class="functionDifftime-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">ctime()</span>
+		</h1>
+		<p>
+			<a href="#standardLibTimeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;time.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>double difftime(time_t time1, time_t time2)</b> 返回 <b>time1</b> 和 <b>time2</b> 之间相差的秒数 <b>(time1 - time2)</b>。这两个时间是在日历时间中指定的，表示了自纪元 Epoch（协调世界时 UTC：1970-01-01 00:00:00）起经过的时间。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 difftime() 函数的声明。</p>
+		<pre>double difftime(time_t time1, time_t time2)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>time1</b> -- 这是表示结束时间的 time_t 对象。</li>
+			<li><b>time2</b> -- 这是表示开始时间的 time_t 对象。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回以双精度浮点型 double 值表示的两个时间之间相差的秒数 (time2 - time1)。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 difftime() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;time.h&gt;
+#ifdef _WIN32
+#include &lt;Windows.h&gt;
+#else
+#include &lt;unistd.h&gt;
+#endif
+ 
+int main ()
+{
+   time_t start_t, end_t;
+   double diff_t;
+ 
+   printf("程序启动...\n");
+   time(&start_t);
+ 
+   printf("休眠 5 秒...\n");
+   sleep(5);
+ 
+   time(&end_t);
+   diff_t = difftime(end_t, start_t);
+ 
+   printf("执行时间 = %f\n", diff_t);
+   printf("程序退出...\n");
+ 
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>程序启动...
+休眠 5 秒...
+执行时间 = 5.000000
+程序退出...</pre>
+		<p>
+			<a href="#standardLibTimeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;time.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

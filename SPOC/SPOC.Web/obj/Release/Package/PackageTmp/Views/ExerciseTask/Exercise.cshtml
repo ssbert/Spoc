@@ -1,0 +1,272 @@
+﻿@using System.Text.RegularExpressions
+@model SPOC.Web.Models.Exercises.ExerciseViewModel
+@{
+    ViewBag.Title = "Exercise";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var language = "cpp";
+    switch (Model.Question.language)
+    {
+        case "c":
+            language = "c";
+            break;
+        case "cpp":
+            language = "cpp";
+            break;
+        case "java":
+            language = "cpp";
+            break;
+        case "python":
+        case "python3":
+            language = "python";
+            break;
+        case "csharp":
+            language = "csharp";
+            break;
+    }
+}
+
+<div class="detail-page exercise-detail-page container-box center">
+    <div class="detail-header">
+        <h2 class="header-title">@Model.Base.Title</h2>
+        <div class="author">
+            <img src="@Model.Base.UserImg" class="fillet_5">
+            <span>
+                by
+                <a href="javascript:;" class="name">@Model.Base.UserName</a>
+            </span>
+        </div>
+    </div>
+    <div class="detail-content">
+        <div class="nav-tab">
+            <ul class="clearfix">
+                <li class="item active"><a href="javascript:;" data-toggle="tab">程序</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+
+            <div class="problem-content content-box active" id="problem">
+                <div class="row">
+                    <div class="content-left col-lg-12 col-md-12">
+                        <h4>题目：</h4>
+                        @Html.Raw(ChangeImgUrl(Model.Question.questionText, Model.Question.Id))
+
+                        @if (!string.IsNullOrEmpty(Model.Question.param))
+                        {
+                            var paramList = Model.Question.param.Split('|');
+                            var param = string.Join(" ", paramList);
+                            <br/>
+                            <h4>参数：</h4>
+                            <pre>
+                                @param
+                            </pre>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Question.InputParam))
+                        {
+                            var inputParams = Model.Question.InputParam.Split('|');
+                            <br/>
+                            <h4>输入流参数：</h4>
+                            for (var i = 1; i <= inputParams.Length; i++)
+                            {
+                                <pre>第 @i 组：@inputParams[i - 1]</pre>
+                            }
+                        }
+                        <br/>
+                        <h4>期望输出：</h4>
+                        @if (Model.Question.MultiTest)
+                        {
+                            var answers = Model.Question.standardAnswer.Split('|');
+                            for (var i = 1; i <= answers.Length; i++)
+                            {
+                                <pre>第 @i 次输出：@answers[i - 1]</pre>
+                            }
+                        }
+                        else
+                        {
+                            <pre>@Model.Question.standardAnswer</pre>
+                        }
+                        
+                    </div>
+                </div>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <h3 style="display: inline-block;">程序面板</h3>
+
+
+                    </div>
+                    <div id="container" class="editor-panel">
+                    </div>
+                    <div id="progressBar" class="progress" style="display: none;">
+                        <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                            服务器响应中...
+                        </div>
+                    </div>
+                    <div class="editor-footer clearfix">
+                        <div class="code-input input-group">
+                            @if (!string.IsNullOrEmpty(Model.Question.param))
+                            {
+                                <label>测试程序参数：</label>
+                                <input id="param" type="text" class="form-control fillet_5">
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Question.InputParam))
+                            {
+                                <label>测试输入流参数：</label>
+                                <input id="inputParam" type="text" class="form-control fillet_5">
+                            }
+                        </div>
+                        <div class="editor-btn text-right pull-right">
+                            <button id="testBtn" class="run-code btn" onclick="doSubmit(true)">测试</button>
+                            <button id="submitBtn" class="submit-code btn" onclick="doSubmit(false)">提交</button>
+                            <button id="retestBtn" class="submit-code btn" onclick="window.location.reload()" style="display: none;">再次挑战</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 运行结果 -->
+                <div class="run-results">
+                    
+                    <div class="results">
+                        <div class="results-con">
+                            <div class="result-item">
+                                <p>运行结果</p>
+                                <pre class="item-box" id="runCodeResult">
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@functions
+{
+
+    string ChangeImgUrl(string html, Guid questionId)
+    {
+        var reg = new Regex(@"<img*.+?>", RegexOptions.IgnoreCase);
+        var srcReg = new Regex("src=\"\\./[0-9a-zA-Z\\-]{1,36}\\.[a-zA-z].+?\"");
+        if (!reg.IsMatch(html))
+        {
+            return html;
+        }
+        var matchs = reg.Matches(html);
+        foreach (Match match in matchs)
+        {
+            if (!srcReg.IsMatch(match.Value))
+            {
+                continue;
+            }
+            var srcMatch = srcReg.Match(match.Value);
+            var srcStr = srcMatch.Value;
+            srcStr = srcStr.Remove(0, 7);
+            srcStr = srcStr.Remove(srcStr.Length - 1);
+            srcStr = @"/fileroot/question/" + questionId + @"/" + srcStr;
+            var imgStr = match.Value.Replace(srcMatch.Value, "src=\"" + srcStr + "\"");
+            html = html.Replace(match.Value, imgStr);
+        }
+        return html;
+    }
+
+}
+
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/css/detail.css">
+}
+
+@section scripts
+{
+    <script src="/Scripts/layer/layer.js"></script>
+    <script src="/js/common/common.js"></script>
+    <script language="javascript" type="text/javascript" src="/Scripts/monaco-editor/min/vs/loader.js"></script>
+    <script>
+        var id = "@Model.Base.Id";
+        var allowPasteCode = @Model.AllowPasteCode.ToString().ToLower();
+        var editor;
+        require.config({ paths: { 'vs': '/Scripts/monaco-editor/min/vs' } });
+        require(['vs/editor/editor.main'],
+            function() {
+                editor = monaco.editor.create(document.getElementById('container'), { language: '@language' });
+                if (!allowPasteCode) {
+                    //禁用全局粘贴
+                    $(document).on('paste', '.inputarea', function() {
+                        return false;
+                    });
+                }
+            });
+
+        function doSubmit(isTestRun) {
+            $("#progressBar").show();
+            $("#runCodeResult").text("");
+            $("button").prop("disabled", true);
+            var param = {
+                id: id,
+                code: editor.getValue(),
+                isTestRun: isTestRun,
+                param: $("#param").val(),
+                inputParam: $("#inputParam").val()
+            };
+            var url = apiUrl + "ExerciseView/RunCode";
+            nv.post(url, param,
+                function(data) {
+                    $("#progressBar").hide();
+                    $("button").prop("disabled", false);
+                    if (data.success) {
+                        if (data.result.isTestRun) {
+                            runCodeResultFormat(data.result.resultList[0]);
+                        } else {
+                            if (data.result.isPass) {
+                                layer.alert("恭喜您，您已通过练习！即将离开此页面。",
+                                { icon: 6 },
+                                function() {
+                                    window.location.href = "/ExerciseTask";
+                                });
+                            } else {
+                                $("#submitBtn").hide();
+                                $("#testBtn").hide();
+                                $("#retestBtn").show();
+                                var $result = $("#runCodeResult");
+                                var count = data.result.resultList.length;
+                                if (count === 1) {
+                                    resultFormat(data.result.resultList[0]);
+                                } else if (count > 1) {
+                                    for (var i = 0; i < count; i++) {
+                                        $result.append("第" + ( i + 1 ) + "次测试：\n");
+                                        resultFormat(data.result.resultList[i]);
+                                    }
+                                } else {
+                                    layer.alert("未知的原因，服务器未返回结果。", { icon: 5 });
+                                }
+
+                            }
+                        }
+                    } else {
+                        layer.alert(data.error.message, { icon: 0 });
+                    }
+                });
+    }
+
+    function runCodeResultFormat(result) {
+        var content = "[{0}] ".format(result.time);
+        if (result.isSuccessedRun) {
+            content += "编译成功！\n运行结果:\n" + result.output + "\n";
+                $("#runCodeResult").append(content);
+        } else {
+            content += "编译失败！\n编译器返回:\n" + result.complieError + "\n";
+                $("#runCodeResult").append(content);
+        }
+    }
+
+    function resultFormat(result) {
+        var $result = $("#runCodeResult");
+        runCodeResultFormat(result);
+            $result.append("标准答案：" + result.answer + "\n");
+        var pass = result.answer === result.output ? "通过" : "未通过";
+            $result.append("是否通过：" + pass + "\n");
+            $result.append("\n");
+    }
+    </script>
+}

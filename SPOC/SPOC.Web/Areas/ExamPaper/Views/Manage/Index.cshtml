@@ -1,0 +1,164 @@
+﻿
+@{
+    ViewBag.Title = "试卷管理";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+@section scripts
+{
+    <script src="~/Scripts/plupload-2.1.2/plupload.full.min.js"></script>
+    <script src="~/Scripts/jquery-easyui-extension/datagrid-detailview.js"></script>
+    <script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/exam/examPaper.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/exam/importExamPaper.js?v=@L("version")"></script>
+    <script>
+        var view = new PaperListViewClass();
+        window.flush = function() {
+            view.flush();
+        }
+
+        function paperTypeCodeFormatter(val, row, index) {
+            if (val === "fix") {
+                return "固定试卷";
+            }
+
+            if (val === "random") {
+                return "随机试卷";
+            }
+
+            return val;
+        }
+
+        function optFormatter(val, row, index) {
+            var options = [
+                {
+                    title: "预览",
+                    text: "预览",
+                    icon: "icon-page_find",
+                    onclick: "view.preview"
+                }, {
+                    title: "编辑",
+                    text: "编辑",
+                    icon: "icon-edit",
+                    onclick: "view.edit"
+                }
+            ];
+
+            if (row.paperTypeCode === "fix") {
+                options.push({
+                    title: "导出",
+                    text: "导出",
+                    icon: "icon-page_white_word",
+                    onclick: "view.exportToWord"
+                });
+            }
+
+            return linkbtn(index, {option: options});
+        }
+
+        function importFormChange() {
+            if ($("#import-form").form("validate")) {
+                $("#import-from-word").show();
+            } else {
+                $("#import-from-word").hide();
+            }
+        }
+
+        function downloadTemplate() {
+            window.open("/fileroot/exportTemplateFile/PaperTemplate.doc");
+        }
+
+        $(function() {
+            var category1 = new nv.category.CombotreeDataClass("wd-questionFolderUid", "question_bank");
+            category1.getCategory();
+
+            var category2 = new nv.category.CombotreeDataClass("wd-paperFolderUid", "exam_paper");
+            category2.getCategory();
+            var importExamPaper = new ImportExamPaperClass(view.query);
+            $("#import-form").form({ onChange: importFormChange });
+        });
+    </script>
+}
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-6">
+            <div class="form-group">
+                <label class="form-label" for="paperCode">编号：</label>
+                <input id="paperCode" name="paperCode" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="paperName">试卷名称：</label>
+                <input id="paperName" name="paperName" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="userLoginName">创建者用户名：</label>
+                <input id="userLoginName" name="userLoginName" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="userFullName">创建者姓名：</label>
+                <input id="userFullName" name="userFullName" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label">试卷类型：</label>
+                <select id="paperTypeCode" name="paperTypeCode" class="easyui-combobox" editable="false" style="width:150px;">
+                    <option value="" selected>全部</option>
+                    <option value="fix">固定试卷</option>
+                    <option value="random">随机试卷</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">试卷分类：</label>
+                <input id="folderUid" name="folderUid" class="easyui-combotree" multiple="true" style="width:150px;" data-options="lines:true">
+            </div>
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="view.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="$('#query-form').form('clear')">重置</a>
+            </div>
+        </form> 
+        <a href="javascript:void(0)" class="easyui-menubutton" data-options="menu:'#add-menu',iconCls:'icon-add'">创建</a>
+        <div id="add-menu" style="width:150px;">
+            <div onclick="view.create('fix')">固定试卷</div>
+            <div onclick="view.create('random')">随机试卷</div>
+        </div>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-busy'" onclick="view.del()">删除</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-20130406125519344_easyicon_net_16'" onclick="view.showImportWindow()">导入试卷</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="false" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+        <tr>
+            <th field="ck" checkbox="true" width="10"></th>
+            <th field="paperCode" width="80">编号</th>
+            <th field="paperName" width="150">试卷名称</th>
+            <th field="paperTypeCode" formatter="paperTypeCodeFormatter" width="80">试卷类型</th>
+            <th field="userLoginName" width="100">创建者用户名</th>
+            <th field="userFullName" width="80">创建者姓名</th>
+            <th field="createTime" width="140">创建日期</th>
+            <th field="remarks" width="100">备注</th>
+            <th field="opt" formatter="optFormatter" width="170">操作</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+<div id="wd" class="easyui-window" title="导入试卷" footer="#wd-buttons" closed="true" minimizable="false" maximizable="false" modal="true" style="width: 400px; height: 230px;">
+    <form id="import-form" class="form-horizontal label label-length-4">
+        <div class="form-group">
+            <label class="form-label">试题分类：</label>
+            <select id="wd-questionFolderUid" name="wd-questionFolderUid" class="easyui-combotree" editable="false" style="width: 300px;" required data-options="lines:true"></select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">试卷分类：</label>
+            <select id="wd-paperFolderUid" name="wd-paperFolderUid" class="easyui-combotree" editable="false" style="width: 300px;" required data-options="lines:true"></select>
+        </div>
+        <div class="form-group">
+            <label class="form-label"></label>
+            <a href="javascript:void(0)" onclick="downloadTemplate()" style="text-decoration: underline">点此下载模板</a>
+        </div>
+    </form>
+</div>
+<div id="wd-buttons" style="padding: 4px;">
+    <div style="float: right;">
+        <a id="import-from-word" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-20130406125519344_easyicon_net_16'">上传Word</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#wd').dialog('close');">取消</a>
+    </div>
+</div>

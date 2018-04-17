@@ -1,0 +1,45 @@
+<div class="attTimeMktime-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">time mktime()方法</span>
+		</h1>
+		<p>
+			<a href="#dateTime" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 时间和日期
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>Python time mktime() 函数执行与gmtime(), localtime()相反的操作，它接收struct_time对象作为参数，返回用秒数来表示时间的浮点数。 </p>
+		<p>如果输入的值不是一个合法的时间，将触发 OverflowError 或 ValueError。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>mktime()方法语法：</p>
+		<pre>time.mktime(t)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>t -- 结构化的时间或者完整的9位元组元素。</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回用秒数来表示时间的浮点数。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 mktime() 函数的使用方法：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+import time
+
+t = (2009, 2, 17, 17, 3, 38, 1, 48, 0)
+secs = time.mktime( t )
+print "time.mktime(t) : %f" %  secs
+print "asctime(localtime(secs)): %s" % time.asctime(time.localtime(secs))</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>time.mktime(t) : 1234915418.000000
+asctime(localtime(secs)): Tue Feb 17 17:03:38 2009</pre>
+		<p>
+			<a href="#dateTime" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 时间和日期
+			</a>
+		</p>
+	</div>
+</div>

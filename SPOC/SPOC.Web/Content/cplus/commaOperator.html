@@ -1,0 +1,44 @@
+<div class="comma-operator-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">逗号运算符</span>
+		</h1>
+		<p>
+			<a href="#operator" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 运算符
+			</a>
+		</p>
+		<p>使用逗号运算符的为了把几个表达式串在一起。整个逗号表达式的值是以逗号分隔的列表中的最后一个表达式的值。从本质上讲，逗号的作用是导致一系列运算被顺序执行。</p>
+		<p>最右边的那个表达式的值将作为整个逗号表达式的值，其他表达式的值会被丢弃。例如：</p>
+		<pre>var = (count=19, incr=10, count+1);</pre>
+		<p>在这里，首先把 count 赋值为 19，把 incr 赋值为 10，然后把 count 加 1，最后，把最右边表达式 count+1 的计算结果 20 赋给 var。上面表达式中的括号是必需的，因为逗号运算符的优先级低于赋值操作符。</p>
+		<p>尝试运行下面的实例，理解逗号运算符的用法。</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">
+				实例
+			</h2>
+			<pre><code>#include &lt;iostream&gt;
+using namespace std;
+ 
+int main()
+{
+   int i, j;
+   
+   j = 10;
+   i = (j++, j+100, 999+j);
+ 
+   cout << i;
+   
+   return 0;
+}</code></pre>
+		</div>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre>1010</pre>
+		<p>上面的程序中，j 最初的值为 10，然后自增到 11，接着再加上 100，最后 j 再加上 999，得出结果 1010。</p>
+		<p>
+			<a href="#operator" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 运算符
+			</a>
+		</p>
+	</div>
+</div>

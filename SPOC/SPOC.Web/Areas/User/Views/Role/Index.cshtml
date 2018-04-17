@@ -1,0 +1,117 @@
+﻿@using SPOC.Common.Cookie
+@{
+    ViewBag.Title = "Index";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-4">
+            <div class="form-group">
+                <label class="form-label">用户名：</label>
+                <input id="userLoginName" name="userLoginName" type="text" class="easyui-textbox" style="width: 150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label">姓名：</label>
+                <input id="userFullName" name="userFullName" type="text" class="easyui-textbox" style="width: 150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label">手机号：</label>
+                <input id="userMobile" name="userMobile" type="text" class="easyui-textbox" style="width: 150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email：</label>
+                <input id="userEmail" name="userEmail" type="text" class="easyui-textbox" style="width: 150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label">性别：</label>
+                <select id="userGender" name="userGender" class="easyui-combobox" style="width: 150px;">
+                    <option value="" checked>不限</option>
+                    <option value="1">男</option>
+                    <option value="2">女</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">角色：</label>
+                <select id="identity" name="identity" class="easyui-combobox" style="width: 150px;">
+                    <option vlaue="0">不限</option>
+                    <option value="1">学生</option>
+                    <option value="2">老师</option>
+                    <option value="3">管理员</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" onclick="manage.query()">搜索</a>
+                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-clear" onclick="$('#query-form').form('reset')">重置</a>
+            </div>
+        </form>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="manage.save()">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="manage.reject()">取消</a>
+    </div>
+    <table id="dg" class="easyui-datagrid" singleselect="true" rownumbers="true" fit="true" pagination="true" toolbar="#toolbar" pagenum="1" pagesize="30">
+        <thead>
+            <tr>
+                <th field="userFullName" sortable="true">姓名</th>
+                <th field="userLoginName" sortable="true">用户名</th>
+                <th field="userGender" formatter="userGenderFormatter" sortable="true">性别</th>
+                <th field="userMobile" sortable="true">手机号</th>
+                <th field="userEmail" sortable="true">邮箱</th>
+                <th field="identity" formatter="identityFormatter" sortable="true" width="70" data-options="
+                    editor:{
+                        type:'combobox',
+                        options:{
+                            editable: false,
+                            valueField: 'identity',
+                            textField: 'text',
+                            required: true,
+                            data: identityArray
+                        }
+                    }">角色</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section scripts
+{
+    <script src="~/Areas/Assets/js/role/userRoleManage.js?v=@L("version")"></script>
+    <script>
+        var selfId = "@CookieHelper.GetLoginInUserInfo().Id";
+        var identityArray = [
+            { identity: 1, text: "学生" },
+            { identity: 2, text: "老师" },
+            { identity: 3, text: "管理员" }
+        ];
+        var manage = new UserRoleManage(selfId);
+
+        function identityFormatter(val, row, index) {
+            return row.identityName;
+        }
+
+        function userGenderFormatter(val, row, index) {
+            if (val === "1") {
+                return "男";
+            } else if (val === "2") {
+                return "女";
+            }
+            return "-";
+        }
+
+        function userFenderFormatter(val, row, index) {
+            if (val === 1) {
+                return "学生";
+            } else if (val === 2) {
+                return "老师";
+            } else if (val === 3) {
+                return "管理员";
+            }
+            return val;
+        }
+
+        $(function() {
+            manage.initDataGrid();
+            manage.query();
+        });
+    </script>
+}

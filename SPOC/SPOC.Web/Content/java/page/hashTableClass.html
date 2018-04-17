@@ -1,0 +1,184 @@
+<div class="hashTableClass-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">Java <span class="green">Hashtable 类</span></h1>
+		<p>
+			<a href="#dataStructures" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java 数据结构
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>Hashtable是原始的java.util的一部分， 是一个Dictionary具体的实现 。</p>
+		<p>然而，Java 2 重构的Hashtable实现了Map接口，因此，Hashtable现在集成到了集合框架中。它和HashMap类很相似，但是它支持同步。</p>
+		<p>像HashMap一样，Hashtable在哈希表中存储键/值对。当使用一个哈希表，要指定用作键的对象，以及要链接到该键的值。</p>
+		<p>然后，该键经过哈希处理，所得到的散列码被用作存储在该表中值的索引。</p>
+		<p>Hashtable定义了四个构造方法。第一个是默认构造方法：</p>
+		<pre>Hashtable()</pre>
+		<p>第二个构造函数创建指定大小的哈希表： </p>
+		<pre>Hashtable(int size)</pre>
+		<p>第三个构造方法创建了一个指定大小的哈希表，并且通过fillRatio指定填充比例。</p>
+		<p>填充比例必须介于0.0和1.0之间，它决定了哈希表在重新调整大小之前的充满程度：</p>
+		<pre>Hashtable(int size,float fillRatio)</pre>
+		<p>第四个构造方法创建了一个以M中元素为初始化元素的哈希表。</p>
+		<p>哈希表的容量被设置为M的两倍。</p>
+		<pre>Hashtable(Map m)</pre>
+		<p>Hashtable中除了从Map接口中定义的方法外，还定义了以下方法： </p>
+		<table>
+			<tbody>
+				<tr>
+					<th>
+						<strong>序号</strong></th>
+					<th>
+						<strong>方法描述</strong></th>
+				</tr>
+				<tr>
+					<td>
+						1</td>
+					<td>
+						<strong>void clear( )</strong><br>
+						&nbsp;将此哈希表清空，使其不包含任何键。</td>
+				</tr>
+				<tr>
+					<td>
+						2</td>
+					<td>
+						<strong>Object clone( )</strong><br>
+						创建此哈希表的浅表副本。</td>
+				</tr>
+				<tr>
+					<td>
+						3</td>
+					<td>
+						<strong>boolean contains(Object value)</strong><br>
+						&nbsp;测试此映射表中是否存在与指定值关联的键。</td>
+				</tr>
+				<tr>
+					<td>
+						4</td>
+					<td>
+						<strong>boolean containsKey(Object key)</strong><br>
+						测试指定对象是否为此哈希表中的键。</td>
+				</tr>
+				<tr>
+					<td>
+						5</td>
+					<td>
+						<strong>boolean containsValue(Object value)</strong><br>
+						如果此 Hashtable 将一个或多个键映射到此值，则返回 true。</td>
+				</tr>
+				<tr>
+					<td>
+						6</td>
+					<td>
+						<strong>Enumeration elements( )</strong><br>
+						返回此哈希表中的值的枚举。</td>
+				</tr>
+				<tr>
+					<td>
+						7</td>
+					<td>
+						<strong>Object get(Object key)</strong><br>
+						&nbsp;返回指定键所映射到的值，如果此映射不包含此键的映射，则返回&nbsp;null. 更确切地讲，如果此映射包含满足&nbsp;(key.equals(k))&nbsp;的从键&nbsp;k&nbsp;到值&nbsp;v&nbsp;的映射，则此方法返回&nbsp;v；否则，返回&nbsp;null。</td>
+				</tr>
+				<tr>
+					<td>
+						8</td>
+					<td>
+						<strong>boolean isEmpty( )</strong><br>
+						测试此哈希表是否没有键映射到值。</td>
+				</tr>
+				<tr>
+					<td>
+						9</td>
+					<td>
+						<strong>Enumeration keys( )</strong><br>
+						&nbsp;返回此哈希表中的键的枚举。</td>
+				</tr>
+				<tr>
+					<td>
+						10</td>
+					<td>
+						<strong>Object put(Object key, Object value)</strong><br>
+						将指定&nbsp;key&nbsp;映射到此哈希表中的指定&nbsp;value。</td>
+				</tr>
+				<tr>
+					<td>
+						11</td>
+					<td>
+						<strong>void rehash( )</strong><br>
+						增加此哈希表的容量并在内部对其进行重组，以便更有效地容纳和访问其元素。</td>
+				</tr>
+				<tr>
+					<td>
+						12</td>
+					<td>
+						<strong>Object remove(Object key)</strong><br>
+						从哈希表中移除该键及其相应的值。</td>
+				</tr>
+				<tr>
+					<td>
+						13</td>
+					<td>
+						<strong>int size( )</strong><br>
+						&nbsp;返回此哈希表中的键的数量。</td>
+				</tr>
+				<tr>
+					<td>
+						14</td>
+					<td>
+						<strong>String toString( )</strong><br>
+						返回此&nbsp;Hashtable&nbsp;对象的字符串表示形式，其形式为 ASCII 字符 ",&nbsp;" （逗号加空格）分隔开的、括在括号中的一组条目。</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">实例</h3>
+		<p>下面的程序说明这个数据结构支持的几个方法：</p>
+		<div class="n-example">
+			<pre><code>import java.util.*;
+
+public class HashTableDemo {
+
+   public static void main(String args[]) {
+      // Create a hash map
+      Hashtable balance = new Hashtable();
+      Enumeration names;
+      String str;
+      double bal;
+
+      balance.put("Zara", new Double(3434.34));
+      balance.put("Mahnaz", new Double(123.22));
+      balance.put("Ayan", new Double(1378.00));
+      balance.put("Daisy", new Double(99.22));
+      balance.put("Qadir", new Double(-19.08));
+
+      // Show all balances in hash table.
+      names = balance.keys();
+      while(names.hasMoreElements()) {
+         str = (String) names.nextElement();
+         System.out.println(str + ": " +
+         balance.get(str));
+      }
+      System.out.println();
+      // Deposit 1,000 into Zara's account
+      bal = ((Double)balance.get("Zara")).doubleValue();
+      balance.put("Zara", new Double(bal+1000));
+      System.out.println("Zara's new balance: " +
+      balance.get("Zara"));
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下： </p>
+		<pre>Qadir: -19.08
+Zara: 3434.34
+Mahnaz: 123.22
+Daisy: 99.22
+Ayan: 1378.0
+
+Zara's new balance: 4434.34</pre>
+	</div>
+	<p>
+		<a href="#dataStructures" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java 数据结构
+		</a>
+	</p>
+</div>

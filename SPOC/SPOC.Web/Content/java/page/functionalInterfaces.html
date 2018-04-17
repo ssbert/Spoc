@@ -1,0 +1,384 @@
+<div class="functionalInterfaces-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java 8 <span class="green">函数式接口</span>
+		</h1>
+		<p>
+			<a href="#java8NewFeatures" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java 8 新特性
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>函数式接口(Functional Interface)就是一个具有一个方法的普通接口。</p>
+		<p>函数式接口可以被隐式转换为lambda表达式。</p>
+		<p>函数式接口可以现有的函数友好地支持 lambda。</p>
+		<p>JDK 1.8之前已有的函数式接口:</p>
+		<ul>
+			<li>java.lang.Runnable</li>
+			<li>java.util.concurrent.Callable</li>
+			<li>java.security.PrivilegedAction</li>
+			<li>java.util.Comparator</li>
+			<li>java.io.FileFilter</li>
+			<li>java.nio.file.PathMatcher</li>
+			<li>java.lang.reflect.InvocationHandler</li>
+			<li>java.beans.PropertyChangeListener</li>
+			<li>java.awt.event.ActionListener</li>
+			<li>javax.swing.event.ChangeListener</li>
+		</ul>
+		<p>JDK 1.8 新增加的函数接口：</p>
+		<ul>
+			<li>java.util.function</li>
+		</ul>
+		<p>java.util.function 它包含了很多类，用来支持 Java的 函数式编程，该包中的函数式接口有：</p>
+		<table>
+			<tbody>
+				<tr>
+					<th style="width:10%;">序号</th>
+					<th>接口 &amp; 描述</th>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td><b>BiConsumer&lt;T,U&gt;</b>
+						<p>代表了一个接受两个输入参数的操作，并且不返回任何结果</p>
+					</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td><b>BiFunction&lt;T,U,R&gt;</b>
+						<p>代表了一个接受两个输入参数的方法，并且返回一个结果</p>
+					</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td><b>BinaryOperator&lt;T&gt;</b>
+						<p>代表了一个作用于于两个同类型操作符的操作，并且返回了操作符同类型的结果</p>
+					</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td><b>BiPredicate&lt;T,U&gt;</b>
+						<p>代表了一个两个参数的boolean值方法</p>
+					</td>
+				</tr>
+				<tr>
+					<td>5</td>
+					<td><b>BooleanSupplier</b>
+						<p>代表了boolean值结果的提供方</p>
+					</td>
+				</tr>
+				<tr>
+					<td>6</td>
+					<td><b>Consumer&lt;T&gt;</b>
+						<p>代表了接受一个输入参数并且无返回的操作</p>
+					</td>
+				</tr>
+				<tr>
+					<td>7</td>
+					<td><b>DoubleBinaryOperator</b>
+						<p>代表了作用于两个double值操作符的操作，并且返回了一个double值的结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>8</td>
+					<td><b>DoubleConsumer</b>
+						<p>代表一个接受double值参数的操作，并且不返回结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>9</td>
+					<td><b>DoubleFunction&lt;R&gt;</b>
+						<p>代表接受一个double值参数的方法，并且返回结果
+
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>10</td>
+					<td><b>DoublePredicate</b>
+						<p>代表一个拥有double值参数的boolean值方法</p>
+					</td>
+				</tr>
+				<tr>
+					<td>11</td>
+					<td><b>DoubleSupplier</b>
+						<p>代表一个double值结构的提供方</p>
+					</td>
+				</tr>
+				<tr>
+					<td>12</td>
+					<td><b>DoubleToIntFunction</b>
+						<p>接受一个double类型输入，返回一个int类型结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>13</td>
+					<td><b>DoubleToLongFunction</b>
+						<p>接受一个double类型输入，返回一个long类型结果 </p>
+					</td>
+				</tr>
+				<tr>
+					<td>14</td>
+					<td><b>DoubleUnaryOperator</b>
+						<p>接受一个参数同为类型double,返回值类型也为double 。 </p>
+					</td>
+				</tr>
+				<tr>
+					<td>15</td>
+					<td><b>Function&lt;T,R&gt;</b>
+						<p> 接受一个输入参数，返回一个结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>16</td>
+					<td><b>IntBinaryOperator</b>
+						<p>接受两个参数同为类型int,返回值类型也为int 。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>17</td>
+					<td><b>IntConsumer</b>
+						<p>接受一个int类型的输入参数，无返回值 。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>18</td>
+					<td><b>IntFunction&lt;R&gt;</b>
+						<p>接受一个int类型输入参数，返回一个结果 。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>19</td>
+					<td><b>IntPredicate</b>
+						<p>：接受一个int输入参数，返回一个布尔值的结果。 </p>
+					</td>
+				</tr>
+				<tr>
+					<td>20</td>
+					<td><b>IntSupplier</b>
+						<p>无参数，返回一个int类型结果。 </p>
+					</td>
+				</tr>
+				<tr>
+					<td>21</td>
+					<td><b>IntToDoubleFunction</b>
+						<p>接受一个int类型输入，返回一个double类型结果 。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>22</td>
+					<td><b>IntToLongFunction</b>
+						<p>接受一个int类型输入，返回一个long类型结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>23</td>
+					<td><b>IntUnaryOperator</b>
+						<p>接受一个参数同为类型int,返回值类型也为int 。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>24</td>
+					<td><b>LongBinaryOperator</b>
+						<p>接受两个参数同为类型long,返回值类型也为long。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>25</td>
+					<td><b>LongConsumer</b>
+						<p>接受一个long类型的输入参数，无返回值。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>26</td>
+					<td><b>LongFunction&lt;R&gt;</b>
+						<p>接受一个long类型输入参数，返回一个结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>27</td>
+					<td><b>LongPredicate</b>
+						<p>R接受一个long输入参数，返回一个布尔值类型结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>28</td>
+					<td><b>LongSupplier</b>
+						<p>无参数，返回一个结果long类型的值。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>29</td>
+					<td><b>LongToDoubleFunction</b>
+						<p>接受一个long类型输入，返回一个double类型结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>30</td>
+					<td><b>LongToIntFunction</b>
+						<p>接受一个long类型输入，返回一个int类型结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>31</td>
+					<td><b>LongUnaryOperator</b>
+						<p>接受一个参数同为类型long,返回值类型也为long。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>32</td>
+					<td><b>ObjDoubleConsumer&lt;T&gt;</b>
+						<p>接受一个object类型和一个double类型的输入参数，无返回值。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>33</td>
+					<td><b>ObjIntConsumer&lt;T&gt;</b>
+						<p>接受一个object类型和一个int类型的输入参数，无返回值。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>34</td>
+					<td><b>ObjLongConsumer&lt;T&gt;</b>
+						<p>接受一个object类型和一个long类型的输入参数，无返回值。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>35</td>
+					<td><b>Predicate&lt;T&gt;</b>
+						<p>接受一个输入参数，返回一个布尔值结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>36</td>
+					<td><b>Supplier&lt;T&gt;</b>
+						<p>无参数，返回一个结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>37</td>
+					<td><b>ToDoubleBiFunction&lt;T,U&gt;</b>
+						<p>接受两个输入参数，返回一个double类型结果</p>
+					</td>
+				</tr>
+				<tr>
+					<td>38</td>
+					<td><b>ToDoubleFunction&lt;T&gt;</b>
+						<p>接受一个输入参数，返回一个double类型结果</p>
+					</td>
+				</tr>
+				<tr>
+					<td>39</td>
+					<td><b>ToIntBiFunction&lt;T,U&gt;</b>
+						<p>接受两个输入参数，返回一个int类型结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>40</td>
+					<td><b>ToIntFunction&lt;T&gt;</b>
+						<p>接受一个输入参数，返回一个int类型结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>41</td>
+					<td><b>ToLongBiFunction&lt;T,U&gt;</b>
+						<p>接受两个输入参数，返回一个long类型结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>42</td>
+					<td><b>ToLongFunction&lt;T&gt;</b>
+						<p>接受一个输入参数，返回一个long类型结果。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>43</td>
+					<td><b>UnaryOperator&lt;T&gt;</b>
+						<p>接受一个参数为类型T,返回值类型也为T。</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">函数式接口实例</h2>
+		<p>Predicate &lt;T&gt; 接口是一个函数式接口，它接受一个输入参数 T，返回一个布尔值结果。</p>
+		<p>该接口包含多种默认方法来将Predicate组合成其他复杂的逻辑（比如：与，或，非）。</p>
+		<p>该接口用于测试对象是 true 或 false。</p>
+		<p>我们可以通过以下实例（Java8Tester.java）来了解函数式接口 Predicate &lt;T&gt; 的使用：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">Java8Tester.java 文件</h2>
+			<pre><code>import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+ 
+public class Java8Tester {
+   public static void main(String args[]){
+      List&lt;Integer&gt; list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        
+      // Predicate&lt;Integer&gt; predicate = n -> true
+      // n 是一个参数传递到 Predicate 接口的 test 方法
+      // n 如果存在则 test 方法返回 true
+        
+      System.out.println("输出所有数据:");
+        
+      // 传递参数 n
+      eval(list, n->true);
+        
+      // Predicate&lt;Integer&gt; predicate1 = n -> n%2 == 0
+      // n 是一个参数传递到 Predicate 接口的 test 方法
+      // 如果 n%2 为 0 test 方法返回 true
+        
+      System.out.println("输出所有偶数:");
+      eval(list, n-> n%2 == 0 );
+        
+      // Predicate&lt;Integer&gt; predicate2 = n -> n > 3
+      // n 是一个参数传递到 Predicate 接口的 test 方法
+      // 如果 n 大于 3 test 方法返回 true
+        
+      System.out.println("输出大于 3 的所有数字:");
+      eval(list, n-> n > 3 );
+   }
+    
+   public static void eval(List&lt;Integer&gt; list, Predicate&lt;Integer&gt; predicate) {
+      for(Integer n: list) {
+        
+         if(predicate.test(n)) {
+            System.out.println(n + " ");
+         }
+      }
+   }
+}</code></pre>
+		</div>
+		<p>执行以上脚本，输出结果为：</p>
+		<pre>$ javac Java8Tester.java 
+$ java Java8Tester
+输出所有数据:
+1 
+2 
+3 
+4 
+5 
+6 
+7 
+8 
+9 
+输出所有偶数:
+2 
+4 
+6 
+8 
+输出大于 3 的所有数字:
+4 
+5 
+6 
+7 
+8 
+9 </pre>
+	</div>
+	<p>
+		<a href="#java8NewFeatures" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java 8 新特性
+		</a>
+	</p>
+</div>

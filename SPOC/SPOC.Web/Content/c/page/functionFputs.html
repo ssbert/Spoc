@@ -1,0 +1,83 @@
+<div class="functionFputs-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">fputs()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int fputs(const char *str, FILE *stream)</b> 把字符串写入到指定的流 stream 中，但不包括空字符。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 fputs() 函数的声明。</p>
+		<pre>int fputs(const char *str, FILE *stream)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b> -- 这是一个数组，包含了要写入的以空字符终止的字符序列。</li>
+			<li><b>stream</b> -- 这是指向 FILE 对象的指针，该 FILE 对象标识了要被写入字符串的流。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回一个非负值，如果发生错误则返回 EOF。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 fputs() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main ()
+{
+   FILE *fp;
+
+   fp = fopen("file.txt", "w+");
+
+   fputs("这是 C 语言。", fp);
+   fputs("这是一种系统程序设计语言。", fp);
+
+   fclose(fp);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将创建文件 <b>file.txt</b>，它的内容如下：</p>
+		<pre>这是 C 语言。这是一种系统程序设计语言。</pre>
+		<p>现在让我们使用下面的程序查看上面文件的内容：</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main ()
+{
+   FILE *fp;
+   int c;
+
+   fp = fopen("file.txt","r");
+   while(1)
+   {
+      c = fgetc(fp);
+      if( feof(fp) )
+      {
+          break ;
+      }
+      printf("%c", c);
+   }
+   fclose(fp);
+   return(0);
+}</code></pre>
+		</div>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

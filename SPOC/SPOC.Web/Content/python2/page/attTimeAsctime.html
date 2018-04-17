@@ -1,0 +1,41 @@
+<div class="attTimeAsctime-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">time asctime()方法</span>
+		</h1>
+		<p>
+			<a href="#dateTime" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 时间和日期
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>Python time asctime() 函数接受时间元组并返回一个可读的形式为"Tue Dec 11 18:07:14 2008"（2008年12月11日 周二18时07分14秒）的24个字符的字符串。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>asctime()方法语法：</p>
+		<pre>time.asctime([t])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>t -- 9个元素的元组或者通过函数 gmtime() 或 localtime() 返回的时间值。</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回一个可读的形式为"Tue Dec 11 18:07:14 2008"（2008年12月11日 周二18时07分14秒）的24个字符的字符串。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 asctime()函数的使用方法：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+import time
+
+t = time.localtime()
+print "time.asctime(t): %s " % time.asctime(t)</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>time.asctime(t): Tue Feb 17 09:42:58 2009</pre>
+		<p>
+			<a href="#dateTime" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 时间和日期
+			</a>
+		</p>
+	</div>
+</div>

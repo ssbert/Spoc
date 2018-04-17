@@ -1,0 +1,361 @@
+.login-page .bg-img {
+    height: auto;
+    left: 0;
+    min-height: 100%;
+    min-width: 1280px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.login-page .selectpicker {
+    height: 120px;
+}
+
+.login-page .input-group input {
+    border-radius: 5px !important;
+    height: 46px;
+    padding-left: 50px;
+}
+
+.login-page .input-group .singleSelect {
+    height: 46px;
+    width: 100% !important;
+}
+
+    .login-page .input-group .singleSelect button {
+        height: 46px;
+    }
+
+    .login-page .input-group .singleSelect .dropdown-menu {
+        width: 100%;
+    }
+
+.login-page .input-group {
+    padding: 10px 0;
+    width: 100%;
+}
+
+.login-page .info-tip,
+.login-page label.error {
+    background: rgba(57, 66, 78, 0.8);
+    border-radius: 5px;
+    color: #fff;
+    padding: 10px 20px;
+    position: absolute;
+    right: auto;
+    margin-left: 8px;
+    top: 14px;
+    white-space: nowrap;
+}
+
+    .login-page .info-tip:before,
+    .login-page label.error:before {
+        border: 6px solid #fff;
+        border-right: 6px solid rgba(57, 66, 78, 0.8);
+        content: "";
+        height: 12px;
+        left: -12px;
+        position: absolute;
+        top: 14px;
+        width: 12px;
+    }
+
+.login-page .input-group .glyphicon {
+    color: #979faf;
+    font-size: 20px;
+    left: 12px;
+    margin-top: -10px;
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+}
+
+.login-page .login-container {
+    background-color: #fff;
+    left: 50%;
+    margin-left: -275px;
+    padding: 20px;
+    position: absolute;
+    top: 180px;
+    width: 550px;
+    transform: scale(0);
+    transition: all .5s ease-in-out;
+    /*1*/
+    background-color: rgba(255, 255, 255, 0.92);
+}
+
+.login-page .login-tab {
+    /*background-color: #fff;*/
+    z-index: 10;
+}
+
+    .login-page .login-tab li {
+        /*background-color: #fafafa;*/
+        border: 1px solid #c2c7d0;
+        float: left;
+        width: 50%;
+    }
+
+        .login-page .login-tab li.active {
+            /*background-color: #fff;*/
+            /*border-bottom-color: #fff;*/
+            /*1*/
+            border-bottom-color: transparent;
+        }
+
+            .login-page .login-tab li.active a {
+                color: #444;
+            }
+
+        .login-page .login-tab li a {
+            color: #979faf;
+            display: block;
+            font-size: 20px;
+            font-weight: 600;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            /*1*/
+            border-top: transparent;
+        }
+
+.login-page .login-tab-content {
+    border: 1px solid #c2c7d0;
+    margin-top: -3px;
+    z-index: 5;
+    /*1*/
+    border-top: transparent;
+}
+
+.login-page .login-tab-content .tab-content {
+    display: none;
+    padding: 30px 30px 15px;
+}
+
+.login-page .login-tab-content .tab-content.active {
+    display: block;
+}
+
+.login-page .login-win .login-fail {
+    background: rgba(246, 80, 57, 0.05);
+    border: 1px solid #f65039;
+    color: #f1270b;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.login-page .login-win .login-tips {
+    padding: 20px 0;
+}
+
+    .login-page .login-win .login-tips > * {
+        width: 50%;
+    }
+
+.login-page .login-win .remember {
+    position: relative;
+    padding-left: 0 !important;
+}
+
+    .login-page .login-win .remember label {
+        left: 17px;
+        position: absolute;
+        top: 1px;
+    }
+
+.login-page .login-win .forget {
+    color: #979faf;
+    text-decoration: underline;
+}
+
+    .login-page .login-win .forget:hover {
+        color: #4691f6;
+    }
+
+.login-page .register-win .class .btn-group {
+    width: 100%;
+}
+
+    .login-page .register-win .class .btn-group button {
+        height: 46px;
+        padding-left: 50px;
+        text-align: left;
+        width: 100%;
+    }
+
+        .login-page .register-win .class .btn-group button:hover,
+        .login-page .register-win .class .btn-group button:focus,
+        .login-page .register-win .class .btn-group button:active {
+            background-color: #fff;
+        }
+
+    .login-page .register-win .class .btn-group .dropdown-menu {
+        padding: 10px 20px;
+        width: 100%;
+    }
+
+    .login-page .register-win .class .btn-group .caret {
+        position: absolute;
+        right: 12px;
+        top: 21px;
+    }
+
+.login-page .tab-content .register-btn,
+.login-page .tab-content .login-btn {
+    background-color: #29b35b;
+    background-image: -webkit-gradient(linear, top left, bottom left, color-stop(0, #2ec866), color-stop(1, #29b35b));
+    background-image: -webkit-linear-gradient(top, #2ec866, #29b35b);
+    background-image: linear-gradient(to bottom, #2ec866, #29b35b);
+    border-bottom-color: #007827;
+    border-color: #088837;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -1px 4px rgba(32, 138, 70, 0.3);
+    color: #fff;
+    display: block;
+    margin: 10px auto;
+    padding: 9px 12px;
+    width: 110px;
+}
+
+.login-page .tab-content .sign-block {
+    border-top: 1px solid #C2C7D0;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 15px;
+    padding: 15px 0 0;
+}
+
+.login-page .tab-content .sign-block .name {
+    color: #4882d0;
+    font-size: 22px;
+    letter-spacing: 3px;
+}
+
+.login-page .tab-content .sign-block .tips {
+    padding-top: 5px;
+    letter-spacing:2px;
+}
+
+.login-page div.error {
+    background: #39424e;
+    border-radius: 5px;
+    color: #fff;
+    padding: 10px 20px;
+    position: absolute;
+    right: auto;
+    margin-left: 8px;
+    top: 14px;
+    white-space: nowrap;
+}
+
+    .login-page div.error:before {
+        background: red;
+        border: 6px solid #fff;
+        border-right: 6px solid #39424e;
+        content: "";
+        height: 12px;
+        left: -12px;
+        position: absolute;
+        top: 14px;
+        width: 12px;
+    }
+
+@media (max-width: 1600px) {
+    .login-page .login-container {
+        left: 50%;
+        margin-left: -250px;
+        padding: 15px;
+        top: 30px;
+        width: 500px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .login-page .login-container {
+        left: 50%;
+        margin-left: -230px;
+        padding: 15px;
+        top: 30px;
+        width: 460px;
+    }
+}
+
+@media (max-width: 520px) {
+    .login-page {
+        font-size: 12px;
+    }
+
+        .login-page .login-container {
+            top: 40px;
+            margin-left: -150px;
+            width: 300px;
+            padding: 8px;
+        }
+
+        .login-page .login-tab li a {
+            height: 35px;
+            line-height: 35px;
+            font-size: 14px;
+        }
+
+        .login-page .login-tab-content .tab-content {
+            padding: 12px;
+        }
+
+        .login-page .login-win .login-fail {
+            padding: 10px 0;
+        }
+
+        .login-page .input-group input {
+            height: 36px;
+            padding-left: 40px;
+            font-size: 12px;
+        }
+
+        .login-page .input-group .glyphicon {
+            font-size: 16px;
+            margin-top: -8px;
+        }
+
+        .login-page .login-win .login-tips {
+            padding: 10px 0;
+        }
+
+        .login-page .tab-content .register-btn, .login-page .tab-content .login-btn {
+            width: 80px;
+            margin: 5px auto;
+            padding: 5px 12px;
+            font-size: 12px
+        }
+
+        .login-page label.error {
+            position: absolute;
+            color: #f1270b;
+            background: #fff;
+            padding: 0px;
+            right: 0;
+            top: 84%;
+        }
+
+        .login-page label.error:before {
+            display: none;
+        }
+
+        .login-page .tab-content .sign-block .name {
+            font-size: 18px;
+            letter-spacing:1px;
+        }
+
+        .login-page .tab-content .sign-block {
+            font-size: 14px;
+        }
+
+        .login-page .input-group .singleSelect button {
+            height: 36px;
+        }
+
+        .login-page .input-group .singleSelect {
+            height: 36px;
+            width: 100% !important;
+        }
+}

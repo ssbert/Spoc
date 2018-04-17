@@ -1,0 +1,211 @@
+﻿@using SPOC.Common.Cookie
+@{
+    ViewBag.Title = "GradeManage";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+    var cookie = CookieHelper.GetLoginInUserInfo();
+    var display = cookie.IsAdmin ? "" : "display: none;";
+}
+
+
+<div region="center">
+    <div id="toolbar">
+        <form id="query-form" class="form-inline label label-length-6">
+            <div class="form-group">
+                <label class="form-label">教学班级：</label>
+                <input id="classIds" class="easyui-combotree" style="width: 400px" data-options="
+                        url:'/api/services/app/Department/GetAllClass',
+                        method:'get',
+                        valueField:'id',
+                        multiple:true,
+                        panelHeight:'auto',
+                        loadFilter:function(data){
+                            $.each(data.result, function(k, v){v.text = v.name;});
+                            return data.result;
+                        }" />
+            </div>
+            <div style="clear:right;"></div>
+            <div class="form-group">
+                <label class="form-label" for="code">编号：</label>
+                <input id="code" name="code" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="title">考试名称：</label>
+                <input id="title" name="title" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group" style="@display">
+                <label class="form-label" for="userFullName">创建者姓名：</label>
+                <input id="userFullName" name="userFullName" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group" style="@display">
+                <label class="form-label" for="userLoginName">创建者用户名：</label>
+                <input id="userLoginName" name="userLoginName" class="easyui-textbox" style="width:150px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label">创建时间：</label>
+                <input id="createBeginTime" name="createBeginTime" class="easyui-datetimebox" style="width: 150px;" />
+                至
+                <input id="createEndTime" name="createEndTime" class="easyui-datetimebox" style="width: 150px;" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">考试时间：</label>
+                <input id="beginTime" name="beginTime" class="easyui-datetimebox" style="width: 150px;" />
+                至
+                <input id="endTime" name="endTime" class="easyui-datetimebox" style="width: 150px;" />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="manage.query()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="$('#query-form').form('clear')">重置</a>
+            </div>
+        </form>
+    </div>
+    <table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true" singleSelect="false" toolbar="#toolbar" fit="true" pageNum="1" pageSize="30">
+        <thead>
+            <tr>
+                <th field="code">编号</th>
+                <th field="title">考试名称</th>
+                @if (cookie.IsAdmin)
+                {
+                    <th field="userFullName">创建者姓名</th>
+                    <th field="userLoginName">创建者用户名</th>
+                }
+                <th field="createTime">创建日期</th>
+                <th field="classes" formatter="classesFormatter">教学班级</th>
+                <th field="opt" formatter="optFormatter">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/tabHelper.js"></script>
+    <script>
+        function classesFormatter(val) {
+            if (!val) {
+                return "";
+            }
+            var arr = [];
+            $.each(val,
+                function (k, v) {
+                    arr.push(v);
+                });
+            if (arr.length > 0) {
+                return arr.join(",");
+            }
+            return "";
+        }
+
+        function optFormatter(val, row, index) {
+            var options = [
+                {
+                    title: "查看成绩",
+                    text: "查看成绩",
+                    icon: "icon-06",
+                    onclick: "manage.openExamGrade('{0}')".format(row.id),
+                    hasParams: "true"
+                },
+                {
+                    title: "评卷管理",
+                    text: "评卷管理",
+                    icon: "icon-06",
+                    onclick: "manage.openJudgeManage('{0}')".format(row.id),
+                    hasParams: "true"
+                }
+            ];
+
+            return linkbtn(index, { option: options });
+        }
+
+
+        var GrageManage = (function () {
+            function init() {
+                var queryParam = { skip: 0, pageSize: 30 };
+                var tabHelper = new TabHelper("tabs");
+
+                this.query = function () {
+                    setParam();
+                    loadData(queryParam);
+                };
+
+                this.openExamGrade = function (taskId) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var url = "/Exam/Manage/UserGrade?taskId=" + taskId;
+                    tabHelper.openTab("查看成绩", url, "icon-06");
+                };
+
+                this.openJudgeManage = function (taskId) {
+                    if (!checkLogin()) {
+                        evtBus.dispatchEvt("show_login");
+                        return;
+                    }
+                    var url = "/Exam/Manage/Judge?taskId=" + taskId;
+                    tabHelper.openTab("评卷管理", url, "icon-06");
+                };
+                
+                this.initPagination = function () {
+                    $("#dg").datagrid("getPager")
+                        .pagination({
+                            onSelectPage: function (pageNumber, pageSize) {
+                                queryParam.pageNumber = pageNumber;
+                                queryParam.skip = (pageNumber - 1) * pageSize;
+                                if (queryParam.skip < 0) {
+                                    queryParam.skip = 0;
+                                }
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            },
+                            onChangePageSize: function (pageSize) {
+                                queryParam.pageSize = pageSize;
+                                loadData(queryParam);
+                            }
+                        });
+                };
+
+                function setParam() {
+                    queryParam.code = $("#code").textbox("getValue").trim();
+                    queryParam.title = $("#title").textbox("getValue").trim();
+                    queryParam.userFullName = $("#userFullName").textbox("getValue").trim();
+                    queryParam.userLoginName = $("#userLoginName").textbox("getValue").trim();
+                    queryParam.classIds = $("#classIds").combotree("getValues");
+                    queryParam.createBeginTime = $("#createBeginTime").datetimebox("getValue").trim();
+                    queryParam.createEndTime = $("#createEndTime").datetimebox("getValue").trim();
+                    queryParam.beginTime = $("#beginTime").datetimebox("getValue").trim();
+                    queryParam.endTime = $("#endTime").datetimebox("getValue").trim();
+                }
+
+                function loadData(param) {
+                    $("#dg").datagrid("loading");
+                    var url = apiUrl + "ExamTask/GetPagination";
+                    nv.post(url, param, function (data) {
+                        $("#dg").datagrid("loaded");
+                        if (data.success) {
+                            $("#dg")
+                                .datagrid("loadData", data.result.rows)
+                                .datagrid("getPager")
+                                .pagination({
+                                    pageNumber: param.pageNumber,
+                                    total: data.result.total
+                                });
+                        } else {
+                            $.messager.alert("提示", data.error.message, "info");
+                        }
+                    });
+                }
+                
+            }
+
+            return init;
+        })();
+        var manage = new GrageManage();
+        $(function () {
+            manage.initPagination();
+            manage.query();
+        });
+    </script>
+}
+

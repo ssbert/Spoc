@@ -1,0 +1,93 @@
+<div class="functionRaise-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">raise()</span>
+		</h1>
+		<p>
+			<a href="#standardLibSignalH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;signal.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int raise(int sig)</b> 会促使生成信号 <b>sig</b>。<b>sig</b> 参数与 SIG 宏兼容。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 raise() 函数的声明。</p>
+		<pre>int raise(int sig)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>sig</b> -- 要发送的信号码。下面是一些重要的标准信号常量：
+			</li>	
+		</ul>
+		<table>
+			<thead>
+				<tr><th style="width:5%">宏</th><th>信号</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>SIGABRT</td><td>(Signal Abort) 程序异常终止。</td></tr>
+				<tr><td>SIGFPE</td><td>(Signal Floating-Point Exception) 算术运算出错，如除数为 0 或溢出（不一定是浮点运算）。</td></tr>
+				<tr><td>SIGILL</td><td>(Signal Illegal Instruction) 非法函数映象，如非法指令，通常是由于代码中的某个变体或者尝试执行数据导致的。</td></tr>
+				<tr><td>SIGINT</td><td>(Signal Interrupt) 中断信号，如 ctrl-C，通常由用户生成。</td></tr>
+				<tr><td>SIGSEGV</td><td>(Signal Segmentation Violation) 非法访问存储器，如访问不存在的内存单元。</td></tr>
+				<tr><td>SIGTERM</td><td>(Signal Terminate) 发送给本程序的终止请求信号。</td></tr>
+			</tbody>
+		</table>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果成功该函数返回零，否则返回非零。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 raise() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;signal.h&gt;
+#include &lt;stdio.h&gt;
+
+void signal_catchfunc(int);
+
+int main()
+{
+    int ret;
+
+   ret = signal(SIGINT, signal_catchfunc);
+
+   if( ret == SIG_ERR) 
+   {
+      printf("错误：不能设置信号处理程序。\n");
+      exit(0);
+   }
+   printf("开始生成一个信号\n");
+   ret = raise(SIGINT);
+   if( ret !=0 ) 
+   {
+      printf("错误：不能生成 SIGINT 信号。\n");
+      exit(0);
+   }
+
+   printf("退出...\n");
+   return(0);
+}
+
+void signal_catchfunc(int signal)
+{
+   printf("!! 信号捕获 !!\n");
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>开始生成一个信号
+!! 信号捕获 !!
+退出...</pre>
+		<p>
+			<a href="#standardLibSignalH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;signal.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

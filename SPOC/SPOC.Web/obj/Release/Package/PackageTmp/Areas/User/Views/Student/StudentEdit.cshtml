@@ -1,0 +1,229 @@
+﻿@{
+
+    Layout = "../Shared/_Layout.cshtml";
+    var cookie = CookieHelper.GetLoginInUserInfo();
+    string agentClass = cookie.IsAdmin ? "" : "hidden";
+}
+@using SPOC.Common.Cookie
+@model SPOC.User.Dto.StudentInfo.CreateStudentInfoInputDto  
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>StudentEdit</title>
+    <style>
+        .hidden { display: none;}
+    </style>
+    <script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+    <script src="~/Scripts/jquery-easyui-extension/combo-ext.js"></script>
+    <script type="text/javascript">
+        var stuId = "@ViewBag.id";
+        var usernameContainEN = "@ViewBag.usernameContainEN";
+
+    </script>
+    <script src="~/Areas/Assets/js/tabHelper.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/userInfo/srudentEdit.js?v=@L("version")"></script>
+</head>
+<body>
+    <div region="center">
+        <div id="dlg" class="form-horizontal label label-length-4">
+
+            <form id="fm" method="post">
+
+
+
+                <input name="id" id="id" class="hidden" type="text" />
+                <input name="create_time" id="create_time" class="hidden" type="text" />
+                <input name="user_id" id="user_id" class="hidden" type="text" />
+                <input name="is_graduation" id="is_graduation" class="hidden" type="text" />
+                <input name="smallAvatar" id="smallAvatar" class="hidden" type="text" />
+                <div class="fitem">
+                    <label>
+                        用户名：
+                    </label>
+                    @*<input name="user_login_name" id="user_login_name" validate=true class="easyui-textbox" data-options="validType:['username','nameCheckExit'],prompt:'可用于登录',required:true ">*@
+                    <input name="user_login_name" id="user_login_name" validate=true class="easyui-textbox" data-options="validType:['length[4,20]','userNameFormatCheck','nameCheckExit'],prompt:'可用于登录',required:true ">
+                </div>
+                <div class="fitem">
+                    <label>
+                        学号：
+                    </label>
+                    <input name="user_code" id="user_code" class="easyui-textbox" data-options="validType:['length[0,24]']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        密码：
+                    </label>
+                    <input name="user_password" id="user_password" class="easyui-textbox" data-options="type:'password',validType:['length[5,20]'] ,required:true ">
+                </div>
+                <div class="fitem">
+                    <label>
+                        手机号码：
+                    </label>
+                    @*<input name="user_mobile" id="user_mobile" class="easyui-textbox" data-options="prompt:'可用于登录和找回密码'">*@
+                    <input name="user_mobile" id="user_mobile" validate=true class="easyui-textbox" data-options="validType:['newMobile','mobileCheckExist'], prompt:'可用于登录和找回密码'">
+                </div>
+                <div class="fitem">
+                    <label>
+                        邮箱：
+                    </label>
+                    <input name="user_email" id="user_email" class="easyui-textbox" validate=true data-options="validType:['email','emailCheckExist'],required:true,prompt:'可用于登录和找回密码'">
+                </div>
+                <div class="fitem">
+                    <label>
+                        姓名：
+                    </label>
+                    @*<input name="user_name" id="user_name" class="easyui-textbox" data-options="validType:['userFullName','length[0,20]'],prompt:'真实姓名'">*@
+                    <input name="user_name" id="user_name" class="easyui-textbox" data-options="validType:['length[0,20]'],required:true,prompt:'真实姓名'">
+                </div>
+                <div class="fitem">
+                    <label>
+                        昵称：
+                    </label>
+                    <input name="user_nickname" id="user_nickname" class="easyui-textbox" data-options="validType:['length[0,20]'],prompt:'网络昵称'">
+                </div>
+                <div class="fitem">
+                    <label>
+                        性别：
+                    </label>
+                    <select name="user_gender" id="user_gender" class="easyui-combobox" data-options="editable:false,required:true,panelHeight:'auto'" style="width:304px;">
+                        <option value="0">&nbsp;</option>
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                    </select>
+                </div>
+                <div class="fitem">
+                    <label>
+                        院系：
+                    </label>
+                    <select class="easyui-combobox" id="user_facultyid" name="user_facultyid" data-options="valueField:'id',textField:'name',width:304,required:true"></select>
+                </div>
+                <div class="fitem">
+                    <label>
+                        专业：
+                    </label>
+                    <select class="easyui-combobox" id="user_majorid" name="user_majorid" data-options="method:'get',valueField:'id',textField:'name',width:304,required:true, onSelect:function(item){
+
+                    }"></select>
+                </div>
+                <div class="fitem">
+                    <label>
+                        班级：
+                    </label>
+                    <select class="easyui-combobox" id="user_classid" name="user_classid" data-options="method:'get',valueField:'id',textField:'name',width:304,required:true, onSelect:function(item){
+
+                    }"></select>
+                </div>
+                
+                <div class="fitem">
+                    <label>
+                        层次：
+                    </label>
+                    <select class="easyui-combobox" name="level" id="level" data-options="editable:false,panelHeight:'auto'" style="width: 304px;">
+                        <option value="">&nbsp;</option>
+                        <option value="1">专科</option>
+                        <option value="2">专升本</option>
+                        <option value="3">本科</option>
+
+                    </select>
+                </div>
+               
+                <div class="fitem">
+                    <label>
+                        学制：
+                    </label>
+                    <select class="easyui-combobox" name="user_eductional" id="user_eductional" data-options="editable:false,panelHeight:'auto'" style="width: 304px;">
+                        <option value="">&nbsp;</option>
+                        <option value="2.5">2.5</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+                <div class="fitem">
+                    <label>
+                        入学时间：
+                    </label>
+                    <input name="user_admission" id="user_admission" class="easyui-datebox" data-options="validType:['dateCheck','dateLessThanCompare[&quot graduation_date &quot, &quot 入学时间必须小于毕业时间 &quot]'],onSelect:function(){$('#user_admission').next('span').find('input').focus();}" style="width: 304px">
+                </div>
+                <div class="fitem">
+                    <label>
+                        政治面貌：
+                    </label>
+                    <input name="user_political" id="user_political" class="easyui-textbox" data-options="validType:['length[0,15]']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        身份证号：
+                    </label>
+                    
+                    <input name="user_idcard" id="user_idcard" class="easyui-textbox" data-options="validType:['idcard','idCardCheckExist']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        生日：
+                    </label>
+                      
+                    <input name="user_birthday" id="user_birthday" class="easyui-datebox" data-options="validType:['dateCheck','dateLessThanCompare[&quot user_admission &quot, &quot 生日必须小于入学时间 &quot]'],onSelect:function(){$('#user_birthday').next('span').find('input').focus();}" style="width: 304px">
+                    @*<input name="user_birthday" id="user_birthday" class="easyui-datetimebox" data-options="validType:['dateCheck','dateLessThanCompare[&quot user_admission &quot, &quot 生日必须小于入学时间 &quot]']" style="width: 304px">*@
+                </div>
+                <div class="fitem">
+                    <label>
+                        民族：
+                    </label>
+                    <input name="user_national" id="user_national" class="easyui-textbox" data-options="validType:['length[0,10]']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        所在省份：
+                    </label>
+                    <input name="user_province" id="user_province" class="easyui-textbox" data-options="validType:['length[0,10]']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        所在城市：
+                    </label>
+                    <input name="user_city" id="user_city" class="easyui-textbox" data-options="validType:['length[0,20]']">
+                </div>
+     
+                <div class="fitem">
+                    <label>
+                        邮编：
+                    </label>
+                    <input name="user_zipcode" id="user_zipcode" class="easyui-textbox" data-options="validType:['length[0,10]']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        宿舍：
+                    </label>
+                    <input name="user_dormitory" id="user_dormitory" class="easyui-textbox" data-options="validType:['length[0,20]']">
+                </div>
+                <div class="fitem">
+                    <label>
+                        是否毕业：
+                    </label>
+                    <input type="checkbox" name="is_graduationCreate" id="is_graduationCreate" value="">
+                </div>
+                <div class="fitem">
+                    <label>
+                        毕业时间：
+                    </label>
+                    <input name="graduation_date" id="graduation_date" class="easyui-datebox" data-options="validType:['dateCheck','dateGreaterThanCompare[&quot user_admission &quot, &quot 毕业时间必须大于入学时间 &quot]'],onSelect:function(){$('#graduation_date').next('span').find('input').focus();}" style="width: 304px">
+                </div>
+
+            </form>
+        </div>
+        <div class="form-group">
+            <label class="form-label"></label>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',width:'90px'"
+               onclick="obj.editSave()">保存</a>
+             
+        </div>
+
+      
+    </div>
+</body>
+</html>
+ 

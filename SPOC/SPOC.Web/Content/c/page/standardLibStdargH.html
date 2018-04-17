@@ -1,0 +1,58 @@
+<div class="standardLibStdargH-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#standardLibSignalH" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			C 标准库 - &lt;signal.h&gt;
+		</a>
+		<a href="#standardLibStddefH" class="pull-right green">
+			C 标准库 - &lt;stddef.h&gt;
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 标准库 - <span class="green">&lt;stdarg.h&gt;</span>
+		</h1>
+		<h2 class="n-h2">
+			简介
+		</h2>
+		<p><b>stdarg.h</b> 头文件定义了一个变量类型 <b>va_list</b> 和三个宏，这三个宏可用于在参数个数未知（即参数个数可变）时获取函数中的参数。</p>
+		<p>可变参数的函数通在参数列表的末尾是使用省略号(,...)定义的。</p>
+		<h2 class="n-h2">
+			库变量
+		</h2>
+		<p>下面是头文件 stdarg.h 中定义的变量类型：</p>
+		<table>
+			<thead>
+				<tr><th style="width:5%">序号</th><th>变量 &amp; 描述</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>1</td><td><b>va_list </b><br>这是一个适用于 <b>va_start()、va_arg()</b> 和 <b>va_end()</b> 这三个宏存储信息的类型。</td></tr>
+			</tbody>
+		</table>
+		<h2 class="n-h2">
+			库宏
+		</h2>
+		<p>下面是头文件 stdarg.h 中定义的宏：</p>
+		<table>
+			<thead>
+				<tr><th style="width:5%">序号</th><th>宏 &amp; 描述</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>1</td><td><a href="#macroVaStart" class="n-text-line green">void va_start(va_list ap, last_arg)</a><br>这个宏初始化 <b>ap</b> 变量，它与 <b>va_arg</b> 和 <b>va_end</b> 宏是一起使用的。<b>last_arg</b> 是最后一个传递给函数的已知的固定参数，即省略号之前的参数。</td></tr>
+				<tr><td>2</td><td><a href="#macroVaArg" class="n-text-line green">type va_arg(va_list ap, type)</a><br>这个宏检索函数参数列表中类型为 <b>type</b> 的下一个参数。</td></tr>
+				<tr><td>3</td><td><a href="#macroVaEnd" class="n-text-line green">void va_end(va_list ap)</a><br>这个宏允许使用了 <b>va_start</b> 宏的带有可变参数的函数返回。如果在从函数返回之前没有调用 <b>va_end</b>，则结果为未定义。</td></tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#standardLibSignalH" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			C 标准库 - &lt;signal.h&gt;
+		</a>
+		<a href="#standardLibStddefH" class="pull-right green">
+			C 标准库 - &lt;stddef.h&gt;
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+</div>

@@ -1,0 +1,70 @@
+<div class="macroAssert-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库宏 - <span class="green">assert()</span>
+		</h1>
+		<p>
+			<a href="#standardLibAssertH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;assert.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库宏 <b>void assert(int expression)</b> 允许诊断信息被写入到标准错误文件中。换句话说，它可用于在 C 程序中添加诊断。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 assert() 宏的声明。</p>
+		<pre>void assert(int expression);</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>expression</b> -- 这可以是一个变量或任何 C 表达式。如果 expression 为 TRUE，assert() 不执行任何动作。如果 <b>expression</b> 为 FALSE，assert() 会在标准错误 stderr 上显示错误消息，并中止程序执行。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>这个宏不返回任何值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 assert() 宏的用法。</p>
+		<div class="n-example">
+			<h2 class="n-example-h2">
+				实例
+			</h2>
+			<pre><code>#include &lt;assert.h&gt;
+#include &lt;stdio.h&gt;
+ 
+int main()
+{
+   int a;
+   char str[50];
+     
+   printf("请输入一个整数值： ");
+   scanf("%d", &a);
+   assert(a >= 10);
+   printf("输入的整数是： %d\n", a);
+    
+   printf("请输入字符串： ");
+   scanf("%s", str);
+   assert(str != NULL);
+   printf("输入的字符串是： %s\n", str);
+    
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们在交互模式下编译并运行上面的程序，如下所示：</p>
+		<pre>请输入一个整数值： 11
+输入的整数是： 11
+请输入字符串： runoob 
+输入的字符串是： runoob </pre>
+		<p>
+			<a href="#standardLibAssertH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;assert.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

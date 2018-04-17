@@ -1,0 +1,67 @@
+<div class="functionClearerr-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">clearerr()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>void clearerr(FILE *stream)</b> 清除给定流 stream 的文件结束和错误标识符。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 clearerr() 函数的声明。</p>
+		<pre>void clearerr(FILE *stream)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>stream</b>  -- 这是指向 FILE 对象的指针，该 FILE 对象标识了流。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>这不会失败，且不会设置外部变量 errno，但是如果它检测到它的参数不是一个有效的流，则返回 -1，并设置 errno 为 EBADF。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 clearerr() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+   FILE *fp;
+   char c;
+
+   fp = fopen("file.txt", "w");
+
+   c = fgetc(fp);
+   if( ferror(fp) )
+   {
+      printf("读取文件：file.txt 时发生错误\n");
+   }
+   clearerr(fp);
+   if( ferror(fp) )
+   {
+      printf("读取文件：file.txt 时发生错误\n");
+   }
+   fclose(fp);
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>假设我们有一个文本文件 <b>file.txt</b>，它是一个空文件。让我们编译并运行上面的程序，因为我们试图读取一个以只写模式打开的文件，这将产生以下结果。</p>
+		<pre>读取文件：file.txt 时发生错误</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

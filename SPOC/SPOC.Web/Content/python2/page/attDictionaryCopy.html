@@ -1,0 +1,68 @@
+<div class="attDictionaryCopy-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">字典(Dictionary) copy()方法</span>
+		</h1>
+		<p>
+			<a href="#dictionary" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python  字典
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>Python 字典(Dictionary) copy() 函数返回一个字典的浅复制。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>copy()方法语法：</p>
+		<pre>dict.copy()</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>NA</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回一个字典的浅复制。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 copy()函数的使用方法：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+ 
+dict1 = {'Name': 'Zara', 'Age': 7};
+ 
+dict2 = dict1.copy()
+print "New Dictinary : %s" %  str(dict2)</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>New Dictinary : {'Age': 7, 'Name': 'Zara'}</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">直接赋值和 copy 的区别</h2>
+		<p>可以通过以下实例说明：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+dict1 =  {'user':'runoob','num':[1,2,3]}
+ 
+dict2 = dict1          # 浅拷贝: 引用对象
+dict3 = dict1.copy()   # 浅拷贝：深拷贝父对象（一级目录），子对象（二级目录）不拷贝，还是引用
+ 
+# 修改 data 数据
+dict1['user']='root'
+dict1['num'].remove(1)
+ 
+# 输出结果
+print(dict1)
+print(dict2)
+print(dict3)</code></pre>
+		</div>
+		<p>实例中 dict2 其实是 dict1 的引用（别名），所以输出结果都是一致的，dict3 父对象进行了深拷贝，不会随dict1 修改而修改，子对象是浅拷贝所以随 dict1 的修改而修改。</p>
+		<pre>{'num': [2, 3], 'user': 'root'}
+{'num': [2, 3], 'user': 'root'}
+{'num': [2, 3], 'user': 'runoob'}</pre>
+		<p>
+			<a href="#dictionary" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python  字典
+			</a>
+		</p>
+	</div>
+</div>

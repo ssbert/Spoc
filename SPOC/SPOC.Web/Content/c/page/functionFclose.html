@@ -1,0 +1,59 @@
+<div class="functionFclose-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">fclose()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int fclose(FILE *stream)</b> 关闭流 stream。刷新所有的缓冲区。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 fclose() 函数的声明。</p>
+		<pre>int fclose(FILE *stream)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>stream</b> -- 这是指向 FILE 对象的指针，该 FILE 对象指定了要被关闭的流。
+			</li>	
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果流成功关闭，则该方法返回零。如果失败，则返回 EOF。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 fclose() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+   FILE *fp;
+ 
+   fp = fopen("file.txt", "w");
+
+   fprintf(fp, "%s", "这里是 baidu.com");
+   fclose(fp);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将创建一个文件 <b>file.txt</b>，然后写入下面的文本行，最后使用 <b>fclose()</b> 函数关闭文件。</p>
+		<pre>这里是 baidu.com</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

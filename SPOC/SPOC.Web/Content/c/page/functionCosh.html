@@ -1,0 +1,66 @@
+<div class="functionCosh-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">cosh()</span>
+		</h1>
+		<p>
+			<a href="#standardLibMathH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;math.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>double cosh(double x)</b> 返回 x 的双曲余弦。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 cosh() 函数的声明。</p>
+		<pre>double cosh(double x)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>x</b> -- 浮点值。
+			</li>
+		</ul>	
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>该函数返回 x 的双曲余弦。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 cosh() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+int main ()
+{
+   double x;
+
+   x = 0.5;
+   printf("%lf 的双曲余弦是 %lf\n", x, cosh(x));
+
+   x = 1.0;
+   printf("%lf 的双曲余弦是 %lf\n", x, cosh(x));
+
+   x = 1.5;
+   printf("%lf 的双曲余弦是 %lf\n", x, cosh(x));
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>0.500000 的双曲余弦是 1.127626
+1.000000 的双曲余弦是 1.543081
+1.500000 的双曲余弦是 2.352410</pre>
+		<p>
+			<a href="#standardLibMathH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;math.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

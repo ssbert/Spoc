@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "试卷大题编辑";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+@section scripts
+{
+    <script src="~/Areas/Assets/js/exam/examPaper.js?v=@L("version")"></script>
+    <script>
+        var request = GetRequest();
+        var edit = new PaperNodeEditClass(request.paperUid, request.paperNodeUid);
+        var questionTypeUidLoadFilter = function(data) {
+            if (data.result.length > 0) {
+                data.result.push({
+                    id: "00000000-0000-0000-0000-000000000000",
+                    questionTypeName: "不限题型"
+                });
+                data.result[0].selected = true;
+            } else {
+                data.result = [];
+            }
+            return data.result;
+        };
+
+        function onLoadSuccess() {
+            var text = $("#questionTypeUid").combobox("getText");
+            $("#paperNodeName").textbox("setValue", text);
+        }
+
+        function onChange(newVal, oldVal) {
+            var text = $("#questionTypeUid").combobox("getText");
+            $("#paperNodeName").textbox("setValue", text);
+        }
+    </script>
+}
+<div region="center">
+    <form id="paperNode-form" class="form-horizontal label label-length-4">
+        <div class="form-group">
+            <label for="questionTypeUid" class="form-label">题型：</label>
+            <select id="questionTypeUid" class="easyui-combobox" textfield="questionTypeName" valuefield="id"
+                    url="/api/services/app/QuestionType/Get" method="get" editable="false" style="width: 400px;" 
+                    data-options="loadFilter:questionTypeUidLoadFilter,onLoadSuccess:onLoadSuccess, onChange: onChange"></select>
+        </div>
+        <div class="form-group">
+            <label for="paperNodeName" class="form-label">大题标题：</label>
+            <input id="paperNodeName" class="easyui-textbox" style="width: 400px;" validType="length[1, 64]" required>
+        </div>
+        <div class="form-group">
+            <label for="paperNodeDesc" class="form-label">大题说明：</label>
+            <input id="paperNodeDesc" class="easyui-textbox" style="width: 400px;">
+        </div>
+        <div class="form-group">
+            <label for="questionScore" class="form-label">每题分数：</label>
+            <input id="questionScore" class="easyui-numberbox" min="0" precision="2" value="0" style="width: 400px;" required>
+        </div>
+        <div class="form-group">
+            <label for="planQuestionNum" class="form-label">计划题数：</label>
+            <input id="planQuestionNum" class="easyui-numberbox" min="0" style="width: 400px;" value="0" required>
+        </div>
+        <div class="form-group">
+            <label for="listOrder" class="form-label">排序号：</label>
+            <input id="listOrder" class="easyui-numberbox" min="0" value="0" style="width: 400px;" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label"></label>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="edit.save()">保存</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" onclick="edit.reset()">重置</a>
+        </div>
+    </form>
+</div>
+

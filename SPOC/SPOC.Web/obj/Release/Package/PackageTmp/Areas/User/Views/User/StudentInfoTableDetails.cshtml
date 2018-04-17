@@ -1,0 +1,165 @@
+﻿@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+  #fm .datagrid-header {
+        position: absolute;
+        visibility: hidden;
+    }
+   #fm .datagrid-row {
+        height: 32px;
+    }
+
+   #fm .datagrid-body td {
+        border-style: double;
+    }
+
+   #fm .easyui-datagrid .panel-header, .panel-body {
+        border-bottom-style: none;
+        border-right-style: none;
+    }
+
+   #fm .datagrid-table {
+        width: 100%;
+    }
+</style>
+<script type="text/javascript">
+
+    function UserData() {
+
+    }
+    UserData.prototype = {
+        init: function () {
+            dataInfo.getData();
+        },
+        getData: function () {
+            $.ajax({
+                url: "/User/User/GetUserInfoById/",
+                data: { id: "@ViewBag.data.id", userId: "@ViewBag.data.userId", userName: "@ViewBag.data.userName", identity: "@ViewBag.data.identity" },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (dataObj) {
+                    dataInfo.formBind(dataObj);
+                }
+            });
+        },
+        ArrDateFormateByGet: function (obj, perArr) {
+
+            if (obj != null && obj != "undefined") {
+                for (var p = 0; p < perArr.length; p++) { // 方法
+                    obj[perArr[p]] = VE.FormatterDateTime(obj[perArr[p]])
+                }
+            }
+        },
+        formBind: function (row) {
+            $("#fm").form("clear");
+            this.ArrDateFormateByGet(row, ["user_birthday", "user_admission", "graduation_date", "create_time", "updateTime", "loginTime"]);
+            row.departmentId = row.departmentId == null ? "" : row.departmentId;
+            row.user_password = "";
+            row.departmentId = (row.departmentId == null || row.departmentId == "undefined") ? "" : row.departmentId;
+            row.user_gender = row.user_gender == "0" ? "" : row.user_gender == "1" ? "男" : "女";
+            row.is_graduation = row.is_graduation == true ? "是" : "否";
+            $($("#fm").find("label")).each(function () {
+                if ($(this).attr("name") != undefined) {
+                    var name = $(this).attr("name");
+                    row[name] = row[name] == null ? "" : row[name];
+                    $(this).text(row[name]);
+                }
+            });
+
+        }
+    }
+    var dataInfo = new UserData();
+
+    $(function () {
+        dataInfo.init();
+        //$("#studentDg").datagrid({
+        //    onLoadSuccess: function () {
+        //        alert("123");
+        //        $("#studentDg").parent().find("div .datagrid-header").attr("style", " position: absolute;visibility:hidden;");
+        //    }
+        //})
+    });
+
+</script>
+    <form id="fm" style="margin:10px 0px 10px 0px">
+    <table id="studentDg" class="easyui-datagrid" style=" width:100%; height:auto;" data-options=" fitColumns: true, nowrap: false,singleSelect:true,scrollbarSize:0">
+        <thead>
+            <tr>
+                <th data-options="field:'id',width:60,sortable:true"></th>
+                <th data-options="field:'id1',width:220,sortable:true"></th>
+                <th data-options="field:'id2',width:60,sortable:true"></th>
+                <th data-options="field:'id3',width:220,sortable:true"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td><h3>用户名</h3></td>
+                <td><label name="user_login_name"></label></td>
+                <td><h3>学号</h3></td>
+                <td><label name="user_code" id="user_code"></label></td>
+            </tr>
+            <tr>
+                <td><h3>手机号码</h3></td>
+                <td><label name="user_mobile" id="user_mobile"></label></td>
+                <td><h3>邮箱</h3></td>
+                <td><label name="user_email" id="user_email"></label></td>
+            </tr>
+            <tr>
+                <td><h3>姓名</h3></td>
+                <td><label name="user_name" id="user_name"></label></td>
+                <td><h3>昵称</h3></td>
+                <td><label name="user_nickname" id="user_nickname"></label></td>
+            </tr>
+            <tr>
+                <td><h3>性别</h3></td>
+                <td><label name="user_gender" id="user_gender"></label></td>
+                <td><h3>组织架构</h3></td>
+                <td><label name="department" id="department"></label></td>
+            </tr>
+            <tr>
+                <td><h3>层次</h3></td>
+                <td><label name="level" id="level"></label></td>
+                <td><h3>学制</h3></td>
+                <td><label name="user_eductional" id="user_eductional"></label></td>
+            </tr>
+            <tr>
+                <td><h3>入学时间</h3></td>
+                <td><label name="user_admission" id="user_admission"></label></td>
+                <td><h3>政治面貌</h3></td>
+                <td><label name="user_political" id="user_political"></label></td>
+            </tr>
+            <tr>
+                <td><h3>身份证号</h3></td>
+                <td><label name="user_idcard" id="user_idcard"></label></td>
+                <td><h3>生日</h3></td>
+                <td><label name="user_birthday" id="user_birthday"></label></td>
+            </tr>
+            <tr>
+                <td><h3>民族</h3></td>
+                <td><label name="user_national" id="user_national"></label></td>
+                <td><h3>所在省份</h3></td>
+                <td><label name="user_province" id="user_province"></label></td>
+            </tr>
+            <tr>
+                <td><h3>所在城市</h3></td>
+                <td><label name="user_city" id="user_city"></label></td>
+                <td><h3>是否毕业</h3></td>
+                <td><label name="is_graduation" id="is_graduation"></label></td>
+            </tr>
+            <tr>
+                <td><h3>邮编</h3></td>
+                <td><label name="user_zipcode" id="user_zipcode"></label></td>
+                <td><h3>宿舍</h3></td>
+                <td><label name="user_dormitory" id="user_dormitory"></label></td>
+            </tr>
+            <tr>
+                <td><h3>毕业时间</h3></td>
+                <td><label name="graduation_date" id="graduation_date"></label></td>
+            </tr>
+        </tbody>
+    </table>
+</form>

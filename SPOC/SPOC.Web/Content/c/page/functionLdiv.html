@@ -1,0 +1,61 @@
+<div class="functionLdiv-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">ldiv()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>div_t div(long int numer, long int denom)</b> 把 <b>numer（分子）</b>除以 <b>denom（分母）</b>。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 ldiv() 函数的声明。</p>
+		<pre>div_t div(long int numer, long int denom)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b> numer </b> -- 分子。</li>
+			<li><b> denom </b> -- 分母。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回定义在 &lt;cstdlib&gt; 中的结构中的值，该结构有两个成员，如 ldiv_t:long quot; long rem;。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 ldiv() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main ()
+{
+   ldiv_t output;
+
+   output = ldiv(100000L, 30000L);
+
+   printf("商 = %ld\n", output.quot);
+
+   printf("余数 = %ld\n", output.rem);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>商 = 3
+余数 = 10000</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

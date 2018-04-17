@@ -1,0 +1,91 @@
+﻿@model SPOC.Core.Dto.MyAnnouncementViewDto
+@using System.Web.Optimization
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{<link rel="stylesheet" type="text/css" href="~/css/index.css">}
+
+    <div class="home-page container-box">
+        <div class="home-container center">
+            <div class="notice-block">
+                <div class="block-title">
+                    <h2>课程公告</h2>
+                    <a href="/home/announcement/">
+                        <span class="pull-right">查看更多 <span class="glyphicon glyphicon-option-horizontal"></span></span>
+                    </a>
+                </div>
+                <div class="notice-box  row clearfix">
+                @{
+                    foreach (var item in Model.MyAnnouncementList)
+                    {
+                        <div class="col-lg-12">
+                            <div class="notice">
+                                <a href="/home/announcementDetail/@item.id" class="fillet_5 border_all">
+                                    <div class="notice-header clearfix">
+                                        <div class="notice-hd-l pull-left">
+                                            <h3>@item.title</h3>
+                                            <small>发布时间： @item.createTime</small>
+                                        </div>
+                                        <div class="notice-hd-r pull-right">
+                                            <img src="@item.userHeadImg">
+                                            <p>@item.createUser</p>
+                                        </div>
+                                    </div>
+                                    <div class="notice-content">
+                                        <p>
+                                               @item.content
+                                           </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
+           
+                </div>
+            </div>
+            <div class="quick-entry">
+                <div class="block-title">
+                    <h2>快捷入口</h2>
+                </div>
+                <div class="row">
+                    <div class="quick-entry-lists clearfix">
+                        <a class="col-lg-4 col-md-4" href="/ExerciseTask/" >
+                            <div class="exercise-ent entry border_all fillet_5 clearfix">
+                                <div class="exercise-box">
+                                    <span class="glyphicon glyphicon-edit fillet" aria-hidden="true"></span>
+                                    <div class="entry-mes">
+                                        <p>练习</p>
+                                        <span>练习简介</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="col-lg-4 col-md-4" href="/ExamTask/">
+                            <div class="exam-ent entry border_all fillet_5 clearfix">
+                                <div class="exam-box">
+                                    <span class="glyphicon glyphicon-education fillet" aria-hidden="true"></span>
+                                    <div class="entry-mes">
+                                        <p>考试</p>
+                                        <span>考试简介</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="col-lg-4 col-md-4" href="/challenges/">
+                            <div class="challenge-ent entry border_all fillet_5 clearfix" >
+                                <div class="challenge-box">
+                                    <span class="glyphicon glyphicon-time fillet" aria-hidden="true"></span>
+                                    <div class="entry-mes">
+                                        <p>挑战</p>
+                                        <span>挑战简介</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

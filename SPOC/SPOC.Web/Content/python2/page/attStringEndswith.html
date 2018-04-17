@@ -1,0 +1,52 @@
+<div class="attStringEndswith-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">endswith() 方法</span>
+		</h1>
+		<p>
+			<a href="#strings" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 字符串
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>Python endswith() 方法用于判断字符串是否以指定后缀结尾，如果以指定后缀结尾返回True，否则返回False。可选参数"start"与"end"为检索字符串的开始与结束位置。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>endswith()方法语法：</p>
+		<pre>str.endswith(suffix[, start[, end]])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>suffix -- 该参数可以是一个字符串或者是一个元素。</li>
+			<li>start -- 字符串中的开始位置。</li>
+			<li>end -- 字符中结束位置。</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>如果字符串含有指定的后缀返回True，否则返回False。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了endswith()方法的实例：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+
+str = "this is string example....wow!!!";
+
+suffix = "wow!!!";
+print str.endswith(suffix);
+print str.endswith(suffix,20);
+
+suffix = "is";
+print str.endswith(suffix, 2, 4);
+print str.endswith(suffix, 2, 6);</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>True
+True
+True
+False</pre>
+		<p>
+			<a href="#strings" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 字符串
+			</a>
+		</p>
+	</div>
+</div>

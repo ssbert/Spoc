@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    
+    <script src="../../Scripts/jquery-3.2.1.min.js"></script>
+    <script src="../../Scripts/rsa/BigInt.js"></script>
+    <script src="../../Scripts/rsa/Barrett.js"></script>
+    <script src="../../Scripts/rsa/RSA.js"></script>
+    <script type="text/javascript">
+        $(function() {
+
+            $.ajax({
+                url: "/Account/GetRsaKey",
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#excryptKey").val(data.encryptKey);
+                    $("#excryptModulusKey").val(data.ModulusKey);
+                }
+
+            });
+            }
+        );
+        function doEncryupted() {
+           
+            var key = $("#excryptKey").val();
+            setMaxDigits(130);
+            var resKey = new RSAKeyPair(key, "", $("#excryptModulusKey").val());
+            
+            var str1 = $("#str").val().split(',');
+            $.each(str1, function (n, value) {
+                var enCodeStr = escape(value);
+                var str2 = encryptedString(resKey, enCodeStr);
+                $("#enstr").append(str2+"\n" );
+            });
+        }
+
+        function doClean() {
+            $("#enstr").val("");
+            $("#str").val("");
+        }
+    </script>
+</head>
+
+<body>
+<textarea id="str" rows="3" cols="20" style="width: 600px;height: 400px"></textarea>
+    <button onclick="doClean()">清空</button>
+    <button onclick="doEncryupted()">生成</button>
+    <textarea id="enstr"  rows="3" cols="20" style="width: 600px;height: 400px"></textarea>
+
+<input type="hidden" id="excryptKey" />
+    <input type="hidden" id="excryptModulusKey" />
+</body>
+
+</html>

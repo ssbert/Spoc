@@ -1,0 +1,64 @@
+<div class="functionAtol-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">atol()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>long int atol(const char *str)</b> 把参数 <b>str</b> 所指向的字符串转换为一个长整数（类型为 long int 型）。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 atol() 函数的声明。</p>
+		<pre>long int atol(const char *str)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b> -- 要转换为长整数的字符串。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回转换后的长整数，如果没有执行有效的转换，则返回零。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 atol() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+int main()
+{
+   long val;
+   char str[20];
+   
+   strcpy(str, "98993489");
+   val = atol(str);
+   printf("字符串值 = %s, 长整型值 = %ld\n", str, val);
+
+   strcpy(str, "runoob.com");
+   val = atol(str);
+   printf("字符串值 = %s, 长整型值 = %ld\n", str, val);
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>字符串值 = 98993489, 长整型值 = 98993489
+字符串值 = runoob.com, 长整型值 = 0</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

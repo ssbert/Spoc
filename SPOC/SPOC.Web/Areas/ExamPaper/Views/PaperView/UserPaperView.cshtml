@@ -1,0 +1,205 @@
+﻿@{
+    ViewBag.Title = "UserPaperPreview";
+    Layout = null;
+    ViewBag.App = "UserPaperViewModule";
+}
+
+<link href="~/Scripts/exam/css/common.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+    .tableheadtitle2 {
+        background: url(../../../../Scripts/exam/css/image/examattend/tabletabmenubg.gif) left bottom repeat-x;
+        _background: url(../../../../Scripts/exam/css/image/examattend/tabletabmenubg.gif) left bottom repeat-x;
+        height: 34px;
+        width: 98%;
+        font-size: 12px;
+        color: #000;
+        padding-top: 8px;
+        overflow: hidden;
+        margin-bottom: 2px;
+    }
+</style>
+<link href="~/Scripts/exam/css/main.css" rel="stylesheet" type="text/css" />
+<div class="container panel-body" ng-controller="UserPaperViewController" style="width: 100%;">
+    <form id="form1" name="form1" runat="server">
+        <div class="TreeSearchButton">
+            <div>
+                <span class="red">
+                    <label id="lblMessage" enableviewstate="False" runat="server">
+                        <span ng-bind="data.Title"></span>
+                    </label>
+                </span>
+            </div>
+        </div>
+        <div class="tableheadtitle2" style="margin: 10px;">
+            <span style="width:100px;">
+                <label id="lblSubTitle" runat="server">
+                    <span ng-bind="data.subTitle"></span>
+                </label>
+            </span>
+        </div>
+        <table id="tabFilter">
+            <tr>
+                <td class="tdtitle" nowrap style="width: 15%;">
+                    <label id="label11" text="查看试题范围" runat="server">
+                    </label>
+                </td>
+                <td style="width: 85%;">
+                    <label>
+                        <input name="uncertain" value="" type="radio" ng-model="filterType" ng-checked="true"
+                               ng-click="ChangeViewRange()">
+                        显示全部试题
+                    </label>
+                    <label>
+                        <input name="uncertain" value="error" type="radio" ng-model="filterType" ng-click="ChangeViewRange()">
+                        仅显示答错试题
+                    </label>
+                    <label>
+                        <input name="uncertain" value="NoAnswer" type="radio" ng-model="filterType" ng-click="ChangeViewRange()">
+                        仅显示不会做答
+                    </label>
+                    <label>
+                        <input name="uncertain" value="Empty" type="radio" ng-model="filterType" ng-click="ChangeViewRange()">
+                        仅显示未答试题
+                    </label>
+                    <label>
+                        <input name="uncertain" value="right" type="radio" ng-model="filterType" ng-click="ChangeViewRange()">
+                        仅显示答对试题
+                    </label>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td nowrap class="tdtitle">
+                    <label id="label1" runat="server">
+                        考试编号
+                    </label>
+                </td>
+                <td style="width: 33%">
+                    <label id="lblExamUserGradeID" runat="server">
+                        <span ng-bind="data.examUserGradeID"></span>
+                    </label>
+                </td>
+                <td nowrap class="tdtitle">
+                    <label id="label2" text="" runat="server">
+                        答题开始时间
+                    </label>
+                </td>
+                <td style="width: 33%">
+                    <label id="lblExamBeginTime" runat="server">
+                        <span ng-bind="data.examBeginTime"></span>
+                    </label>
+                </td>
+                <td nowrap class="tdtitle">
+                    <label id="label3" text="" runat="server">
+                        答题结束时间
+                    </label>
+                </td>
+                <td style="width: 33%">
+                    <label id="lblExamEndTime" runat="server">
+                        <span ng-bind="data.examEndTime"></span>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td nowrap class="tdtitle">
+                    <label id="label4" text="" runat="server">
+                        考生姓名
+                    </label>
+                </td>
+                <td>
+                    <label id="lblRealName" runat="server">
+                        <span ng-bind="data.examUserName"></span>
+                    </label>
+                </td>
+                <td nowrap class="tdtitle">
+                    <label id="label5" text="" runat="server">
+                        考试时间
+                    </label>
+                </td>
+                <td>
+                    <label id="lblExamTime" runat="server">
+                        <span ng-bind="data.examTime"></span>
+                    </label>
+                </td>
+                <td nowrap class="tdtitle">
+                    <label id="label7" text="" runat="server">
+                        总得分
+                    </label>
+                </td>
+                <td>
+                    <label id="lblTotalScore" runat="server">
+                        <span ng-bind="data.examTotalScore"></span>
+                    </label>
+                    <label id="label8" runat="server" text="分">
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td nowrap class="tdtitle">
+                    <label id="label9" text="评卷人" runat="server">
+                        评卷人
+                    </label>
+                </td>
+                <td nowrap>
+                    <label id="lblJudgeRealName" runat="server">
+                        <span ng-bind="data.judgeRealName"></span>
+                    </label>
+                </td>
+                <td nowrap class="tdtitle">
+                    <label id="label10" text="评卷时间" runat="server">
+                        评卷时间
+                    </label>
+                </td>
+                <td>
+                    <label id="lblJudgeBeginTime" runat="server">
+                        <span ng-bind="data.JudgeBeginTime"></span>
+                    </label>
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <div id="divPaper" class="paperlist" runat="server" style="overflow: inherit; height: auto; margin: 10px;">
+            <span ng-bind-html="data.viewHtml | to_trusted"></span>
+        </div>
+    </form>
+</div>
+@section scripts{
+    <script>
+        var examGradeUid = "@ViewBag.examGradeUid";
+
+        //伸缩对象，点一下伸开，再点一下收回，并且还可以带图片显示伸缩的标至
+        function jscomFlexObject(obj, imageObj, onImagePath, offImagePath) {
+            if (obj.style.display == "none") {
+                obj.style.display = "block";
+                if (imageObj && onImagePath)
+                    imageObj.src = onImagePath;
+                //oElement.alt = "收缩";
+            }
+            else {
+                obj.style.display = "none";
+                if (imageObj && offImagePath)
+                    imageObj.src = offImagePath;
+                //oElement.alt = "展开";
+            }
+        }
+        //填空题为input类型的检查
+        function jscomCheckedInputQuestionAnswer(radioObject, index) {
+            var selectInputUid = radioObject.toString().replace("Answer", "");
+            try {
+                if ($("#hidIsRepeatAnswer").val() != "Y") {
+                    $("#" + selectInputUid).find('a').removeAttr('disabled');
+                }
+            }
+            catch (e) {
+            }
+        }
+    </script>
+    <script src="@Url.Content("~/Scripts/angular-1.2.19/angular.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-3.2.1.min.js")" type="text/javascript"></script>
+    <script src="~/Areas/Assets/js/exam/examPaperView.js?v=@L("version")" type="text/javascript"></script>
+    <script>
+        exam.UserPaperViewModule("UserPaperViewModule", "UserPaperViewController");
+    </script>}

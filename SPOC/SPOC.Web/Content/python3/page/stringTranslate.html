@@ -1,0 +1,59 @@
+<div class="stringTranslate-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">translate()方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 字符串
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>translate() 方法根据参数table给出的表(包含 256 个字符)转换字符串的字符,要过滤掉的字符放到 deletechars 参数中。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>translate()方法语法：</p>
+		<pre>str.translate(table)
+bytes.translate(table[, delete])    
+bytearray.translate(table[, delete]) </pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>table -- 翻译表，翻译表是通过 maketrans() 方法转换而来。</li>
+			<li>deletechars -- 字符串中要过滤的字符列表。</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回翻译后的字符串,若给出了 delete 参数，则将原来的bytes中的属于delete的字符删除，剩下的字符要按照table中给出的映射来进行映射 。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 translate() 函数的使用方法：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+ 
+intab = "aeiou"
+outtab = "12345"
+trantab = str.maketrans(intab, outtab)   # 制作翻译表
+ 
+str = "this is string example....wow!!!"
+print (str.translate(trantab))</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>th3s 3s str3ng 2x1mpl2....w4w!!!</pre>
+		<p>以下实例演示如何过滤掉的字符 o： </p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+ 
+# 制作翻译表
+bytes_tabtrans = bytes.maketrans(b'abcdefghijklmnopqrstuvwxyz', b'ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+ 
+# 转换为大写，并删除字母o
+print(b'runoob'.translate(bytes_tabtrans, b'o'))</code></pre>
+		</div>
+		<p>以上实例输出结果： </p>
+		<pre>b'RUNB'</pre>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 字符串
+			</a>
+		</p>
+	</div>
+</div>

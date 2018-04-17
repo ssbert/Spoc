@@ -1,0 +1,818 @@
+<div class="dateTime-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#array" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Java 数组
+		</a>
+		<a href="#regularExpressions" class="pull-right green">
+			Java 正则表达式
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">日期时间</span>
+		</h1>
+		<p>java.util 包提供了 Date 类来封装当前的日期和时间。 Date 类提供两个构造函数来实例化 Date 对象。</p>
+		<p>第一个构造函数使用当前日期和时间来初始化对象。</p>
+		<div class="n-example">
+			<pre><code>Date( )</code></pre>
+		</div>
+		<p>第二个构造函数接收一个参数，该参数是从1970年1月1日起的毫秒数。 </p>
+		<div class="n-example">
+			<pre><code>Date(long millisec)</code></pre>
+		</div>
+		<p> Date对象创建以后，可以调用下面的方法。</p>
+		<table>
+			<tbody>
+				<tr>
+					<th>序号</th>
+					<th>方法和描述</th>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td><strong>boolean after(Date date)</strong><br>若当调用此方法的Date对象在指定日期之后返回true,否则返回false。</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td><strong>boolean before(Date date)</strong><br>若当调用此方法的Date对象在指定日期之前返回true,否则返回false。</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td><strong>Object clone( )</strong><br>返回此对象的副本。</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td><strong>int compareTo(Date date)</strong><br>比较当调用此方法的Date对象和指定日期。两者相等时候返回0。调用对象在指定日期之前则返回负数。调用对象在指定日期之后则返回正数。</td>
+				</tr>
+				<tr>
+					<td>5</td>
+					<td><strong>int compareTo(Object obj)</strong><br>若obj是Date类型则操作等同于compareTo(Date) 。否则它抛出ClassCastException。</td>
+				</tr>
+				<tr>
+					<td>6</td>
+					<td><strong>boolean equals(Object date)</strong><br>当调用此方法的Date对象和指定日期相等时候返回true,否则返回false。</td>
+				</tr>
+				<tr>
+					<td>7</td>
+					<td><strong>long getTime( )</strong><br>返回自 1970 年 1 月 1 日 00:00:00 GMT 以来此 Date 对象表示的毫秒数。</td>
+				</tr>
+				<tr>
+					<td>8</td>
+					<td><strong>int hashCode( )</strong><br>&nbsp;返回此对象的哈希码值。</td>
+				</tr>
+				<tr>
+					<td>9</td>
+					<td><strong>void setTime(long time)</strong><br>&nbsp;<br>用自1970年1月1日00:00:00 GMT以后time毫秒数设置时间和日期。</td>
+				</tr>
+				<tr>
+					<td>10</td>
+					<td><strong>String toString( )</strong><br>把此 Date 对象转换为以下形式的 String： dow mon dd hh:mm:ss zzz yyyy 其中： dow 是一周中的某一天 (Sun, Mon, Tue, Wed, Thu, Fri, Sat)。</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">获取当前日期时间</h2>
+		<p>Java中获取当前日期和时间很简单，使用 Date 对象的 toString() 方法来打印当前日期和时间，如下所示： </p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>import java.util.Date;
+  
+public class DateDemo {
+   public static void main(String args[]) {
+       // 初始化 Date 对象
+       Date date = new Date();
+        
+       // 使用 toString() 函数显示日期时间
+       System.out.println(date.toString());
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下:</p>
+		<pre>Mon May 04 09:51:52 CDT 2013</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">日期比较</h2>
+		<p>Java使用以下三种方法来比较两个日期：</p>
+		<ul>
+			<li>使用 getTime() 方法获取两个日期（自1970年1月1日经历的毫秒数值），然后比较这两个值。</li>
+			<li>使用方法 before()，after() 和 equals()。例如，一个月的12号比18号早，则 new Date(99, 2, 12).before(new Date (99, 2, 18)) 返回true。</li>
+			<li>使用 compareTo() 方法，它是由 Comparable 接口定义的，Date 类实现了这个接口。</li>
+		</ul>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">使用 SimpleDateFormat 格式化日期</h2>
+		<p>SimpleDateFormat 是一个以语言环境敏感的方式来格式化和分析日期的类。SimpleDateFormat 允许你选择任何用户自定义日期时间格式来运行。例如： </p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>import java.util.*;
+import java.text.*;
+ 
+public class DateDemo {
+   public static void main(String args[]) {
+ 
+      Date dNow = new Date( );
+      SimpleDateFormat ft = new SimpleDateFormat ("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
+ 
+      System.out.println("Current Date: " + ft.format(dNow));
+   }
+}</code></pre>
+		</div>
+		<pre>SimpleDateFormat ft = new SimpleDateFormat ("E yyyy.MM.dd 'at' hh:mm:ss a zzz");</pre>
+		<p>这一行代码确立了转换的格式，其中 yyyy 是完整的公元年，MM 是月份，dd 是日期，HH:mm:ss 是时、分、秒。 </p>
+		<p><b>注意:</b>有的格式大写，有的格式小写，例如 MM 是月份，mm 是分；HH 是 24 小时制，而 hh 是 12 小时制。</p>
+		<p>以上实例编译运行结果如下:</p>
+		<pre>Current Date: Wed 2016.11.09 at 08:23:19 AM UTC</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">日期和时间的格式化编码</h2>
+		<p>时间模式字符串用来指定时间格式。在此模式中，所有的 ASCII 字母被保留为模式字母，定义如下：</p>
+		<table>
+			<tbody>
+				<tr>
+					<th><strong>字母</strong></th>
+					<th><strong>描述</strong></th>
+					<th><strong>示例</strong></th>
+				</tr>
+				<tr>
+					<td>G</td>
+					<td>纪元标记</td>
+					<td>AD</td>
+				</tr>
+				<tr>
+					<td>y</td>
+					<td>四位年份</td>
+					<td>2001</td>
+				</tr>
+				<tr>
+					<td>M</td>
+					<td>月份</td>
+					<td>July or 07</td>
+				</tr>
+				<tr>
+					<td>d</td>
+					<td>一个月的日期</td>
+					<td>10</td>
+				</tr>
+				<tr>
+					<td>h</td>
+					<td>&nbsp;A.M./P.M. (1~12)格式小时</td>
+					<td>12</td>
+				</tr>
+				<tr>
+					<td>H</td>
+					<td>一天中的小时 (0~23)</td>
+					<td>22</td>
+				</tr>
+				<tr>
+					<td>m</td>
+					<td>分钟数</td>
+					<td>30</td>
+				</tr>
+				<tr>
+					<td>s</td>
+					<td>秒数</td>
+					<td>55</td>
+				</tr>
+				<tr>
+					<td>S</td>
+					<td>毫秒数</td>
+					<td>234</td>
+				</tr>
+				<tr>
+					<td>E</td>
+					<td>星期几</td>
+					<td>Tuesday</td>
+				</tr>
+				<tr>
+					<td>D</td>
+					<td>一年中的日子</td>
+					<td>360</td>
+				</tr>
+				<tr>
+					<td>F</td>
+					<td>一个月中第几周的周几</td>
+					<td>2 (second Wed. in July)</td>
+				</tr>
+				<tr>
+					<td>w</td>
+					<td>一年中第几周</td>
+					<td>40</td>
+				</tr>
+				<tr>
+					<td>W</td>
+					<td>一个月中第几周</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>a</td>
+					<td>A.M./P.M. 标记</td>
+					<td>PM</td>
+				</tr>
+				<tr>
+					<td>k</td>
+					<td>一天中的小时(1~24)</td>
+					<td>24</td>
+				</tr>
+				<tr>
+					<td>K</td>
+					<td>&nbsp;A.M./P.M. (0~11)格式小时</td>
+					<td>10</td>
+				</tr>
+				<tr>
+					<td>z</td>
+					<td>时区</td>
+					<td>Eastern Standard Time</td>
+				</tr>
+				<tr>
+					<td>'</td>
+					<td>文字定界符</td>
+					<td>Delimiter</td>
+				</tr>
+				<tr>
+					<td>"</td>
+					<td>单引号</td>
+					<td>`</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">使用printf格式化日期</h2>
+		<p>printf 方法可以很轻松地格式化时间和日期。使用两个字母格式，它以 %t 开头并且以下面表格中的一个字母结尾。</p>
+		<table>
+			<tbody>
+				<tr>
+					<th>
+						<p>转&nbsp; 换&nbsp; 符</p>
+					</th>
+					<th>
+						<p>说&nbsp;&nbsp;&nbsp; 明</p>
+					</th>
+					<th>
+						<p>示&nbsp;&nbsp;&nbsp; 例</p>
+					</th>
+				</tr>
+				<tr>
+					<td>
+						<p>c</p>
+					</td>
+					<td>
+						<p>包括全部日期和时间信息</p>
+					</td>
+					<td>
+						<p>星期六 十月 27 14:21:20 CST 2007</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>F</p>
+					</td>
+					<td>
+						<p>"年-月-日"格式</p>
+					</td>
+					<td>
+						<p>2007-10-27</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>D</p>
+					</td>
+					<td>
+						<p>"月/日/年"格式</p>
+					</td>
+					<td>
+						<p>10/27/07</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>r</p>
+					</td>
+					<td>
+						<p>"HH:MM:SS PM"格式（12时制）</p>
+					</td>
+					<td>
+						<p>02:25:51 下午</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>T</p>
+					</td>
+					<td>
+						<p>"HH:MM:SS"格式（24时制）</p>
+					</td>
+					<td>
+						<p>14:28:16</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>R</p>
+					</td>
+					<td>
+						<p>"HH:MM"格式（24时制）</p>
+					</td>
+					<td>
+						<p>14:28</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3"> 实例</h3>
+		<div class="n-example">
+			<pre><code>import java.util.Date;
+ 
+public class DateDemo {
+ 
+  public static void main(String args[]) {
+     // 初始化 Date 对象
+     Date date = new Date();
+ 
+     //c的使用  
+    System.out.printf("全部日期和时间信息：%tc%n",date);          
+    //f的使用  
+    System.out.printf("年-月-日格式：%tF%n",date);  
+    //d的使用  
+    System.out.printf("月/日/年格式：%tD%n",date);  
+    //r的使用  
+    System.out.printf("HH:MM:SS PM格式（12时制）：%tr%n",date);  
+    //t的使用  
+    System.out.printf("HH:MM:SS格式（24时制）：%tT%n",date);  
+    //R的使用  
+    System.out.printf("HH:MM格式（24时制）：%tR",date);  
+  }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下:</p>
+		<pre>全部日期和时间信息：星期一 九月 10 10:43:36 CST 2012  
+年-月-日格式：2012-09-10  
+月/日/年格式：09/10/12  
+HH:MM:SS PM格式（12时制）：10:43:36 上午  
+HH:MM:SS格式（24时制）：10:43:36  
+HH:MM格式（24时制）：10:43  </pre>
+		<p>如果你需要重复提供日期，那么利用这种方式来格式化它的每一部分就有点复杂了。因此，可以利用一个格式化字符串指出要被格式化的参数的索引。</p>
+		<p>索引必须紧跟在%后面，而且必须以$结束。例如：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>import java.util.Date;
+  
+public class DateDemo {
+ 
+   public static void main(String args[]) {
+       // 初始化 Date 对象
+       Date date = new Date();
+        
+       // 使用toString()显示日期和时间
+       System.out.printf("%1$s %2$tB %2$td, %2$tY", 
+                         "Due date:", date);
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下:</p>
+		<pre>Due date: February 09, 2014</pre>
+		<p>或者，你可以使用 < 标志。它表明先前被格式化的参数要被再次使用。例如：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>import java.util.Date;
+  
+public class DateDemo {
+ 
+   public static void main(String args[]) {
+       // 初始化 Date 对象
+       Date date = new Date();
+        
+       // 显示格式化时间
+       System.out.printf("%s %tB % < te, % < tY", 
+                         "Due date:", date);
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下:</p>
+		<pre>Due date: February 09, 2014</pre>
+		<p>定义日期格式的转换符可以使日期通过指定的转换符生成新字符串。这些日期转换符如下所示：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>import java.util.*;
+  
+public class DateDemo {
+   public static void main(String args[]) {
+       Date date=new Date();                                      
+        //b的使用，月份简称  
+        String str=String.format(Locale.US,"英文月份简称：%tb",date);       
+        System.out.println(str);                                                                              
+        System.out.printf("本地月份简称：%tb%n",date);  
+        //B的使用，月份全称  
+        str=String.format(Locale.US,"英文月份全称：%tB",date);  
+        System.out.println(str);  
+        System.out.printf("本地月份全称：%tB%n",date);  
+        //a的使用，星期简称  
+        str=String.format(Locale.US,"英文星期的简称：%ta",date);  
+        System.out.println(str);  
+        //A的使用，星期全称  
+        System.out.printf("本地星期的简称：%tA%n",date);  
+        //C的使用，年前两位  
+        System.out.printf("年的前两位数字（不足两位前面补0）：%tC%n",date);  
+        //y的使用，年后两位  
+        System.out.printf("年的后两位数字（不足两位前面补0）：%ty%n",date);  
+        //j的使用，一年的天数  
+        System.out.printf("一年中的天数（即年的第几天）：%tj%n",date);  
+        //m的使用，月份  
+        System.out.printf("两位数字的月份（不足两位前面补0）：%tm%n",date);  
+        //d的使用，日（二位，不够补零）  
+        System.out.printf("两位数字的日（不足两位前面补0）：%td%n",date);  
+        //e的使用，日（一位不补零）  
+        System.out.printf("月份的日（前面不补0）：%te",date);  
+   }
+}</code></pre>
+		</div>
+		<p>输出结果为：</p>
+		<pre>英文月份简称：May
+本地月份简称：五月
+英文月份全称：May
+本地月份全称：五月
+英文星期的简称：Thu
+本地星期的简称：星期四
+年的前两位数字（不足两位前面补0）：20
+年的后两位数字（不足两位前面补0）：17
+一年中的天数（即年的第几天）：124
+两位数字的月份（不足两位前面补0）：05
+两位数字的日（不足两位前面补0）：04
+月份的日（前面不补0）：4</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">解析字符串为时间</h2>
+		<p>SimpleDateFormat 类有一些附加的方法，特别是parse()，它试图按照给定的SimpleDateFormat 对象的格式化存储来解析字符串。例如： </p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>import java.util.*;
+import java.text.*;
+  
+public class DateDemo {
+ 
+   public static void main(String args[]) {
+      SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd"); 
+ 
+      String input = args.length == 0 ? "1818-11-11" : args[0]; 
+ 
+      System.out.print(input + " Parses as "); 
+ 
+      Date t; 
+ 
+      try { 
+          t = ft.parse(input); 
+          System.out.println(t); 
+      } catch (ParseException e) { 
+          System.out.println("Unparseable using " + ft); 
+      }
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下:</p>
+		<pre>$ java DateDemo
+1818-11-11 Parses as Wed Nov 11 00:00:00 GMT 1818
+$ java DateDemo 2007-12-01
+2007-12-01 Parses as Sat Dec 01 00:00:00 GMT 2007</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Java 休眠(sleep)</h2>
+		<p>sleep()使当前线程进入停滞状态（阻塞当前线程），让出CPU的使用、目的是不让当前线程独自霸占该进程所获的CPU资源，以留一定时间给其他线程执行的机会。</p>
+		<p>你可以让程序休眠一毫秒的时间或者到您的计算机的寿命长的任意段时间。例如，下面的程序会休眠3秒：</p>
+		<div class="n-example">
+			<div class="n-example-h2 green">实例</div>
+			<pre><code>import java.util.*;
+  
+public class SleepDemo {
+   public static void main(String args[]) {
+      try { 
+         System.out.println(new Date( ) + "\n"); 
+         Thread.sleep(1000*3);   // 休眠3秒
+         System.out.println(new Date( ) + "\n"); 
+      } catch (Exception e) { 
+          System.out.println("Got an exception!"); 
+      }
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下:</p>
+		<pre>Thu Sep 17 10:20:30 CST 2015
+
+Thu Sep 17 10:20:33 CST 2015</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">测量时间</h2>
+		<p>下面的一个例子表明如何测量时间间隔（以毫秒为单位）： </p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>import java.util.*;
+  
+public class DiffDemo {
+ 
+   public static void main(String args[]) {
+      try {
+         long start = System.currentTimeMillis( );
+         System.out.println(new Date( ) + "\n");
+         Thread.sleep(5*60*10);
+         System.out.println(new Date( ) + "\n");
+         long end = System.currentTimeMillis( );
+         long diff = end - start;
+         System.out.println("Difference is : " + diff);
+      } catch (Exception e) {
+         System.out.println("Got an exception!");
+      }
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下:</p>
+		<pre>Fri Jan 08 09:48:47 CST 2016
+
+Fri Jan 08 09:48:50 CST 2016
+
+Difference is : 3019</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Calendar类</h2>
+		<p>我们现在已经能够格式化并创建一个日期对象了，但是我们如何才能设置和获取日期数据的特定部分呢，比如说小时，日，或者分钟? 我们又如何在日期的这些部分加上或者减去值呢? 答案是使用Calendar 类。 </p>
+		<p>Calendar类的功能要比Date类强大很多，而且在实现方式上也比Date类要复杂一些。</p>
+		<p>Calendar类是一个抽象类，在实际使用时实现特定的子类的对象，创建对象的过程对程序员来说是透明的，只需要使用getInstance方法创建即可。</p>
+		<h3 class="n-h3">创建一个代表系统当前日期的Calendar对象</h3>
+		<pre>Calendar c = Calendar.getInstance();//默认是当前日期</pre>
+		<h3 class="n-h3">创建一个指定日期的Calendar对象</h3>
+		<p>使用Calendar类代表特定的时间，需要首先创建一个Calendar的对象，然后再设定该对象中的年月日参数来完成。</p>
+		<pre>//创建一个代表2009年6月12日的Calendar对象
+Calendar c1 = Calendar.getInstance();
+c1.set(2009, 6 - 1, 12);</pre>
+		<h3 class="n-h3">Calendar类对象字段类型</h3>
+		<p>Calendar类中用以下这些常量表示不同的意义，jdk内的很多类其实都是采用的这种思想</p>
+		<table>
+			<thead>
+				<tr><th>常量</th><th>描述</th></tr>	
+			</thead>
+			<tbody>	
+				<tr><td>Calendar.YEAR</td><td>年份</td></tr>
+				<tr><td>Calendar.MONTH</td><td>月份</td></tr>
+				<tr><td>Calendar.DATE</td><td>日期</td></tr>
+				<tr><td>Calendar.DAY_OF_MONTH</td><td>日期，和上面的字段意义完全相同</td></tr>
+				<tr><td>Calendar.HOUR</td><td>12小时制的小时</td></tr>
+				<tr><td>Calendar.HOUR_OF_DAY</td><td>24小时制的小时</td></tr>
+				<tr><td>Calendar.MINUTE</td><td>分钟</td></tr>
+				<tr><td>Calendar.SECOND</td><td>秒</td></tr>
+				<tr><td>Calendar.DAY_OF_WEEK</td><td>星期几</td></tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">Calendar类对象信息的设置</h3>
+		<p><b>Set设置</b></p>
+		<p>如：</p>
+		<pre>Calendar c1 = Calendar.getInstance();</pre>
+		<p>调用：</p>
+		<pre>public final void set(int year,int month,int date)</pre>
+		<pre>c1.set(2009, 6 - 1, 12);//把Calendar对象c1的年月日分别设这为：2009、6、12</pre>
+		<p>利用字段类型设置</p>
+		<p>如果只设定某个字段，例如日期的值，则可以使用如下set方法：</p>
+		<pre>public void set(int field,int value)</pre>
+		<p>把 c1对象代表的日期设置为10号，其它所有的数值会被重新计算</p>
+		<pre>c1.set(Calendar.DATE,10);</pre>
+		<p>把c1对象代表的年份设置为2008年，其他的所有数值会被重新计算</p>
+		<pre>c1.set(Calendar.YEAR,2008);</pre>
+		<p>其他字段属性set的意义以此类推</p>
+		<p><b>Add设置</b></p>
+		<pre>Calendar c1 = Calendar.getInstance();</pre>
+		<p>把c1对象的日期加上10，也就是c1也就表示为10天后的日期，其它所有的数值会被重新计算</p>
+		<pre>c1.add(Calendar.DATE, 10);</pre>
+		<p>把c1对象的日期减去10，也就是c1也就表示为10天前的日期，其它所有的数值会被重新计算</p>
+		<pre>c1.add(Calendar.DATE, -10);</pre>
+		<p>其他字段属性的add的意义以此类推</p>
+		<h3 class="n-h3">Calendar类对象信息的获得</h3>
+		<div class="n-example">
+			<pre><code>Calendar c1 = Calendar.getInstance();
+// 获得年份
+int year = c1.get(Calendar.YEAR);
+// 获得月份
+int month = c1.get(Calendar.MONTH) + 1;
+// 获得日期
+int date = c1.get(Calendar.DATE);
+// 获得小时
+int hour = c1.get(Calendar.HOUR_OF_DAY);
+// 获得分钟
+int minute = c1.get(Calendar.MINUTE);
+// 获得秒
+int second = c1.get(Calendar.SECOND);
+// 获得星期几（注意（这个与Date类是不同的）：1代表星期日、2代表星期1、3代表星期二，以此类推）
+int day = c1.get(Calendar.DAY_OF_WEEK);</code></pre>
+		</div>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">GregorianCalendar类</h2>
+		<p>Calendar类实现了公历日历，GregorianCalendar是Calendar类的一个具体实现。 </p>
+		<p>Calendar 的getInstance（）方法返回一个默认用当前的语言环境和时区初始化的GregorianCalendar对象。GregorianCalendar定义了两个字段：AD和BC。这是代表公历定义的两个时代。 </p>
+		<p>下面列出GregorianCalendar对象的几个构造方法：</p>
+		<table>
+			<tbody>
+				<tr>
+					<td><strong>序号</strong></td>
+					<td><strong>构造函数和说明</strong></td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td><strong>GregorianCalendar() </strong><br>在具有默认语言环境的默认时区内使用当前时间构造一个默认的 GregorianCalendar。</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td><strong>GregorianCalendar(int year, int month, int date) </strong><br>在具有默认语言环境的默认时区内构造一个带有给定日期设置的 GregorianCalendar</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td><strong>GregorianCalendar(int year, int month, int date, int hour, int minute) </strong><br>为具有默认语言环境的默认时区构造一个具有给定日期和时间设置的 GregorianCalendar。</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td><strong>GregorianCalendar(int year, int month, int date, int hour, int minute, int second) </strong><br>&nbsp; 为具有默认语言环境的默认时区构造一个具有给定日期和时间设置的 GregorianCalendar。</td>
+				</tr>
+				<tr>
+					<td>5</td>
+					<td><strong>GregorianCalendar(Locale aLocale) </strong><br>在具有给定语言环境的默认时区内构造一个基于当前时间的 GregorianCalendar。</td>
+				</tr>
+				<tr>
+					<td>6</td>
+					<td><strong>GregorianCalendar(TimeZone zone) </strong><br>在具有默认语言环境的给定时区内构造一个基于当前时间的 GregorianCalendar。</td>
+				</tr>
+				<tr>
+					<td>7</td>
+					<td><strong>GregorianCalendar(TimeZone zone, Locale aLocale) </strong><br>&nbsp;在具有给定语言环境的给定时区内构造一个基于当前时间的 GregorianCalendar。</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>这里是GregorianCalendar 类提供的一些有用的方法列表：</p>
+		<table>
+			<tbody>
+				<tr>
+					<td><strong>序号</strong></td>
+					<td><strong>方法和说明</strong></td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td><strong>void add(int field, int amount) </strong><br>根据日历规则，将指定的（有符号的）时间量添加到给定的日历字段中。</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td><strong>protected void computeFields() </strong><br>转换UTC毫秒值为时间域值</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td><strong>protected void computeTime() </strong><br>覆盖Calendar ，转换时间域值为UTC毫秒值</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td><strong>boolean equals(Object obj) </strong><br>比较此 GregorianCalendar 与指定的 Object。</td>
+				</tr>
+				<tr>
+					<td>5</td>
+					<td><strong>int get(int field) </strong><br>获取指定字段的时间值</td>
+				</tr>
+				<tr>
+					<td>6</td>
+					<td><strong>int getActualMaximum(int field) </strong><br>返回当前日期，给定字段的最大值</td>
+				</tr>
+				<tr>
+					<td>7</td>
+					<td><strong>int getActualMinimum(int field) </strong><br>返回当前日期，给定字段的最小值</td>
+				</tr>
+				<tr>
+					<td>8</td>
+					<td><strong>int getGreatestMinimum(int field) </strong><br>&nbsp;返回此 GregorianCalendar 实例给定日历字段的最高的最小值。</td>
+				</tr>
+				<tr>
+					<td>9</td>
+					<td><strong>Date getGregorianChange() </strong><br>获得格里高利历的更改日期。</td>
+				</tr>
+				<tr>
+					<td>10</td>
+					<td><strong>int getLeastMaximum(int field) </strong><br>返回此 GregorianCalendar 实例给定日历字段的最低的最大值</td>
+				</tr>
+				<tr>
+					<td>11</td>
+					<td><strong>int getMaximum(int field) </strong><br>返回此 GregorianCalendar 实例的给定日历字段的最大值。</td>
+				</tr>
+				<tr>
+					<td>12</td>
+					<td><strong>Date getTime()</strong><br>获取日历当前时间。</td>
+				</tr>
+				<tr>
+					<td>13</td>
+					<td><strong>long getTimeInMillis() </strong><br>获取用长整型表示的日历的当前时间</td>
+				</tr>
+				<tr>
+					<td>14</td>
+					<td><strong>TimeZone getTimeZone() </strong><br>获取时区。</td>
+				</tr>
+				<tr>
+					<td>15</td>
+					<td><strong>int getMinimum(int field) </strong><br>返回给定字段的最小值。</td>
+				</tr>
+				<tr>
+					<td>16</td>
+					<td><strong>int hashCode() </strong><br>重写hashCode.</td>
+				</tr>
+				<tr>
+					<td>17</td>
+					<td><strong>boolean isLeapYear(int year)</strong><br>确定给定的年份是否为闰年。</td>
+				</tr>
+				<tr>
+					<td>18</td>
+					<td><strong>void roll(int field, boolean up) </strong><br>在给定的时间字段上添加或减去（上/下）单个时间单元，不更改更大的字段。</td>
+				</tr>
+				<tr>
+					<td>19</td>
+					<td><strong>void set(int field, int value) </strong><br>用给定的值设置时间字段。</td>
+				</tr>
+				<tr>
+					<td>20</td>
+					<td><strong>void set(int year, int month, int date) </strong><br>设置年、月、日的值。</td>
+				</tr>
+				<tr>
+					<td>21</td>
+					<td><strong>void set(int year, int month, int date, int hour, int minute) </strong><br>设置年、月、日、小时、分钟的值。</td>
+				</tr>
+				<tr>
+					<td>22</td>
+					<td><strong>void set(int year, int month, int date, int hour, int minute, int second) </strong><br>设置年、月、日、小时、分钟、秒的值。</td>
+				</tr>
+				<tr>
+					<td>23</td>
+					<td><strong>void setGregorianChange(Date date) </strong><br>设置 GregorianCalendar 的更改日期。</td>
+				</tr>
+				<tr>
+					<td>24</td>
+					<td><strong>void setTime(Date date) </strong><br>用给定的日期设置Calendar的当前时间。</td>
+				</tr>
+				<tr>
+					<td>25</td>
+					<td><strong>void setTimeInMillis(long millis) </strong><br>用给定的long型毫秒数设置Calendar的当前时间。</td>
+				</tr>
+				<tr>
+					<td>26</td>
+					<td><strong>void setTimeZone(TimeZone value) </strong><br>用给定时区值设置当前时区。</td>
+				</tr>
+				<tr>
+					<td>27</td>
+					<td><strong>String toString() </strong><br>返回代表日历的字符串。</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>import java.util.*;
+  
+public class GregorianCalendarDemo {
+ 
+   public static void main(String args[]) {
+      String months[] = {
+      "Jan", "Feb", "Mar", "Apr",
+      "May", "Jun", "Jul", "Aug",
+      "Sep", "Oct", "Nov", "Dec"};
+      
+      int year;
+      // 初始化 Gregorian 日历
+      // 使用当前时间和日期
+      // 默认为本地时间和时区
+      GregorianCalendar gcalendar = new GregorianCalendar();
+      // 显示当前时间和日期的信息
+      System.out.print("Date: ");
+      System.out.print(months[gcalendar.get(Calendar.MONTH)]);
+      System.out.print(" " + gcalendar.get(Calendar.DATE) + " ");
+      System.out.println(year = gcalendar.get(Calendar.YEAR));
+      System.out.print("Time: ");
+      System.out.print(gcalendar.get(Calendar.HOUR) + ":");
+      System.out.print(gcalendar.get(Calendar.MINUTE) + ":");
+      System.out.println(gcalendar.get(Calendar.SECOND));
+      
+      // 测试当前年份是否为闰年
+      if(gcalendar.isLeapYear(year)) {
+         System.out.println("当前年份是闰年");
+      }
+      else {
+         System.out.println("当前年份不是闰年");
+      }
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下：</p>
+		<pre>Date: Apr 22 2009
+Time: 11:25:27
+当前年份不是闰年</pre>	
+		<p>关于 Calender 类的完整列表，你可以参考标准的 <b>Java文档</b>。</p>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#array" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Java 数组
+		</a>
+		<a href="#regularExpressions" class="pull-right green">
+			Java 正则表达式
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+</div>

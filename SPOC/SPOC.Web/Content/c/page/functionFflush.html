@@ -1,0 +1,74 @@
+<div class="functionFflush-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">fflush()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int fflush(FILE *stream)</b> 刷新流 stream 的输出缓冲区。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 fflush() 函数的声明。</p>
+		<pre>int fflush(FILE *stream)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>stream</b> -- 这是指向 FILE 对象的指针，该 FILE 对象指定了一个缓冲流。
+			</li>	
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果成功，该函数返回零值。如果发生错误，则返回 EOF，且设置错误标识符（即 feof）。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 fflush() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main()
+{
+
+   char buff[1024];
+
+   memset( buff, '\0', sizeof( buff ));
+
+   fprintf(stdout, "启用全缓冲\n");
+   setvbuf(stdout, buff, _IOFBF, 1024);
+
+   fprintf(stdout, "这里是 baidu.com\n");
+   fprintf(stdout, "该输出将保存到 buff\n");
+   fflush( stdout );
+
+   fprintf(stdout, "这将在编程时出现\n");
+   fprintf(stdout, "最后休眠五秒钟\n");
+
+   sleep(5);
+
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果。在这里，程序把缓冲输出保存到 <b>buff</b>，直到首次调用 <b>fflush()</b> 为止，然后开始缓冲输出，最后休眠 5 秒钟。它会在程序结束之前，发送剩余的输出到 STDOUT。</p>
+		<pre>启用全缓冲
+这里是 baidu.com
+该输出将保存到 buff
+这将在编程时出现
+最后休眠五秒钟</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

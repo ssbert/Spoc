@@ -1,0 +1,430 @@
+﻿div,dl,dt,dd,form,h1,h2,h3,h4,h5,h6,img,ol,ul,li,p,span,a {
+border:0;
+margin:0;
+padding:0;
+}
+
+html,body,div,span {
+border:0;
+outline:0;
+font-weight:inherit;
+font-style:inherit;
+font-size:100%;
+font-family:inherit;
+vertical-align:baseline;
+text-decoration:none;
+margin:0;
+padding:0;
+}
+
+body {
+font-family:Microsoft YaHei,Segoe UI,Helvetica,Arial,sans-serif,"宋体";
+font-size:12px;
+color:#41474a;
+padding-top:0;
+word-break:break-word;
+height:100%;
+background:#efefef;
+overflow:hidden;
+}
+
+.Nsb_exam_maintop {
+width:100%;
+padding-top:10px;
+}
+
+.Nsb_exam_maintop dd {
+letter-spacing:1px;
+font-size:14px;
+}
+
+.Nsb_exam_main {
+min-width:1000px;
+/*min-height:740px;*/
+}
+
+.Nsb_exam_main tbody {
+    height: 100%;
+    width: 100%;
+}
+
+#Nsb_exam_top {
+width:100%;
+height:52px;
+background:url(image/examattend/top_bg2.gif) repeat-x;
+min-width:1024px;
+}
+
+.Nsb_exam_name {
+width:auto;
+height:50px;
+float:left;
+font-size:17px;
+text-indent:2em;
+font-weight:600;
+line-height:50px;
+color:#FFF;
+}
+
+.Nsb_exam_menuicon2 {
+width:600px;
+height:50px;
+float:right;
+padding-top:10px;
+margin-right:30px;
+text-align:right;
+}
+
+.Nsb_exam_admin {
+width:270px;
+height:120px;
+border:1px solid #e4e4e4;
+color:#000;
+font-size:12px;
+background:#FFF;
+margin-top:35px;
+float:left;
+margin-left:20px;
+margin-right:20px;
+}
+
+.Nsb_exam_nav {
+width:270px;
+margin-top:20px;
+background:#fff;
+border:1px solid #e4e4e4;
+/*height:400px; *//*height:calc(100% - 257px);
+height: -webkit-calc(100% - 161px);
+height: -moz-calc(100% - 258px);*/overflow:auto;
+padding-bottom:35px;
+float:none;
+margin-left:20px;
+margin-right:20px;
+}
+
+.Nsb_exam_nav span {
+padding-left:20px;
+display:block;
+line-height:22px;
+width:170px;
+}
+
+.Nsb_exam_title {
+font-size:14px;
+text-indent:1em;
+font-weight:700;
+color:#C30;
+height:25px;
+line-height:27px;
+width:160px;
+margin:8px;
+}
+
+.Nsb_exam_save,.Nsb_exam_check,.Nsb_exam_up,.Nsb_exam_leave {
+width:102px;
+height:35px;
+padding-top:-8px;
+cursor:pointer;
+display:block;
+}
+
+.Nsb_exam_save {
+background:url(image/examattend/icon2.jpg) -156px -5px no-repeat;
+}
+
+.Nsb_exam_save:hover {
+background:url(image/examattend/icon2.jpg) -156px -51px no-repeat;
+}
+
+.Nsb_exam_check {
+background:url(image/examattend/icon2.jpg) -258px -5px no-repeat;
+}
+
+.Nsb_exam_check:hover {
+background:url(image/examattend/icon2.jpg) -258px -51px no-repeat;
+}
+
+.Nsb_exam_leave {
+background:url(image/examattend/icon2.jpg) -362px -5px no-repeat;
+}
+
+.Nsb_exam_leave:hover {
+background:url(image/examattend/icon2.jpg) -362px -51px no-repeat;
+}
+
+.Nsb_exam_up {
+background:url(image/examattend/icon2.jpg) -468px -5px no-repeat;
+}
+
+.Nsb_exam_up:hover {
+background:url(image/examattend/icon2.jpg) -468px -51px no-repeat;
+}
+
+.Nsb_exam_photo {
+width:100px;
+height:100px;
+background:url(image/examattend/pic.gif) no-repeat;
+border:1px solid #CCC;
+float:left;
+margin:10px 0 10px 10px;
+}
+
+.Nsb_exam_message {
+width:240px;
+height:70px;
+margin-top:20px;
+float:left;
+margin-left:10px;
+}
+
+.Nsb_exam_message span {
+display:block;
+line-height:22px;
+color:#333;
+}
+
+.Nsb_exam_content,.Nsb_exam_content_middle,.Nsb_exam_content_big {
+width:100%;
+/*height:calc(100% - 100px);
+height: -webkit-calc(100% - 39px);
+height: -moz-calc(100% - 100px);*/
+overflow:auto;
+border:1px solid #e4e4e4;
+background:#FFF;
+　scrollbar-face-color:#CCC;
+　scrollbar-highlight-color:#FFF;
+　scrollbar-shadow-color:#FFF;
+　scrollbar-arrow-color:#FFF;
+　scrollbar-base-color:#CCC;
+　scrollbar-darkshadow-color:#CCC;
+overflow-x:hidden;
+float:left;
+}
+.Nsb_exam_content .Nsb_exam_sttitle_small,.Nsb_exam_content_middle .Nsb_exam_sttitle_small,.Nsb_exam_content_big .Nsb_exam_sttitle_small {
+background:#f5f5f5;
+width:90%;
+padding-top:5px;
+height:30px;
+text-indent:0.5em;
+line-height:30px;
+}
+
+.Nsb_exam_content .Nsb_exam_xuanxiang,.Nsb_exam_content_middle .Nsb_exam_xuanxiang,.Nsb_exam_content_big .Nsb_exam_xuanxiang {
+line-height:27px;
+margin:10px 0 0 20px;
+}
+
+.Nsb_exam_content,.Nsb_exam_content .Nsb_exam_sttitle_small,.Nsb_exam_content .Nsb_exam_xuanxiang{font-size:14px;}
+.Nsb_exam_content_middle,.Nsb_exam_content_middle .Nsb_exam_sttitle_small,.Nsb_exam_content_middle .Nsb_exam_xuanxiang{font-size:16px;}
+.Nsb_exam_content_big,.Nsb_exam_content_big .Nsb_exam_sttitle_small,.Nsb_exam_content_big .Nsb_exam_xuanxiang{font-size:18px;}
+
+.Nsb_exam_time {
+width:158px;
+height:40px;
+font-size:16px;
+text-align:center;
+line-height:36px;
+font-weight:700;
+color:#C30;
+float:left;
+background:url(image/examattend/icon2.jpg) 4px -5px no-repeat;
+margin-right:10px;
+}
+
+.Nsb_exam_font {
+height:35px;
+width:96%;
+float:left;
+line-height:35px;
+}
+
+.Nsb_exam_td_span {
+width:82px;
+display:block;
+font-size:13px;
+float:right;
+cursor:pointer;
+}
+
+.Nsb_exam_td_span input {
+float:left;
+margin:8px 5px 0 0;
+}
+
+.Nsb_exam_font h3,Nsb_exam_notice {
+font-size:13px;
+font-weight:600;
+float:left;
+margin-left:10px;
+display:block;
+}
+
+.Nsb_exam_nav table {
+margin-left:8px;
+}
+
+.Nsb_exam_nav table td {
+border:1px solid #d0d0d0;
+width:35px;
+height:37px;
+line-height:35px;
+text-align:center;
+font-size:16px;
+font-weight:700;
+color:#666;
+}
+
+.Nsb_exam_notice {
+float:left;
+font-size:13px;
+color:#900;
+margin-top:8px;
+line-height:15px;
+margin-left:5px;
+}
+
+.Nsb_exam_current {
+background:#CCC;
+}
+
+#Nsb_exam_menu li {
+float:left;
+list-style:none;
+width:102px;
+height:35px;
+}
+
+.Nsb_exam_sttitle {
+background:#e6e6e6;
+width:95%;
+/*height:30px;*/
+text-indent:1em;
+line-height:30px;
+margin:15px 0 10px 20px;
+cursor:pointer;
+}
+
+.Nsb_exam_stcontent {
+margin-left:30px;
+width:95%;
+}
+
+.Nsb_exam_tiankong {
+border:none;
+border-bottom:1px solid #333;
+}
+
+.Nsb_exam_textarea {
+width:600px;
+height:200px;
+border:1px solid #e6e6e6;
+margin:15px 0 0 15px;
+}
+
+.Nsb_exam_hongqi {
+vertical-align:top;
+display:block;
+float:left;
+margin:5px 0 0;
+padding:0;
+}
+
+/*试题导航及标注样式*/
+.Nsb_exam_flag{background: url(image/examattend/flag.gif) no-repeat center middle;}
+.Nsb_exam_no_flag{background: url(image/examattend/flag2.gif) no-repeat center middle;}
+.Nsb_exam_no_flag,.Nsb_exam_flag{ width:10px;height:11px;cursor:pointer;}
+
+.Nsb_exam_nav_flag_no_answer
+{
+	background-image: url(image/examattend/flag.gif);
+	background-repeat: no-repeat;
+	background-position: 19px bottom;
+	background-color:#FCFCFC;
+	cursor:pointer;
+}
+
+.Nsb_exam_nav_flag
+{
+	background-image: url(image/examattend/flag.gif);
+	background-repeat: no-repeat;
+	background-position: 19px bottom;
+	background-color:#A4FFD1;
+	cursor:pointer;
+}
+
+.Nsb_exam_nav_no_flag_no_answer
+{
+    background-color:#FCFCFC;
+    cursor:pointer;
+}
+
+.Nsb_exam_nav_no_flag
+{
+    background-color:#A4FFD1;
+    cursor:pointer;
+}
+
+/*新增竞赛*/
+.Nsb_exam_competition{
+	width:150px;
+	height:50px;
+	display: inline;
+	display:inline-block;
+	margin-left: 90px;
+	color: #900;
+	margin-top: 20px;
+	float: left;
+}
+.Nsb_exam_competition dl{
+	display:block;
+	float:left;
+	margin-top: 20px;
+	font-weight: 600;
+}
+.Nsb_exam_number{
+	font-size:35px;
+	font-weight:bold;
+	color:#a8332a;
+	display:block;
+	width:46px;
+	height:54px;
+	text-align: center;
+	float: left;
+	margin: 0px 20px 0px 20px;
+	line-height: 55px;
+	background: url(image/examattend/numbg.gif) no-repeat;
+}
+
+/*对话框*/
+.Nsb_layer,.Nsb_layer div,.Nsb_layer a{display:inline-block;}
+.Nsb_layer{font-size:12px;border:solid 3px #999;box-shadow:0 0 10px #333; background-color:#fff;}
+.Nsb_layer_title{height:38px;width:100%;border-bottom:solid 1px #ddd;background:#f5f5f5;position:relative;}
+.Nsb_layer_title h4{line-height:38px;font-size:14px;color:#666;margin-left:20px;}.Nsb_layer_title a{position:absolute;top:13px;right:12px;}
+.Nsb_layer_close{display:inline-block;width:13px;height:11px;overflow:hidden;background:url(../../common/image/Nsb_layer_close.gif) 0 -11px no-repeat; cursor:pointer;}
+.Nsb_exam_tips{
+	width:450px;
+	height:250px;
+	margin:50px 0;
+}
+.Nsb_exam_tips_content{ width:85%; margin-left:30px;  margin-top:45px; height:110px; font-size:16px;}
+.Nsb_exam_tips .Nsb_layer_bt31{
+	 text-align:center;
+	margin:10px 0px 0 10px;
+	width:420px;
+}
+
+.Nsb_layer_btb,.Nsb_layer_btg{display:inline-block;}
+.Nsb_layer_btb{background:#4A8CF7;border:solid 1px #3079ED;color:#fff;}.Nsb_layer_btb:hover{background:#307AF5;/*border:solid 1px #2B53A8;*/text-decoration:none;}
+.Nsb_layer_btg{background:#f5f5f5;border:solid 1px #ddd;color:#333;}.Nsb_layer_btg:hover{background:#e8e8e8;/*border:solid 1px #bbb;*/text-decoration:none;}
+.Nsb_layer_btb,.Nsb_layer_btg{height:23px;line-height:23px;padding:0 21px; cursor:pointer;}
+.Nsb_exam_wait{ margin-left:120px; margin-top:20px; width:32px;height:32px;background:url(../../common/image/loading.gif) no-repeat; display:inline-block; letter-spacing:1px;}
+
+/*操作题弹出窗口*/
+.Nsb_exam_divFloat_bg{position:absolute; border:0;left:0px; top:0px; z-index:100; width:100%; height:100%; filter: alpha(opacity=50);opacity:0.5;-moz-opacity:0.5;background-color:#000;display:none;}
+.Nsb_exam_divFloat{position:absolute; border:solid 3px #999;left:0px; top:0px; z-index:101; display:none;}
+
+.Nsb_exam_operate_btn{border:none;cursor:pointer;height:21px;line-height:21px; width:70px;background: url(image/examattend/ttbutton.gif) no-repeat;color:#000;}
+.Nsb_exam_refresh{background: url(image/examattend/refresh.gif) no-repeat center center;
+                   /*background-image:url(image/examattend/refresh.gif); background-repeat:no-repeat;
+                    background-position:center center;*/
+                  width:16px;height:16px;cursor :pointer;}

@@ -1,0 +1,92 @@
+<div class="functionIsprint-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">isprint()</span>
+		</h1>
+		<p>
+			<a href="#standardLibCtypeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;ctype.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int isprint(int c)</b> 检查所传的字符是否是可打印的。可打印字符是非控制字符的字符。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 isprint() 函数的声明。</p>
+		<pre>int isprint(int c);</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>c --</b> 这是要检查的字符。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>如果 c 是一个可打印的字符，则该函数返回非零值（true），否则返回 0（false）。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 isprint() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;ctype.h&gt;
+
+int main()
+{
+   int var1 = 'k';
+   int var2 = '8';
+   int var3 = '\t';
+   int var4 = ' ';
+    
+   if( isprint(var1) )
+   {
+      printf("var1 = |%c| 是可打印的\n", var1 );
+   }
+   else
+   {
+      printf("var1 = |%c| 是不可打印的\n", var1 );
+   }
+   if( isprint(var2) )
+   {
+      printf("var2 = |%c| 是可打印的\n", var2 );
+   }
+   else
+   {
+      printf("var2 = |%c| 是不可打印的\n", var2 );
+   }
+   if( isprint(var3) )
+   {
+      printf("var3 = |%c| 是可打印的\n", var3 );
+   }
+   else
+   {
+      printf("var3 = |%c| 是不可打印的\n", var3 );
+   }
+   if( isprint(var4) )
+   {
+      printf("var4 = |%c| 是可打印的\n", var4 );
+   }
+   else
+   {
+      printf("var4 = |%c| 是不可打印的\n", var4 );
+   }
+   
+   return(0);
+}   </code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>var1 = |k| 是可打印的
+var2 = |8| 是可打印的
+var3 = |    | 是不可打印的
+var4 = | | 是可打印的</pre>
+		<p>
+			<a href="#standardLibCtypeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;ctype.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

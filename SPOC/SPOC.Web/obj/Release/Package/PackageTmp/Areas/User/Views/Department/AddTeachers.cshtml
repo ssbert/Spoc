@@ -1,0 +1,290 @@
+﻿@{
+Layout = "../Shared/_Layout.cshtml";
+}
+<div region="center" border="false" style="padding:10px;">
+    <div id="my-container" class="easyui-layout" fit="true" border="false">
+        <div region="north" split="false" border="false">
+            <div id="querybar" class="easyui-panel" fit="true">
+                <form id="form_query" class="form-inline label-length-4">
+                    <div class="form-group">
+                        <label class="form-label" for="userLoginName">用户名：</label>
+                        <input id="userLoginName" name="userLoginName" type="text" class="easyui-textbox">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="userFullName">姓名：</label>
+                        <input id="userFullName" name="userFullName" type="text" class="easyui-textbox">
+                    </div>
+                    
+
+                    <div class="form-group">
+                        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'"
+                           onclick="AddTeachers.query()">查询</a>
+                        <a class="easyui-linkbutton" onclick="AddTeachers.reset()"><span
+                                class="l-btn-text icon-clear l-btn-icon-left">重置</span></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div region="center" border="false">
+            <div id="table-container" class="easyui-layout" fit="true">
+
+                <div id="result-panel" region="west" split="false" border="false"
+                     style="width:50%;padding-right:5px;padding-top:10px;">
+                    <div class="easyui-panel" title="备选栏" fit="true">
+                        <table id="dg_left"></table>
+                    </div>
+                </div>
+
+                <div id="candidate-panel" region="center" border="false"
+                     style="width:50%;padding-left:5px;padding-top:10px;">
+                    <div class="easyui-panel" title="选择栏" fit="true">
+                        <table id="dg_right"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #query-form input, #query-form select {
+        width: 150px;
+    }
+</style>
+<script src="~/scripts/layer/layer.js"></script>
+<script>
+   
+    var AddTeachers = (function () {
+        var topWin = parent.parent.window;
+       
+        getLeftDg({ relationId: '@ViewBag.relationId'});
+
+        $('#dg_right').datagrid({
+            rownumbers: true,
+            iconCls: VE.DatagridIconCls,
+            height: VE.GridHeight,
+            pageSize: VE.PageSize,
+            pageList: VE.PageList,
+            fitColumns: true,
+            nowrap: false,
+            border: true,
+            idField: 'userId',
+            sortName: 'userLoginName',
+            sortOrder: 'desc',
+            data: [],
+            columns: [
+                [
+                    { field: 'userId', checkbox: true },
+                    { field: 'userLoginName', title: '用户名', width: '30%', sortable: true },
+                    { field: 'userFullName', title: '姓名', width: '20%', sortable: true },
+                    { field: 'gender', title: '性别', width: '20%', formatter:genderFormatter, sortable: true }
+                ]
+            ],
+            toolbar: [
+                {
+                    iconCls: 'icon-busy',
+                    text: '删除',
+                    handler: function () {
+                        del();
+                    }
+                },
+                {
+                    iconCls: 'icon-save',
+                    text: '确认',
+                    handler: function () {
+                        save();
+                    }
+                }
+            ]
+        });
+
+        function genderFormatter(val) {
+            if (val === "0") {
+                return "-";
+            } else if (val === "1") {
+                return "男";
+            } else if (val === "2") {
+                return "女";
+            }
+            return "-"
+        }
+
+        function choose() {
+            var items = $('#dg_left').datagrid('getSelections'),
+                leftDatas = $('#dg_left').datagrid('getData');
+            var arys = [];
+            var userIds = [];
+            for (var i = 0; i < items.length; i++) {
+                leftDatas.rows.remove(items[i]);
+                leftDatas.total -= 1;
+                arys.push(items[i]);
+                userIds.push(items[i].UserId);
+            }
+            var left = $('#dg_left').datagrid({
+                url:'/api/services/app/department/GetLeftTeachers',
+                queryParams: {
+                    Teachers: items,
+                    RelationId: '@ViewBag.relationId'
+                }
+            });
+
+            left.datagrid('getPager').pagination({
+                onRefresh: function (pageNumber, pageSize) {
+                    left.datagrid({
+                        queryParams: {
+                            Teachers: $('#dg_left').datagrid('getSelections'),
+                            RelationId: '@ViewBag.relationId'
+                        }
+                    });
+                }
+            });
+
+            var datas = { total: arys.length, rows: arys };
+            $('#dg_right').datagrid('loadData', datas);
+        }
+
+        function del() {
+            var datas = $('#dg_right').datagrid('getData'),
+                items = $('#dg_right').datagrid('getSelections');
+            if (items.length === 0) {
+                $.messager.alert('提示', "请选择要删除的行！", "info");
+                return;
+            }
+            for (var i = 0; i < items.length; i++) {
+                datas.rows.remove(items[i]);
+                datas.total -= 1;
+            }
+            items.length = 0;   //清空缓存
+            $('#dg_right').datagrid('loadData', datas); //reload
+        }
+
+        function save() {
+            var items = $('#dg_right').datagrid('getSelections'),
+                datas = $('#dg_right').datagrid('getData');
+            if (items.length === 0 && datas.rows.length === 0) {    //没有数据
+                layer.alert('请选择要添加的老师!');
+                return;
+            }
+            var arys = [];
+            if (items.length === 0 && datas.rows.length !== 0) {
+                for (var j = 0; j < datas.rows.length; j++) {
+                    arys.push({
+                        userId: datas.rows[j].userId,
+                    });
+                }
+            } else if (items.length !== 0) {
+                for (var i = 0; i < items.length; i++) {
+                    arys.push({
+                        userId: items[i].userId,
+                    });
+                }
+            }
+            ajaxOpt('/api/services/app/department/addTeachers', { relationId: '@ViewBag.relationId',  TeacherInputDtos: arys }, function (d) {
+                if (d.success) {
+                    //刷新父页面
+                    topWin.observer.trigger('refresh');
+                    //刷新当前页面
+                    var tab = parent.$('#tabs').tabs('getSelected');
+                    window.location.href = $(tab).find('iframe').attr('src');
+                    parent.$.messager.show({ title: '提示', msg: '添加成功!' });
+
+                }
+            });
+        }
+
+        function query() {
+            $('#dg_left').datagrid('load', {
+                filter: $.toJSON({
+                    relationId: '@ViewBag.relationId',
+                    userLoginName: $('#userLoginName').textbox('getText'),
+                    userFullName: $('#userFullName').textbox('getText')
+                   
+                })
+            });
+            $('#dg_right').datagrid({   //reset
+                data: []
+            });
+        }
+
+        function getLeftDg(args) {
+            $('#dg_left').datagrid({
+                url:  '/api/services/app/department/GetLeftTeachers',
+                queryParams: args,
+                rownumbers: true,
+                pagination: true,
+                iconCls: VE.DatagridIconCls,
+                height: VE.GridHeight,
+                pageSize: VE.PageSize,
+                pageList: VE.PageList,
+                fitColumns: true,
+                nowrap: false,
+                border: true,
+                idField: 'userId',
+                sortName: 'userLoginName',
+                sortOrder: 'desc',
+                columns: [
+                    [
+                        { field: 'userId', checkbox: true },
+                        { field: 'userLoginName', title: '用户名', width: '30%', sortable: true },
+                        { field: 'userFullName', title: '姓名', width: '20%', sortable: true },
+                        { field: 'gender', title: '性别', width: '20%', formatter: genderFormatter, sortable: true }
+                    ]
+                ],
+                toolbar: [
+                    {
+                        iconCls: 'icon-add',
+                        text: '选择',
+                        handler: function () {
+                            choose();
+                        }
+                    }
+                ]
+            });
+        }
+
+        function reset() {
+            $('#userLoginName').textbox('clear');
+            $('#userFullName').textbox('clear');
+        }
+
+        function ajaxOpt(url, data, callback) {
+            return $.ajax({
+                url: url,
+                dataType: 'json',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: callback
+            });
+        }
+
+        Array.prototype.remove = function (val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+                this.splice(index, 1);
+            }
+        };
+
+        return {
+            query: query,
+            reset: reset
+        };
+    })();
+
+    $(function () {
+        function resize() {
+            var myContainer = $("#my-container");
+            var queryBar = $("#querybar");
+            var queryBarHeight = $("#querybar").height();
+
+            myContainer.layout("panel", "north").panel("resize", { height: queryBarHeight + 4 });
+
+            var height = myContainer.height() - queryBarHeight - 30;
+            $("#table-container").layout("resize", { height: height });
+        }
+
+        $(window).resize(function () {
+            resize();
+        });
+        resize();
+    });
+</script>

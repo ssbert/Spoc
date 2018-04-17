@@ -1,0 +1,71 @@
+<div class="inc-dec-operators-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">自增自减运算符</span>
+		</h1>
+		<p>
+			<a href="#operator" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 运算符
+			</a>
+		</p>
+		<p>自增运算符 ++ 会把操作数加 1，自减运算符 -- 会把操作数减 1。因此：</p>
+		<pre>x = x+1;
+ 
+等同于
+ 
+x++;</pre>
+		<p>同样的：</p>
+		<pre>x = x-1;
+ 
+等同于
+ 
+x--;</pre>
+		<p>无论是自增运算符还是自减运算符，都可以放在操作数的前面（前缀）或后面（后缀）。例如：</p>
+		<pre>x = x+1;
+ 
+可以写成：
+ 
+++x; // 前缀形式</pre>
+		<p>或者：</p>
+		<pre>x++; // 后缀形式</pre>
+		<p>前缀形式与后缀形式之间有一点不同。如果使用前缀形式，则会在表达式计算之前完成自增或自减，如果使用后缀形式，则会在表达式计算之后完成自增或自减。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>请看下面的实例，理解二者之间的区别：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2">
+				实例
+			</h2>
+			<pre>#include &lt;iostream&gt;
+using namespace std;
+ 
+int main()
+{
+   int a = 21;
+   int c ;
+ 
+   // a 的值在赋值之前不会自增
+   c = a++;   
+   cout << "Line 1 - Value of a++ is :" << c << endl ;
+ 
+   // 表达式计算之后，a 的值增加 1
+   cout << "Line 2 - Value of a is :" << a << endl ;
+ 
+   // a 的值在赋值之前自增
+   c = ++a;  
+   cout << "Line 3 - Value of ++a is  :" << c << endl ;
+   return 0;
+}</pre>
+		</div>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre>Line 1 - Value of a++ is :21
+Line 2 - Value of a is :22
+Line 3 - Value of ++a is  :23</pre>
+		<p>
+			<a href="#operator" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 运算符
+			</a>
+		</p>
+	</div>
+</div>

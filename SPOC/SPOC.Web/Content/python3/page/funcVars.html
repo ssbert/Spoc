@@ -1,0 +1,44 @@
+<div class="funcVars-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">vars() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>vars() 函数返回对象object的属性和属性值的字典对象。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>vars() 函数语法：</p>
+		<pre>vars([object])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>object -- 对象</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回对象object的属性和属性值的字典对象，如果没有参数，就打印当前调用位置的属性和属性值 类似 locals()。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 vars() 的使用方法：</p>
+		<div class="n-example">
+			<pre><code>>>>print(vars())
+{'__builtins__': &lt;module '__builtin__' (built-in)&gt;, '__name__': '__main__', '__doc__': None, '__package__': None}
+>>> class Runoob:
+...     a = 1
+... 
+>>> print(vars(Runoob))
+{'a': 1, '__module__': '__main__', '__doc__': None}
+>>> runoob = Runoob()
+>>> print(vars(runoob))
+{}</code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 内置函数
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "EditLabel";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+@section scripts
+{
+    <script src="~/Areas/Assets/js/category/categoryCombotreeData.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/lib/editlabel.js?v=@L("version")"></script>
+    <script>
+        var request = GetRequest();
+        var edit = new EditLabel(request.id);
+
+        $(function () {
+        
+            var $container = $("#container");
+            var height = $container.height() - $container.children().first().height() - 1;
+            $("#divRules").height(height);
+            $("#dg").datagrid("resize");
+        });
+    </script>
+}
+<div id="container" region="center" style="padding: 1px;">
+    <div  title="标签信息" class="easyui-panel"  footer="#ft" style="width: 100%" collapsible="true">
+        <form id="labelForm" class="form-horizontal label label-length-5">
+
+            <div class="form-group">
+                <label class="form-label">标签名称：</label>
+                <input id="title" name="title" class="easyui-textbox" style="width: 300px;" validtype="length[1, 256]" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">标签分类：</label>
+                <select id="folderId" class="easyui-combotree" editable="false" style="width: 300px;" required data-options="lines:true"></select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">备注：</label>
+                <input id="describe" class="easyui-textbox" multiline="true" validtype="length[0, 256]" style="height: 100px;width: 300px;">
+            </div>
+        </form>
+    </div>
+
+    <div id="ft">
+        <div style="margin: 5px 10px; float: right;">
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="edit.save()">保存</a>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+
+    <div id="divRules"  title="规则管理" style="width: 100%;margin-top:1px;">
+        <div id="DgToolbar">
+            <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="edit.append()">添加</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-busy" onclick="edit.removeit()">删除</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="edit.reject()">撤销</a>
+        </div>
+        <table id="dg" class="easyui-datagrid" rownumbers="true" singleselect="true" style="width:100%; height:100%;"  toolbar="#DgToolbar" data-options="onClickRow: edit.onClickRow">
+            <thead>
+                <tr>
+                    
+                    <th data-options="field:'logic',width:100,
+						formatter:function(value,row){
+							return row.logicName;
+						},
+						editor:{
+							type:'combobox',
+							options:{
+								valueField:'logic',
+								textField:'logicName',
+								data: [{ logic: '0', logicName: '或'},{ logic: '1', logicName: '与' }],
+                                required:false,editable: false, panelHeight:50,   
+							}
+						}">逻辑</th>
+                    <th data-options="field:'matchText',width:150,editor:{type:'textbox',options:{required:true}}">关键字</th>
+                    <th data-options="field:'describe',width:300,editor:'textbox'">说明</th>
+                    <th data-options="field:'regExpressions',width:300,editor:'textbox'">正则表达式</th>
+
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>

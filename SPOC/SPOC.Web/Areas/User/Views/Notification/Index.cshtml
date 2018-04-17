@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AdminHome/Views/Shared/_Layout.cshtml";
+}
+
+<div region="center">
+    <div id="toolbar">
+        <form id="notificationForm" class="form-inline label label-length-2">
+            <div class="form-group">
+                <label class="form-label">内容：</label>
+                <input id="content" name="content" class="easyui-textbox" multiline="true" style="width: 300px; height: 120px;" required>
+            </div>
+            <div class="form-group" style="vertical-align:top;">
+                <label class="form-label"></label>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-email_go" onclick="notification.send()">发送</a>
+            </div>
+        </form>
+    </div>
+    <table id="dg" class="easyui-datagrid" toolbar="#toolbar" fit="true">
+        <thead>
+        <tr>
+            <th field="facultyName">院系</th>
+            <th field="majorName">专业</th>
+            <th field="name">班级</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Assets/js/notification/notification.js"></script>
+    <script>
+        var notification = new Notification();
+        $(function() {
+            evtBus.dispatchEvt("notification_init", notification);
+        });
+    </script>
+}

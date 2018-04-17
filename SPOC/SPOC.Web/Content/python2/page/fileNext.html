@@ -1,0 +1,66 @@
+<div class="fileNext-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">File next() 方法</span>
+		</h1>
+		<p>
+			<a href="#fileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python File(文件) 方法
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>
+		<p>next() 方法在文件使用迭代器时会使用到，在循环中，next()方法会在每次循环中调用，该方法返回文件的下一行，如果到达结尾(EOF),则触发 StopIteration</p>
+		<h3 class="n-h3">语法</h3>
+		<p>next() 方法语法如下：</p>
+		<pre>fileObject.next(); </pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>无</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回文件下一行。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 next() 方法的使用：</p>
+		<p>文件 runoob.txt 的内容如下：</p>
+		<pre>这是第一行
+这是第二行
+这是第三行
+这是第四行
+这是第五行</pre>
+		<p>循环读取文件的内容：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+# 打开文件
+fo = open("runoob.txt", "rw+")
+print "文件名为: ", fo.name
+
+for index in range(5):
+    line = fo.next()
+    print "第 %d 行 - %s" % (index, line)
+
+# 关闭文件
+fo.close()</code></pre>
+		</div>
+		<p>以上实例输出结果如下：</p>
+		<pre>文件名为:  runoob.txt
+第 0 行 - 这是第一行
+
+第 1 行 - 这是第二行
+
+第 2 行 - 这是第三行
+
+第 3 行 - 这是第四行
+
+第 4 行 - 这是第五行
+</pre>
+		<p>
+			<a href="#fileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python File(文件) 方法
+			</a>
+		</p>
+	</div>
+</div>

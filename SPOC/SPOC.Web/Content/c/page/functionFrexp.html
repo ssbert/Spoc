@@ -1,0 +1,62 @@
+<div class="functionFrexp-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">frexp()</span>
+		</h1>
+		<p>
+			<a href="#standardLibMathH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;math.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>double frexp(double x, int *exponent)</b> 把浮点数 x 分解成尾数和指数。返回值是尾数，并将指数存入 <b>exponent</b> 中。所得的值是 <b>x = mantissa * 2 ^ exponent</b>。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 frexp() 函数的声明。</p>
+		<pre>double frexp(double x, int *exponent)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>x</b> -- 要被计算的浮点值。
+			</li>	
+			<li>
+				<b>exponent</b> -- 指向一个对象的指针，该对象存储了指数的值。
+			</li>
+		</ul>	
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>该函数返回规格化小数。如果参数 x 不为零，则规格化小数是 x 的二次方，且它的绝对值范围从 1/2（包含）到 1（不包含）。如果 x 为零，则规格化小数是零，且零存储在 exp 中。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 frexp() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+int main ()
+{
+   double x = 1024, fraction;
+   int e;
+   
+   fraction = frexp(x, &e);
+   printf("x = %.2lf = %.2lf * 2^%d\n", x, fraction, e);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>x = 1024.00 = 0.50 * 2^11</pre>
+		<p>
+			<a href="#standardLibMathH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;math.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

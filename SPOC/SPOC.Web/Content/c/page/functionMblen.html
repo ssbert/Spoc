@@ -1,0 +1,76 @@
+<div class="functionMblen-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">mblen()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int mblen(const char *str, size_t n)</b> 返回参数 str 所指向的多字节字符的长度。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 mblen() 函数的声明。</p>
+		<pre>int mblen(const char *str, size_t n)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b>  -- 指向多字节字符的第一个字节的指针。</li>
+			<li><b>n</b>  -- 要检查的字符长度的最大字节数。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果识别了一个非空宽字符，mblen() 函数返回 str 开始的多字节序列解析的字节数。如果识别了一个空宽字符，则返回 0。如果识别了一个无效的多字节序列，或者不能解析一个完整的多字节字符，则返回 -1。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 mblen() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+int main()
+{
+   int len;
+   char *pmbnull  = NULL;
+   char *pmb = (char *)malloc( MB_CUR_MAX );
+   wchar_t *pwc = L"Hi";
+   wchar_t *pwcs = (wchar_t *)malloc( sizeof( wchar_t ));
+
+   printf("转换为多字节字符串\n");
+   len = wcstombs( pmb, pwc, MB_CUR_MAX);
+   printf("被转换的字符 %d\n", len);
+   printf("第一个多字节字符的十六进制值：%#.4x\n", pmb);
+   
+   len = mblen( pmb, MB_CUR_MAX );
+   printf( "多字节字符 %x 的字节长度：%u\n", pmb, len );
+   
+   pmb = NULL;
+   
+   len = mblen( pmb, MB_CUR_MAX );
+   printf( "多字节字符 %x 的字节长度：%u\n", pmb, len );
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>转换为多字节字符串
+被转换的字符 1
+第一个多字节字符的十六进制值：0x168c6010
+多字节字符 168c6010 的字节长度：1
+多字节字符 0 的字节长度：0</pre>
+		<p>
+			<a href="#standardLibStdlibH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdlib.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

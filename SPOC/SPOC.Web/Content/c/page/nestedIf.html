@@ -1,0 +1,67 @@
+<div class="nestedIf-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C <span class="green">嵌套 if 语句</span>
+		</h1>
+		<p>
+			<a href="#decision" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 判断
+			</a>
+		</p>
+		<p>在 C 语言中，<b>嵌套</b> if-else 语句是合法的，这意味着您可以在一个 <b>if</b> 或 <b>else if</b> 语句内使用另一个 if 或 else if 语句。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-block n-border-b">
+			语法
+		</h2>
+		<p>C 语言中 <b>嵌套 if</b> 语句的语法：</p>
+		<div class="n-example">
+			<pre><code>if( boolean_expression 1)
+{
+   /* 当布尔表达式 1 为真时执行 */
+   if(boolean_expression 2)
+   {
+      /* 当布尔表达式 2 为真时执行 */
+   }
+}</code></pre>
+		</div>
+		<p>您可以嵌套 <b>else if...else</b>，方式与嵌套 if 语句相似。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">实例</h2>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+ 
+int main ()
+{
+   /* 局部变量定义 */
+   int a = 100;
+   int b = 200;
+ 
+   /* 检查布尔条件 */
+   if( a == 100 )
+   {
+       /* 如果条件为真，则检查下面的条件 */
+       if( b == 200 )
+       {
+          /* 如果条件为真，则输出下面的语句 */
+          printf("a 的值是 100，且 b 的值是 200\n" );
+       }
+   }
+   printf("a 的准确值是 %d\n", a );
+   printf("b 的准确值是 %d\n", b );
+ 
+   return 0;
+}</code></pre>
+		</div>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre><code>a 的值是 100，且 b 的值是 200
+a 的准确值是 100
+b 的准确值是 200</code></pre>
+		<p>
+			<a href="#decision" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 判断
+			</a>
+		</p>
+	</div>
+</div>

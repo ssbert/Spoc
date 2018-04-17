@@ -1,0 +1,176 @@
+<div class="urlProcessing-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">URL处理</span>
+		</h1>
+		<p>
+			<a href="#networking" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java 网络编程
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>URL（Uniform Resource Locator）中文名为统一资源定位符，有时也被俗称为网页地址。表示为互联网上的资源，如网页或者FTP地址。</p>
+		<p>本章节我们将介绍Java是如处理URL的。URL可以分为如下几个部分。 </p>
+		<pre>protocol://host:port/path?query#fragment</pre>
+		<p>protocol(协议)可以是 HTTP、HTTPS、FTP 和 File，port 为端口号，path为文件路径及文件名。</p>
+		<p>HTTP 协议的 URL 实例如下:</p>
+		<pre>http://www.baidu.com/index.html?language=cn#j2se</pre>
+		<p>URL 解析：</p>
+		<ul><li>
+<strong>协议为(protocol)：</strong>http</li><li>
+<strong>主机为(host:port)</strong>：www.baidu.com</li><li>
+<strong>端口号为(port):</strong> 80 ，以上URL实例并未指定端口，因为 HTTP 协议默认的端口号为 80。</li><li>
+<strong>文件路径为(path)：</strong>/index.html</li><li>
+<strong>请求参数(query)</strong>：language=cn</li><li>
+<strong>定位位置(fragment)：</strong>j2se，定位到网页中 id 属性为 j2se 的 HTML 元素位置 。</li></ul>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">URL 类方法</h2>
+		<p>在java.net包中定义了URL类，该类用来处理有关URL的内容。对于URL类的创建和使用，下面分别进行介绍。</p>
+		<p>java.net.URL提供了丰富的URL构建方式，并可以通过java.net.URL来获取资源。</p>
+		<table>
+		<tbody><tr>
+		<th>序号</th><th>方法描述</th></tr>
+		<tr><td>1</td><td><b>public URL(String protocol, String host, int port, String file) throws MalformedURLException.</b><br>通过给定的参数(协议、主机名、端口号、文件名)创建URL。</td></tr>
+		<tr><td>2</td><td><b>public URL(String protocol, String host, String file) throws MalformedURLException</b><br>使用指定的协议、主机名、文件名创建URL，端口使用协议的默认端口。</td></tr>
+		<tr><td>3</td><td><b>public URL(String url) throws MalformedURLException</b><br>通过给定的URL字符串创建URL</td></tr>
+		<tr><td>4</td><td><b>public URL(URL context, String url) throws MalformedURLException</b><br>使用基地址和相对URL创建</td></tr>
+		</tbody></table>
+		<p>URL类中包含了很多方法用于访问URL的各个部分，具体方法及描述如下：</p>
+		<table class="reference">
+		<tbody><tr>
+		<th>序号</th><th>方法描述</th></tr>
+		<tr><td>1</td><td><b>public String getPath()</b><br>返回URL路径部分。</td></tr>
+		<tr><td>2</td><td><b>public String getQuery()</b><br>返回URL查询部分。</td></tr>
+		<tr><td>3</td><td><b>public String getAuthority()</b><br>获取此 URL 的授权部分。</td></tr>
+		<tr><td>4</td><td><b>public int getPort()</b><br>返回URL端口部分</td></tr>
+		<tr><td>5</td><td><b>public int getDefaultPort()</b><br>返回协议的默认端口号。</td></tr>
+		<tr><td>6</td><td><b>public String getProtocol()</b><br>返回URL的协议</td></tr>
+		<tr><td>7</td><td><b>public String getHost()</b><br>返回URL的主机</td></tr>
+
+		<tr><td>8</td><td><b>public String getFile()</b><br>返回URL文件名部分</td></tr>
+		<tr><td>9</td><td><b>public String getRef()</b><br>获取此 URL 的锚点（也称为"引用"）。</td></tr>
+		<tr><td>10</td><td><b>public URLConnection openConnection() throws IOException</b><br>打开一个URL连接，并运行客户端访问资源。</td></tr>
+		</tbody></table>
+		<h3 class="n-h3">实例</h3>
+		<p>以上实例演示了使用java.net的URL类获取URL的各个部分参数：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">URLDemo.java</h2>
+			<pre><code>import java.net.*;
+import java.io.*;
+ 
+public class URLDemo
+{
+   public static void main(String [] args)
+   {
+      try
+      {
+         URL url = new URL("http://www.baidu.com/index.html?language=cn#j2se");
+         System.out.println("URL 为：" + url.toString());
+         System.out.println("协议为：" + url.getProtocol());
+         System.out.println("验证信息：" + url.getAuthority());
+         System.out.println("文件名及请求参数：" + url.getFile());
+         System.out.println("主机名：" + url.getHost());
+         System.out.println("路径：" + url.getPath());
+         System.out.println("端口：" + url.getPort());
+         System.out.println("默认端口：" + url.getDefaultPort());
+         System.out.println("请求参数：" + url.getQuery());
+         System.out.println("定位位置：" + url.getRef());
+      }catch(IOException e)
+      {
+         e.printStackTrace();
+      }
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下:</p>
+		<pre>URL 为：http://www.baidu.com/index.html?language=cn#j2se
+协议为：http
+验证信息：www.baidu.com
+文件名及请求参数：/index.html?language=cn
+主机名：www.baidu.com
+路径：/index.html
+端口：-1
+默认端口：80
+请求参数：language=cn
+定位位置：j2se</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">URLConnections 类方法</h2>
+		<p>openConnection() 返回一个 java.net.URLConnection。 </p>
+		<p>例如：</p>
+		<ul>
+			<li><p>如果你连接HTTP协议的URL,  openConnection() 方法返回 HttpURLConnection 对象。</p></li>
+			<li><p>如果你连接的URL为一个 JAR 文件,  openConnection() 方法将返回 JarURLConnection 对象。</p></li>
+			<li><p>等等...</p></li>
+		</ul>
+		<p>URLConnection 方法列表如下：</p>
+		<table>
+		<tbody><tr>
+		<th>序号</th><th>方法描述</th></tr>
+		<tr><td>1</td><td><b>Object getContent() </b><br>检索URL链接内容</td></tr>
+		<tr><td>2</td><td><b>Object getContent(Class[] classes) </b><br>检索URL链接内容</td></tr>
+		<tr><td>3</td><td><b>String getContentEncoding() </b><br>返回头部 content-encoding 字段值。 </td></tr>
+		<tr><td>4</td><td><b>int getContentLength() </b><br>返回头部 content-length字段值</td></tr>
+		<tr><td>5</td><td><b>String getContentType() </b><br>返回头部 content-type 字段值</td></tr>
+		<tr><td>6</td><td><b>int getLastModified() </b><br>返回头部 last-modified 字段值。</td></tr>
+		<tr><td>7</td><td><b>long getExpiration() </b><br>返回头部 expires 字段值。 </td></tr>
+		<tr><td>8</td><td><b>long getIfModifiedSince() </b><br>返回对象的 ifModifiedSince 字段值。</td></tr>
+		<tr><td>9</td><td><b>public void setDoInput(boolean input)</b><br>URL 连接可用于输入和/或输出。如果打算使用 URL 连接进行输入，则将 DoInput 标志设置为 true；如果不打算使用，则设置为 false。默认值为 true。  </td></tr>
+		<tr><td>10</td><td><b>public void setDoOutput(boolean output)</b><br>URL 连接可用于输入和/或输出。如果打算使用 URL 连接进行输出，则将 DoOutput 标志设置为 true；如果不打算使用，则设置为 false。默认值为 false。   </td></tr>
+		<tr><td>11</td><td><b>public InputStream getInputStream() throws IOException</b><br>返回URL的输入流，用于读取资源</td></tr>
+		<tr><td>12</td><td><b>public OutputStream getOutputStream() throws IOException</b><br>返回URL的输出流, 用于写入资源。</td></tr>
+		<tr><td>13</td><td><b>public URL getURL()</b><br>返回 URLConnection 对象连接的URL</td></tr>
+		</tbody></table>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例中URL采用了HTTP 协议。 openConnection 返回HttpURLConnection对象。 </p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">URLConnDemo.java</h2>
+			<pre><code>import java.net.*;
+import java.io.*;
+public class URLConnDemo
+{
+   public static void main(String [] args)
+   {
+      try
+      {
+         URL url = new URL("http://www.runoob.com");
+         URLConnection urlConnection = url.openConnection();
+         HttpURLConnection connection = null;
+         if(urlConnection instanceof HttpURLConnection)
+         {
+            connection = (HttpURLConnection) urlConnection;
+         }
+         else
+         {
+            System.out.println("请输入 URL 地址");
+            return;
+         }
+         BufferedReader in = new BufferedReader(
+         new InputStreamReader(connection.getInputStream()));
+         String urlString = "";
+         String current;
+         while((current = in.readLine()) != null)
+         {
+            urlString += current;
+         }
+         System.out.println(urlString);
+      }catch(IOException e)
+      {
+         e.printStackTrace();
+      }
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下：</p>
+		<pre>$ javac URLConnDemo.java 
+$ java URLConnDemo
+.....这里会输出测试站点首页(http://www.runoob.com)的 HTML 内容.....</pre>
+	</div>
+	<p>
+		<a href="#networking" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java 网络编程
+		</a>
+	</p>
+</div>

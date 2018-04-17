@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Error";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html ng-app="login_page_app">
+<head>
+    <title>错误页面</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="@Url.Content("~/Content/error/error.css?")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="bg">
+        <div class="cont">
+            <div class="c1">
+                <img src="/Content/error/img/01.png" class="img1" />
+            </div>
+            <h2>
+                哎呀…您访问的页面不存在
+            </h2>
+            <div class="c2">
+                <a href="/" class="home">网站首页</a>
+            </div>
+            <div class="c3">
+                您可能输入了错误的网址，或者该网页已删除或移动
+            </div>
+        </div>
+    </div>
+</body>
+</html>

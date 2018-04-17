@@ -1,0 +1,134 @@
+.Annoutcement-page {
+    padding-top: 30px;
+}
+
+.Annoutcement-page .notice-lists-box {
+    min-height: 650px;
+}
+/*公告*/
+.notice-box .notice,
+.notice-box .quick-entry-lists {
+    padding-bottom: 20px;
+}
+
+.notice-box .notice > a {
+    display: block;
+    background-color: #fff;
+    transition: all .2s ease;
+}
+
+.notice-box .notice-header {
+    background-color: #eaedf1;
+}
+
+.notice-box .notice-header .notice-hd-r {
+    width: 58px;
+    text-align: center;
+}
+
+.notice-box .notice-header .notice-hd-r p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.notice-box .notice-header,
+.notice-box .notice-content {
+    padding: 15px 20px;
+}
+
+.notice-box .notice-hd-r img {
+    height: 36px;
+    width: 36px;
+    border: none;
+    border-radius: 50%;
+}
+
+.notice-box .notice-hd-r > p {
+    margin-bottom: 0px;
+}
+
+.notice-box .notice-hd-r > * {
+    margin-top: 5px
+}
+
+.notice-box .notice-content {
+    min-height: 122px;
+    overflow: hidden;
+}
+
+.notice-box .notice-content > p {
+    text-indent: 2em;
+    height: 100%;
+    overflow: hidden;
+}
+
+.notice-box .more {
+    margin-top: 30px;
+}
+
+.notice-box button.more-btn {
+    width: 200px;
+    border: none;
+    background: #e74c3c;
+    color: #fff;
+    padding: 10px;
+}
+
+/*快捷入口*/
+.home-page .quick-entry-lists > a {
+    display: block;
+}
+
+.home-page .entry {
+    padding: 20px;
+}
+
+.home-page .entry span.glyphicon {
+    display: inline-block;
+    height: 70px;
+    width: 70px;
+    text-align: center;
+    line-height: 70px;
+    font-size: 30px;
+    color: #fff;
+    transition: transform .3s ease;
+}
+
+.home-page .entry:hover span.glyphicon {
+    transform: rotate(-15deg);
+}
+
+.home-page .exercise-ent .glyphicon {
+    background-color: #A1ACBA;
+}
+
+.home-page .exam-ent .glyphicon {
+    background-color: #FC7460;
+}
+
+.home-page .challenge-ent .glyphicon {
+    background-color: #628FE9;
+}
+
+.home-page .entry-mes {
+    display: inline-block;
+    padding-left: 20px;
+}
+
+.home-page .entry-mes > p {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.home-page .entry-mes > span {
+    color: #979faf;
+    font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+    .home-page .entry {
+        margin-bottom: 20px;
+    }
+}
+

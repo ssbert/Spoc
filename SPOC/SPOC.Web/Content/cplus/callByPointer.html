@@ -1,0 +1,62 @@
+<div class="call-by-pointer">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">指针调用</span>
+		</h1>
+		<p>
+			<a href="#function" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 函数
+			</a>
+		</p>
+		<p>向函数传递参数的<b>指针调用</b>方法，把参数的地址复制给形式参数。在函数内，该地址用于访问调用中要用到的实际参数。这意味着，修改形式参数会影响实际参数。</p>
+		<p>按指针传递值，参数指针被传递给函数，就像传递其他值给函数一样。因此相应地，在下面的函数 <b>swap()</b> 中，您需要声明函数参数为指针类型，该函数用于交换参数所指向的两个整数变量的值。</p>
+		<pre>// 函数定义
+void swap(int *x, int *y)
+{
+   int temp;
+   temp = *x;    /* 保存地址 x 的值 */
+   *x = *y;        /* 把 y 赋值给 x */
+   *y = temp;    /* 把 x 赋值给 y */
+  
+   return;
+}</pre>
+		<p>如需了解 C++ 中指针的更多细节，请访问 C++ 指针 章节。</p>
+		<p>现在，让我们通过指针传值来调用函数 <b>swap()</b>：</p>
+		<pre>#include &lt;iostream&gt;
+using namespace std;
+
+// 函数声明
+void swap(int *x, int *y);
+
+int main ()
+{
+   // 局部变量声明
+   int a = 100;
+   int b = 200;
+ 
+   cout << "交换前，a 的值：" << a << endl;
+   cout << "交换前，b 的值：" << b << endl;
+
+   /* 调用函数来交换值
+    * &a 表示指向 a 的指针，即变量 a 的地址 
+    * &b 表示指向 b 的指针，即变量 b 的地址 
+    */
+   swap(&a, &b);
+
+   cout << "交换后，a 的值：" << a << endl;
+   cout << "交换后，b 的值：" << b << endl;
+ 
+   return 0;
+}</pre>
+	<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+	<pre>交换前，a 的值： 100
+交换前，b 的值： 200
+交换后，a 的值： 200
+交换后，b 的值： 100</pre>
+		<p>
+			<a href="#function" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 函数
+			</a>
+		</p>
+	</div>
+</div>

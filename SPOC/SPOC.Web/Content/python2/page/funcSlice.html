@@ -1,0 +1,46 @@
+<div class="funcSlice-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python <span class="green">slice() 函数</span>
+		</h1>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 内置函数
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">描述</h3>
+		<p>slice() 函数实现切片对象，主要用在切片操作函数里的参数传递。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>slice 语法：</p>
+		<pre>class slice(stop)
+class slice(start, stop[, step])</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li>start --  起始位置</li>
+			<li>stop --  结束位置</li>
+			<li>step --  间距</li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回一个切片对象。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例展示了 slice 的使用方法：</p>
+		<div class="n-example">
+			<pre><code>>>>myslice = slice(5)    # 设置截取5个元素的切片
+>>> myslice
+slice(None, 5, None)
+>>> arr = range(10)
+>>> arr
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> arr[myslice]         # 截取 5 个元素
+[0, 1, 2, 3, 4]
+>>></code></pre>
+		</div>
+		<p>
+			<a href="#builtInFunctions" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python2/images/up.gif"> Python 内置函数
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<div data-options="region:'center',border:false" style="padding:1px;">
+
+    <div class="easyui-panel">
+        <a href="javascript:location.reload()" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'">刷新</a>
+    </div>
+    <div class="easyui-panel" style="margin-top:1px;padding:5px;">
+        <form id="userSwichFrom">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" id="sysLog_name" data-options="prompt:'用户名',required:true" class="easyui-textbox" />
+                    </td>
+                    <td><a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-reload',width:60" onclick="obj.query()">切换</a></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    var obj = (function () {
+        return {
+            query: function () {
+                if (!checkLogin()) {
+                    evtBus.dispatchEvt("show_login");
+                    return;
+                }
+                if ($("#userSwichFrom").form('validate')) {
+                    $.ajax({
+                        url: "/api/services/app/UserInfo/UserSwitch?userName=" + $("#sysLog_name").val(),
+                      //  data:{userName:$("#sysLog_name").val()},
+                        type: "post",
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            if (data.success) {
+                                if (data.result === "stu") {
+                                    window.parent.location.href = "/Home/Index";
+                                } else if (data.result === "admin") {
+                                    window.parent.location.href = "/AdminHome/Index/";
+                                } else {
+                                    $.messager.alert('提示', data.result, "info");
+                                }
+                            }
+                            
+                        }
+                    });
+                }
+            }
+        }
+    })();
+
+
+    $(window).keydown(function (event) {
+        switch (event.keyCode) {
+            case 13: {
+               // debugger;
+                //if ($("#userSwichFrom").find("#sysLog_name").is(":focus")) {
+                    obj.query();
+               // }
+            } break;
+
+        }
+    });
+
+</script>
+

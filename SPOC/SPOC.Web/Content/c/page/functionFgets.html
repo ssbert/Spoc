@@ -1,0 +1,69 @@
+<div class="functionFgets-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">fgets()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>char *fgets(char *str, int n, FILE *stream)</b> 从指定的流 stream 读取一行，并把它存储在 <b>str</b> 所指向的字符串内。当读取 <b>(n-1)</b> 个字符时，或者读取到换行符时，或者到达文件末尾时，它会停止，具体视情况而定。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 fgets() 函数的声明。</p>
+		<pre>char *fgets(char *str, int n, FILE *stream)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>str</b> -- 这是指向一个字符数组的指针，该数组存储了要读取的字符串。</li>
+			<li><b>n</b> -- 这是要读取的最大字符数（包括最后的空字符）。通常是使用以 str 传递的数组长度。</li>
+			<li><b>stream</b> -- 这是指向 FILE 对象的指针，该 FILE 对象标识了要从中读取字符的流。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>如果成功，该函数返回相同的 str 参数。如果到达文件末尾或者没有读取到任何字符，str 的内容保持不变，并返回一个空指针。如果发生错误，返回一个空指针。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 fgets() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+   FILE *fp;
+   char str[60];
+
+   /* 打开用于读取的文件 */
+   fp = fopen("file.txt" , "r");
+   if(fp == NULL) {
+      perror("打开文件时发生错误");
+      return(-1);
+   }
+   if( fgets (str, 60, fp)!=NULL ) {
+      /* 向标准输出 stdout 写入内容 */
+      puts(str);
+   }
+   fclose(fp);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>假设我们有一个文本文件 <b>file.txt</b>，它的内容如下。文件将作为实例中的输入：</p>
+		<pre>We are in 2014</pre>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>We are in 2014</pre>
+		<p>
+			<a href="#standardLibStdioH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdio.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

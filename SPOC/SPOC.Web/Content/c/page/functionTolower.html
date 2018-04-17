@@ -1,0 +1,61 @@
+<div class="functionTolower-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">tolower()</span>
+		</h1>
+		<p>
+			<a href="#standardLibCtypeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;ctype.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>int tolower(int c)</b> 把给定的字母转换为小写字母。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 tolower() 函数的声明。</p>
+		<pre>int tolower(int c);</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li><b>c --</b>  这是要被转换为小写的字母</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>如果 c 有相对应的小写字母，则该函数返回 c 的小写字母，否则 c 保持不变。返回值是一个可被隐式转换为 char 类型的 int 值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 tolower() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;ctype.h&gt;
+ 
+int main()
+{
+   int i = 0;
+   char c;
+   char str[] = "RUNOOB";
+ 
+   while( str[i] ) 
+   {
+      putchar(tolower(str[i]));
+      i++;
+   }
+ 
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>runoob</pre>
+		<p>
+			<a href="#standardLibCtypeH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;ctype.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

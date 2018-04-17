@@ -1,0 +1,55 @@
+﻿@model SPOC.Web.Models.Exercises.AnswerViewModel
+@{
+    ViewBag.Title = "Answer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="detail-page exercise-detail-page container-box center">
+    <div class="detail-header">
+        <h2 class="header-title">@Model.Base.Title</h2>
+        <div class="author">
+            <img src="@Model.Base.UserImg" class="fillet_5">
+            <span>
+                by
+                <a href="javascript:;" class="name">@Model.Base.UserName</a>
+            </span>
+        </div>
+    </div>
+    <div class="detail-content">
+        <div class="nav-tab">
+            <ul class="clearfix">
+                <li class="item"><a href="/ExerciseTask/EnthusiasmRanking/@Model.Base.Id">积极性排行榜</a></li>
+                <li class="item"><a href="/ExerciseTask/EfficiencyRanking/@Model.Base.Id">效率排行榜</a></li>
+                <li class="item"><a href="/ExerciseTask/Record/@Model.Base.Id">提交记录</a></li>
+                <li class="item active"><a href="javascript:;" data-toggle="tab">参考代码</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+
+            <div class="reference-content content-box active" id="reference">
+                <div class="reference-problem">
+                    <div class="header">
+                        <p>参考代码</p>
+                    </div>
+                    <div class="problem-box">
+                        <pre><code>@Model.Answer</code></pre>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/css/detail.css">
+    <link rel="stylesheet" type="text/css" href="~/css/default.css">
+}
+@section scripts
+{
+    <script src="~/Scripts/highlight/highlight.pack.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+}

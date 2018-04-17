@@ -1,0 +1,52 @@
+<div class="osMinor-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">	
+			Python3 <span class="green">os.minor() 方法</span>
+		</h1>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>	
+	<div class="n-block n-border-b">
+		<h3 class="n-h3">概述</h3>	
+		<p>os.minor() 方法用于从原始的设备号中提取设备minor号码 (使用stat中的st_dev或者st_rdev field )。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>minor()方法语法格式如下：</p>
+		<pre>os.minor(device)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>device</b> --  原始的设备(使用stat中的st_dev或者st_rdev field )</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>返回设备 minor 号。</p>
+		<h3 class="n-h3">实例</h3>
+		<p>以下实例演示了 minor() 方法的使用：</p>
+		<div class="n-example">
+			<pre><code>#!/usr/bin/python3
+
+import os, sys
+
+path = "/var/www/html/foo.txt"
+
+# 获取元组
+info = os.lstat(path)
+
+# 获取 major 和 minor 设备号
+major_dnum = os.major(info.st_dev)
+minor_dnum = os.minor(info.st_dev)
+
+print ("Major 设备号 :", major_dnum)
+print ("Minor 设备号 :", minor_dnum)</code></pre>
+		</div>
+		<p>执行以上程序输出结果为：</p>
+		<pre>Major 设备号 : 0
+Minor 设备号 : 103</pre>
+		<p>
+			<a href="#osFileMethods" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/python3/images/up.gif"> Python3 OS 文件/目录方法
+			</a>
+		</p>
+	</div>
+</div>

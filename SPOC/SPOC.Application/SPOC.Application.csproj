@@ -1,0 +1,637 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EDF5D964-4C0F-4F19-B674-58A38A5E5401}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SPOC</RootNamespace>
+    <AssemblyName>SPOC.Application</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\SPOC.Application.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Abp, Version=3.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Abp.3.2.4\lib\netstandard2.0\Abp.dll</HintPath>
+    </Reference>
+    <Reference Include="Abp.AutoMapper, Version=3.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Abp.AutoMapper.3.2.4\lib\netstandard2.0\Abp.AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Words">
+      <HintPath>..\packages\Aspose.Words.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=6.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Facilities.Logging, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.LoggingFacility.4.1.0\lib\net45\Castle.Facilities.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Windsor.4.1.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.6.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.6.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Memory.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.8.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.8.8\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="newv.common">
+      <HintPath>..\packages\newv.common.dll</HintPath>
+    </Reference>
+    <Reference Include="newv.excel">
+      <HintPath>..\packages\newv.excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Concurrent, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.Concurrent.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Context, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Context.1.1.0\lib\net46\Nito.AsyncEx.Context.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Coordination, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Coordination.1.0.2\lib\net46\Nito.AsyncEx.Coordination.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Enlightenment, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.Enlightenment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Tasks, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Tasks.1.1.0\lib\net46\Nito.AsyncEx.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.Collections.Deque, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.Collections.Deque.1.0.4\lib\netstandard2.0\Nito.Collections.Deque.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.Disposables, Version=1.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.Disposables.1.2.3\lib\netstandard2.0\Nito.Disposables.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.4.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.4.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.4.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Json, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Json.4.4.0\lib\netstandard2.0\System.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Dynamic.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=0f07ec44de6ac832, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.Core.1.0.7.12\lib\net46\System.Linq.Dynamic.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security.Cryptography.Algorithms">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.XPath.XmlDocument, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.XPath.XmlDocument.4.3.0\lib\net46\System.Xml.XPath.XmlDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="ThoughtWorks.QRCode, Version=1.0.4778.30637, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ThoughtWorks.QRCode.1.1.0\lib\ThoughtWorks.QRCode.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Category\Dto\NvFolderInputDto.cs" />
+    <Compile Include="Category\Dto\NvFolderItemOutputDto.cs" />
+    <Compile Include="Category\Dto\NvFolderPaginationInputDto.cs" />
+    <Compile Include="Category\Dto\NvFolderPaginationOutputDto.cs" />
+    <Compile Include="Category\Dto\NvFolderQueryInputDto.cs" />
+    <Compile Include="Category\Dto\NvFolderTypeDto.cs" />
+    <Compile Include="Category\Dto\NvFolderTypePaginationInputDto.cs" />
+    <Compile Include="Category\Dto\NvFolderTypePaginationOutputDto.cs" />
+    <Compile Include="Category\INvFolderService.cs" />
+    <Compile Include="Category\INvFolderTypeService.cs" />
+    <Compile Include="Category\NvFolderService.cs" />
+    <Compile Include="Category\NvFolderTypeService.cs" />
+    <Compile Include="Common\ApiResponseResult.cs" />
+    <Compile Include="Common\Cookie\LoginValidation.cs" />
+    <Compile Include="Common\Dto\IdInputDto.cs" />
+    <Compile Include="Common\File\UploadHelper.cs" />
+    <Compile Include="Common\Helper\htmlparser\EncodingGetterClass.cs" />
+    <Compile Include="Common\Helper\htmlparser\Html2TextUtil.cs" />
+    <Compile Include="Common\Helper\htmlparser\HtmlElement.cs" />
+    <Compile Include="Common\Helper\htmlparser\HtmlElementList.cs" />
+    <Compile Include="Common\Helper\htmlparser\HtmlElementType.cs" />
+    <Compile Include="Common\Helper\htmlparser\HtmlParser.cs" />
+    <Compile Include="Common\Helper\htmlparser\HtmlParserException.cs" />
+    <Compile Include="Common\Helper\htmlparser\HtmlTagType.cs" />
+    <Compile Include="Common\Helper\htmlparser\ParserSkipType.cs" />
+    <Compile Include="Common\Http\HttpHelper.cs" />
+    <Compile Include="Common\Tools\CacheStrategy.cs" />
+    <Compile Include="Common\VCode.cs" />
+    <Compile Include="Core\CodeComplieService.cs" />
+    <Compile Include="Core\Dto\Announcement\AddAnnouncementFileInputDto.cs" />
+    <Compile Include="Core\Dto\Announcement\AnnouncementDto.cs" />
+    <Compile Include="Core\Dto\Announcement\AnnouncementInputDto.cs" />
+    <Compile Include="Core\AnnouncementService.cs" />
+    <Compile Include="Core\Dto\Challenge\ChallengeOutDto.cs" />
+    <Compile Include="Core\Dto\Challenge\ChallengeInputDto.cs" />
+    <Compile Include="Core\Dto\Challenge\ChallengeDto.cs" />
+    <Compile Include="Core\Dto\Challenge\UserAnswerRecordDto.cs" />
+    <Compile Include="Core\Dto\CodeCompile\ComplieInputDto.cs" />
+    <Compile Include="Core\Dto\CodeCompile\ComplieOutDto.cs" />
+    <Compile Include="Core\IAnnouncementService.cs" />
+    <Compile Include="Core\ICodeComplieService.cs" />
+    <Compile Include="Core\IChallengeQuestionService.cs" />
+    <Compile Include="Core\ChallengeQuestionService.cs" />
+    <Compile Include="Core\ImportChallengeBaseHelper.cs" />
+    <Compile Include="Core\ImportChallengeHelper.cs" />
+    <Compile Include="Core\IUploadFileService.cs" />
+    <Compile Include="Core\UploadFileService.cs" />
+    <Compile Include="DateFormat.cs" />
+    <Compile Include="Exam\CloudDto\UserAnswerDto.cs" />
+    <Compile Include="Exam\CloudDto\UserAnswerInputDto.cs" />
+    <Compile Include="Exam\Dto\ExamCompileScore.cs" />
+    <Compile Include="Exam\Dto\ExamItem.cs" />
+    <Compile Include="Exam\Dto\ExamTaskClassInputDto.cs" />
+    <Compile Include="Exam\Dto\ExamTaskInputDto.cs" />
+    <Compile Include="Exam\Dto\ExamTaskItem.cs" />
+    <Compile Include="Exam\Dto\ExamTaskOutputDto.cs" />
+    <Compile Include="Exam\Dto\ExamTaskPaginationInputDto.cs" />
+    <Compile Include="Exam\Dto\Judge\AddJudgeInputDto.cs" />
+    <Compile Include="Exam\Dto\Judge\JudgeResultOutputDto.cs" />
+    <Compile Include="Exam\Dto\RetestComboboxItem.cs" />
+    <Compile Include="Exam\Dto\UserExamCompileScore.cs" />
+    <Compile Include="Exam\ExamJudgeService.cs" />
+    <Compile Include="Exam\ExamRankingViewService.cs" />
+    <Compile Include="Exam\ExamTaskService.cs" />
+    <Compile Include="Exam\ExamTaskViewService.cs" />
+    <Compile Include="Exam\GradeDto\ExamGradeItem.cs" />
+    <Compile Include="Exam\GradeDto\ExamGradePaginationInputDto.cs" />
+    <Compile Include="Exam\GradeDto\UserExamRecordInputDto.cs" />
+    <Compile Include="Exam\GradeDto\UserExamRecordOutputDto.cs" />
+    <Compile Include="Exam\IExamJudgeService.cs" />
+    <Compile Include="Exam\IExamRankingViewService.cs" />
+    <Compile Include="Exam\IExamTaskService.cs" />
+    <Compile Include="Exam\IExamTaskViewService.cs" />
+    <Compile Include="Exam\ViewDto\ExamGradeViewItem.cs" />
+    <Compile Include="Exam\ViewDto\ExamTaskBaseViewOutputDto.cs" />
+    <Compile Include="Exam\ViewDto\LeaderboardViewDto.cs" />
+    <Compile Include="Exam\ViewDto\RankingPaginationInputDto.cs" />
+    <Compile Include="Exam\ViewDto\ExamRankingViewItem.cs" />
+    <Compile Include="Exam\ViewDto\RetestItem.cs" />
+    <Compile Include="Exam\ViewDto\SingleExamGradeViewOutputDto.cs" />
+    <Compile Include="Exam\ViewDto\ExamTaskViewItem.cs" />
+    <Compile Include="Exercises\Dto\EfficiencyRankingViewItem.cs" />
+    <Compile Include="Exercises\Dto\EnthusiasmRankingViewItem.cs" />
+    <Compile Include="Exercises\Dto\ExerciseClassInputDto.cs" />
+    <Compile Include="Exercises\Dto\ExerciseInputDto.cs" />
+    <Compile Include="Exercises\Dto\ExerciseItem.cs" />
+    <Compile Include="Exercises\Dto\ExerciseOutputDto.cs" />
+    <Compile Include="Exercises\Dto\ExercisePaginationInputDto.cs" />
+    <Compile Include="Exercises\Dto\ExerciseCodeInputDto.cs" />
+    <Compile Include="Exercises\Dto\ExerciseRankingPaginationInputDto.cs" />
+    <Compile Include="Exercises\Dto\ExerciseRecordItem.cs" />
+    <Compile Include="Exercises\Dto\ExerciseRunCodeOutputDto.cs" />
+    <Compile Include="Exercises\Dto\ExerciseRunCodeResultItem.cs" />
+    <Compile Include="Exercises\Dto\ExerciseViewItem.cs" />
+    <Compile Include="Exercises\Dto\ExerciseBaseViewOutputDto.cs" />
+    <Compile Include="Exercises\Enum\UserExerciseStateEnum.cs" />
+    <Compile Include="Exercises\ExerciseManageService.cs" />
+    <Compile Include="Exercises\ExerciseRankingViewService.cs" />
+    <Compile Include="Exercises\ExerciseViewService.cs" />
+    <Compile Include="Exercises\IExerciseManageService.cs" />
+    <Compile Include="Exercises\IExerciseRankingViewService.cs" />
+    <Compile Include="Exercises\IExerciseViewService.cs" />
+    <Compile Include="Faqs\Dtos\FaqEditDto.cs" />
+    <Compile Include="Faqs\Dtos\FaqFolderDto.cs" />
+    <Compile Include="Faqs\Dtos\FaqInputDto.cs" />
+    <Compile Include="Faqs\Dtos\FaqItemDto.cs" />
+    <Compile Include="Faqs\Dtos\FaqListDto.cs" />
+    <Compile Include="Faqs\Dtos\GetFaqForEditOutput.cs" />
+    <Compile Include="Faqs\FaqAppServices.cs" />
+    <Compile Include="Faqs\IFaqAppServices.cs" />
+    <Compile Include="Lib\Dto\LabelDto.cs" />
+    <Compile Include="Lib\Dto\LabelPaginationItem.cs" />
+    <Compile Include="Lib\Dto\LabelPaginationInputDto.cs" />
+    <Compile Include="Lib\Dto\LibCloudDto.cs" />
+    <Compile Include="Lib\Dto\StructureMapDataInputDto.cs" />
+    <Compile Include="Lib\Dto\StructureMapDto.cs" />
+    <Compile Include="Lib\Dto\StructureMapItem.cs" />
+    <Compile Include="Lib\Dto\UserAnswerRecordsPaginationInput.cs" />
+    <Compile Include="Lib\Dto\UserAnswerRecordsPaginationItem.cs" />
+    <Compile Include="Lib\Dto\UserAnswerRecordsQuestion.cs" />
+    <Compile Include="Lib\Dto\UserAnswerRecordsTemp.cs" />
+    <Compile Include="Lib\ILibLabelService.cs" />
+    <Compile Include="Lib\ILibLabelViewService.cs" />
+    <Compile Include="Lib\IStructureMapService.cs" />
+    <Compile Include="Lib\LibLabelViewService.cs" />
+    <Compile Include="Lib\LibLabelService.cs" />
+    <Compile Include="Lib\StructureMapService.cs" />
+    <Compile Include="PolicyPaper\Dto\ExamPolicyItemItem.cs" />
+    <Compile Include="PolicyPaper\Dto\ExamPolicyItemListQueryInputDto.cs" />
+    <Compile Include="Statement\Dto\ClassRankingItem.cs" />
+    <Compile Include="Statement\Dto\ClassRankingQueryInputDto.cs" />
+    <Compile Include="Statement\Dto\ExamTaskStatementItem.cs" />
+    <Compile Include="Statement\Dto\ExamTaskStatementPaginationInputDto.cs" />
+    <Compile Include="Statement\Dto\ExamTaskStudentStatementItem.cs" />
+    <Compile Include="Statement\Dto\ExamTaskStudentStatementPaginationInputDto.cs" />
+    <Compile Include="Statement\Dto\Exercise\ExerciseAnswerOutputDto.cs" />
+    <Compile Include="Statement\Dto\Exercise\ExerciseClassRankingItem.cs" />
+    <Compile Include="Statement\Dto\Exercise\ExerciseClassRankingQueryInputDto.cs" />
+    <Compile Include="Statement\Dto\Exercise\ExerciseEfficiencyRankingItem.cs" />
+    <Compile Include="Statement\Dto\Exercise\ExerciseRankingStatementPaginationInputDto.cs" />
+    <Compile Include="Statement\Dto\Exercise\ExerciseEnthusiasmRankingItem.cs" />
+    <Compile Include="Statement\Dto\Exercise\ExerciseRecordStatementPaginationInputDto.cs" />
+    <Compile Include="Statement\Dto\Exercise\ExerciseStatementItem.cs" />
+    <Compile Include="Statement\Dto\Exercise\ExerciseStatementPaginationInputDto.cs" />
+    <Compile Include="Statement\Dto\Exercise\ExerciseStudentStatementItem.cs" />
+    <Compile Include="Statement\Dto\Exercise\ExerciseStudentStatementPaginationInputDto.cs" />
+    <Compile Include="Statement\Dto\GradeRankingItem.cs" />
+    <Compile Include="Statement\Dto\GradeRankingPaginationInputDto.cs" />
+    <Compile Include="Statement\Dto\Lib\ClassLabelGettingInputDto.cs" />
+    <Compile Include="Statement\Dto\Lib\ClassContrastItemDto.cs" />
+    <Compile Include="Statement\Dto\Lib\ClassLabelGettingItem.cs" />
+    <Compile Include="Statement\Dto\Lib\StudentLabelGettingInputDto.cs" />
+    <Compile Include="Statement\Dto\Lib\StudentLabelGettingItem.cs" />
+    <Compile Include="Statement\Dto\Lib\StudentLabelStatementInputDto.cs" />
+    <Compile Include="Statement\Dto\Lib\StudentLabelStatementItem.cs" />
+    <Compile Include="Statement\Dto\RetestRankPaginationInputDto.cs" />
+    <Compile Include="Statement\ExamTaskStatementService.cs" />
+    <Compile Include="Statement\ExerciseStatementService.cs" />
+    <Compile Include="Statement\IExamTaskStatementService.cs" />
+    <Compile Include="Statement\IExerciseStatementService.cs" />
+    <Compile Include="Statement\ILibLabelStatementService.cs" />
+    <Compile Include="Statement\LibLabelStatementService.cs" />
+    <Compile Include="User\Const\NotificationTypeCode.cs" />
+    <Compile Include="User\DepartmentService.cs" />
+    <Compile Include="User\Dto\Department\ClassDtos.cs" />
+    <Compile Include="User\Dto\Department\FacultyDtos.cs" />
+    <Compile Include="User\Dto\Department\MajorDtos.cs" />
+    <Compile Include="User\Dto\Notification\NotificationInputDto.cs" />
+    <Compile Include="User\Dto\Notification\NotificationItem.cs" />
+    <Compile Include="User\Dto\UserInfo\UserCookie.cs" />
+    <Compile Include="Common\Extensions\AutoMapExtensions.cs" />
+    <Compile Include="Common\Const\BaseConst.cs" />
+    <Compile Include="Common\Extensions\CollectionExtensions.cs" />
+    <Compile Include="Common\Helper\ConvertUtil.cs" />
+    <Compile Include="Common\Cookie\CookieHelper.cs" />
+    <Compile Include="Common\Cookie\CookieOpreate.cs" />
+    <Compile Include="Common\Extensions\DataTableExtensions.cs" />
+    <Compile Include="Common\Dto\ComboboxItem.cs" />
+    <Compile Include="Common\Dto\CombotreeNode.cs" />
+    <Compile Include="Common\Dto\IdListInputDto.cs" />
+    <Compile Include="Common\Dto\ImportFieldModel.cs" />
+    <Compile Include="Common\Dto\ImportResultOutputDto.cs" />
+    <Compile Include="Common\EasyUI\BatchRequestInput.cs" />
+    <Compile Include="Common\EasyUI\EasyUI.cs" />
+    <Compile Include="Common\EasyUI\EasyuiDto.cs" />
+    <Compile Include="Common\EasyUI\EasyUiListResult.cs" />
+    <Compile Include="Common\EasyUI\EasyUiListResultDto.cs" />
+    <Compile Include="Common\EasyUI\EasyUIProvider.cs" />
+    <Compile Include="Common\EasyUI\IEasyUiListResult.cs" />
+    <Compile Include="Common\Encrypt\SymmetricCryptoMethod.cs" />
+    <Compile Include="Common\Enum\UserFriendlyExceptionCode.cs" />
+    <Compile Include="Common\Exam\OfficeDTUtil.cs" />
+    <Compile Include="Common\Exam\XlstHepler.cs" />
+    <Compile Include="Common\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Common\File\AppConfiguration.cs" />
+    <Compile Include="Common\File\ExcelImportExport.cs" />
+    <Compile Include="Common\File\FilePathUtil.cs" />
+    <Compile Include="Common\File\ImageUploadHelper.cs" />
+    <Compile Include="Common\File\PictureHandler.cs" />
+    <Compile Include="Common\File\QRCode.cs" />
+    <Compile Include="Common\File\UserInfoImg.cs" />
+    <Compile Include="Common\Helper\DateTimeUtil.cs" />
+    <Compile Include="Common\Helper\GuidHelper.cs" />
+    <Compile Include="Common\Helper\InviteCodeHelper.cs" />
+    <Compile Include="Common\Tools\PagedResult.cs" />
+    <Compile Include="ExamPaper\Dto\ExamPaperDto.cs" />
+    <Compile Include="ExamPaper\Dto\ExamPaperNodeDto.cs" />
+    <Compile Include="ExamPaper\Dto\ExamPaperNodeInputDto.cs" />
+    <Compile Include="ExamPaper\Dto\ExamPaperNodeOutputDto.cs" />
+    <Compile Include="ExamPaper\Dto\ExamPaperNodeQuestionCreateInputDto.cs" />
+    <Compile Include="ExamPaper\Dto\ExamPaperNodeQuestionInputDto.cs" />
+    <Compile Include="ExamPaper\Dto\ExamPaperNodeQuestionOutputDto.cs" />
+    <Compile Include="ExamPaper\Dto\ExamPaperOutputDto.cs" />
+    <Compile Include="ExamPaper\Dto\ExamPaperPaginationInputDto.cs" />
+    <Compile Include="ExamPaper\Dto\ExamPaperPaginationItem.cs" />
+    <Compile Include="ExamPaper\Dto\ExamPaperViewOutputDto.cs" />
+    <Compile Include="ExamPaper\Dto\PaperPreviewInputDto.cs" />
+    <Compile Include="ExamPaper\Dto\PaperPreviewOutputDto.cs" />
+    <Compile Include="ExamPaper\Dto\UserPaperViewInputDto.cs" />
+    <Compile Include="ExamPaper\Dto\UserPaperViewOutputDto.cs" />
+    <Compile Include="ExamPaper\Dto\ExamPaperInputDto.cs" />
+    <Compile Include="ExamPaper\ExamPaperNodeQuestionService.cs" />
+    <Compile Include="ExamPaper\ExamPaperNodeService.cs" />
+    <Compile Include="ExamPaper\ExamPaperService.cs" />
+    <Compile Include="ExamPaper\IExamPaperNodeQuestionService.cs" />
+    <Compile Include="ExamPaper\IExamPaperNodeService.cs" />
+    <Compile Include="ExamPaper\IExamPaperService.cs" />
+    <Compile Include="ExamPaper\ImportExamPaperHelper.cs" />
+    <Compile Include="ExamPaper\PaperUtil.cs" />
+    <Compile Include="ExamPaper\Struct\NodeViewBuildInfo.cs" />
+    <Compile Include="ExamPaper\Struct\PaperViewBuildInfo.cs" />
+    <Compile Include="Exam\Const\ExamGradeStatusCodeConst.cs" />
+    <Compile Include="Exam\DateTimeUtil.cs" />
+    <Compile Include="Exam\Dto\ExamExamInputDto.cs" />
+    <Compile Include="Exam\Dto\ExamExamOutputDto.cs" />
+    <Compile Include="Exam\Dto\ExamGradeInputDto.cs" />
+    <Compile Include="Exam\Dto\ExamGradeOutputDto.cs" />
+    <Compile Include="Exam\Dto\UserExamDto.cs" />
+    <Compile Include="Exam\Dto\UserExamInfo.cs" />
+    <Compile Include="Exam\Dto\UserExamInfoOutputDto.cs" />
+    <Compile Include="Exam\EnumExamEventChangeType.cs" />
+    <Compile Include="Exam\EnumExamInfoChangeClassCode.cs" />
+    <Compile Include="Exam\EnumExamInfoChangeStatusCode.cs" />
+    <Compile Include="Exam\ExamEventArg.cs" />
+    <Compile Include="Exam\ExamExamService.cs" />
+    <Compile Include="Exam\ExamGradeService.cs" />
+    <Compile Include="Exam\ExamHelper.cs" />
+    <Compile Include="Exam\ExamImportAndExportUtil.cs" />
+    <Compile Include="Exam\ExamInfoChangeService.cs" />
+    <Compile Include="Exam\GradeDto\UserExamGradeInputDto.cs" />
+    <Compile Include="Exam\GradeDto\UserExamGradeOutputDto.cs" />
+    <Compile Include="Exam\GradeDto\ExamOutputDto.cs" />
+    <Compile Include="Exam\GradeDto\ExamPaginationInputDto.cs" />
+    <Compile Include="Exam\GradeDto\ExportGradePaginationInputDto.cs" />
+    <Compile Include="Exam\IExamExamService.cs" />
+    <Compile Include="Exam\IExamGradeService.cs" />
+    <Compile Include="Exam\IExamInfoChangeService.cs" />
+    <Compile Include="Exam\IUserExamInfoService.cs" />
+    <Compile Include="Exam\UserExamInfoService.cs" />
+    <Compile Include="PolicyPaper\Dto\ExamPolicyInputDto.cs" />
+    <Compile Include="PolicyPaper\Dto\ExamPolicyItemGroupOutputDto.cs" />
+    <Compile Include="PolicyPaper\Dto\ExamPolicyItemInputDto.cs" />
+    <Compile Include="PolicyPaper\Dto\ExamPolicyItemOutputDto.cs" />
+    <Compile Include="PolicyPaper\Dto\ExamPolicyNodeInputDto.cs" />
+    <Compile Include="PolicyPaper\Dto\ExamPolicyNodeOutputDto.cs" />
+    <Compile Include="PolicyPaper\Dto\ExamPolicyNodePaginationInputDto.cs" />
+    <Compile Include="PolicyPaper\Dto\ExamPolicyOutputDto.cs" />
+    <Compile Include="PolicyPaper\ExamPolicyItemService.cs" />
+    <Compile Include="PolicyPaper\ExamPolicyNodeService.cs" />
+    <Compile Include="PolicyPaper\ExamPolicyService.cs" />
+    <Compile Include="PolicyPaper\IExamPolicyItemService.cs" />
+    <Compile Include="PolicyPaper\IExamPolicyNodeService.cs" />
+    <Compile Include="PolicyPaper\IExamPolicyService.cs" />
+    <Compile Include="QuestionBank\Const\OperateTypeConst.cs" />
+    <Compile Include="QuestionBank\Const\QuestionStautsConst.cs" />
+    <Compile Include="QuestionBank\Const\QuestionTypeConst.cs" />
+    <Compile Include="QuestionBank\Dto\ExamQuestionDto.cs" />
+    <Compile Include="QuestionBank\Dto\QuestionInputDto.cs" />
+    <Compile Include="QuestionBank\Dto\QuestionItem.cs" />
+    <Compile Include="QuestionBank\Dto\QuestionNumInputDto.cs" />
+    <Compile Include="QuestionBank\Dto\QuestionPaginationInputDto.cs" />
+    <Compile Include="QuestionBank\ImportQuestionBaseHelper.cs" />
+    <Compile Include="QuestionBank\ImportQuestionHelper.cs" />
+    <Compile Include="QuestionBank\IQuestionBankService.cs" />
+    <Compile Include="QuestionBank\IQuestionTypeService.cs" />
+    <Compile Include="QuestionBank\QuestionBankService.cs" />
+    <Compile Include="QuestionBank\QuestionTypeService.cs" />
+    <Compile Include="QuestionBank\QuestionUtil.cs" />
+    <Compile Include="User\Dto\UserInfo\LoginUser.cs" />
+    <Compile Include="User\IDepartmentService.cs" />
+    <Compile Include="User\ImportUserInfoHelper.cs" />
+    <Compile Include="Common\Helper\StringUtil.cs" />
+    <Compile Include="Common\Mail\MailSender.cs" />
+    <Compile Include="Common\MBasicRequestParamsDTO.cs" />
+    <Compile Include="Common\Encrypt\DESEncrypt.cs" />
+    <Compile Include="Common\Encrypt\EasyCryptoUnit.cs" />
+    <Compile Include="Common\Helper\ObjHelper.cs" />
+    <Compile Include="Common\Helper\StringHelper.cs" />
+    <Compile Include="Common\Pagination\PagerViewModel.cs" />
+    <Compile Include="Common\Pagination\PaginationInputDto.cs" />
+    <Compile Include="Common\Pagination\PaginationOutputDto.cs" />
+    <Compile Include="Common\ReturnMsg.cs" />
+    <Compile Include="Common\ReturnValue.cs" />
+    <Compile Include="Common\Helper\SignatureHelper.cs" />
+    <Compile Include="SPOCApplicationModule.cs" />
+    <Compile Include="SPOCAppServiceBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SysSetting\CloudDTO\CloudApiReturnDto.cs" />
+    <Compile Include="SysSetting\CloudDTO\CloudDto.cs" />
+    <Compile Include="SysSetting\CloudService.cs" />
+    <Compile Include="SysSetting\ICloudService.cs" />
+    <Compile Include="SysSetting\IMenuService.cs" />
+    <Compile Include="SysSetting\IRoleManageService.cs" />
+    <Compile Include="SysSetting\ISiteSetService.cs" />
+    <Compile Include="SysSetting\ISiteVersionService.cs" />
+    <Compile Include="SysSetting\ISystemLogService.cs" />
+    <Compile Include="SysSetting\MenuDTO\MenuDto.cs" />
+    <Compile Include="SysSetting\MenuDTO\MenuInputDto.cs" />
+    <Compile Include="SysSetting\MenuDTO\MenuViewModel.cs" />
+    <Compile Include="SysSetting\MenuService.cs" />
+    <Compile Include="SysSetting\RoleManageDTO\RoleManageDto.cs" />
+    <Compile Include="SysSetting\RoleManageDTO\RoleManageInputDto.cs" />
+    <Compile Include="SysSetting\RoleManageDTO\RolePermissionDto.cs" />
+    <Compile Include="SysSetting\RoleManageService.cs" />
+    <Compile Include="SysSetting\SiteDto\SiteInputDto.cs" />
+    <Compile Include="SysSetting\SiteSetDTO\SiteSetDto.cs" />
+    <Compile Include="SysSetting\SiteSetDTO\SiteSetInputDto.cs" />
+    <Compile Include="SysSetting\SiteSetService.cs" />
+    <Compile Include="SysSetting\SiteVersionDto\SiteVersionInputDto.cs" />
+    <Compile Include="SysSetting\SiteVersionService.cs" />
+    <Compile Include="SysSetting\SystemLogDTO\SystemLogDto.cs" />
+    <Compile Include="SysSetting\SystemLogDTO\SystemLogInputDto.cs" />
+    <Compile Include="SysSetting\SystemLogService.cs" />
+    <Compile Include="User\AdminInfoService.cs" />
+    <Compile Include="User\Dto\Admin\AdminInfoDto.cs" />
+    <Compile Include="User\Dto\Admin\AdminInfoInputDto.cs" />
+    <Compile Include="User\Dto\Admin\CreateAdminInfoInputDto.cs" />
+    <Compile Include="User\Dto\Admin\UpdateAdminInfoInputDto.cs" />
+    <Compile Include="User\Dto\Common\BatchDeleteRequestInputByUser.cs" />
+    <Compile Include="User\Dto\Common\JsonTree.cs" />
+    <Compile Include="User\Dto\CreateInputDto.cs" />
+    <Compile Include="User\Dto\MyWorkbenchViewModel.cs" />
+    <Compile Include="User\Dto\Role\UserListItem.cs" />
+    <Compile Include="User\Dto\Role\UserQueryConditionInputDto.cs" />
+    <Compile Include="User\Dto\Role\UserRoleInputDto.cs" />
+    <Compile Include="User\Dto\StudentInfo\CreateStudentInfoInputDto.cs" />
+    <Compile Include="User\Dto\StudentInfo\StudentInfoDto.cs" />
+    <Compile Include="User\Dto\StudentInfo\StudentInfoInputDto.cs" />
+    <Compile Include="User\Dto\Teacher\CreateTeacherInfoInputDto.cs" />
+    <Compile Include="User\Dto\Teacher\TeacherInfoDto.cs" />
+    <Compile Include="User\Dto\Teacher\TeacherInfoInputDto.cs" />
+    <Compile Include="User\Dto\Teacher\UpdateTeacherInfoInputDto.cs" />
+    <Compile Include="User\Dto\UserInfo\UserInfoDto.cs" />
+    <Compile Include="User\Dto\UserInfo\UserInfoInputDto.cs" />
+    <Compile Include="User\Dto\UserInfo\UserInfoMogifyInputDto.cs" />
+    <Compile Include="User\Dto\UserInfo\UserInfoSmsApi.cs" />
+    <Compile Include="User\Enum\UserRoleEnum.cs" />
+    <Compile Include="User\IAdminInfoService.cs" />
+    <Compile Include="User\INotificationService.cs" />
+    <Compile Include="User\IRoleService.cs" />
+    <Compile Include="User\IStudentInfoService.cs" />
+    <Compile Include="User\ITeacherInfoService.cs" />
+    <Compile Include="User\IUserInfoApiService.cs" />
+    <Compile Include="User\IUserInfoService.cs" />
+    <Compile Include="User\NotificationService.cs" />
+    <Compile Include="User\RoleService.cs" />
+    <Compile Include="User\StudentInfoService.cs" />
+    <Compile Include="User\TeacherInfoService.cs" />
+    <Compile Include="User\UserInfoApiService.cs" />
+    <Compile Include="User\UserInfoService.cs" />
+    <Compile Include="User\Dto\UserInfo\UserDetailShow.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SPOC.Core\SPOC.Core.csproj">
+      <Project>{17298ea0-af73-4f30-b6f1-2066100d7d74}</Project>
+      <Name>SPOC.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

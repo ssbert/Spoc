@@ -1,0 +1,75 @@
+<div class="stringIndexof-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">indexOf() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>indexOf() 方法有以下四种形式：</p>
+		<ul>
+			<li><p><b>public int indexOf(int ch):</b> 返回指定字符在字符串中第一次出现处的索引，如果此字符串中没有这样的字符，则返回 -1。</p></li>
+			<li><p><b>public int indexOf(int ch, int fromIndex):</b> 返回指定字符在字符串中第一次出现处的索引，如果此字符串中没有这样的字符，则返回 -1。</p></li>
+			<li><p><b>int indexOf(String str):</b> 返回指定字符在字符串中第一次出现处的索引，如果此字符串中没有这样的字符，则返回 -1。</p></li>
+			<li><p><b>int indexOf(String str, int fromIndex):</b> 返回指定字符在字符串中第一次出现处的索引，如果此字符串中没有这样的字符，则返回 -1。</p></li> 
+		</ul>
+		<h3 class="n-h3">语法</h3>
+		<pre>public int indexOf(int ch )
+
+或
+
+public int indexOf(int ch, int fromIndex)
+
+或
+
+int indexOf(String str)
+
+或
+
+int indexOf(String str, int fromIndex)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>ch</b> -- 字符。</p></li>
+			<li><p><b>fromIndex</b> -- 开始搜索的索引位置。</p></li>
+			<li><p><b>str</b> -- 要搜索的子字符串。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>指定子字符串在字符串中第一次出现处的索引，从指定的索引开始。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test {
+    public static void main(String args[]) {
+        String Str = new String("测试站点:www.runoob.com");
+        String SubStr1 = new String("runoob");
+        String SubStr2 = new String("com");
+
+        System.out.print("查找字符 o 第一次出现的位置 :" );
+        System.out.println(Str.indexOf( 'o' ));
+        System.out.print("从第14个位置查找字符 o 第一次出现的位置 :" );
+        System.out.println(Str.indexOf( 'o', 14 ));
+        System.out.print("子字符串 SubStr1 第一次出现的位置:" );
+        System.out.println( Str.indexOf( SubStr1 ));
+        System.out.print("从第十五个位置开始搜索子字符串 SubStr1 第一次出现的位置 :" );
+        System.out.println( Str.indexOf( SubStr1, 15 ));
+        System.out.print("子字符串 SubStr2 第一次出现的位置 :" );
+        System.out.println(Str.indexOf( SubStr2 ));
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>查找字符 o 第一次出现的位置 :12
+从第14个位置查找字符 o 第一次出现的位置 :17
+子字符串 SubStr1 第一次出现的位置:9
+从第十五个位置开始搜索子字符串 SubStr1 第一次出现的位置 :-1
+子字符串 SubStr2 第一次出现的位置 :16</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

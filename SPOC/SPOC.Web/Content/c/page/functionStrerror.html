@@ -1,0 +1,60 @@
+<div class="functionStrerror-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">strerror()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>char *strerror(int errnum) </b> 从内部数组中搜索错误号 <b>errnum</b>，并返回一个指向错误消息字符串的指针。<b>strerror</b> 生成的错误字符串取决于开发平台和编译器。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 strerror() 函数的声明。</p>
+		<pre>char *strerror(int errnum)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>errnum</b> -- 错误号，通常是 <b>errno</b>。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回一个指向错误字符串的指针，该错误字符串描述了错误 errnum。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 strerror() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;errno.h&gt;
+
+int main ()
+{
+   FILE *fp;
+
+   fp = fopen("file.txt","r");
+   if( fp == NULL ) 
+   {
+      printf("Error: %s\n", strerror(errno));
+   }
+   
+  return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果，因为我们尝试打开一个不存在的文件：</p>
+		<pre>Error: No such file or directory</pre>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

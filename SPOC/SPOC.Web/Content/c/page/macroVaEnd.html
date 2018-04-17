@@ -1,0 +1,73 @@
+<div class="macroVaEnd-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库宏 - <span class="green">va_end()</span>	
+		</h1>
+		<p>
+			<a href="#standardLibStdargH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdarg.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库宏 <b>void va_end(va_list ap)</b> 允许使用了 <b>va_start</b> 宏的带有可变参数的函数返回。如果在从函数返回之前没有调用 <b>va_end</b>，则结果为未定义。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>	
+		<p>下面是 va_end() 宏的声明。</p>
+		<pre>void va_end(va_list ap)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>ap</b> -- 这是之前由同一函数中的 va_start 初始化的 va_list 对象。
+			</li>		
+		</ul>	
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>该宏不返回任何值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 va_end() 宏的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdarg.h&gt;
+#include &lt;stdio.h&gt;
+
+int mul(int, ...);
+
+int main()
+{
+   printf("15 * 12 = %d\n",  mul(2, 15, 12) );
+   
+   return 0;
+}
+
+int mul(int num_args, ...)
+{
+   int val = 1;
+   va_list ap;
+   int i;
+
+   va_start(ap, num_args);
+   for(i = 0; i < num_args; i++) 
+   {
+      val *= va_arg(ap, int);
+   }
+   va_end(ap);
+ 
+   return val;
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>15 * 12 =  180</pre>
+		<p>
+			<a href="#standardLibStdargH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;stdarg.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,84 @@
+﻿@model SPOC.ExamPaper.Dto.PaperPreviewOutputDto
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <style type="text/css">
+    .red{color:#e24e14;}
+    .tableheadtitle2 {cursor: pointer;}
+    .tableheadtitle2 span{line-height:27px; float:left; margin-right:8px; vertical-align:middle;}   
+    .tableheadtitle2 .red{font-size:14px;}
+    .tableheadtitle2{background: url(../../../../Areas/Assets/image/default/tabletabmenubg.gif) left bottom repeat-x; height:34px; width:100%;font-size:12px;color:#000;padding-top:8px;overflow:hidden;margin-bottom:2px;}
+    </style>
+    <script>
+        //伸缩对象，点一下伸开，再点一下收回，并且还可以带图片显示伸缩的标至
+        function jscomFlexObject(obj, imageObj, onImagePath, offImagePath) {
+            if (obj.style.display === "none") {
+                obj.style.display = "block";
+                if (imageObj && onImagePath)
+                    imageObj.src = onImagePath;
+                //oElement.alt = "收缩";
+            }
+            else {
+                obj.style.display = "none";
+                if (imageObj && offImagePath)
+                    imageObj.src = offImagePath;
+                //oElement.alt = "展开";
+            }
+        }
+        //填空题为input类型的检查
+        function jscomCheckedInputQuestionAnswer(radioObject) {
+            var selectInputUid = radioObject.toString().replace("Answer", "");
+            try {
+                if ($("#hidIsRepeatAnswer").val() !== "Y") {
+                    $("#" + selectInputUid).find('a').removeAttr('disabled');
+                }
+            }
+            catch (e) {
+            }
+        }
+    </script>
+    <title>试卷预览</title>
+</head>
+<body class="container-fluid">
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-lg-11">
+            <div class="tableheadtitle">
+                <div style="width: 100%;">
+                    <label id="lblTitle" name="lblTitle">
+                        @Model.title
+                    </label>
+                    
+                </div>
+            </div>
+            <div class="tableheadtitle">
+                <div style="width: 100%;">
+                    <label id="lblSubTitle">
+                        @Model.subTitle
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-1">
+            <a href="~/ExamPaper/Manage/ExportPaperPreviewHtml?id=@Model.paperId" target="_blank" type="button" class="btn btn-info btn-xs">
+                <span class="glyphicon glyphicon-download-alt"></span>
+                导出到Word
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="divPaper" class="paperlist" style="overflow: inherit; height: auto; min-height: 40px;">
+                @Html.Raw(Model.viewHtml)
+            </div>
+            <div class="h"></div>
+        </div>
+    </div>
+</body>
+</html>

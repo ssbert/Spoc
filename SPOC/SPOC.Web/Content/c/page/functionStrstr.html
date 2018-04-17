@@ -1,0 +1,61 @@
+<div class="functionStrstr-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">strstr()</span>
+		</h1>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>char *strstr(const char *haystack, const char *needle) </b> 在字符串 <b>haystack</b> 中查找第一次出现字符串 <b>needle</b> 的位置，不包含终止符 '\0'。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 strstr() 函数的声明。</p>
+		<pre>char *strstr(const char *haystack, const char *needle)</pre>
+		<h2 class="n-h2">	
+			参数
+		</h2>
+		<ul>
+			<li><b>haystack</b> -- 要被检索的 C 字符串。</li>
+			<li><b>needle</b> -- 在 haystack 字符串内要搜索的小字符串。</li>
+		</ul>
+		<h2 class="n-h2">
+			返回值
+		</h2>	
+		<p>该函数返回在 haystack 中第一次出现 needle 字符串的位置，如果未找到则返回 null。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 strstr() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+
+int main()
+{
+   const char haystack[20] = "RUNOOB";
+   const char needle[10] = "NOOB";
+   char *ret;
+
+   ret = strstr(haystack, needle);
+
+   printf("子字符串是： %s\n", ret);
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>子字符串是： NOOB</pre>
+		<p>
+			<a href="#standardLibStringH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;string.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

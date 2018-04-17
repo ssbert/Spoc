@@ -1,0 +1,112 @@
+<div class="dataoutputstream-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">DataOutputStream类</span>
+		</h1>
+		<p>
+			<a href="#filesIo" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java 流(Stream)
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>数据输出流允许应用程序以与机器无关方式将Java基本数据类型写到底层输出流。 </p>
+		<p>下面的构造方法用来创建数据输出流对象。</p>
+		<pre>DataOutputStream out = new DataOutputStream(OutputStream  out);</pre>
+		<p>创建对象成功后，可以参照以下列表给出的方法，对流进行写操作或者其他操作。 </p>
+		<table class="reference">
+			<tbody>
+				<tr>
+					<th>
+						序号</th>
+					<th>
+						方法描述</th>
+				</tr>
+				<tr>
+					<td>
+						1</td>
+					<td>
+						<strong>public final void write(byte[] w, int off, int len)throws IOException</strong><br>
+						将指定字节数组中从偏移量 <code>off</code> 开始的 <code>len</code> 个字节写入此字节数组输出流。</td>
+				</tr>
+				<tr>
+					<td>
+						2</td>
+					<td>
+						<strong>Public final int write(byte [] b)throws IOException</strong><br>
+						将指定的字节写入此字节数组输出流。</td>
+				</tr>
+				<tr>
+					<td>
+						3</td>
+					<td>
+						<ol style="list-style-type:lower-alpha;">
+							<li>
+								<strong>public final void writeBooolean()throws IOException,</strong></li>
+							<li>
+								<strong>public final void writeByte()throws IOException, </strong></li>
+							<li>
+								<strong>public final void writeShort()throws IOException,</strong></li>
+							<li>
+								<strong>public final void writeInt()throws IOException</strong></li>
+						</ol>
+						这些方法将指定的基本数据类型以字节的方式写入到输出流。</td>
+				</tr>
+				<tr>
+					<td>
+						4</td>
+					<td>
+						<strong>Public void flush()throws IOException</strong><br>
+						&nbsp;&nbsp;刷新此输出流并强制写出所有缓冲的输出字节。</td>
+				</tr>
+				<tr>
+					<td>
+						5</td>
+					<td>
+						<strong>public final void writeBytes(String s) throws IOException</strong><br>
+						将字符串以字节序列写入到底层的输出流，字符串中每个字符都按顺序写入，并丢弃其高八位。</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">实例</h3>
+		<p>下面的例子演示了DataInputStream和DataOutputStream的使用，该例从文本文件test.txt中读取5行，并转换成大写字母，最后保存在另一个文件test1.txt中。</p>
+		<p>test.tx 文件内容如下：</p>
+		<pre>runoob1
+runoob2
+runoob3
+runoob4
+runoob5</pre>
+		<div class="n-example">
+			<pre><code>import java.io.*;
+ 
+public class Test{
+   public static void main(String args[])throws IOException{
+ 
+      DataInputStream in = new DataInputStream(new FileInputStream("test.txt"));
+      DataOutputStream out = new DataOutputStream(new  FileOutputStream("test1.txt"));
+      BufferedReader d  = new BufferedReader(new InputStreamReader(in));
+     
+      String count;
+      while((count = d.readLine()) != null){
+          String u = count.toUpperCase();
+          System.out.println(u);
+          out.writeBytes(u + "  ,");
+      }
+      d.close();
+      out.close();
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下：</p>
+		<pre>RUNOOB1
+RUNOOB2
+RUNOOB3
+RUNOOB4
+RUNOOB5</pre>
+	</div>
+	<p>
+		<a href="#filesIo" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java 流(Stream)
+		</a>
+	</p>
+</div>

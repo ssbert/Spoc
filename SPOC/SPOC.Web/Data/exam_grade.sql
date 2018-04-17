@@ -1,0 +1,1 @@
+call proc_add_field('exam_grade', 'isCompiled', 'tinyint(1) default 0', ' comment ''是否编译过'' after `hasCreateAnswerPaper`');

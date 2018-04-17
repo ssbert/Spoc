@@ -1,0 +1,203 @@
+<div class="ncharacter-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#number" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Java Number & Math 类
+		</a>
+		<a href="#string" class="pull-right green">
+			Java String 类
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">Character 类</span>
+		</h1>
+		<p>Character 类用于对单个字符进行操作。</p>
+		<p>Character 类在对象中包装一个基本类型 <b>char</b> 的值</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>char ch = 'a';
+ 
+// Unicode 字符表示形式
+char uniChar = '\u039A'; 
+ 
+// 字符数组
+char[] charArray ={ 'a', 'b', 'c', 'd', 'e' };</code></pre>
+		</div>	
+		<p>然而，在实际开发过程中，我们经常会遇到需要使用对象，而不是内置数据类型的情况。为了解决这个问题，Java语言为内置数据类型char提供了包装类Character类。 </p>
+		<p> Character类提供了一系列方法来操纵字符。你可以使用Character的构造方法创建一个Character类对象，例如： </p>
+		<div class="n-example">
+			<pre><code>Character ch = new Character('a');</code></pre>
+		</div>
+		<p>在某些情况下，Java编译器会自动创建一个Character对象。</p>
+		<p>例如，将一个char类型的参数传递给需要一个Character类型参数的方法时，那么编译器会自动地将char类型参数转换为Character对象。 这种特征称为装箱，反过来称为拆箱。 </p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">实例</h2>
+			<pre><code>// 原始字符 'a' 装箱到 Character 对象 ch 中
+Character ch = 'a';
+ 
+// 原始字符 'x' 用 test 方法装箱
+// 返回拆箱的值到 'c'
+char c = test('x');</code></pre>
+		</div>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">转义序列</h2>
+		<p>前面有反斜杠（\）的字符代表转义字符，它对编译器来说是有特殊含义的。 </p>
+		<p>下面列表展示了Java的转义序列：</p>
+		<table>
+			<tbody>
+				<tr>
+					<th>
+					转义序列</th>
+					<th>
+					描述</th>
+				</tr>
+				<tr>
+					<td>
+					\t</td>
+					<td>
+					在文中该处插入一个tab键</td>
+				</tr>
+				<tr>
+					<td>
+					\b</td>
+					<td>
+					在文中该处插入一个后退键</td>
+				</tr>
+				<tr>
+					<td>
+					\n</td>
+					<td>
+					在文中该处换行</td>
+				</tr>
+				<tr>
+					<td>
+					\r</td>
+					<td>
+					在文中该处插入回车</td>
+				</tr>
+				<tr>
+					<td>
+					\f</td>
+					<td>
+					在文中该处插入换页符</td>
+				</tr>
+				<tr>
+					<td>
+					\'</td>
+					<td>
+					在文中该处插入单引号</td>
+				</tr>
+				<tr>
+					<td>
+					\"</td>
+					<td>
+					在文中该处插入双引号</td>
+				</tr>
+				<tr>
+					<td>
+					\\</td>
+					<td>
+					在文中该处插入反斜杠</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 class="n-h3">实例</h3>
+		<p>当打印语句遇到一个转义序列时，编译器可以正确地对其进行解释。 </p>
+		<p>以下实例转义双引号并输出：</p>
+		<div class="n-example">
+			<h2 class="n-example-h2 green">Test.java 文件代码：</h2>
+			<pre><code>public class Test {
+ 
+   public static void main(String args[]) {
+      System.out.println("访问\"百度!\"");
+   }
+}</code></pre>
+		</div>
+		<p>以上实例编译运行结果如下： </p>
+		<pre>访问"百度!"</pre>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Character 方法</h2>
+		<p>Character 方法</p>
+		<table>
+			<tbody>
+				<tr>
+					<th>
+					序号</th>
+					<th>
+					方法与描述</th>
+				</tr>
+				<tr>
+					<td>
+					1</td>
+					<td>
+						<a href="#characterIsletter" target="_blank" class="n-text-line green">isLetter()</a><br>
+					是否是一个字母</td>
+				</tr>
+				<tr>
+					<td>
+					2</td>
+					<td>
+						<a href="#characterIsdigit" target="_blank" class="n-text-line green">isDigit()</a><br>
+					是否是一个数字字符</td>
+				</tr>
+				<tr>
+					<td>
+					3</td>
+					<td>
+						<a href="#characterIswhitespace" target="_blank" class="n-text-line green">isWhitespace()</a><br>
+					是否是一个空格</td>
+				</tr>
+				<tr>
+					<td>
+					4</td>
+					<td>
+						<a href="#characterIsuppercase" target="_blank" class="n-text-line green">isUpperCase()</a><br>
+					是否是大写字母</td>
+				</tr>
+				<tr>
+					<td>
+					5</td>
+					<td>
+						<a href="#characterIslowercase" target="_blank" class="n-text-line green">isLowerCase()</a><br>
+					是否是小写字母</td>
+				</tr>
+				<tr>
+					<td>
+					6</td>
+					<td>
+						<a href="#characterTouppercase" target="_blank" class="n-text-line green">toUpperCase()</a><br>
+					指定字母的大写形式</td>
+				</tr>
+				<tr>
+					<td>
+					7</td>
+					<td>
+						<a href="#characterTolowercase" target="_blank" class="n-text-line green">toLowerCase</a>()<br>
+					指定字母的小写形式</td>
+				</tr>
+				<tr>
+					<td>
+					8</td>
+					<td>
+						<a href="#characterTostring" target="_blank" class="n-text-line green">toString</a>()<br>
+					返回字符的字符串形式，字符串的长度仅为1</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>对于方法的完整列表，请参考的 <b>java.lang.Character API</b> 规范。</p>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#number" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Java Number & Math 类
+		</a>
+		<a href="#string" class="pull-right green">
+			Java String 类
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+</div>

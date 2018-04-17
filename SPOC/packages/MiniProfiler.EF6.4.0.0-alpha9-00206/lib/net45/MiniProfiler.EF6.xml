@@ -1,0 +1,188 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MiniProfiler.EF6</name>
+    </assembly>
+    <members>
+        <member name="T:StackExchange.Profiling.EntityFramework6.EFProfiledDbConnectionFactory">
+            <summary>
+            Wrapper for an <see cref="T:System.Data.Entity.Infrastructure.IDbConnectionFactory"/>
+            </summary>
+        </member>
+        <member name="M:StackExchange.Profiling.EntityFramework6.EFProfiledDbConnectionFactory.#ctor(System.Data.Entity.Infrastructure.IDbConnectionFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StackExchange.Profiling.EntityFramework6.EFProfiledDbConnectionFactory"/> class.
+            </summary>
+            <param name="inner">The <see cref="T:System.Data.Entity.Infrastructure.IDbConnectionFactory"/> to wrap.</param>
+        </member>
+        <member name="M:StackExchange.Profiling.EntityFramework6.EFProfiledDbConnectionFactory.CreateConnection(System.String)">
+            <summary>
+            Creates a connection based on the given database name or connection string.
+            </summary>
+            <param name="nameOrConnectionString">The database name or connection string.</param>
+            <returns>An initialized <see cref="T:System.Data.Common.DbConnection"/>.</returns>
+        </member>
+        <member name="T:StackExchange.Profiling.EntityFramework6.EFProfiledDbProviderFactoryResolver">
+            <summary>
+            Wrapper for a service for obtaining the correct <see cref="T:System.Data.Common.DbProviderFactory"/> from
+            a given <see cref="T:System.Data.Common.DbConnection"/>.
+            </summary>
+        </member>
+        <member name="M:StackExchange.Profiling.EntityFramework6.EFProfiledDbProviderFactoryResolver.#ctor(System.Data.Entity.Infrastructure.IDbProviderFactoryResolver)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StackExchange.Profiling.EntityFramework6.EFProfiledDbProviderFactoryResolver"/> class.
+            </summary>
+            <param name="inner">The <see cref="T:System.Data.Entity.Infrastructure.IDbProviderFactoryResolver"/> to wrap.</param>
+        </member>
+        <member name="M:StackExchange.Profiling.EntityFramework6.EFProfiledDbProviderFactoryResolver.ResolveProviderFactory(System.Data.Common.DbConnection)">
+            <summary>
+            Returns the <see cref="T:System.Data.Common.DbProviderFactory"/> for the given connection,
+            unwrapping the <see cref="T:StackExchange.Profiling.Data.ProfiledDbConnection"/> as necessary
+            </summary>
+            <param name="connection">The connection.</param>
+            <returns>The provider factory for the connection.</returns>
+        </member>
+        <member name="T:StackExchange.Profiling.EntityFramework6.EFProfiledInvariantNameResolver">
+            <summary>
+            Replacement for the DefaultInvariantNameResolver which can correctly resolve an <see cref="T:System.Data.Entity.Infrastructure.IProviderInvariantName"/> given a <see cref="T:StackExchange.Profiling.Data.ProfiledDbProviderFactory"/>.
+            </summary>
+        </member>
+        <member name="T:StackExchange.Profiling.EntityFramework6.MiniProfilerEF6">
+            <summary>
+            Provides helper methods to help with initializing the MiniProfiler for Entity Framework 6.
+            </summary>
+        </member>
+        <member name="M:StackExchange.Profiling.EntityFramework6.MiniProfilerEF6.Initialize">
+            <summary>
+            Registers the WrapProviderService method with the Entity Framework 6 DbConfiguration as a replacement service for DbProviderServices.
+            </summary>
+        </member>
+        <member name="T:StackExchange.Profiling.Data.EFProfiledDbProviderServices">
+            <summary>
+            Wrapper for a database provider factory to enable profiling
+            </summary>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.#ctor(System.Data.Entity.Core.Common.DbProviderServices)">
+            <summary>
+            Initializes a new instance of the <see cref="T:StackExchange.Profiling.Data.EFProfiledDbProviderServices"/> class. 
+            Used for DB provider APIS internally 
+            </summary>
+            <param name="providerServices">The <see cref="T:System.Data.Entity.Core.Common.DbProviderServices"/> to wrap.</param>
+            <exception cref="T:System.Exception">Throws when providerServices is <c>null</c>.</exception>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.CreateCommandDefinition(System.Data.Common.DbCommand)">
+            <summary>
+            Get DB command definition
+            </summary>
+            <param name="prototype">The prototype.</param>
+            <returns>the command definition.</returns>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.GetDbProviderManifest(System.String)">
+            <summary>
+            The get database provider manifest.
+            </summary>
+            <param name="manifestToken">The manifest token.</param>
+            <returns>the provider manifest.</returns>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.GetDbProviderManifestToken(System.Data.Common.DbConnection)">
+            <summary>
+            Get the database provider manifest token.
+            </summary>
+            <param name="connection">The connection.</param>
+            <returns>a string containing the token.</returns>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.CreateDbCommandDefinition(System.Data.Entity.Core.Common.DbProviderManifest,System.Data.Entity.Core.Common.CommandTrees.DbCommandTree)">
+            <summary>
+            Create the database command definition.
+            </summary>
+            <param name="providerManifest">The provider manifest.</param>
+            <param name="commandTree">The command tree.</param>
+            <returns>the command definition.</returns>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.DbCreateDatabase(System.Data.Common.DbConnection,System.Nullable{System.Int32},System.Data.Entity.Core.Metadata.Edm.StoreItemCollection)">
+            <summary>
+            Create the database.
+            </summary>
+            <param name="connection">The connection.</param>
+            <param name="commandTimeout">The command timeout.</param>
+            <param name="storeItemCollection">The store item collection.</param>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.DbDeleteDatabase(System.Data.Common.DbConnection,System.Nullable{System.Int32},System.Data.Entity.Core.Metadata.Edm.StoreItemCollection)">
+            <summary>
+            Delete the database.
+            </summary>
+            <param name="connection">The connection.</param>
+            <param name="commandTimeout">The command timeout.</param>
+            <param name="storeItemCollection">The store item collection.</param>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.DbCreateDatabaseScript(System.String,System.Data.Entity.Core.Metadata.Edm.StoreItemCollection)">
+            <summary>
+            Create the database script.
+            </summary>
+            <param name="providerManifestToken">The provider manifest token.</param>
+            <param name="storeItemCollection">The store item collection.</param>
+            <returns>a string containing the database script.</returns>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.DbDatabaseExists(System.Data.Common.DbConnection,System.Nullable{System.Int32},System.Data.Entity.Core.Metadata.Edm.StoreItemCollection)">
+            <summary>
+            test if the database exists.
+            </summary>
+            <param name="connection">The connection.</param>
+            <param name="commandTimeout">The command timeout.</param>
+            <param name="storeItemCollection">The store item collection.</param>
+            <returns>true if the database exists.</returns>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.GetRealConnection(System.Data.Common.DbConnection)">
+            <summary>
+            Gets the real connection.
+            </summary>
+            <param name="connection">The connection.</param>
+            <returns>the database connection</returns>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.GetService(System.Type,System.Object)">
+            <summary>
+            Called to resolve additional default provider services when a derived type is registered 
+            as an EF provider either using an entry in the application's config file or through code-based 
+            registration in <c>DbConfiguration</c>. The implementation of this method in this class uses the resolvers 
+            added with the AddDependencyResolver method to resolve dependencies.
+            </summary>
+            <param name="type">The type of the service to be resolved.</param>
+            <param name="key">An optional key providing additional information for resolving the service.</param>
+            <returns>An instance of the given type, or null if the service could not be resolved.</returns>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.GetServices(System.Type,System.Object)">
+            <summary>
+            Called to resolve additional default provider services when a derived type is registered 
+            as an EF provider either using an entry in the application's config file or through code-based 
+            registration in <c>DbConfiguration</c>. The implementation of this method in this class uses the resolvers 
+            added with the AddDependencyResolver method to resolve dependencies.
+            </summary>
+            <param name="type">The type of the service to be resolved.</param>
+            <param name="key">An optional key providing additional information for resolving the service.</param>
+            <returns>All registered services that satisfy the given type and key, or an empty enumeration if there are none.</returns>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.GetDbSpatialDataReader(System.Data.Common.DbDataReader,System.String)">
+            <summary>
+            Gets the spatial data reader for the DbProviderServices.
+            </summary>
+            <param name="fromReader">The reader where the spatial data came from.</param>
+            <param name="manifestToken">The token information associated with the provider manifest.</param>
+            <returns>The spatial data reader.</returns>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.DbGetSpatialServices(System.String)">
+            <summary>
+            Gets the spatial services for the <c>DbProviderServices</c>.
+            </summary>
+            <param name="manifestToken">The token information associated with the provider manifest.</param>
+            <returns>The spatial services.</returns>
+        </member>
+        <member name="M:StackExchange.Profiling.Data.EFProfiledDbProviderServices.SetDbParameterValue(System.Data.Common.DbParameter,System.Data.Entity.Core.Metadata.Edm.TypeUsage,System.Object)">
+            <summary>
+            Sets the parameter value and appropriate facets for the given <c>TypeUsage</c>.
+            </summary>
+            <param name="parameter">The parameter.</param>
+            <param name="parameterType">The type of parameter.</param>
+            <param name="value">The value of the parameter.</param>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,48 @@
+<div class="fileMethods-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#inputOutput" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python3 输入和输出
+		</a>
+		<a href="#osFileMethods" class="pull-right green">
+			Python3 OS 文件/目录方法
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Python3 <span class="green">File(文件) 方法</span>
+		</h1>
+		<p>file 对象使用 open 函数来创建，下表列出了 file 对象常用的函数： </p>
+		<table>
+			<tbody>
+				<tr><th style="width:5%">序号</th><th>方法及描述</th></tr>
+				<tr><td>1</td><td><p><a class="n-text-line green" href="#fileClose">file.close()</a></p><p>关闭文件。关闭后文件不能再进行读写操作。</p></td></tr>
+				<tr><td>2</td><td><p><a class="n-text-line green" href="#fileFlush">file.flush()</a></p><p>刷新文件内部缓冲，直接把内部缓冲区的数据立刻写入文件, 而不是被动的等待输出缓冲区写入。</p></td></tr>
+				<tr><td>3</td><td><p><a class="n-text-line green" href="#fileFileno">file.fileno()</a></p><p>
+				返回一个整型的文件描述符(file descriptor FD 整型), 可以用在如os模块的read方法等一些底层操作上。</p></td></tr>
+				<tr><td>4</td><td><p><a class="n-text-line green" href="#fileIsatty">file.isatty()</a></p><p>如果文件连接到一个终端设备返回 True，否则返回 False。</p></td></tr>
+				<tr><td>5</td><td><p><a class="n-text-line green" href="#fileNext">file.next()</a></p><p>返回文件下一行。</p></td></tr>
+				<tr><td>6</td><td><p><a class="n-text-line green" href="#fileRead">file.read([size])</a></p><p>从文件读取指定的字节数，如果未给定或为负则读取所有。</p></td></tr>
+				<tr><td>7</td><td><p><a class="n-text-line green" href="#fileReadline">file.readline([size])</a></p><p>读取整行，包括 "\n" 字符。</p></td></tr>
+				<tr><td>8</td><td><p><a class="n-text-line green" href="#fileReadlines">file.readlines([sizeint])</a></p><p>读取所有行并返回列表，若给定sizeint&gt;0，返回总和大约为sizeint字节的行, 实际读取值可能比 sizeint 较大, 因为需要填充缓冲区。</p></td></tr>
+				<tr><td>9</td><td><p><a class="n-text-line green" href="#fileSeek">file.seek(offset[, whence])</a></p><p>设置文件当前位置</p></td></tr>
+				<tr><td>10</td><td><p><a class="n-text-line green" href="#fileTell">file.tell()</a></p><p>返回文件当前位置。</p></td></tr>
+				<tr><td>11</td><td><p><a class="n-text-line green" href="#fileTruncate">file.truncate([size])</a></p><p>从文件的首行首字符开始截断，截断文件为 size
+				个字符，无 size 表示从当前位置截断；截断之后 V 后面的所有字符被删除，其中 Widnows 系统下的换行代表2个字符大小。 </p></td></tr>
+				<tr><td>12</td><td><p><a class="n-text-line green" href="#fileWrite">file.write(str)</a></p><p>将字符串写入文件，没有返回值。</p></td></tr>
+				<tr><td>13</td><td><p><a class="n-text-line green" href="#fileWritelines">file.writelines(sequence)</a></p><p>向文件写入一个序列字符串列表，如果需要换行则要自己加入每行的换行符。</p></td></tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#inputOutput" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Python3 输入和输出
+		</a>
+		<a href="#osFileMethods" class="pull-right green">
+			Python3 OS 文件/目录方法
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+</div>

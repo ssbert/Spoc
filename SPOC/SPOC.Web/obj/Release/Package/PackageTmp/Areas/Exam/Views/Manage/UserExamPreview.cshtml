@@ -1,0 +1,237 @@
+﻿@model SPOC.ExamPaper.Dto.UserPaperViewOutputDto
+@{
+    Layout = null;
+    string filterType = ViewBag.filterType;
+    if (string.IsNullOrEmpty(filterType))
+    {
+        filterType = "";
+    }
+}
+@functions
+{
+    string ExamTimeFormat(int value)
+    {
+        var h = (int) Math.Floor((double) value/3600);
+        var m = (int) Math.Floor((double) value%3600/60);
+        var s = value%60;
+        var formart = new Func<int, string>(num =>
+        {
+            if (num < 10)
+            {
+                return "0" + num;
+            }
+            return "" + num;
+        });
+
+        return formart(h) + ":" + formart(m) + ":" + formart(s);
+    }
+
+    string UncertainChecked(string filterType, string value)
+    {
+        return filterType == value ? "checked" : "";
+    }
+    
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@L("PlatForm")语言混合式教学支持系统</title>
+    <link rel="shortcut icon" href="~/images/favicon.ico" />
+    <style type="text/css">
+        .tableheadtitle2 {
+            background: url("../../../../Areas/Assets/image/default/tabletabmenubg.gif") left bottom repeat-x;
+            height: 34px;
+            width: 98%;
+            font-size: 12px;
+            color: #000;
+            padding-top: 8px;
+            overflow: hidden;
+            margin-bottom: 2px;
+        }
+        .tdtitle {text-align: right;}
+    </style>
+    <link rel="stylesheet" type="text/css" href="~/content/cplus/css/default.css">
+    <script src="~/content/cplus/js/highlight.pack.js"></script>
+    <script>
+     
+        //伸缩对象，点一下伸开，再点一下收回，并且还可以带图片显示伸缩的标至
+        function jscomFlexObject(obj, imageObj, onImagePath, offImagePath) {
+            if (obj.style.display === "none") {
+                obj.style.display = "block";
+                if (imageObj && onImagePath)
+                    imageObj.src = onImagePath;
+                //oElement.alt = "收缩";
+            }
+            else {
+                obj.style.display = "none";
+                if (imageObj && offImagePath)
+                    imageObj.src = offImagePath;
+                //oElement.alt = "展开";
+            }
+        }
+        //填空题为input类型的检查
+        function jscomCheckedInputQuestionAnswer(radioObject) {
+            var selectInputUid = radioObject.toString().replace("Answer", "");
+            try {
+                if ($("#hidIsRepeatAnswer").val() !== "Y") {
+                    $("#" + selectInputUid).find('a').removeAttr('disabled');
+                }
+            }
+            catch (e) {
+            }
+        }
+
+        function changeViewRange(filterType) {
+            window.location.href = "/Exam/Manage/UserExamPreview?examGradeUid=@Model.gradeUid&filterType=" + filterType;
+        }
+    </script>
+    <title></title>
+</head>
+<body>
+<div>
+    <form id="form1" name="form1">
+        <div class="TreeSearchButton">
+            <div>
+                <span class="red">
+                    <label id="lblMessage">@Model.title</label>
+                </span>
+            </div>
+        </div>
+        <div class="tableheadtitle2" style="margin: 10px;">
+            <span style="width:100px;">
+                <label id="lblSubTitle">
+                    @Model.subTitle
+                </label>
+            </span>
+        </div>
+        <table id="tabFilter" style="width: 100%;">
+            <tr>
+                <th class="tdtitle">
+                    查看试题范围
+                </th>
+                <td>
+                    <label>
+                        <input name="uncertain" value="" type="radio"  onClick="changeViewRange('')" @UncertainChecked(filterType, @"")>
+                        显示全部试题
+                    </label>
+                    <label>
+                        <input name="uncertain" value="error" type="radio" onclick="changeViewRange('error')" @UncertainChecked(filterType, @"error")>
+                        仅显示答错试题
+                    </label>
+                    @*
+                        <label>
+                            <input name="uncertain" value="NoAnswer" type="radio" onclick="changeViewRange('NoAnswer')" @UncertainChecked(filterType, @"NoAnswer")>
+                            仅显示不会做答
+                        </label>
+                        *@
+                    <label>
+                        <input name="uncertain" value="Empty" type="radio"  onClick="changeViewRange('Empty')" @UncertainChecked(filterType, @"Empty")>
+                        仅显示未答试题
+                    </label>
+                    <label>
+                        <input name="uncertain" value="right" type="radio" onclick="changeViewRange('right')" @UncertainChecked(filterType, @"right")>
+                        仅显示答对试题
+                    </label>
+                </td>
+            </tr>
+        </table>
+        <br/>
+        <table style="width: 100%">
+            <tr>
+                <th class="tdtitle">
+                    <label id="label1">考试编号</label>
+                </th>
+                <td>
+                    <label id="lblExamUserGradeID">
+                        @Model.examCode
+                    </label>
+                </td>
+                <th class="tdtitle">
+                    <label id="label2">答题开始时间</label>
+                </th>
+                <td>
+                    <label id="lblExamBeginTime">
+                        @Model.examBeginTime.ToString("yyyy-MM-dd HH:mm:ss")
+                    </label>
+                </td>
+                <th class="tdtitle">
+                    <label id="label3">答题结束时间</label>
+                </th>
+                <td>
+                    <label id="lblExamEndTime">
+                        @if (Model.examEndTime == DateTime.MinValue)
+                        {
+                            @Html.Raw("未结束答题")
+                        }
+                        else
+                        {
+                            @Model.examEndTime.ToString("yyyy-MM-dd HH:mm:ss")
+                        }
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th class="tdtitle">
+                    <label id="label4">考生姓名</label>
+                </th>
+                <td>
+                    <label id="lblRealName">
+                        @Model.examUserName
+                    </label>
+                </td>
+                <th class="tdtitle">
+                    <label id="label5">考试时间</label>
+                </th>
+                <td>
+                    <label id="lblExamTime">
+                        @ExamTimeFormat(Model.examTime)
+                    </label>
+                </td>
+                <th class="tdtitle">
+                    <label id="label7">总得分</label>
+                </th>
+                <td>
+                    <label id="lblTotalScore">
+                        @Model.examTotalScore
+                    </label>
+                    分
+                </td>
+            </tr>
+            <tr>
+                <th class="tdtitle">
+                    <label id="label9">评卷人</label>
+                </th>
+                <td nowrap>
+                    <label id="lblJudgeRealName">
+                        @Model.judgeRealName
+                    </label>
+                </td>
+                <th class="tdtitle">
+                    <label id="label10">评卷时间</label>
+                </th>
+                <td>
+                    <label id="lblJudgeBeginTime">
+                        @Model.judgeBeginTime.ToString("yyyy-MM-dd HH:mm:ss")
+                    </label>
+                </td>
+                <th></th>
+                <td></td>
+            </tr>
+        </table>
+        <br/>
+        <div id="divPaper" class="paperlist" style="overflow: inherit; height: auto; margin: 10px;">
+            @Html.Raw(Model.viewHtml)
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
+
+<script>
+    hljs.initHighlightingOnLoad();
+
+</script>

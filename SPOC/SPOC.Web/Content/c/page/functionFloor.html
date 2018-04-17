@@ -1,0 +1,68 @@
+<div class="functionFloor-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C 库函数 - <span class="green">floor()</span>
+		</h1>
+		<p>
+			<a href="#standardLibMathH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;math.h&gt;
+			</a>
+		</p>
+		<h2 class="n-h2">
+			描述
+		</h2>
+		<p>C 库函数 <b>double floor(double x)</b> 返回小于或等于 <b>x</b> 的最大的整数值。</p>
+		<h2 class="n-h2">
+			声明
+		</h2>
+		<p>下面是 floor() 函数的声明。</p>
+		<pre>double floor(double x)</pre>
+		<h2 class="n-h2">
+			参数
+		</h2>
+		<ul>
+			<li>
+				<b>x</b> -- 浮点值。
+			</li>	
+		</ul>	
+		<h2 class="n-h2">
+			返回值
+		</h2>
+		<p>该函数返回不大于 x 的最大整数值。</p>
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<p>下面的实例演示了 floor() 函数的用法。</p>
+		<div class="n-example">
+			<pre><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+int main ()
+{
+   float val1, val2, val3, val4;
+
+   val1 = 1.6;
+   val2 = 1.2;
+   val3 = 2.8;
+   val4 = 2.3;
+
+   printf("Value1 = %.1lf\n", floor(val1));
+   printf("Value2 = %.1lf\n", floor(val2));
+   printf("Value3 = %.1lf\n", floor(val3));
+   printf("Value4 = %.1lf\n", floor(val4));
+   
+   return(0);
+}</code></pre>
+		</div>
+		<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+		<pre>Value1 = 1.0
+Value2 = 1.0
+Value3 = 2.0
+Value4 = 2.0</pre>
+		<p>
+			<a href="#standardLibMathH" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/c/images/up.gif"> C 标准库 - &lt;math.h&gt;
+			</a>
+		</p>
+	</div>
+</div>

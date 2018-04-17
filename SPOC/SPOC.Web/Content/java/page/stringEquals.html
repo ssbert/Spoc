@@ -1,0 +1,48 @@
+<div class="stringEquals-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">equals() 方法</span>
+		</h1>
+		<p>
+			<a href="#string" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java String类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>equals() 方法用于将字符串与指定的对象比较。</p>
+		<h3 class="n-h3">语法</h3>
+		<pre>public boolean equals(Object anObject)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>anObject</b> -- 与字符串进行比较的对象。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<p>如果给定对象与字符串相等，则返回 true；否则返回 false。</p>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test {
+    public static void main(String args[]) {
+        String Str1 = new String("baidu");
+        String Str2 = Str1;
+        String Str3 = new String("baidu");
+        boolean retVal;
+
+        retVal = Str1.equals( Str2 );
+        System.out.println("返回值 = " + retVal );
+
+        retVal = Str1.equals( Str3 );
+        System.out.println("返回值 = " + retVal );
+    }
+}</code></pre>
+		</div>
+		<p>以上程序执行结果为：</p>
+		<pre>返回值 = true
+返回值 = true</pre>
+	</div>
+	<p>
+		<a href="#string" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java String类
+		</a>
+	</p>
+</div>

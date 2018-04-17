@@ -1,0 +1,49 @@
+<div class="numberTostring-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">toString() 方法</span>
+		</h1>
+		<p>
+			<a href="#number" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/java/images/up.gif"> Java Number & Math类
+			</a>
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<p>toString() 方法用于返回以一个字符串表示的 Number 对象值。</p>
+		<p>如果方法使用了原生的数据类型作为参数，返回原生数据类型的 String 对象值。</p>
+		<p>如果方法有两个参数， 返回用第二个参数指定基数表示的第一个参数的字符串表示形式。</p>
+		<h3 class="n-h3">语法</h3>
+		<p>以 String 类为例，该方法有以下几种语法格式：</p>
+		<pre>String toString()
+static String toString(int i)</pre>
+		<h3 class="n-h3">参数</h3>
+		<ul>
+			<li><p><b>i</b> -- 要转换的整数。</p></li>
+		</ul>
+		<h3 class="n-h3">返回值</h3>
+		<ul>
+			<li><p><b>toString():</b> 返回表示 Integer 值的 String 对象。</p></li>
+			<li><p><b>toString(int i):</b> 返回表示指定 int 的 String 对象。</p></li>
+		</ul>
+		<h3 class="n-h3">实例</h3>
+		<div class="n-example">
+			<pre><code>public class Test{
+    public static void main(String args[]){
+        Integer x = 5;
+
+        System.out.println(x.toString());  
+        System.out.println(Integer.toString(12)); 
+    }
+}</code></pre>
+		</div>
+		<p>编译以上程序，输出结果为：</p>
+		<pre>5
+12</pre>
+	</div>
+	<p>
+		<a href="#number" class="n-text-line green back-link" data-type="back">
+			<img src="/Content/java/images/up.gif"> Java Number & Math类
+		</a>
+	</p>
+</div>

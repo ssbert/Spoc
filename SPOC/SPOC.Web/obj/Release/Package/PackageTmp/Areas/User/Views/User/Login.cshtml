@@ -1,0 +1,159 @@
+﻿
+@{
+    Layout = null;
+}
+@model SPOC.User.Dto.UserInfo.UserLoginViewModel
+<!DOCTYPE html>
+
+ 
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>登录 - BEST SPOC—C++管理后台</title>
+    <link rel="shortcut icon" href="@ViewData["icon"]">
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+
+
+    <link href="~/Areas/Assets/css/Site.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
+
+    <script src="~/Scripts/rsa/BigInt.js"></script>
+    <script src="~/Scripts/rsa/Barrett.js"></script>
+    <script src="~/Scripts/rsa/RSA.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            var flag = $("#hiddenFlag").val();
+            if (flag === "") {
+                $("#UserName").val("");
+            }
+
+            $.ajax({
+                url: "/Account/GetRsaKey",
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#excryptKey").val(data.encryptKey);
+                    $("#excryptModulusKey").val(data.ModulusKey);
+                }
+
+            });
+
+            $("#login-form").submit(function () {
+                if (!$("#login-form").valid()) {
+                    return;
+                }
+                
+                  
+                 var key = $("#excryptKey").val();
+                setMaxDigits(130);
+                var resKey = new RSAKeyPair(key, "", $("#excryptModulusKey").val());
+
+                 /*   var pwd = $("#PassWord").val();
+                    if (pwd !== "" && pwd !== null) {
+                        $("#PassWord").val(encryptedString(resKey, pwd));
+                    }*/
+                encryptedVal("PassWord", resKey, "password");
+                encryptedVal("UserName", resKey, "text");
+
+        });
+        });
+        function encryptedVal(id, resKey, type) {
+            var val = $("#" + id).val();
+            if (val !== "" && val !== null) {
+                var enCodeStr = escape(val);
+                $("#" + id).val(encryptedString(resKey, enCodeStr));
+
+
+                oldText = $("#" + id);
+                if ($(".tempTxt_input" + id).length <= 0) {
+                    oldText.after('<input  class="form-control input-lg tempText tempTxt_input' + id + '" type="' + type + '" value=' + val + ' autocomplete="off" />');
+                }
+                var newPlaceholder = $(this).siblings('.tempTxt_input' + id + '');
+                $(newPlaceholder).val(val);
+                newPlaceholder.show();
+                oldText.hide();
+            }
+        }
+    </script>
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar">
+                    </span>
+                </button>
+                <a class="navbar-brand" href="/home/index">BEST SPOC—C++管理后台</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="margin-top:50px;">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="list-group">
+                </div>
+            </div>
+
+
+            <div class="row">
+
+                <form action="/User/User/Login" class="form-horizontal" id="login-form" method="post" style="max-width: 350px;padding: 15px; margin: 0 auto;">
+                    <div class="form-group row">
+                        <div class="col-md-offset-2 col-md-10">
+                            <h2>后台登录</h2>
+                        </div>
+                    </div>
+                    @if (Model.loginStatu == "error")
+                    {
+                        @*<div class="alert alert-danger" data-bind="html:message">@Html.ValidationSummary(true, "")</div>*@
+                        <div class="alert alert-danger">@Model.loginMsg</div>
+                    }
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @*<input class="input-validation-error form-control input-lg" data-val="true" data-val-length="The field 登录名 must be a string with a maximum length of 32." data-val-length-max="32" data-val-required="登录名不能为空" id="UserName" name="UserName" placeholder="登录名" type="text" value="" />*@
+                            <label for="UserName">登录名</label>
+                            @Html.TextBoxFor(a => a.UserName, new { @class = "form-control input-lg", @Value = Model.UserName??"" })
+                            <div class="help-block">@Html.ValidationMessageFor(a => a.UserName)</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @*<input class="form-control input-lg" data-val="true" data-val-length="The field 登录密码 must be a string with a maximum length of 32." data-val-length-max="32" id="Password" name="Password" placeholder="登录密码" type="password" />*@
+                            <label class="control-label" for="PassWord">登录密码</label>
+                            @Html.PasswordFor(a => a.PassWord, new { @class = "form-control input-lg" })
+                            <div class="help-block">@Html.ValidationMessageFor(a => a.PassWord)</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary">登录</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+
+    <input type="hidden" id="excryptKey" />
+    <input type="hidden" id="excryptModulusKey" />
+    <input type="hidden" id="hiddenFlag" value="@Model.UserName" />
+
+
+
+
+</body>
+</html>

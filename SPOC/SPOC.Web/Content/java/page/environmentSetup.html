@@ -1,0 +1,129 @@
+<div class="environmentSetup-block">
+	<div class="n-nav-strip clearfix">
+		<a href="#intro" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Java 简介
+		</a>
+		<a href="#basicSyntax" class="pull-right green">
+			Java 基础语法
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div>
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			Java <span class="green">开发环境配置</span>
+		</h1>
+		<p>在本章节中我们将为大家介绍如何搭建Java开发环境。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			window系统安装java
+		</h2>
+		<h3 class="n-h3">
+			下载JDK
+		</h3>
+		<p>首先我们需要下载java开发工具包JDK，下载地址：<a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" class="n-text-line green">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a>，点击如下下载按钮：</p>
+		<p>
+			<img src="/Content/java/images/java-download.jpg">
+		</p>
+		<p>在下载页面中你需要选择接受许可，并根据自己的系统选择对应的版本，本文以 Window 64位系统为例：</p>
+		<p>
+			<img src="/Content/java/images/java-download-1.jpg">
+		</p>
+		<p>下载后JDK的安装根据提示进行，还有安装JDK的时候也会安装JRE，一并安装就可以了。 </p>
+		<p>安装JDK，安装过程中可以自定义安装目录等信息，例如我们选择安装目录为 <b>C:\Program Files (x86)\Java\jdk1.8.0_91</b>。 </p>
+		<h3 class="n-h3">
+			配置环境变量
+		</h3>
+		<p>1.安装完成后，右击"我的电脑"，点击"属性"，选择"高级系统设置"；</p>
+		<p>
+			<img src="/Content/java/images/win-java1.png">
+		</p>
+		<p>2.选择"高级"选项卡，点击"环境变量"；</p>
+		<p>
+			<img src="/Content/java/images/java-win2.png" alt="">
+		</p>
+		<p>然后就会出现如下图所示的画面： </p>
+		<p>
+			<img src="/Content/java/images/java-win3.png">
+		</p>
+		<p>在"系统变量"中设置3项属性，JAVA_HOME,PATH,CLASSPATH(大小写无所谓),若已存在则点击"编辑"，不存在则点击"新建"。</p>
+		<p>变量设置参数如下：</p>
+		<ul>
+			<li>变量名：<strong>JAVA_HOME</strong> </li>
+			<li>变量值：<strong>C:\Program Files (x86)\Java\jdk1.8.0_91</strong>  &nbsp; &nbsp; &nbsp; &nbsp;// 要根据自己的实际路径配置</li>
+			<li>变量名：<strong>CLASSPATH</strong> </li>
+			<li>变量值：<strong>.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;</strong>  &nbsp; &nbsp; &nbsp; &nbsp; //记得前面有个"."</li>
+			<li>变量名：<strong>Path</strong> </li>
+			<li>变量值：<strong>%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;</strong></li>
+		</ul>
+		<h3 class="n-h3">JAVA_HOME 设置</h3>
+		<p>
+			<img src="/Content/java/images/java-win4.png">
+		</p>
+		<p>
+			<img src="/Content/java/images/java-win5.png">
+		</p>
+		<h3 class="n-h3">PATH设置</h3>
+		<p>
+			<img src="/Content/java/images/java-win6.png">
+		</p>
+		<p>
+			<img src="/Content/java/images/java-win7.png">
+		</p>
+		<h3 class="n-h3">CLASSPATH 设置</h3>
+		<p>
+			<img src="/Content/java/images/java-win8.png">
+		</p>
+		<p>这是 Java 的环境配置，配置完成后，你可以启动 Eclipse 来编写代码，它会自动完成java环境的配置。</p>
+		<p><b>注意：</b>如果使用1.5以上版本的JDK，不用设置CLASSPATH环境变量，也可以正常编译和运行Java程序。</p>
+		<h3 class="n-h3">测试JDK是否安装成功</h3>
+		<p>1、"开始"->"运行"，键入"cmd"；</p>
+		<p>2、键入命令: java -version、java、javac 几个命令，出现以下信息，说明环境变量配置成功；</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">Linux，UNIX，Solaris，FreeBSD环境变量设置</h2>
+		<p>环境变量PATH应该设定为指向Java二进制文件安装的位置。如果设置遇到困难，请参考shell文档。</p>
+		<p>例如，假设你使用bash作为shell，你可以把下面的内容添加到你的 .bashrc文件结尾: export PATH=/path/to/java:$PATH </p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">流行JAVA开发工具</h2>
+		<p>正所谓工欲善其事必先利其器，我们在开发java语言过程中同样需要依款不错的开发工具，目前市场上的IDE很多，本文为大家推荐以下下几款java开发工具：</p>
+		<ul>
+			<li>
+				<p><strong>Eclipse（推荐）:</strong>另一个免费开源的java IDE，下载地址：  <a href="http://www.eclipse.org/" target="_blank" class="n-text-line green"> http://www.eclipse.org/</a></p>
+				<p>选择 <strong>Eclipse IDE for Java Developers</strong>：</p>
+				<p><img src="/Content/java/images/ide.jpg"></p>
+			</li>
+			<li><strong>Notepad++ : </strong>Notepad++ 是在微软视窗环境之下的一个免费的代码编辑器，下载地址：<a href="http://notepad-plus-plus.org/" target="_blank" class="n-text-line green"> http://notepad-plus-plus.org/</a></li>
+
+			<li><strong>Netbeans:</strong>开源免费的java IDE，下载地址： <a href="http://www.netbeans.org/index.html" target="_blank" class="n-text-line green">http://www.netbeans.org/index.html</a></li>
+		</ul>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">使用 Eclipse 运行第一个 Java 程序</h2>
+		<p>视频演示如下所示：</p>
+		<video style="width: 80%;" controls="">
+			<source src="/Content/java/images/javadownload.mp4" type="video/mp4">
+				您的浏览器不支持 HTML5 video 标签。
+		</video>
+		<p>HelloWorld.java 文件代码：</p>
+		<div class="n-example">
+			<pre><code>public class HelloWorld {
+    public static void main(String []args) {
+        System.out.println("Hello World");
+    }
+}</code></pre>
+		</div>
+	</div>
+	<div class="n-nav-strip clearfix">
+		<a href="#intro" class="pull-left green">
+			<span class="glyphicon glyphicon-arrow-left gray"></span>
+			Java 简介
+		</a>
+		<a href="#basicSyntax" class="pull-right green">
+			Java 基础语法
+			<span class="glyphicon glyphicon-arrow-right gray"></span>
+		</a>
+	</div> 
+</div>

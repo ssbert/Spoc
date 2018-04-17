@@ -1,0 +1,385 @@
+﻿@using System.Configuration
+@using SPOC.Common.Cookie
+@{
+    ViewBag.Title = "后台管理";
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+
+<link href="~/Content/home/css/base.css" rel="stylesheet">
+<link href="~/Content/home/css/platform.css" rel="stylesheet">
+<link rel="stylesheet" href="~/Scripts/jquery-easyui-extension/themes/ufo/easyui.css">
+<style>
+    #tabs .tabs-wrap .tabs {
+        height: 42px!important;
+    }
+</style>
+<div class="container">
+    <div id="pf-hd" style="background-color: rgb(0, 129, 194); box-shadow: 0px 0px 40px 0px #2a608c inset;">
+        <div class="pf-logo">
+           
+            <a href="javascript:void(0)" style="color: #ffffff !important;float: left;margin:0 10px">
+                <img src="~/images/@(L("Language")+".png")" alt="logo" style="height: 60px; margin-top: -4px !important; ">
+            </a>
+            <div class="system-name">智能教学系统</div>
+            @*src="@ViewData["logo"]"*@
+        </div>
+
+        @*<div class="pf-nav-wrap">
+            <div class="pf-nav-ww">
+                <ul class="pf-nav">
+                    <li class="pf-nav-item home" data-menu="">
+                        <a href="javascript:void(0)" onclick="showUploadRecord()">
+                            <span class="iconfont">&#xe644;</span>
+                            <span class="pf-nav-title">文件上传记录</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>*@
+
+        <div class="pf-user">
+           @{
+               var curUser = CookieHelper.GetLoginInUserInfo();
+               if (curUser != null)
+               {
+                   <div class="pf-user-photo">
+                       <img src="@curUser.UserHeadImg" alt="">
+                   </div>
+                   <h4 class="pf-user-name ellipsis">
+                       @HttpUtility.UrlDecode(curUser.LoginName)
+                   </h4>
+               }
+           }
+            <i class="iconfont xiala">&#xe607;</i>
+
+            <div class="pf-user-panel">
+                <ul class="pf-user-opt">
+                    @*<li>
+                        <a href="/Home/Index">
+                            <i class="iconfont">&#xe698;</i>
+                            <span class="pf-opt-name">回到首页</span>
+                        </a>
+                    </li>*@
+                    <li class="pf-modify-pwd">
+                        <a href="javascript:" onclick="edit()">
+                            <i class="iconfont">&#xe634;</i>
+                            <span class="pf-opt-name">修改密码</span>
+                        </a>
+                    </li>
+                    <li class="pf-logout" data-url="/Home/LoginOut">
+                        <a>
+                            <i class="iconfont">&#xe60e;</i>
+                            <span class="pf-opt-name">退出</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="pf-bd">
+        <div id="pf-sider">
+            <h2 class="pf-model-name">
+                <span class="iconfont">&#xe64a;</span>
+                <span class="pf-name">导航菜单</span>
+                <span class="toggle-icon"></span>
+            </h2>
+
+            <ul class="sider-nav">
+              
+            </ul>
+        </div>
+
+        <div id="pf-page">
+            <div id="tabs" class="easyui-tabs1" data-options="fit:true" style="padding: 1px; overflow: hidden;">
+                @*<div title="首页" style="padding:10px 5px 5px 10px;">
+
+            </div>*@
+
+            </div>
+        </div>
+    </div>
+
+    <div id="pf-ft">
+        <div class="system-name">
+            <i class="iconfont">&#xe6fe;</i>
+            <span>@L("PlatForm")智能教学系统&nbsp;@L("version")</span>
+        </div>
+        <div class="copyright-name">
+            <span>
+                ©2016-2018 本站由 深圳市博思特教育科技有限公司 提供技术支持
+                <a class="link-light" style="text-align: center !important;" href="http://wpa.qq.com/msgrd?v=3&uin=3348945801&site=qq&menu=yes" target="_blank">
+                    <img class="mrs" src="~/images/bar_qq.png"  alt="" title="点击这里寻求服务支持">
+
+                </a>
+                @*Best AI Scoring Inside*@@*服务QQ:3348945801*@
+            </span>
+            <i class="iconfont">&#xe6ff;</i>
+        </div>
+    </div>
+</div>
+
+<div id="login-dialog" class="easyui-dialog" closed="true" modal="true" closable="false" title="请登录" iconCls="icon-man" style="width: 440px; height: 240px;padding: 10px 20px;">
+    <form id="login-form" class="form-horizontal">
+        <div class="form-group">
+            <input id="userName" name="userName" class="easyui-textbox" style="width:100%; height: 40px; padding: 12px;" prompt="请输入登录名" iconCls="icon-man" iconWidth="38" required>
+        </div>
+        <div class="form-group">
+            <input id="password" name="password" class="easyui-textbox" type="password"  style="width:100%;height: 40px; padding: 12px;" iconCls="icon-lock" iconWidth="38" required>
+        </div>
+        <div class="form-group">
+            <a id="loginBtn" href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-ok" style="padding:5px 0;width:100%;" onclick="loginDialog.login()">
+                <span style="font-size:14px;">登录</span>
+            </a>
+        </div>
+    </form>   
+</div>
+<div id="pwdModifiry" class="easyui-dialog" data-options="width:'500px',height:'300px',closed:true"
+     style="padding: 10px 20px;">
+</div>
+<div id="dlg" class="easyui-dialog" data-options="width:'580px',height:'360px',closed:true,buttons:'#dlg-buttons'"
+     style="padding: 10px 20px;">
+    <div class="ftitle">
+        账户信息
+    </div>
+    <form id="fm" method="post">
+        <input name="id" type="hidden" />
+        <input name="userMobile" id="userMobile" class="hidden" type="text" />
+        <input name="userId" id="userId" class="hidden" type="text" />
+        <div class="fitem">
+            <label>
+                用户名：
+            </label>
+            <input name="userName" class="easyui-textbox" required="true" data-options="readonly:true">
+        </div>
+        <div class="fitem">
+            <label>
+                旧密码：
+            </label>
+            <input id="oldPassWord" name="oldPassWord" type="password" class="easyui-textbox"
+                   data-options="type:'password',required:true,validType:['length[1,20]']">
+        </div>
+        <div class="fitem">
+            <label>
+                新密码：
+            </label>
+            <input id="newPassWord" name="newPassWord" type="password" class="easyui-textbox"
+                   data-options="type:'password',required:true,validType:['length[1,20]']">
+        </div>
+        <div class="fitem">
+            <label>
+                确认密码：
+            </label>
+            <input name="password1" type="password" class="easyui-textbox" data-options="validType:['equalTo[&quot newPassWord &quot]'],required:true,type:'password'">
+ 
+        </div>
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" data-options="iconCls:'icon-ok',width:'90px'"
+       onclick="save()">保存</a> <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',width:'90px'"
+                                  onclick="cancel()">取消</a>
+</div>
+<div id="mm" class="easyui-menu" style="width: 150px;">
+    <div id="mm-tabupdate">
+        刷新
+    </div>
+    <div class="menu-sep">
+    </div>
+    <div id="mm-tabclose">
+        关闭
+    </div>
+    <div id="mm-tabcloseall">
+        全部关闭
+    </div>
+    <div id="mm-tabcloseother">
+        除此之外全部关闭
+    </div>
+    <div class="menu-sep">
+    </div>
+    <div id="mm-tabcloseright">
+        当前页右侧全部关闭
+    </div>
+    <div id="mm-tabcloseleft">
+        当前页左侧全部关闭
+    </div>
+    <div class="menu-sep">
+    </div>
+    <div id="mm-exit">
+        退出
+    </div>
+</div>
+<script src="~/Scripts/layer/layer.js"></script>
+<script src="~/Scripts/jquery-easyui-extension/Validate.js"></script>
+<script src="~/Areas/Assets/js/home/main.js?@L("version")"></script>
+<script type="text/javascript">
+
+    
+    function edit() {
+        $.ajax({
+            type: 'post',
+            url: '/Account/GetAccount',
+            success: function (data) {
+                $('#dlg').dialog('open').dialog('setTitle', '修改');
+                $('#fm').form('clear');
+                var fromObj = { userId: data.id, userMobile: data.userMobile, userName: data.userName }
+                $('#fm').form('load', fromObj);
+            }
+        });
+
+    }
+
+    function cancel() {
+        $('#dlg').dialog('close');
+    }
+
+    function save() {
+        var b = $("#fm").form('validate');
+        if (!b) {
+            layer.msg('表单内容验证不合法', { icon: 0, time: 2000 });
+            return;
+        }
+        
+        layer.load(2, { time: 1000 });
+        var data = VE.GetFormData("fm");
+
+        $.ajax({
+            url: VE.AppPath + "/api/services/app/UserInfo/UserPassWordModify",
+            contentType: 'application/json',
+            type: "post",
+            data: JSON.stringify(data),
+            async: false,
+            success: function(r) {
+                if (r.result.msgCode==="1") {
+                    layer.msg('保存成功！', { icon: 1, time: 1000 }, function() {
+                        $('#dlg').dialog('close');
+                        return;
+                    });
+                } else {
+                    layer.msg('保存失败！' + r.result.msgContent, { icon: 0, time: 1000 }, function() {
+                        return;
+                    });
+                }
+                return;
+            }
+        });
+    }
+
+    $(function () {
+        $("#tabs")
+            .tabs({
+                onSelect: function(title, index) {
+                    evtBus.dispatchEvt("tabs_tab_change", { title: title, index: index });
+                }
+            });
+    });
+    $(window).resize(function () {
+        $('.tabs-panels').height($("#pf-page").height()-46);
+        $('#tabs .panel-body').height($("#pf-page").height()-46);
+        $('#tabs').width($("#pf-page").width());  
+        $('#tabs .panel-htop').width($("#pf-page").width());
+        $('.tabs-header').width($("#pf-page").width());     
+        $('.tabs-panels').width($("#pf-page").width());
+        $('#tabs .panel-body').width($("#pf-page").width());
+    }).resize();
+
+      
+</script>
+@section scripts{
+    <script src="~/Areas/Assets/js/rootpageDialog.js?v=@L("version")"></script>
+    <script src="~/Areas/Assets/js/home/loginDialog.js?v=@L("version")"></script>
+    <script src="~/js/uploader/ufoBusinessLogic.js?v=@L("version")"></script>
+    <script>
+        var loginDialog = new LoginDialog();
+        $(function() {
+            $("#userName").textbox("textbox").bind("keypress", loginDialog.onUserNameKeyPress);
+            $("#password").textbox("textbox").bind("keypress", loginDialog.onPasswordKeyPress);
+            refreshPendingFileCount();
+        });
+
+        var uploaderWin = null;
+        var handle = evtBus.addEvt("upload", function(data) {
+            if (!uploaderWin) {
+                layer.open({
+                    type: 2,
+                    title: "上传任务列表",
+                    offset: "lb",
+                    shade: false,
+                    maxmin: true, //开启最大化最小化按钮
+                    area: ["400px", "300px"],
+                    content: "@Url.Content("~/Js/uploader/SmartUploader.html")",
+                    success: function(layero) {
+                        uploaderWin = window[layero.find('iframe')[0]['name']];
+                        initUploader();
+                        uploaderWin.SmartUploader.upload(data);
+                    },
+                    cancel: function(index) {
+                        if (!uploaderWin.SmartUploader) {
+                            layer.close(index);
+                        }
+                        if (uploaderWin.SmartUploader.getTaskNum() > 0) {
+                            layer.confirm("注意！！还有上传任务在进行，关闭会取消当前的上传任务！确定要关闭吗？", { icon: 0, title: "提示" },
+                                function(confirmIndex) {
+                                    uploaderWin = null;
+                                    layer.close(confirmIndex);
+                                    layer.close(index);
+                                });
+                        } else {
+                            uploaderWin = null;
+                            layer.close(index);
+                        }
+
+                        return false;
+                    }
+                });
+            } else {
+                uploaderWin.SmartUploader.upload(data);
+            }
+
+        });
+
+        function initUploader() {
+            uploaderWin.SmartUploader.FILE_SERVER = "@ConfigurationManager.AppSettings["SmartBox"]";
+            uploaderWin.SmartUploader.SIGN_SERVER = "/api/services/app/Upload/GetSign";
+            uploaderWin.SmartUploader.BLModule = ufoBusinessLogic;
+        }
+
+        function changePendingFileCount(count) {
+            var text = "文件上传记录";
+            if (count > 0) {
+                text += "[" + count + "]";
+            }
+
+            $("#uploadRecord").text(text);
+        }
+
+        function refreshPendingFileCount() {
+            var url = "/api/services/app/Upload/UserPendingFileCount";
+            nv.get(url, function (data) {
+                if (data.success) {
+                    changePendingFileCount(data.result);
+                }
+            });
+        }
+
+        var handle2 = evtBus.addEvt("change_pending_file_count", function(count) {
+            changePendingFileCount(count);
+        });
+
+        var handle3 = evtBus.addEvt("refresh_pending_file_count", function () {
+            refreshPendingFileCount();
+        });
+
+        function showUploadRecord() {
+            layer.open({
+                type: 2,
+                title: "文件上传记录",
+                area: ["1000px", "600px"],
+                content: "/UserUploadFile/Record/"
+            });
+        }
+    </script>
+}

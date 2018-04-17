@@ -1,0 +1,64 @@
+<div class="if-statement-block">
+	<div class="n-block n-border-b">
+		<h1 class="n-h1">
+			C++ <span class="green">if 语句</span>
+		</h1>
+		<p>
+			<a href="#judge" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 判断
+			</a>
+		</p>
+		<p>一个 <b>if</b> 语句 由一个布尔表达式后跟一个或多个语句组成。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			语法
+		</h2>
+		<p>C++ 中 <b>if</b> 语句的语法：</p>
+		<pre>if(boolean_expression)
+{
+   // 如果布尔表达式为真将执行的语句
+}</pre>
+		<p>如果布尔表达式为 <b>true</b>，则 if 语句内的代码块将被执行。如果布尔表达式为 <b>false</b>，则 if 语句结束后的第一组代码（闭括号后）将被执行。</p>
+		<p>C 语言把任何非零和非空的值假定为 <b>true</b>，把零或 <b>null</b> 假定为 <b>false</b>。</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			流程图
+		</h2>
+		<p>
+			<img src="/Content/cplus/images/if_statement.jpg">
+		</p>
+	</div>
+	<div class="n-block n-border-b">
+		<h2 class="n-h2">
+			实例
+		</h2>
+		<pre>#include &lt;iostream&gt;
+using namespace std;
+ 
+int main ()
+{
+   // 局部变量声明
+   int a = 10;
+ 
+   // 使用 if 语句检查布尔条件
+   if( a < 20 )
+   {
+       // 如果条件为真，则输出下面的语句
+       cout << "a 小于 20" << endl;
+   }
+   cout << "a 的值是 " << a << endl;
+ 
+   return 0;
+}</pre>
+		<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+		<pre>a 小于 20
+a 的值是 10</pre>	
+		<p>
+			<a href="#judge" class="n-text-line green back-link" data-type="back">
+				<img src="/Content/cplus/images/up.gif"> C++ 判断
+			</a>
+		</p>
+	</div>
+</div>
